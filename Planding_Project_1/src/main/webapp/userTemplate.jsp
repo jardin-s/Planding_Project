@@ -36,7 +36,9 @@
     <link href="css/style.css" rel="stylesheet">
 </head>
 <body>
-	<jsp:include page="userHeader.jsp" />
+	<div>
+		<jsp:include page="userHeader.jsp" />
+	</div>
 	
 	<c:if test="${requestScope.showPage ne null }">
 		<section>
@@ -46,6 +48,8 @@
 		</section>
 	</c:if>
 	
-	<jsp:include page="userFooter.jsp" />
+	<div>
+		<jsp:include page="userFooter.jsp" />
+	</div>
 </body>
 </html>
