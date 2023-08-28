@@ -4,6 +4,18 @@ import util.SHA256;
 
 public class MemberBean {
 	
+	//PlanDing
+//	private String member_id;
+//	private String password;
+//	private String name;
+//	private String email;
+	
+//	private Date date;
+//	private int account;
+//	private boolean isAdmin;
+	
+	
+	//수업 MAC
 	private String id;
 	private String grade;
 	private String password;
