@@ -332,8 +332,8 @@ h6,
     transition: .3s;
 }
 
-.service-item:hover .service-text .btn {
-    width: 112px;
+.service-item:hover .service-text .btn{
+    width: 200px;
 }
 
 
