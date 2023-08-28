@@ -1,0 +1,5 @@
+@charset "UTF-8";
+
+.service-item:hover .service-text .btn{
+    width: 98px;
+}
