@@ -31,9 +31,6 @@
 
     <!-- Template Stylesheet -->
     <link href="../resources/css/style.css" rel="stylesheet">
-    
-    <!-- Custom Stylesheet (style modify) -->
-    <link href="../resources/css/customStyle.css" rel="stylesheet">
 </head>
 <body>
 	<div>
@@ -41,33 +38,51 @@
 	</div>
 	
 	<!-- Main Section -->
-	<div class="container my-5">
-            <div class="text-center mx-auto wow fadeInUp" data-wow-delay="0.1s" style="max-width: 500px;">
-                <p class="fs-5 fw-bold text-primary">새 프로젝트 등록하기</p>
-                <h1 class="display-6 mb-5">프로젝트를 등록하여<br>기부 또는 투자를 받으세요.</h1>
-            </div>
-            <div class="row g-4 justify-content-center">
-                <div class="col-md-6 wow fadeInUp" data-wow-delay="0.1s">
-                    <div class="service-item rounded d-flex h-100">
-                        <div class="service-text rounded p-5">
-                            <h4 class="mb-3">기부 프로젝트</h4>
-                            <p class="mb-4">취약계층이나 동물, 환경을 보호하기 위한<br>기부를 받고자 한다면</p>
-                            <a class="btn btn-sm" href="registerNewDonate.fnd"><i class="fas fa-plus me-2"></i>등록하기</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 wow fadeInUp" data-wow-delay="0.1s">
-                    <div class="service-item rounded d-flex h-100">
-                        <div class="service-text rounded p-5">
-                            <h4 class="mb-3">펀딩 프로젝트</h4>
-                            <p class="mb-4">지구를 위한 아이템을 개발하기 위해<br>투자를 받고자 한다면</p>
-                            <a class="btn btn-sm" href="registerNewFund.fnd"><i class="fas fa-plus me-2"></i>등록하기</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
+	<!-- Page Header Start -->
+    <div class="container-fluid page-header py-5 mb-5 wow fadeIn" data-wow-delay="0.1s">
+        <div class="container text-center py-5">
+            <h1 class="display-3 text-white mb-4 animated slideInDown">아이디 찾기</h1>
+            <nav aria-label="breadcrumb animated slideInDown">
+                <ol class="breadcrumb justify-content-center mb-0">
+                    <li class="breadcrumb-item"><a href="userLogin.usr">로그인</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">아이디 찾기</li>
+                    <li class="breadcrumb-item"><a href="userHashPwFindForm.usr">비밀번호 찾기</a></li>
+                    <li class="breadcrumb-item"><a href="userJoin.usr">회원가입</a></li>                    
+                </ol>
+            </nav>
+        </div>
     </div>
-              
+    <!-- Page Header End -->
+
+
+    <!-- Form Start -->
+    <div class="container-fluid py-5">
+        <div class="container">
+            <div class="text-center mx-auto wow fadeInUp" data-wow-delay="0.1s" style="max-width: 500px;">
+                <p class="fs-5 fw-bold text-primary">아이디 찾기</p>
+            </div>
+            <form action="userIdFindAction.usr" method="post">
+	            <div class="row justify-content-center">
+	                <div class="col-lg-7">
+	                    <div class="bg-light rounded p-4 p-sm-5 wow fadeInUp" data-wow-delay="0.1s">                        
+	                        <div class="row g-3">
+	                            <div class="col-12">
+	                                <div class="form-floating">
+	                                    <input type="text" name="email" class="form-control border-0" id="email" placeholder="이메일">
+	                                    <label for="email">가입 시 등록한 이메일 입력</label>
+	                                </div>
+	                            </div>
+	                            <div class="col-12 text-center">
+	                                <button class="btn btn-primary py-2 px-4" type="submit" onclick="mailCheck(); return false;">확인</button>
+	                            </div>
+	                        </div>
+	                    </div>
+	                </div>
+	            </div>
+            </form>
+        </div>
+    </div>
+    <!-- Form End -->
 	
 	<div>
 		<jsp:include page="../userFooter.jsp" />

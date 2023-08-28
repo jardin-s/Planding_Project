@@ -57,7 +57,8 @@
                     <a class="btn btn-link" href="">인재채용</a>
                 </div>
                 <div class="col-lg-4 col-md-6">
-                    <a class="btn btn-link" href="">대표이사 : 손정원, 이주헌</a>
+                    <span>대표이사 : 손정원, 이주헌</span><br>
+                    <a class="btn btn-sm btn-light my-3 py-0 px-3" href="adminMain.adm">관리자 페이지</a>
                 </div>
             </div>
         </div>
