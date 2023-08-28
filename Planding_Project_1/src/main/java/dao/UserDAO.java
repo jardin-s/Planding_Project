@@ -140,7 +140,7 @@ public class UserDAO {
 	public String selectLoginId(MemberBean user) {
 		String loginId = null;
 		
-		String sql = "select id, password from member_table where id=? and password=?";
+		String sql = "select id, password from member_tbl where id=? and password=?";
 		
 		System.out.println("[UserDAO] selectLoginId() - 매개변수의 id : "+user.getId());
 		System.out.println("[UserDAO] selectLoginId() - 매개변수의 password : "+user.getPassword());
@@ -173,7 +173,7 @@ public class UserDAO {
 	public MemberBean selectUserInfo(String u_id) {
 		MemberBean userInfo = null;
 		
-		String sql = "select * from member_table where id=?";
+		String sql = "select * from member_tbl where id=?";
 		
 		try {
 			
@@ -247,7 +247,7 @@ public class UserDAO {
 		// TODO 자동 생성된 메소드 스텁
 		int gradeCount = 0; //수정 성공시 1, 실패시 0
 		
-		String sql = "update member_table set grade='NORMAL' where id=?";
+		String sql = "update member_tbl set grade='NORMAL' where id=?";
 		
 		try {
 			
@@ -271,7 +271,7 @@ public class UserDAO {
 		// TODO 자동 생성된 메소드 스텁
 		int gradeCount = 0; //수정 성공시 1, 실패시 0
 		
-		String sql = "update member_table set grade='GOLD' where id=?";
+		String sql = "update member_tbl set grade='GOLD' where id=?";
 		
 		try {
 			
@@ -295,7 +295,7 @@ public class UserDAO {
 		// TODO 자동 생성된 메소드 스텁
 		int gradeCount = 0; //수정 성공시 1, 실패시 0
 		
-		String sql = "update member_table set grade='VIP' where id=?";
+		String sql = "update member_tbl set grade='VIP' where id=?";
 		
 		try {
 			
@@ -348,10 +348,10 @@ public class UserDAO {
 		int insertUserCount = 0;
 		
 		//joindate timestamp default now() -> joindate 생략
-		String sql = "insert into member_table(id, grade, password, name, email, phone) "
+		String sql = "insert into member_tbl(id, grade, password, name, email, phone) "
 					+ "values(?,?,?,?,?,?)";
 		
-		//joindate timestamp (디폴트값 없음) -> insert into member_table values(?,?,?,?,?,?,now());
+		//joindate timestamp (디폴트값 없음) -> insert into member_tbl values(?,?,?,?,?,?,now());
 		
 		
 		try {
@@ -384,7 +384,7 @@ public class UserDAO {
 	public int insertAddr(AddressBean addr) {
 		int insertAddrCount = 0;
 		
-		String sql = "insert into address_table(id, postcode, address1, address2) values(?,?,?,?)";
+		String sql = "insert into address_tbl(id, postcode, address1, address2) values(?,?,?,?)";
 		
 		try {
 			
@@ -411,7 +411,7 @@ public class UserDAO {
 	public AddressBean selectAddrInfo(String u_id) {
 		AddressBean addrInfo = null;
 		
-		String sql = "select * from address_table where id=?";
+		String sql = "select * from address_tbl where id=?";
 		
 		try {
 			
@@ -444,7 +444,7 @@ public class UserDAO {
 	public int updateUser(MemberBean user) {
 		int updateUserCount = 0;
 		
-		String sql = "update member_table"
+		String sql = "update member_tbl"
 				   + " set password=?, name=?, email=?, phone=?"
 				   + " where id=?";
 		
@@ -477,7 +477,7 @@ public class UserDAO {
 	public int updateAddr(AddressBean addr) {
 		int updateAddrCount = 0;
 		
-		String sql = "update address_table"
+		String sql = "update address_tbl"
 					+ " set postcode=?, address1=?, address2=?"
 			   		+ " where id=?";
 		
@@ -507,7 +507,7 @@ public class UserDAO {
 	public int deleteUser(String id) {
 		int deleteeAddrCount = 0;
 		
-		String sql = "delete from member_table where id=?";
+		String sql = "delete from member_tbl where id=?";
 		
 		try {
 			
@@ -531,7 +531,7 @@ public class UserDAO {
 	public int deleteAddr(String id) {
 		int deleteeAddrCount = 0;
 		
-		String sql = "delete from address_table where id=?";
+		String sql = "delete from address_tbl where id=?";
 		
 		try {
 			
@@ -555,7 +555,7 @@ public class UserDAO {
 	public MemberBean findId(String email) {
 		MemberBean userInfo = null;
 		
-		String sql = "select * from member_table where email=?";
+		String sql = "select * from member_tbl where email=?";
 		
 		try {
 			
@@ -585,12 +585,12 @@ public class UserDAO {
 		return userInfo;
 	}
 
-	//아이디 중복 체크 (해당 아이디가 member_table에 존재하는지 확인)
+	//아이디 중복 체크 (해당 아이디가 member_tbl에 존재하는지 확인)
 	public int checkId(String id) {
 		
 		int idCheckCount = 0;
 		
-		String sql = "select id from member_table where id=?";
+		String sql = "select id from member_tbl where id=?";
 		
 		try {
 			
@@ -616,10 +616,10 @@ public class UserDAO {
 		MemberBean userInfo = null;
 		
 		//방법-1
-		String sql = "select name from member_table where id=? and email=?";
+		String sql = "select name from member_tbl where id=? and email=?";
 		
 		//방법-2
-		//String sql = "select * from member_table where id=? and email=?";
+		//String sql = "select * from member_tbl where id=? and email=?";
 		
 		try {
 			
@@ -654,11 +654,11 @@ public class UserDAO {
 		return userInfo;
 	}
 
-	//임시 비밀번호를 암호화시켜 다시 member_table에 저장
+	//임시 비밀번호를 암호화시켜 다시 member_tbl에 저장
 	public int setHashPw(String id, String email, String random_password) {
 		int setHashPwCount = 0;
 		
-		String sql = "update member_table set password=? where id=? and email=?";
+		String sql = "update member_tbl set password=? where id=? and email=?";
 		
 		try {
 			
@@ -683,7 +683,7 @@ public class UserDAO {
 	public int changeHashPw(MemberPwChangeBean memberPwChangeBean) {
 		int changeHashPwCount = 0;
 		
-		String sql = "update member_table set password=? where id=? and password=?";
+		String sql = "update member_tbl set password=? where id=? and password=?";
 		
 		try {
 			

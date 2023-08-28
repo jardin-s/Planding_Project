@@ -82,7 +82,7 @@ public class FundFrontController extends HttpServlet {
 		
 		System.out.println("[Fund]command : "+command);//어떤 요청인지 확인하기 위해 콘솔에 출력
 		
-		if(command.equals("/fundRegisterProject.fnd")) {//'userMain.jsp'에서 프로젝트 등록하기 요청이면
+		if(command.equals("/registerNewProject.fnd")) {//'userMain.jsp'에서 프로젝트 등록하기 요청이면
 			forward = new ActionForward("fund/fundRegisterProjectInit.jsp", false);
 			//false(디스패치) 이유? 
 		}
