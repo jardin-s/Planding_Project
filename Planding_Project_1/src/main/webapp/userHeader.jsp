@@ -94,7 +94,7 @@
                 </div>
                 
                 <c:if test="${sessionScope.u_id eq null}">
-                	<a href="contact.html" class="nav-item nav-link fs-6">로그인하기</a>
+                	<a href="userLogin.usr" class="nav-item nav-link fs-6">로그인하기</a>
                 </c:if>
                 
             </div>

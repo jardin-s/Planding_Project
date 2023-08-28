@@ -58,6 +58,7 @@
                 </div>
                 <div class="col-lg-4 col-md-6">
                     <a class="btn btn-link" href="">대표이사 : 손정원, 이주헌</a>
+                    <a class="btn btn-light py-1 px-3" href="adminMain.adm">관리자 페이지</a>
                 </div>
             </div>
         </div>
