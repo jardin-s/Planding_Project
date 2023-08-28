@@ -9,13 +9,12 @@ import javax.servlet.http.HttpServletResponse;
 
 import action.Action;
 import action.user.UserDeleteAction;
-import action.user.UserHashPwChangeAction;
-import action.user.UserIdCheckAction;
 import action.user.UserIdFindAction;
 import action.user.UserJoinAction;
+import action.user.UserJoinIdCheckAction;
 import action.user.UserLoginAction;
 import action.user.UserLogoutAction;
-import action.user.UserHashPwFindAction;
+import action.user.UserPwFindAction;
 import action.user.UserUpdateAction;
 import action.user.UserViewAction;
 import vo.ActionForward;
@@ -140,10 +139,11 @@ public class UserFrontController extends HttpServlet {
 					
 		}
 		
-		else if(command.equals("/userIdCheckAction.usr")) {//'아이디 중복체크 처리' 요청이면
+		/*-- '아이디 중복체크' 요청 -------------------------------------*/
+		else if(command.equals("user/idCheck/userJoinIdCheck.usr")) {//'아이디 중복체크' 요청이면
 			
 			//부모인터페이스 = 구현한 자식객체
-			action = new UserIdCheckAction();//부모인터페이스인 Action으로 받음 
+			action = new UserJoinIdCheckAction();//부모인터페이스인 Action으로 받음 
 			
 			try {
 				forward = action.execute(request, response);
@@ -215,28 +215,12 @@ public class UserFrontController extends HttpServlet {
 		/*------- '암호화된 비밀번호찾기 폼 보기' → 처리(임시비밀번호 받아서 메일로 보내기) -------------------------------*/
 		
 		else if(command.equals("/userHashPwFindForm.usr")) {//'비밀번호찾기 폼 보기' 요청이면
-			request.setAttribute("showPage", "user/hash/userHashPwFindForm.jsp");
+			request.setAttribute("showPage", "user/userPwFindForm.jsp");
 			forward = new ActionForward("userTemplate.jsp",false); //반드시 디스패치 방식으로 포워딩
 		}
-		else if(command.equals("/userHashPwFindAction.usr")) {//'비밀번호 찾기 처리'요청하면
+		else if(command.equals("/userPwFindAction.usr")) {//'비밀번호 찾기 처리'요청하면
 			//action:부모인터페이스 = UserLoginAction:구현한자식객체;
-			action = new UserHashPwFindAction();
-			try {
-				forward = action.execute(request, response);
-			} catch (Exception e) {
-				// TODO 자동 생성된 catch 블록
-				e.printStackTrace();
-			}
-		}
-		
-		/*------- '암호화된 비밀번호 변경 폼 보기' → 처리 -------------------------------*/
-		else if(command.equals("/userHashPwChangeForm.usr")) {//'비밀번호 변경 폼 보기' 요청이면
-			request.setAttribute("showPage", "user/hash/userHashPwChangeForm.jsp");
-			forward = new ActionForward("userTemplate.jsp",false); //반드시 디스패치 방식으로 포워딩
-		}
-		else if(command.equals("/userHashPwChangeAction.usr")) {//'비밀번호 변경 처리'요청하면
-			//action:부모인터페이스 = UserHashPwChangeAction:구현한자식객체;
-			action = new UserHashPwChangeAction();
+			action = new UserPwFindAction();
 			try {
 				forward = action.execute(request, response);
 			} catch (Exception e) {
