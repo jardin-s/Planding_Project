@@ -36,14 +36,14 @@
 </head>
 
 <script>
-function result(){
-	opener.document.f.id.value = document.ckf.id.value;
+function useCheckId(){
+	opener.document.f.member_id.value = document.chk.ckid.value;
 			
 	window.close();
 }
 
 function cancel(){
-	opener.document.f.id.value = "";
+	opener.document.f.member_id.value = "";
 	
 	window.close();
 }
@@ -53,6 +53,13 @@ function cancel(){
 	
 	
 	<!-- Main Section -->
+	<c:if test="${param.member_id ne null and requestScope.check_id eq null}">
+		<c:set var="setId" value="${param.member_id }"/>
+	</c:if>
+	<c:if test="${param.member_id eq null and requestScope.check_id ne null}">
+		<c:set var="setId" value="${requestScope.check_id }"/>
+	</c:if>
+	
 	<div class="container-fluid py-2 px-3">
         <div class="row text-center">
             <div class="col-lg-6 py-5 border border-primary">
@@ -60,7 +67,7 @@ function cancel(){
                 <form action="userJoinIdCheck.usr" method="post" name="chk">
                 	 <div class="mb-3 row justify-content-center g-0">
 				    	<div class="col-10 text-center">
-				      		<input type="text" class="form-control-sm col-11" name="id" id="id" max-length="20" placeholder="중복체크할 아이디 입력">
+				      		<input type="text" class="form-control-sm col-11" name="ckid" id="ckid" value="${setId}" max-length="20" placeholder="중복체크할 아이디 입력">
 					    </div>
 	                    <div class="col-2 text-center">
 	                        <button class="btn btn-sm btn-primary" type="submit">
@@ -72,7 +79,7 @@ function cancel(){
                 
                 <c:if test="${requestScope.isIdUsable == true }">
                 	<p>사용가능한 아이디입니다.</p>
-                	<button class="btn btn-primary" type="button" onclick="result();">
+                	<button class="btn btn-sm btn-primary" type="button" onclick="useCheckId();">
                 		<span style="font-size:1rem">사용하기</span>
                 	</button>
                 </c:if>

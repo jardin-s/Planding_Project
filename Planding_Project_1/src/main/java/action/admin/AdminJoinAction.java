@@ -61,12 +61,12 @@ public class AdminJoinAction implements Action {
 			PrintWriter out = response.getWriter();
 			out.println("<script>");
 			out.println("alert('회원가입에 성공했습니다.');");
-			out.println("location.href='adminLogin.usr'");
+			out.println("location.href='adminLogin.adm'");
 			out.println("</script>");
 			*/
 			
 			//방법-2 : 알림창을 띄우지 않음
-			forward = new ActionForward("adminLogin.usr", true);
+			forward = new ActionForward("adminLogin.adm", true);
 		}
 		
 		return forward;

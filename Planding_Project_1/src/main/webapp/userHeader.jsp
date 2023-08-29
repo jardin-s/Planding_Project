@@ -54,8 +54,14 @@
             </div>
             <div class="col-lg-5 px-5 text-end">
                 <div class="h-100 d-inline-flex align-items-center mx-n2">
-                    <a class="btn btn-link text-light" href=""><i class="fas fa-user"></i></a>
-                    <a class="btn btn-link text-light" href=""><i class="far fa-heart"></i></a>
+                    <c:if test="${sessionScope.u_id eq null }">
+                    	<a class="btn btn-link text-light" href="userLogin.usr">로그인하기</a>	
+                    </c:if>
+                    <c:if test="${sessionScope.u_id ne null }">
+                    	<a class="btn btn-link text-light" href="userLogout.usr">로그아웃하기</a>
+                    	<a class="btn btn-link text-light" href=""><i class="fas fa-user"></i></a>
+                    	<a class="btn btn-link text-light" href=""><i class="far fa-heart"></i></a>
+                    </c:if>                    
                     <a class="btn btn-link text-light" href=""><i class="fas fa-search"></i></a>
                 </div>
             </div>
@@ -87,16 +93,11 @@
                 <div class="nav-item dropdown">
                     <a href="#" class="nav-link fs-6 dropdown-toggle" data-bs-toggle="dropdown">고객센터</a>
                     <div class="dropdown-menu bg-light m-0">
-                        <a href="about.html" class="nav-item nav-link fs-6">사이트소개</a>
+                        <a href="about.html" class="dropdown-item fs-6">사이트소개</a>
                         <a href="feature.html" class="dropdown-item fs-6">공지사항</a>
                         <a href="quote.html" class="dropdown-item fs-6">문의사항</a>
                     </div>
                 </div>
-                
-                <c:if test="${sessionScope.u_id eq null}">
-                	<a href="userLogin.usr" class="nav-item nav-link fs-6">로그인하기</a>
-                </c:if>
-                
             </div>
             <a href="registerNewProject.fnd" class="btn btn-primary py-4 px-lg-4 rounded-0 d-none d-lg-block">프로젝트 등록하기<i class="fa fa-arrow-right ms-3"></i></a>
         </div>
