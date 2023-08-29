@@ -47,9 +47,9 @@ public class AdminDeleteAction implements Action {
 			
 			//로그인 시 아이디 저장 체크했던 쿠키도 삭제
 			/* 1개의 PC를 여러 사용자가 사용하므로 회원탈퇴 후 그 전 사용자의 흔적이 있는 id쿠키객체와 checkbox 쿠키객체를 삭제 */
-			Cookie cookieU_id = new Cookie("a_id","");
-			cookieU_id.setMaxAge(0);
-			response.addCookie(cookieU_id);
+			Cookie cookieA_id = new Cookie("a_id","");
+			cookieA_id.setMaxAge(0);
+			response.addCookie(cookieA_id);
 			
 			Cookie cookieCheckbox = new Cookie("checkbox", "");
 			cookieCheckbox.setMaxAge(0);
@@ -72,7 +72,7 @@ public class AdminDeleteAction implements Action {
 			PrintWriter out = response.getWriter();
 			out.println("<script>");
 			out.println("alert('회원탈퇴 처리되었습니다.');");
-			out.println("location.href='adminMain.adm'");//adminMain.jsp로 해도 됨
+			out.println("location.href='adminMain.usr'");//adminMain.jsp로 해도 됨
 			out.println("</script>");
 			
 		}

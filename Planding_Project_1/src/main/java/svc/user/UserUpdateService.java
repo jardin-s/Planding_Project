@@ -13,7 +13,7 @@ import vo.MemberBean;
 
 public class UserUpdateService {
 	
-	public boolean userUpdate(MemberBean user, AddressBean addr) {
+	public boolean userUpdate(MemberBean user) {
 		//1. 커넥션 풀에서 Connection객체를 얻어와
 		Connection con = getConnection(); //JdbcUtil. 생략(이유?import static 하여)
 		
@@ -27,12 +27,11 @@ public class UserUpdateService {
 		
 		/*-------DAO의 해당 메서드를 호출하여 처리----------------------------------------------------*/
 		int updateUserCount = userDAO.updateUser(user);
-		int updateAddrCount = userDAO.updateAddr(addr);
 		
 		boolean isUserJoinResult = false;
 		/*-------(insert, update, delete) 성공하면 commit(), 실패하면 rollback() 호출
 		 * 		 단, select는 이런 작업을 제외 ------------------*/
-		if(updateUserCount > 0 && updateAddrCount > 0) {
+		if(updateUserCount > 0) {
 			isUserJoinResult = true;
 			commit(con);
 		}else {

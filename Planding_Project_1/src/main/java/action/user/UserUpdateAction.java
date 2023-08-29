@@ -17,25 +17,20 @@ public class UserUpdateAction implements Action {
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ActionForward forward = null;
 		
-		String u_id = request.getParameter("id");
-		String u_grade = request.getParameter("grade");		
+		String u_id = request.getParameter("id");	
 		String u_password = request.getParameter("password");
 		String u_name = request.getParameter("name");
 		String u_email = request.getParameter("email");
-		String u_phone = request.getParameter("phone");
-		
-		int u_postcode = Integer.parseInt(request.getParameter("postcode"));
-		String u_address1 = request.getParameter("address1");
-		String u_address2 = request.getParameter("address2");
-		
-		MemberBean userInfo = new MemberBean(u_id, u_grade, u_password, u_name, u_email, u_phone);
-		AddressBean userAddrInfo = new AddressBean(u_id, u_postcode, u_address1, u_address2);
+		int u_account = Integer.parseInt(request.getParameter("account"));
+		Boolean isAdmin = Boolean.parseBoolean(request.getParameter("isAdmin"));
+				
+		MemberBean userInfo = new MemberBean(u_id, u_password, u_name, u_email, u_account, isAdmin);
 		
 		UserUpdateService userUpdateService = new UserUpdateService();
 		
 		boolean isUserUpdateSuccess = false;
 		
-		isUserUpdateSuccess = userUpdateService.userUpdate(userInfo, userAddrInfo);
+		isUserUpdateSuccess = userUpdateService.userUpdate(userInfo);
 
 		if(!isUserUpdateSuccess) {
 			response.setContentType("text/html; charset=UTF-8");

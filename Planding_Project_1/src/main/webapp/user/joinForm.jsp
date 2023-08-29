@@ -32,6 +32,122 @@
     <!-- Template Stylesheet -->
     <link href="../resources/css/style.css" rel="stylesheet">
 </head>
+
+<script type="text/javascript">
+function findAddr(){
+	//카카오 지도 발생 -> 주소 입력 후 [검색] -> 찾는 주소 [선택] -> 우편번호와 주소 세팅
+	//postcode 객체 생성하여 바로 open
+	new daum.Postcode({
+		oncomplete : function(data) {//[선택] 시 입력값 세팅 (검색결과 중 선택한 주소)
+			console.log(data);
+			//alert(data);//테스트를 위해 값이 뜨도록 함
+			
+			document.getElementById("postcode").value = data.zonecode; //우편번호를 가져와 postcode에 넣음
+			
+			let roadAddr = data.roadAddress;//도로명 주소
+			let jibunAddr = data.jibunAddress;//지번 주소
+			
+			if(roadAddr != ''){//도로명 주소가 있으면 도로명 주소를 등록 ('': 자바스크립트 널)
+				document.getElementById("address1").value = roadAddr;	
+			}else if(jibunAddr != ''){//도로명 주소가 없고 지번 주소만 있으면 지번주소를 등록
+				document.getElementById("address1").value = jibunAddr;
+			}
+			
+			document.getElementById("address2").focus();//상세주소 입력창에 커서를 깜빡거리게 함
+			
+		}
+	}).open();
+}
+
+function check(){
+	
+
+	//아이디와 비밀번호 값 데이터 정규화 공식
+	const regIdPass = /^[a-zA-Z0-9]{7,19}$/;
+	if(!document.f.id.value.trim()){
+		alert("아이디를 입력해주세요.");
+		document.f.id.focus();
+		return false;
+	}else if(!regIdPass.test(document.f.id.value.trim())){
+		alert("아이디를 8~20자 사이의 영문과 숫자로 입력해주세요.");
+		
+	}
+	/*
+	else if( document.f.idDuplication.value == 'idUncheck'){
+		alert("아이디 중복체크를 해주세요.");
+		document.f.idck.focus();
+		return false;
+	}
+	*/
+
+	if(!document.f.password.value.trim()){
+		alert("비밀번호를 입력해주세요.");
+		document.f.password.focus();
+		return false;
+	}else if(!regIdPass.test(document.f.password.value.trim())){
+		alert("비밀번호를 8~20자 사이의 영문과 숫자로 입력해주세요.");
+		
+	}	
+	if(document.f.password.value != document.f.check_pw.value) {
+	       alert("비밀번호가 다릅니다. 다시 확인해 주세요.");
+	       f.check_pw.value = "";
+	       f.password.focus();
+	       return false;
+	}
+	
+	//이름 정규화 공식
+	const regName = /^[가-힣a-zA-Z]{2,}$/;
+	if(!document.f.name.value.trim()){
+		alert("이름을 입력해주세요.");
+		document.f.name.focus();
+		return false;
+	}else if(!regIdPass.test(document.f.password.value.trim())){
+		alert("이름을 한글 또는 영문으로만 입력해주세요.");
+		
+	}
+
+	//email 정규화 공식
+	const regEmail = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+	if(!document.f.email.value.trim()){
+		alert("이메일 주소를 입력해주세요.");
+		document.f.email.focus();
+		return false;
+	}else if(!regEmail.test(document.f.email.value.trim())){
+		alert("유효하지 않은 이메일주소 입니다.");
+		document.f.email.select();
+		return false;
+	}
+	
+	//휴대번호 정규화 공식
+	const regPhone = /^\d{3}\d{3,4}\d{4}$/; //-제외
+	if(!document.f.phone.value.trim()){
+		alert("휴대전화번호를 입력해주세요.");
+		document.f.phone.focus();
+		return false;
+	}else if(!regPhone.test(document.f.phone.value.trim())){
+		alert("휴대전화번호를 (-)없이 숫자만 입력해주세요.");
+		document.f.phone.select();
+		return false;
+	}
+	
+	
+	document.f.submit();
+	/*
+	 postcode(우편번호)와 address1은 "DAUM api" 검색한 내용으로 자동세팅되어 생략 
+ 	 */
+	
+	
+}
+
+function idCheckOpen(){
+	if(document.f.id.value == ''){
+		window.open('idCheck/idCheck.jsp','아이디중복확인','top=10, left=10, width=500, height=300');
+	}else{
+		window.open('idCheck/idCheck.jsp?id='+document.f.id.value,'아이디중복확인','top=10, left=10, width=500, height=300');
+	}
+}
+</script>
+
 <body>
 	<div>
 		<jsp:include page="../userHeader.jsp" />
@@ -72,7 +188,7 @@
 								      <input type="text" class="form-control" name="member_id" id="member_id" max-length="20" placeholder="8~20자 영문숫자 조합">
 								    </div>
 		                            <div class="col-sm-3">
-		                                <button class="btn btn-primary" type="button" name="idck" id="idck" onclick="window.open('idCheck/idCheck.jsp?openInit=true','아이디중복확인','top=10, left=10, width=500, height=300')">
+		                                <button class="btn btn-primary" type="button" name="idck" id="idck" onclick="idCheckOpen();">
 		                                	<span style="font-size:0.9rem">중복체크</span>
 		                                </button>	                                
 		                            </div>

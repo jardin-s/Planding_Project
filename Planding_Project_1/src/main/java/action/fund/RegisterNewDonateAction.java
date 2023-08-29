@@ -7,7 +7,7 @@ import action.Action;
 import svc.fund.FundRegisterDonateProjectService;
 import vo.ActionForward;
 
-public class FundRegisterDonateProjectAction implements Action {
+public class RegisterNewDonateAction implements Action {
 
 	@Override
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response) throws Exception {

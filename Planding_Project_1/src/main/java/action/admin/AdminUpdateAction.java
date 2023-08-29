@@ -17,25 +17,20 @@ public class AdminUpdateAction implements Action {
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ActionForward forward = null;
 		
-		String a_id = request.getParameter("id");
-		String a_grade = request.getParameter("grade");		
+		String a_id = request.getParameter("id");	
 		String a_password = request.getParameter("password");
 		String a_name = request.getParameter("name");
 		String a_email = request.getParameter("email");
-		String a_phone = request.getParameter("phone");
-		
-		int a_postcode = Integer.parseInt(request.getParameter("postcode"));
-		String a_address1 = request.getParameter("address1");
-		String a_address2 = request.getParameter("address2");
-		
-		MemberBean adminInfo = new MemberBean(a_id, a_grade, a_password, a_name, a_email, a_phone);
-		AddressBean adminAddrInfo = new AddressBean(a_id, a_postcode, a_address1, a_address2);
+		int a_account = Integer.parseInt(request.getParameter("account"));
+		Boolean isAdmin = Boolean.parseBoolean(request.getParameter("isAdmin"));
+				
+		MemberBean adminInfo = new MemberBean(a_id, a_password, a_name, a_email, a_account, isAdmin);
 		
 		AdminUpdateService adminUpdateService = new AdminUpdateService();
 		
 		boolean isAdminUpdateSuccess = false;
 		
-		isAdminUpdateSuccess = adminUpdateService.adminUpdate(adminInfo, adminAddrInfo);
+		isAdminUpdateSuccess = adminUpdateService.adminUpdate(adminInfo);
 
 		if(!isAdminUpdateSuccess) {
 			response.setContentType("text/html; charset=UTF-8");
@@ -46,7 +41,7 @@ public class AdminUpdateAction implements Action {
 			out.println("history.back();");
 			out.println("</script>");
 		}else {
-			forward = new ActionForward("adminView.adm", true);
+			forward = new ActionForward("adminView.usr", true);
 		}
 		
 		return forward;
