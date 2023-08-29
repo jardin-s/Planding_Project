@@ -31,6 +31,10 @@
 
     <!-- Template Stylesheet -->
     <link href="../resources/css/style.css" rel="stylesheet">
+    
+    <!-- Custom Stylesheet -->
+    <link href="../resources/css/customStyle.css" rel="stylesheet">
+    
 </head>
 <body>
 	<div>
@@ -39,22 +43,24 @@
 	
 	<!-- Main Section -->
 	<!-- Page Header Start -->
-    <div class="container-fluid page-header py-5 mb-5 wow fadeIn" data-wow-delay="0.1s">
-        <div class="container text-center py-5">
-            <h3 class="display-6 text-white mb-4 animated slideInDown">${sessionScope.u_name}님의 페이지</h3>
-            <ul class="nav nav-tabs justify-content-center mb-0">
-				<li class="nav-item"><a class="nav-link active" aria-current="page" href="">내 정보관리</a></li>
-				<li class="nav-item"><a class="nav-link" href="bookmarkList.usr">관심 프로젝트</a></li>
-				<li class="nav-item"><a class="nav-link" href="uploadProjectList.usr">올린 프로젝트</a></li>
-				<li class="nav-item"><a class="nav-link" href="fundProjectList.usr">후원한 프로젝트</a></li>
-            </ul>
+    <div class="container-fluid page-header pt-5 mb-5 wow fadeIn" data-wow-delay="0.1s">
+        <div class="container text-center pt-5">
+            <h3 class="display-6 text-white animated slideInDown">${sessionScope.u_name}님의 페이지</h3>
+            <div class="row justify-content-center">
+	            <ul class="col-12 col-lg-8 nav nav-pills justify-content-center mt-4 mb-0">
+					<li class="col-6 col-md-3 nav-item"><a class="nav-link active fw-bold" aria-current="page" href="">내 정보관리</a></li>
+					<li class="col-6 col-md-3 nav-item"><a class="nav-link text-white" href="bookmarkList.usr">관심 프로젝트</a></li>
+					<li class="col-6 col-md-3 nav-item"><a class="nav-link text-white" href="uploadProjectList.usr">등록 프로젝트</a></li>
+					<li class="col-6 col-md-3 nav-item"><a class="nav-link text-white" href="fundProjectList.usr">후원 프로젝트</a></li>
+	            </ul>
+            </div>
         </div>
     </div>
     <!-- Page Header End -->
 
 
     <!-- 404 Start -->
-    <div class="container-xxl py-5 wow fadeInUp" data-wow-delay="0.1s">
+    <div class="container-xxl py-5 animated fadeIn" data-wow-delay="0.1s">
         <div class="container text-center">
             <div class="row justify-content-center">
                 <div class="col-lg-6">
