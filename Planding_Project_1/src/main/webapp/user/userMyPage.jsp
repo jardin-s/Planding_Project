@@ -42,14 +42,12 @@
     <div class="container-fluid page-header py-5 mb-5 wow fadeIn" data-wow-delay="0.1s">
         <div class="container text-center py-5">
             <h3 class="display-6 text-white mb-4 animated slideInDown">${sessionScope.u_name}님의 페이지</h3>
-            <nav aria-label="breadcrumb animated slideInDown">
-                <ol class="breadcrumb justify-content-center mb-0">
-                    <li class="breadcrumb-item active" aria-current="page">내 정보관리</li>
-                    <li class="breadcrumb-item"><a href="bookmarkList.usr">관심 프로젝트</a></li>
-                    <li class="breadcrumb-item"><a href="uploadProjectList.usr">올린 프로젝트</a></li>
-                    <li class="breadcrumb-item"><a href="fundedProjectList.usr">후원한 프로젝트</a></li>
-                </ol>
-            </nav>
+            <ul class="nav nav-tabs justify-content-center mb-0">
+				<li class="nav-item"><a class="nav-link active" aria-current="page" href="">내 정보관리</a></li>
+				<li class="nav-item"><a class="nav-link" href="bookmarkList.usr">관심 프로젝트</a></li>
+				<li class="nav-item"><a class="nav-link" href="uploadProjectList.usr">올린 프로젝트</a></li>
+				<li class="nav-item"><a class="nav-link" href="fundProjectList.usr">후원한 프로젝트</a></li>
+            </ul>
         </div>
     </div>
     <!-- Page Header End -->
