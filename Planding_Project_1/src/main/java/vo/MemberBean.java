@@ -5,65 +5,45 @@ import util.SHA256;
 public class MemberBean {
 	
 	//PlanDing
-//	private String member_id;
-//	private String password;
-//	private String name;
-//	private String email;
+	private String member_id; //회원 ID
+	private String password; //비밀번호
+	private String name; //이름
+	private String email; //이메일
+	private int account; //처음 가입한 회원은 0부터 시작
+	private boolean isAdmin; //회원은 false, 관리자는 true
 	
-//	private Date date;
-//	private int account;
-//	private boolean isAdmin;
-	
-	
-	//수업 MAC
-	private String id;
-	private String grade;
-	private String password;
-	private String name;
-	private String email;
-	private String phone;
-	
-	//'회원가입 폼'에 없음 (SQL에서 현재 날짜로 자동세팅 now())
-	private String joindate;
-	
-	
+	private String joindate; //SQL에서 가입일 자동세팅
+		
 	/* 
 	 * 매개변수가 없는 생성자 : 암호화방법-1
 	 * - 방법-1 : 기본값 -> 암호화X -> DAO에서 insert 전에 암호화
 	 * - 방법-2 : 기본값 -> set() 암호화O -> DAO에서 insert
 	 */
 	public MemberBean() {}
+
+	public MemberBean(String member_id, String password, String name, String email, int account, boolean isAdmin) {
+		super();
+		this.member_id = member_id;
+		this.password = SHA256.encodeSHA256(password);
+		this.name = name;
+		this.email = email;
+		this.account = account;
+		this.isAdmin = isAdmin;
+		//this.joindate = joindate;
+	}
 	
+
 	/* 
 	 * 매개변수가 있는 생성자 : 암호화방법-2
 	 * password 암호화O -> DAO에서 insert
 	 */
-	public MemberBean(String id, String grade, String password, String name, String email, String phone) {
-		super();
-		this.id = id;
-		this.grade = grade;
-		this.password = SHA256.encodeSHA256(password);
-		//this.password = password;
-		this.name = name;
-		this.email = email;
-		this.phone = phone;
-	}
 	
-
-	public String getId() {
-		return id;
+	public String getMember_id() {
+		return member_id;
 	}
 
-	public void setId(String id) {
-		this.id = id;
-	}
-
-	public String getGrade() {
-		return grade;
-	}
-
-	public void setGrade(String grade) {
-		this.grade = grade;
+	public void setMember_id(String member_id) {
+		this.member_id = member_id;
 	}
 
 	public String getPassword() {
@@ -71,11 +51,12 @@ public class MemberBean {
 	}
 
 	public void setPassword(String password) {
-		this.password = password;//암호화X
+		this.password = password;
 	}
 	
-	public void setPasswordSHA256(String password) {
-		this.password = SHA256.encodeSHA256(password);//암호화
+	//매개값을 암호화하여 세팅하는 set메서드
+	public void setSHA256Password(String password) {
+		this.password = SHA256.encodeSHA256(password);
 	}
 
 	public String getName() {
@@ -94,21 +75,29 @@ public class MemberBean {
 		this.email = email;
 	}
 
-	public String getPhone() {
-		return phone;
+	public boolean isAdmin() {
+		return isAdmin;
 	}
 
-	public void setPhone(String phone) {
-		this.phone = phone;
+	public void setAdmin(boolean isAdmin) {
+		this.isAdmin = isAdmin;
 	}
-	
-	/*
+
+	public int getAccount() {
+		return account;
+	}
+
+	public void setAccount(int account) {
+		this.account = account;
+	}
+
 	public String getJoindate() {
 		return joindate;
 	}
 
 	public void setJoindate(String joindate) {
-		this.phone = joindate;
+		this.joindate = joindate;
 	}
-	*/
+	
+	
 }

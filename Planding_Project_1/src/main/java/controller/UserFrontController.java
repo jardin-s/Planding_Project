@@ -87,8 +87,7 @@ public class UserFrontController extends HttpServlet {
 		/*-- '로그인 폼 보기' 요청 -> 처리 --------------------------------------*/
 		else if(command.equals("/userLogin.usr")) {//'로그인 폼 보기' 요청이면
 			
-			request.setAttribute("showPage", "user/loginForm.jsp");//어느 폼 보기인지 showPage이름 속성으로 저장
-			forward = new ActionForward("userTemplate.jsp",false);//반드시 디스패치 (request를 공유)
+			forward = new ActionForward("user/loginForm.jsp",false);//반드시 디스패치 (request를 공유)
 					
 		}
 		

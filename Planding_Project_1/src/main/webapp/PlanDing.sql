@@ -14,11 +14,12 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,N
 CREATE SCHEMA IF NOT EXISTS `project` DEFAULT CHARACTER SET utf8 ;
 USE `project` ;
 
+--drop table project_tbl;
 -- -----------------------------------------------------
 -- Table `project`.`project_tbl` 프로젝트 테이블
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `project`.`project_tbl` (
-  `project_id` INT NOT NULL COMMENT '프로젝트 ID',
+  `project_id` INT auto_increment NOT NULL COMMENT '프로젝트 ID',
   `kind` VARCHAR(10) NOT NULL COMMENT 'Donate or Funding',
   `title` NVARCHAR(50) NOT NULL COMMENT '프로젝트 제목',
   `summary` NVARCHAR(100) NOT NULL COMMENT '요약글',
@@ -35,6 +36,7 @@ CREATE TABLE IF NOT EXISTS `project`.`project_tbl` (
 ENGINE = InnoDB;
 
 
+--drop table member_tbl;
 -- -----------------------------------------------------
 -- Table `project`.`member_tbl` 회원 테이블
 -- -----------------------------------------------------
@@ -43,18 +45,19 @@ CREATE TABLE IF NOT EXISTS `project`.`member_tbl` (
   `password` VARCHAR(256) NOT NULL COMMENT '비밀번호',
   `name` NVARCHAR(20) NOT NULL COMMENT '이름',
   `email` VARCHAR(45) NOT NULL COMMENT '이메일',
-  `joindate` TIMESTAMP NOT NULL DEFAULT now() COMMENT '가입일',
   `account` INT NOT NULL COMMENT '가상계좌 (계좌잔액)',
   `isAdmin` TINYINT NOT NULL COMMENT '관리자 여부',
+  `joindate` TIMESTAMP NOT NULL DEFAULT now() COMMENT '가입일',
   PRIMARY KEY (`member_id`))
 ENGINE = InnoDB;
 
 
+--drop table reward_tbl;
 -- -----------------------------------------------------
 -- Table `project`.`reward_tbl` 리워드 테이블
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `project`.`reward_tbl` (
-  `reward_id` INT NOT NULL COMMENT '리워드 ID',
+  `reward_id` INT auto_increment NOT NULL COMMENT '리워드 ID',
   `name` NVARCHAR(30) NOT NULL COMMENT '리워드 이름',
   `desc` NVARCHAR(100) NOT NULL COMMENT '리워드 설명',
   `price` INT NOT NULL COMMENT '리워드 금액',
@@ -62,11 +65,12 @@ CREATE TABLE IF NOT EXISTS `project`.`reward_tbl` (
 ENGINE = InnoDB;
 
 
+--drop table donation_tbl;
 -- -----------------------------------------------------
 -- Table `project`.`donation_tbl` 후원기록 테이블
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `project`.`donation_tbl` (
-  `donate_id` INT NOT NULL COMMENT '후원기록 ID',
+  `donate_id` INT auto_increment NOT NULL COMMENT '후원기록 ID',
   `project_id` INT NOT NULL COMMENT '프로젝트 ID',
   `member_id` VARCHAR(20) NOT NULL COMMENT '회원 ID',
   `reward_id` INT NOT NULL COMMENT '리워드 ID',
@@ -95,6 +99,7 @@ CREATE TABLE IF NOT EXISTS `project`.`donation_tbl` (
 ENGINE = InnoDB;
 
 
+--drop table former_member_tbl;
 -- -----------------------------------------------------
 -- Table `project`.`former_member_tbl` 탈퇴회원 테이블
 -- -----------------------------------------------------
@@ -107,6 +112,7 @@ CREATE TABLE IF NOT EXISTS `project`.`former_member_tbl` (
 ENGINE = InnoDB;
 
 
+--drop table admin_income_tbl;
 -- -----------------------------------------------------
 -- Table `project`.`admin_income_tbl` 관리자 수익 테이블
 -- -----------------------------------------------------
@@ -123,6 +129,7 @@ CREATE TABLE IF NOT EXISTS `project`.`admin_income_tbl` (
 ENGINE = InnoDB;
 
 
+--drop table project_reward_tbl;
 -- -----------------------------------------------------
 -- Table `project`.`project_reward_tbl` 프로젝트-리워드 매핑 테이블
 -- -----------------------------------------------------
@@ -145,11 +152,12 @@ CREATE TABLE IF NOT EXISTS `project`.`project_reward_tbl` (
 ENGINE = InnoDB;
 
 
+--drop table notice_tbl;
 -- -----------------------------------------------------
 -- Table `project`.`notice_tbl` 공지사항 테이블
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `project`.`notice_tbl` (
-  `notice_id` INT NOT NULL,
+  `notice_id` INT auto_increment NOT NULL,
   `member_id` VARCHAR(20) NOT NULL,
   `title` NVARCHAR(30) NOT NULL,
   `content` NVARCHAR(500) NOT NULL,
@@ -167,11 +175,12 @@ CREATE TABLE IF NOT EXISTS `project`.`notice_tbl` (
 ENGINE = InnoDB;
 
 
+--drop table qna_tbl;
 -- -----------------------------------------------------
 -- Table `project`.`qna_tbl` 문의사항 테이블
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `project`.`qna_tbl` (
-  `qna_id` INT NOT NULL COMMENT '문의사항 ID',
+  `qna_id` INT auto_increment NOT NULL COMMENT '문의사항 ID',
   `member_id` VARCHAR(20) NOT NULL COMMENT '작성자 ID',
   `q_title` NVARCHAR(30) NOT NULL COMMENT '질문 제목',
   `q_content` VARCHAR(400) NOT NULL COMMENT '질문 내용',
@@ -189,17 +198,19 @@ CREATE TABLE IF NOT EXISTS `project`.`qna_tbl` (
 ENGINE = InnoDB;
 
 
+--drop table image_tbl;
 -- -----------------------------------------------------
 -- Table `project`.`image_tbl` 이미지 테이블
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `project`.`image_tbl` (
-  `image_id` INT NOT NULL COMMENT '이미지 ID',
+  `image_id` INT auto_increment NOT NULL COMMENT '이미지 ID',
   `filename` VARCHAR(60) NOT NULL COMMENT '파일명',
   `filepath` VARCHAR(100) NOT NULL COMMENT '파일경로',
   PRIMARY KEY (`image_id`))
 ENGINE = InnoDB;
 
 
+--drop table project_image_tbl;
 -- -----------------------------------------------------
 -- Table `project`.`project_image_tbl` 프로젝트-이미지 매핑 테이블
 -- -----------------------------------------------------
@@ -222,6 +233,7 @@ CREATE TABLE IF NOT EXISTS `project`.`project_image_tbl` (
 ENGINE = InnoDB;
 
 
+--drop table qna_image_tbl;
 -- -----------------------------------------------------
 -- Table `project`.`qna_image_tbl` 문의사항-이미지 매핑 테이블
 -- -----------------------------------------------------
@@ -243,6 +255,7 @@ CREATE TABLE IF NOT EXISTS `project`.`qna_image_tbl` (
 ENGINE = InnoDB;
 
 
+--drop table project_planner_tbl;
 -- -----------------------------------------------------
 -- Table `project`.`project_planner_tbl` 프로젝트 기획자 테이블
 -- -----------------------------------------------------
@@ -268,6 +281,7 @@ CREATE TABLE IF NOT EXISTS `project`.`project_planner_tbl` (
 ENGINE = InnoDB;
 
 
+--drop table bookmark_tbl;
 -- -----------------------------------------------------
 -- Table `project`.`bookmark_tbl` 관심프로젝트 테이블
 -- -----------------------------------------------------
@@ -290,11 +304,12 @@ CREATE TABLE IF NOT EXISTS `project`.`bookmark_tbl` (
 ENGINE = InnoDB;
 
 
+--drop table project_review_tbl;
 -- -----------------------------------------------------
 -- Table `project`.`project_review_tbl` 프로젝트 펀딩후기 테이블
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `project`.`project_review_tbl` (
-  `review_id` INT NOT NULL,
+  `review_id` INT auto_increment NOT NULL,
   `project_id` INT NOT NULL,
   `content` NVARCHAR(500) NOT NULL,
   `image1` VARCHAR(60) NULL,
@@ -310,11 +325,12 @@ CREATE TABLE IF NOT EXISTS `project`.`project_review_tbl` (
 ENGINE = InnoDB;
 
 
+--drop table address_tbl;
 -- -----------------------------------------------------
 -- Table `project`.`address_tbl` 주소 테이블
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `project`.`address_tbl` (
-  `address_id` INT NOT NULL,
+  `address_id` INT auto_increment NOT NULL,
   `member_id` VARCHAR(45) NOT NULL,
   `receiver_name` NVARCHAR(20) NOT NULL,
   `postcode` INT NOT NULL,

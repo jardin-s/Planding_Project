@@ -19,12 +19,13 @@ public class UserJoinAction implements Action {
 		
 		ActionForward forward = null;
 		
-		String u_id = request.getParameter("id");
+		String u_id = request.getParameter("member_id");
 		String u_grade = request.getParameter("grade");
 		String u_password = request.getParameter("password");		
 		String u_name = request.getParameter("name");
 		String u_email = request.getParameter("email");
-		String u_phone = request.getParameter("phone");
+		int u_account = Integer.parseInt(request.getParameter("account"));
+		boolean isAdmin = Boolean.parseBoolean(request.getParameter("isAdmin"));
 		
 		/*
 		MemberBean user = new MemberBean();
@@ -38,7 +39,7 @@ public class UserJoinAction implements Action {
 		*/
 		
 		//비밀번호 암호화 방법-2 (매개변수가 있는 생성자)
-		MemberBean user = new MemberBean(u_id, u_grade, u_password, u_name, u_email, u_phone);
+		MemberBean user = new MemberBean(u_id, u_password, u_name, u_email, u_account, isAdmin);
 		
 		int postcode = Integer.parseInt(request.getParameter("postcode"));
 		String address1 = request.getParameter("address1");
