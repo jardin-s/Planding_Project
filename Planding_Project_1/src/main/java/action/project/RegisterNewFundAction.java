@@ -1,4 +1,4 @@
-package action.fund;
+package action.project;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

@@ -6,7 +6,7 @@
 <html>
 <head>
 	<meta charset="utf-8">
-    <title>PlanDing - Fund for Our Plannet</title>
+    <title>PlanDing - Fund for Our Planet</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
     <meta content="" name="description">
@@ -34,6 +34,15 @@
     <!-- Template Stylesheet -->
     <link href="css/style.css" rel="stylesheet">
 </head>
+
+<script>
+function userLogout(){
+	if(confirm('로그아웃하시겠습니까?')){
+		location.href="userLogout.usr";	
+	}
+}
+</script>
+
 <body>
 	<!-- Spinner Start -->
     <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
@@ -48,7 +57,7 @@
             <div class="col-lg-7 px-5 text-start">
                 <div class="h-100 d-inline-flex align-items-center">
                     <c:if test="${sessionScope.u_id ne null }">
-                    	<span>${u_id}님 환영합니다.</span>
+                    	<span>${u_name}님 환영합니다.</span>
                     </c:if> 
                 </div>
             </div>
@@ -58,8 +67,8 @@
                     	<a class="btn btn-link text-light" href="userLogin.usr">로그인하기</a>	
                     </c:if>
                     <c:if test="${sessionScope.u_id ne null }">
-                    	<a class="btn btn-link text-light" href="userLogout.usr">로그아웃하기</a>
-                    	<a class="btn btn-link text-light" href=""><i class="fas fa-user"></i></a>
+                    	<a class="btn btn-link text-light" href="#" onclick="userLogout();">로그아웃하기</a>
+                    	<a class="btn btn-link text-light" href="userMyPage.usr"><i class="fas fa-user"></i></a>
                     	<a class="btn btn-link text-light" href=""><i class="far fa-heart"></i></a>
                     </c:if>                    
                     <a class="btn btn-link text-light" href=""><i class="fas fa-search"></i></a>
@@ -72,7 +81,7 @@
 
     <!-- Navbar Start -->
     <nav class="navbar navbar-expand-lg bg-white navbar-light sticky-top p-0">
-        <a href="index.html" class="navbar-brand d-flex align-items-center px-4 px-lg-5">
+        <a href="index.jsp" class="navbar-brand d-flex align-items-center px-4 px-lg-5">
             <h1 class="m-0">PlanDing</h1>
         </a>
         <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">

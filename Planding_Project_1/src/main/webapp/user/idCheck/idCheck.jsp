@@ -6,7 +6,7 @@
 <html>
 <head>
 	<meta charset="utf-8">
-    <title>PlanDing - Fund for Our Plannet</title>
+    <title>아이디 중복 확인창</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
     <meta content="" name="description">

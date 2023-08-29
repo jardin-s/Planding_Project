@@ -17,13 +17,7 @@ public class UserLogoutAction implements Action {
 		ActionForward forward = null;
 		
 		response.setContentType("text/html; charset=utf-8");
-		PrintWriter out = response.getWriter();
-		out.println("<script>");
-		out.println("if(!confirm('정말로 로그아웃 하시겠습니까?')){");
-		out.println("	history.back();");
-		out.println("}");
-		out.println("</script>");
-		
+				
 		/**
 		 * session 영역의 속성들을 제거
 		 */
@@ -39,7 +33,7 @@ public class UserLogoutAction implements Action {
 		
 		System.out.println("[UserLogoutAction] 세션의 모든 사용자 정보 삭제 완료");
 				
-		forward = new ActionForward("userMain.jsp", true);
+		forward = new ActionForward("index.jsp", true);
 		return forward;
 		
 	}

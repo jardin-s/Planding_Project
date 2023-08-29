@@ -47,10 +47,11 @@ CREATE TABLE IF NOT EXISTS `project`.`member_tbl` (
   `email` VARCHAR(45) NOT NULL COMMENT '이메일',
   `account` INT NOT NULL COMMENT '가상계좌 (계좌잔액)',
   `isAdmin` TINYINT NOT NULL COMMENT '관리자 여부',
-  `joindate` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP() COMMENT '가입일',
+  `joindate` TIMESTAMP DEFAULT CURRENT_TIMESTAMP() COMMENT '가입일',
   PRIMARY KEY (`member_id`))
 ENGINE = InnoDB;
 
+select * from member_tbl;
 
 --drop table reward_tbl;
 -- -----------------------------------------------------
@@ -75,7 +76,7 @@ CREATE TABLE IF NOT EXISTS `project`.`donation_tbl` (
   `member_id` VARCHAR(20) NOT NULL COMMENT '회원 ID',
   `reward_id` INT NOT NULL COMMENT '리워드 ID',
   `add_donation` INT NULL COMMENT '추가 후원금액',
-  `donatedate` TIMESTAMP NOT NULL DEFAULT now() COMMENT '후원일자',
+  `donatedate` TIMESTAMP DEFAULT now() COMMENT '후원일자',
   `comment` NVARCHAR(100) NULL COMMENT '응원글',
   PRIMARY KEY (`donate_id`),
   INDEX `fk_donation_tbl_project_tbl_idx` (`project_id` ASC) VISIBLE,
@@ -107,7 +108,7 @@ CREATE TABLE IF NOT EXISTS `project`.`former_member_tbl` (
   `member_id` VARCHAR(20) NOT NULL COMMENT '탈퇴한 회원 ID',
   `email` VARCHAR(45) NOT NULL COMMENT '이메일',
   `joindate` DATE NOT NULL COMMENT '가입일',
-  `withdrawdate` TIMESTAMP NOT NULL DEFAULT now() COMMENT '탈퇴일',
+  `withdrawdate` TIMESTAMP DEFAULT now() COMMENT '탈퇴일',
   PRIMARY KEY (`member_id`))
 ENGINE = InnoDB;
 
@@ -164,7 +165,7 @@ CREATE TABLE IF NOT EXISTS `project`.`notice_tbl` (
   `image` VARCHAR(60) NULL,
   `importance` TINYINT NULL,
   `viewcount` INT NOT NULL,
-  `writetime` TIMESTAMP NOT NULL DEFAULT now(),
+  `writetime` TIMESTAMP DEFAULT now(),
   PRIMARY KEY (`notice_id`),
   INDEX `fk_notice_tbl_member_tbl1_idx` (`member_id` ASC) VISIBLE,
   CONSTRAINT `fk_notice_tbl_member_tbl1`
@@ -184,10 +185,10 @@ CREATE TABLE IF NOT EXISTS `project`.`qna_tbl` (
   `member_id` VARCHAR(20) NOT NULL COMMENT '작성자 ID',
   `q_title` NVARCHAR(30) NOT NULL COMMENT '질문 제목',
   `q_content` VARCHAR(400) NOT NULL COMMENT '질문 내용',
-  `q_time` TIMESTAMP NOT NULL DEFAULT now() COMMENT '질문시간',
+  `q_time` TIMESTAMP DEFAULT now() COMMENT '질문시간',
   `a_title` NVARCHAR(30) NOT NULL COMMENT '답변 제목',
   `a_content` NVARCHAR(300) NOT NULL COMMENT '답변 내용',
-  `a_time` TIMESTAMP NOT NULL DEFAULT now() COMMENT '답변 시간',
+  `a_time` TIMESTAMP DEFAULT now() COMMENT '답변 시간',
   PRIMARY KEY (`qna_id`),
   INDEX `fk_qna_tbl_member_tbl1_idx` (`member_id` ASC) VISIBLE,
   CONSTRAINT `fk_qna_tbl_member_tbl1`

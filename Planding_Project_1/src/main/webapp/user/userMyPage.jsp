@@ -41,13 +41,13 @@
 	<!-- Page Header Start -->
     <div class="container-fluid page-header py-5 mb-5 wow fadeIn" data-wow-delay="0.1s">
         <div class="container text-center py-5">
-            <h1 class="display-3 text-white mb-4 animated slideInDown">아이디 찾기</h1>
+            <h3 class="display-6 text-white mb-4 animated slideInDown">${sessionScope.u_name}님의 페이지</h3>
             <nav aria-label="breadcrumb animated slideInDown">
                 <ol class="breadcrumb justify-content-center mb-0">
-                    <li class="breadcrumb-item"><a href="userLogin.usr">로그인</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">아이디 찾기</li>
-                    <li class="breadcrumb-item"><a href="userHashPwFindForm.usr">비밀번호 찾기</a></li>
-                    <li class="breadcrumb-item"><a href="userJoin.usr">회원가입</a></li>                    
+                    <li class="breadcrumb-item active" aria-current="page">내 정보관리</li>
+                    <li class="breadcrumb-item"><a href="bookmarkList.usr">관심 프로젝트</a></li>
+                    <li class="breadcrumb-item"><a href="uploadProjectList.usr">올린 프로젝트</a></li>
+                    <li class="breadcrumb-item"><a href="fundedProjectList.usr">후원한 프로젝트</a></li>
                 </ol>
             </nav>
         </div>
@@ -55,35 +55,30 @@
     <!-- Page Header End -->
 
 
-    <!-- Form Start -->
-    <div class="container-fluid py-5">
-        <div class="container">
-            <div class="text-center mx-auto wow fadeInUp" data-wow-delay="0.1s" style="max-width: 500px;">
-                <p class="fs-5 fw-bold text-primary">아이디 찾기</p>
-            </div>
-            <form action="userIdFindAction.usr" method="post">
-	            <div class="row justify-content-center">
-	                <div class="col-lg-7">
-	                    <div class="bg-light rounded p-4 p-sm-5 wow fadeInUp" data-wow-delay="0.1s">                        
-	                        <div class="row g-3">
-	                            <div class="col-12">
-	                                <div class="form-floating">
-	                                    <input type="text" name="email" class="form-control border-0" id="email" placeholder="이메일">
-	                                    <label for="email">가입 시 등록한 이메일 입력</label>
-	                                </div>
-	                            </div>
-	                            <div class="col-12 text-center">
-	                                <button class="btn btn-primary py-2 px-4" type="submit" onclick="mailCheck(); return false;">확인</button>
-	                            </div>
-	                        </div>
+    <!-- 404 Start -->
+    <div class="container-xxl py-5 wow fadeInUp" data-wow-delay="0.1s">
+        <div class="container text-center">
+            <div class="row justify-content-center">
+                <div class="col-lg-6">
+                    <h3 class="mb-4">${sessionScope.u_name}님의 페이지</h3>
+                    <p>행복한 하루 되세요.</p>
+                    <div class="row justify-content-center">
+                    	<div class="col-4">
+	                    	<a class="btn btn-primary py-2 px-2" href="userView.usr">회원정보 수정</a>	
 	                    </div>
-	                </div>
-	            </div>
-            </form>
+	                    <div class="col-4">
+	                    	<a class="btn btn-primary py-2 px-2" href="userHashPwFindForm.usr">비밀번호 변경</a>	
+	                    </div>
+	                    <div class="col-4">
+	                    	<a class="btn btn-primary py-2 px-4" href="userDelete.usr">회원 탈퇴</a>	
+	                    </div>
+                    </div>                    
+                </div>
+            </div>
         </div>
     </div>
-    <!-- Form End -->
-	
+    <!-- 404 End -->
+		
 	<div>
 		<jsp:include page="../userFooter.jsp" />
 	</div>

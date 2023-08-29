@@ -105,7 +105,7 @@ public class UserFrontController extends HttpServlet {
 			forward = new ActionForward("../loginForm.jsp",true);
 					
 		}
-		else if(command.equals("/userLoginAction.usr")) {//'로그인 처리' 요청이면
+		else if(command.equals("/user/userLoginAction.usr")) {//'로그인 처리' 요청이면
 			
 			//부모인터페이스 = 구현한 자식객체
 			action = new UserLoginAction();//부모인터페이스인 Action으로 받음 
@@ -170,6 +170,11 @@ public class UserFrontController extends HttpServlet {
 					
 		}
 		
+		/*-- '사용자 마이페이지 보기' 요청 -------------------------------------*/
+		else if(command.equals("/userMyPage.usr")) {//'사용자 마이페이지 보기' 요청이면
+			forward = new ActionForward("user/userMyPage.jsp",true);
+		}
+				
 		/*-- '회원정보가 세팅된 회원정보관리 폼 보기(수정 폼)' 요청 -> 수정 처리 -------------------------------------*/
 		else if(command.equals("/userView.usr")) {//'회원정보관리 보기' 요청이면
 
@@ -251,6 +256,8 @@ public class UserFrontController extends HttpServlet {
 				e.printStackTrace();
 			}
 		}
+		
+		
 		
 		/***********************************************************
 		 * 3. 포워딩

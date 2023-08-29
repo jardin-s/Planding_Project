@@ -13,7 +13,7 @@ import vo.AddressBean;
 import vo.MemberBean;
 import vo.MemberPwChangeBean;
 
-public class FundDAO {
+public class ProjectDAO {
 	
 	//필드 : 전역변수 - 전체 메서드에서 사용가능하도록 선언
 	private Connection con = null;
@@ -29,15 +29,15 @@ public class FundDAO {
 	 */
 	
 	//1. 생성자는 무조건 private : 외부에서 객체 생성 불가능
-	private FundDAO() {}
+	private ProjectDAO() {}
 	
 	
 	
-	private static FundDAO fundDAO; //static메서드인 getInstance에서 쓸 수 있게 static (단 외부에서 직접 접근 불가능하도록 private)
+	private static ProjectDAO fundDAO; //static메서드인 getInstance에서 쓸 수 있게 static (단 외부에서 직접 접근 불가능하도록 private)
 	
-	public static FundDAO getInstance() {
+	public static ProjectDAO getInstance() {
 		if(fundDAO == null) {//DogDAO객체가 없으면
-			fundDAO = new FundDAO();//객체 생성
+			fundDAO = new ProjectDAO();//객체 생성
 		}
 		
 		return fundDAO;//기존 DogDAO객체의 주소 리턴

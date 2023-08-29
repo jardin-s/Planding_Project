@@ -20,7 +20,7 @@ public class UserLoginAction implements Action {
 		ActionForward forward = null;
 		
 		//회원아이디, 비밀번호
-		String u_id = request.getParameter("id");
+		String u_id = request.getParameter("member_id");
 		String u_password = request.getParameter("password");
 		
 		String checkbox = request.getParameter("checkbox");//'아이디저장' 체크여부
@@ -89,7 +89,7 @@ public class UserLoginAction implements Action {
 			//세션 유지시간 (※세션은 해당 브라우저에서만 유효) (기본값 30분이 지나거나 창을 닫으면 세션영역이 사라짐) 
 			session.setMaxInactiveInterval(1*60*60);//초단위 1시간 = 3600초	
 			
-			forward = new ActionForward("index.jsp", true);//request에 저장한 게 없으므로 리다이렉션 포워딩
+			forward = new ActionForward("../index.jsp", true);//request에 저장한 게 없으므로 리다이렉션 포워딩
 		}
 		
 		return forward;
