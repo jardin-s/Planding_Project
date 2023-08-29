@@ -72,7 +72,7 @@ public class AdminDeleteAction implements Action {
 			PrintWriter out = response.getWriter();
 			out.println("<script>");
 			out.println("alert('회원탈퇴 처리되었습니다.');");
-			out.println("location.href='adminMain.usr'");//adminMain.jsp로 해도 됨
+			out.println("location.href='adminMain.adm'");//adminMain.jsp로 해도 됨
 			out.println("</script>");
 			
 		}

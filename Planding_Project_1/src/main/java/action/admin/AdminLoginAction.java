@@ -48,7 +48,7 @@ public class AdminLoginAction implements Action {
 			PrintWriter out = response.getWriter();
 			out.println("<script>");
 			out.println("alert('아이디나 비밀번호가 일치하지 않습니다.');");//알림창을 띄우고 로그인폼보기 요청으로 돌아감
-			out.println("location.href='adminLogin.usr'");		//(☆history.back()보다는 요청으로 할 것)
+			out.println("location.href='adminLogin.adm'");		//(☆history.back()보다는 요청으로 할 것)
 			out.println("</script>");
 			
 		}else {//참 : 로그인 성공하면 (회원가입 + 아이디와 비밀번호가 일치 맞음)
