@@ -59,16 +59,16 @@ function findAddr(){
 	}).open();
 }
 
-function check(){
+function checkJoinForm(){
 	
 
 	//아이디와 비밀번호 값 데이터 정규화 공식
 	const regIdPass = /^[a-zA-Z0-9]{7,19}$/;
-	if(!document.f.id.value.trim()){
+	if(!document.f.member_id.value.trim()){
 		alert("아이디를 입력해주세요.");
-		document.f.id.focus();
+		document.f.member_id.focus();
 		return false;
-	}else if(!regIdPass.test(document.f.id.value.trim())){
+	}else if(!regIdPass.test(document.f.member_id.value.trim())){
 		alert("아이디를 8~20자 사이의 영문과 숫자로 입력해주세요.");
 		
 	}
@@ -88,11 +88,11 @@ function check(){
 		alert("비밀번호를 8~20자 사이의 영문과 숫자로 입력해주세요.");
 		
 	}	
-	if(document.f.password.value != document.f.check_pw.value) {
-	       alert("비밀번호가 다릅니다. 다시 확인해 주세요.");
-	       f.check_pw.value = "";
-	       f.password.focus();
-	       return false;
+	if(document.f.password.value != document.f.confirm_password.value) {
+	    alert("비밀번호가 다릅니다. 다시 확인해 주세요.");
+	    f.confirm_password.value = "";
+	    f.confirm_password.focus();
+	    return false;
 	}
 	
 	//이름 정규화 공식
@@ -117,20 +117,7 @@ function check(){
 		document.f.email.select();
 		return false;
 	}
-	
-	//휴대번호 정규화 공식
-	const regPhone = /^\d{3}\d{3,4}\d{4}$/; //-제외
-	if(!document.f.phone.value.trim()){
-		alert("휴대전화번호를 입력해주세요.");
-		document.f.phone.focus();
-		return false;
-	}else if(!regPhone.test(document.f.phone.value.trim())){
-		alert("휴대전화번호를 (-)없이 숫자만 입력해주세요.");
-		document.f.phone.select();
-		return false;
-	}
-	
-	
+		
 	document.f.submit();
 	/*
 	 postcode(우편번호)와 address1은 "DAUM api" 검색한 내용으로 자동세팅되어 생략 
@@ -140,10 +127,10 @@ function check(){
 }
 
 function idCheckOpen(){
-	if(document.f.id.value == ''){
+	if(document.f.member_id.value == ''){
 		window.open('idCheck/idCheck.jsp','아이디중복확인','top=10, left=10, width=500, height=300');
 	}else{
-		window.open('idCheck/idCheck.jsp?id='+document.f.id.value,'아이디중복확인','top=10, left=10, width=500, height=300');
+		window.open('idCheck/idCheck.jsp?member_id='+document.f.member_id.value,'아이디중복확인','top=10, left=10, width=500, height=300');
 	}
 }
 </script>
@@ -177,7 +164,7 @@ function idCheckOpen(){
             <div class="text-center mx-auto wow fadeInUp" data-wow-delay="0.1s" style="max-width: 500px;">
                 <p class="fs-5 fw-bold text-primary">회원가입하기</p>
             </div>
-            <form action="userJoinAction.usr" method="post">
+            <form action="userJoinAction.usr" method="post" name="f">
 	            <div class="row justify-content-center">
 	                <div class="col-lg-7">
 	                    <div class="bg-light rounded p-4 p-sm-5 wow fadeInUp" data-wow-delay="0.1s">                        
@@ -202,7 +189,7 @@ function idCheckOpen(){
 	                            <div class="mb-3 row">
 								    <label for="confirm_password" class="col-sm-3 col-form-label"><span style="font-size:0.9rem">비밀번호 확인</span></label>
 								    <div class="col-sm-9">
-								      <input type="confirm_password" class="form-control" name="confirm_password" id="confirm_password" max-length="20" placeholder="위 비밀번호와 동일하게 입력">
+								      <input type="password" class="form-control" name="confirm_password" id="confirm_password" max-length="20" placeholder="위 비밀번호와 동일하게 입력">
 								    </div>
 	                            </div>
 	                            <div class="mb-3 row">
@@ -217,10 +204,13 @@ function idCheckOpen(){
 								      <input type="text" class="form-control" name="email" id="email" placeholder="example@example.com">
 								    </div>
 	                            </div>
-	                            <input type="hidden" class="form-control" name="isAdmin" id="isAdmin" value="false" placeholder="example@example.com">								    
+	                            <!-- 사용자 가상계좌 -->
+	                            <input type="hidden" class="form-control" name="account" id="account" value="0">
+	                            <!-- 관리자 여부 : false -->
+	                            <input type="hidden" class="form-control" name="isAdmin" id="isAdmin" value="false">								    
 	                                                        
 	                            <div class="col-12 text-center">
-	                                <button class="btn btn-primary py-3 px-4" type="submit" onclick="check(); return false;">가입하기</button>
+	                                <button class="btn btn-primary py-3 px-4" type="submit" onclick="checkJoinForm(); return false;">가입하기</button>
 	                            </div>
 	                        </div>
 	                    </div>

@@ -241,7 +241,7 @@ public class UserDAO {
 		
 		//joindate timestamp default now() -> joindate 생략
 		String sql = "insert into member_tbl(member_id, password, name, email, account, isAdmin) "
-					+ "values(?,?,?,?,?,?,?)";
+					+ "values(?,?,?,?,?,?)";
 		
 		//joindate timestamp (디폴트값 없음) -> insert into member_tbl values(?,?,?,?,?,?,now());
 		

@@ -20,12 +20,19 @@ public class UserJoinAction implements Action {
 		ActionForward forward = null;
 		
 		String u_id = request.getParameter("member_id");
-		String u_grade = request.getParameter("grade");
 		String u_password = request.getParameter("password");		
 		String u_name = request.getParameter("name");
 		String u_email = request.getParameter("email");
 		int u_account = Integer.parseInt(request.getParameter("account"));
 		boolean isAdmin = Boolean.parseBoolean(request.getParameter("isAdmin"));
+		
+		System.out.println("[UserJoinAction] 회원가입 폼에서 전송받은 값");
+		System.out.println("member_id="+u_id);
+		System.out.println("password="+u_password);
+		System.out.println("name="+u_name);
+		System.out.println("email="+u_email);
+		System.out.println("account="+u_account);
+		System.out.println("isAdmin="+isAdmin);
 		
 		/*
 		MemberBean user = new MemberBean();
