@@ -11,7 +11,7 @@ import action.Action;
 import action.admin.AdminDeleteAction;
 import action.admin.AdminHashPwChangeAction;
 import action.admin.AdminHashPwFindAction;
-import action.admin.AdminIdCheckAction;
+import action.admin.AdminJoinIdCheckAction;
 import action.admin.AdminIdFindAction;
 import action.admin.AdminJoinAction;
 import action.admin.AdminLoginAction;
@@ -80,20 +80,20 @@ public class AdminFrontController extends HttpServlet {
 		
 		System.out.println("[Admin]command : "+command);//어떤 요청인지 확인하기 위해 콘솔에 출력
 		
-		if(command.equals("/adminMain.adm")) {//'index.jsp'에서 사용자모드 뷰페이지(adminMain.jsp) 보기 요청이면
+		/*-- '관리자 모드 페이지 보기' 요청 -> 처리 --------------------------------------*/
+		if(command.equals("/adminMain.adm")) {//'index.jsp'에서 관리자모드 뷰페이지(adminMain.jsp) 보기 요청이면
 			forward = new ActionForward("adminMain.jsp", false);
 			//false(디스패치) 이유? 
 		}
 		
-		/*-- '로그인 폼 보기' 요청 -> 처리 --------------------------------------*/
+		/*-- 관리자 메인에서 '로그인 폼 보기' 요청 -> 처리 --------------------------------------*/
 		else if(command.equals("/adminLogin.adm")) {//'로그인 폼 보기' 요청이면
 			
-			request.setAttribute("showAdmin", "admin/loginForm.jsp");//어느 폼 보기인지 showAdmin이름 속성으로 저장
-			forward = new ActionForward("adminMain.jsp",false);//반드시 디스패치 (request를 공유)
+			forward = new ActionForward("admin/loginForm.jsp",false);//반드시 디스패치 (request를 공유)
 					
 		}
 		
-		else if(command.equals("/adminLoginAction.adm")) {//'로그인 처리' 요청이면
+		else if(command.equals("/admin/adminLoginAction.adm")) {//'로그인 처리' 요청이면
 			
 			//부모인터페이스 = 구현한 자식객체
 			action = new AdminLoginAction();//부모인터페이스인 Action으로 받음 
@@ -106,7 +106,7 @@ public class AdminFrontController extends HttpServlet {
 					
 		}
 		
-		/*-- '로그아웃 하기' 요청 -> 처리 -------------------------------------*/
+		/*-- 관리자 메인에서 '로그아웃 하기' 요청 -> 처리 -------------------------------------*/
 		else if(command.equals("/adminLogout.adm")) {//'로그아웃' 요청이면
 			
 			//부모인터페이스 = 구현한 자식객체
@@ -119,15 +119,14 @@ public class AdminFrontController extends HttpServlet {
 			}		
 		}
 					
-		/*-- '회원가입 폼 보기' 요청 -> 처리 -------------------------------------*/
-		else if(command.equals("/adminJoin.adm")) {//'회원가입 폼 보기' 요청이면
+		/*-- '관리자 등록 폼 보기' 요청 -> 처리 -------------------------------------*/
+		else if(command.equals("/admin/adminJoin.adm")) {//'관리자 등록 폼 보기' 요청이면
 			
-			request.setAttribute("showAdmin", "admin/joinForm.jsp");//어느 폼 보기인지 showAdmin이름 속성으로 저장
-			forward = new ActionForward("adminMain.jsp",false);//반드시 디스패치 (request를 공유)
+			forward = new ActionForward("/joinForm.jsp",false);//반드시 디스패치 (request를 공유)
 					
 		}
 		
-		else if(command.equals("/adminJoinAction.adm")) {//'회원가입 처리' 요청이면
+		else if(command.equals("/adminJoinAction.adm")) {//'관리자 등록 처리' 요청이면
 			
 			//부모인터페이스 = 구현한 자식객체
 			action = new AdminJoinAction();//부모인터페이스인 Action으로 받음 
@@ -140,10 +139,10 @@ public class AdminFrontController extends HttpServlet {
 					
 		}
 		
-		else if(command.equals("/adminIdCheckAction.adm")) {//'아이디 중복체크 처리' 요청이면
+		else if(command.equals("admin/idCheck/adminJoinIdCheck.adm")) {//'아이디 중복체크 처리' 요청이면
 			
 			//부모인터페이스 = 구현한 자식객체
-			action = new AdminIdCheckAction();//부모인터페이스인 Action으로 받음 
+			action = new AdminJoinIdCheckAction();//부모인터페이스인 Action으로 받음 
 			
 			try {
 				forward = action.execute(request, response);
@@ -192,13 +191,12 @@ public class AdminFrontController extends HttpServlet {
 			}
 					
 		}
-		else if(command.equals("/adminIdFindForm.adm")) {//'아이디 찾기 폼 보기' 요청
+		else if(command.equals("/admin/adminIdFindForm.adm")) {//'아이디 찾기 폼 보기' 요청
 			
-			request.setAttribute("showAdmin", "admin/adminIdFindForm.jsp");//어느 폼 보기인지 showAdmin이름 속성으로 저장
-			forward = new ActionForward("adminMain.jsp",false);//반드시 디스패치 (request를 공유)
+			forward = new ActionForward("adminIdFindForm.jsp",false);//반드시 디스패치 (request를 공유)
 					
 		}
-		else if(command.equals("/adminIdFindAction.adm")) {//'아이디 찾기 처리' 요청
+		else if(command.equals("/admin/adminIdFindAction.adm")) {//'아이디 찾기 처리' 요청
 			
 			//부모인터페이스 = 구현한 자식객체
 			action = new AdminIdFindAction();//부모인터페이스인 Action으로 받음 
@@ -214,9 +212,8 @@ public class AdminFrontController extends HttpServlet {
 		// 8/24 과제
 		/*------- '암호화된 비밀번호찾기 폼 보기' → 처리(임시비밀번호 받아서 메일로 보내기) -------------------------------*/
 		
-		else if(command.equals("/adminHashPwFindForm.adm")) {//'비밀번호찾기 폼 보기' 요청이면
-			request.setAttribute("showAdmin", "admin/hash/adminHashPwFindForm.jsp");
-			forward = new ActionForward("adminMain.jsp",false); //반드시 디스패치 방식으로 포워딩
+		else if(command.equals("/admin/adminHashPwFindForm.adm")) {//'비밀번호찾기 폼 보기' 요청이면
+			forward = new ActionForward("hash/adminHashPwFindForm.jsp",false); //반드시 디스패치 방식으로 포워딩
 		}
 		else if(command.equals("/adminHashPwFindAction.adm")) {//'비밀번호 찾기 처리'요청하면
 			//action:부모인터페이스 = AdminLoginAction:구현한자식객체;
@@ -229,7 +226,7 @@ public class AdminFrontController extends HttpServlet {
 			}
 		}
 		
-		/*------- '암호화된 비밀번호 변경 폼 보기' → 처리 -------------------------------*/
+		/*------- 관리자 마이페이지에서 '암호화된 비밀번호 변경 폼 보기' → 처리 -------------------------------*/
 		else if(command.equals("/adminHashPwChangeForm.adm")) {//'비밀번호 변경 폼 보기' 요청이면
 			request.setAttribute("showAdmin", "admin/hash/adminHashPwChangeForm.jsp");
 			forward = new ActionForward("adminMain.jsp",false); //반드시 디스패치 방식으로 포워딩

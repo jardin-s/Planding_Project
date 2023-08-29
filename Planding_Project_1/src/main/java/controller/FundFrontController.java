@@ -8,18 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import action.Action;
-import action.fund.FundRegisterDonateProjectAction;
-import action.fund.FundRegisterFundingProjectAction;
-import action.user.UserDeleteAction;
-import action.user.UserHashPwChangeAction;
-import action.user.UserIdCheckAction;
-import action.user.UserIdFindAction;
-import action.user.UserJoinAction;
-import action.user.UserLoginAction;
-import action.user.UserLogoutAction;
-import action.user.UserHashPwFindAction;
-import action.user.UserUpdateAction;
-import action.user.UserViewAction;
+import action.fund.RegisterNewDonateAction;
+import action.fund.RegisterNewFundAction;
 import vo.ActionForward;
 
 /**
@@ -82,23 +72,23 @@ public class FundFrontController extends HttpServlet {
 		
 		System.out.println("[Fund]command : "+command);//어떤 요청인지 확인하기 위해 콘솔에 출력
 		
+		/*-- '프로젝트 등록 페이지 이동' 요청 ------------------------------------------*/
 		if(command.equals("/registerNewProject.fnd")) {//'userMain.jsp'에서 프로젝트 등록하기 요청이면
-			forward = new ActionForward("fund/fundRegisterProjectInit.jsp", false);
+			forward = new ActionForward("fund/registerNewProject.jsp", false);
 			//false(디스패치) 이유? 
 		}
 		
 		/*-- '기부 프로젝트 폼 보기' 요청 -> 처리 --------------------------------------*/
-		else if(command.equals("/fund/fundRegisterDonateProject.fnd")) {//'기부 프로젝트 등록 폼 보기' 요청이면
+		else if(command.equals("/fund/registerNewDonateForm.fnd")) {//'기부 프로젝트 등록 폼 보기' 요청이면
 			
-			request.setAttribute("showPage", "fund/fundRegisterDonateProjectForm.jsp");//어느 폼 보기인지 showPage이름 속성으로 저장
-			forward = new ActionForward("userTemplate.jsp",false);//반드시 디스패치 (request를 공유)
+			forward = new ActionForward("fund/registerNewDonateForm.jsp",false);//반드시 디스패치 (request를 공유)
 					
 		}
 		
-		else if(command.equals("/fund/fundRegisterDonateProjectAction.fnd")) {//'로그인 처리' 요청이면
+		else if(command.equals("/fund/registerNewDonateAction.fnd")) {//'로그인 처리' 요청이면
 			
 			//부모인터페이스 = 구현한 자식객체
-			action = new FundRegisterDonateProjectAction();//부모인터페이스인 Action으로 받음 
+			action = new RegisterNewDonateAction();//부모인터페이스인 Action으로 받음 
 		
 			try {
 				forward = action.execute(request, response); //DogListAction의 execute()를 실행
@@ -109,17 +99,16 @@ public class FundFrontController extends HttpServlet {
 		}
 		
 		/*-- '펀딩 프로젝트 폼 보기' 요청 -> 처리 --------------------------------------*/
-		else if(command.equals("/fund/fundRegisterFundingProject.fnd")) {//'펀딩 프로젝트 등록 폼 보기' 요청이면
+		else if(command.equals("/fund/registerNewFundForm.fnd")) {//'펀딩 프로젝트 등록 폼 보기' 요청이면
 			
-			request.setAttribute("showPage", "fund/fundRegisterDonateProjectForm.jsp");//어느 폼 보기인지 showPage이름 속성으로 저장
-			forward = new ActionForward("userTemplate.jsp",false);//반드시 디스패치 (request를 공유)
+			forward = new ActionForward("fund/registerNewFundForm.jsp",false);//반드시 디스패치 (request를 공유)
 					
 		}
 		
-		else if(command.equals("/fund/fundRegisterFundingProjectAction.fnd")) {//'로그인 처리' 요청이면
+		else if(command.equals("/fund/registerNewFundAction.fnd")) {//'로그인 처리' 요청이면
 			
 			//부모인터페이스 = 구현한 자식객체
-			action = new FundRegisterFundingProjectAction();//부모인터페이스인 Action으로 받음 
+			action = new RegisterNewFundAction();//부모인터페이스인 Action으로 받음 
 			
 			try {
 				forward = action.execute(request, response); //DogListAction의 execute()를 실행
@@ -129,35 +118,6 @@ public class FundFrontController extends HttpServlet {
 					
 		}
 		
-		
-		else if(command.equals("/userLoginAction.usr")) {//'로그인 처리' 요청이면
-			
-			//부모인터페이스 = 구현한 자식객체
-			action = new UserLoginAction();//부모인터페이스인 Action으로 받음 
-			
-			try {
-				forward = action.execute(request, response); //DogListAction의 execute()를 실행
-			} catch(Exception e) {
-				e.printStackTrace();
-			}
-					
-		}
-				
-		/*------- '암호화된 비밀번호 변경 폼 보기' → 처리 -------------------------------*/
-		else if(command.equals("/userHashPwChangeForm.usr")) {//'비밀번호 변경 폼 보기' 요청이면
-			request.setAttribute("showPage", "user/hash/userHashPwChangeForm.jsp");
-			forward = new ActionForward("userTemplate.jsp",false); //반드시 디스패치 방식으로 포워딩
-		}
-		else if(command.equals("/userHashPwChangeAction.usr")) {//'비밀번호 변경 처리'요청하면
-			//action:부모인터페이스 = UserHashPwChangeAction:구현한자식객체;
-			action = new UserHashPwChangeAction();
-			try {
-				forward = action.execute(request, response);
-			} catch (Exception e) {
-				// TODO 자동 생성된 catch 블록
-				e.printStackTrace();
-			}
-		}
 		
 		/***********************************************************
 		 * 3. 포워딩

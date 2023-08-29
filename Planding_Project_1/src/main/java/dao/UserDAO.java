@@ -276,16 +276,18 @@ public class UserDAO {
 	public int insertAddr(AddressBean addr) {
 		int insertAddrCount = 0;
 		
-		String sql = "insert into address_tbl(member_id, receiver_name, postcode, address1, address2, phone) values(?,?,?,?,?,?)";
+		String sql = "insert into address_tbl(member_id, receiver_name, phone, postcode, address1, address2) values(?,?,?,?,?,?)";
 		
 		try {
 			
 			pstmt = con.prepareStatement(sql);
 			
-			pstmt.setString(1, addr.getId());
-			pstmt.setInt(2, addr.getPostcode());
-			pstmt.setString(3, addr.getAddress1());
-			pstmt.setString(4, addr.getAddress2());
+			pstmt.setString(1, addr.getMember_id());
+			pstmt.setString(2, addr.getReceiver_name());
+			pstmt.setString(3, addr.getPhone());
+			pstmt.setInt(4, addr.getPostcode());
+			pstmt.setString(5, addr.getAddress1());
+			pstmt.setString(6, addr.getAddress2());
 			
 			insertAddrCount = pstmt.executeUpdate();
 			
@@ -303,7 +305,7 @@ public class UserDAO {
 	public AddressBean selectAddrInfo(String u_id) {
 		AddressBean addrInfo = null;
 		
-		String sql = "select * from address_tbl where id=?";
+		String sql = "select * from address_tbl where member_id=?";
 		
 		try {
 			
@@ -315,7 +317,9 @@ public class UserDAO {
 			if(rs.next()) {
 				addrInfo = new AddressBean();
 				
-				addrInfo.setId(rs.getString("id"));
+				addrInfo.setMember_id(rs.getString("member_id"));
+				addrInfo.setReceiver_name(rs.getString("receiver_name"));
+				addrInfo.setPhone(rs.getString("phone"));
 				addrInfo.setPostcode(rs.getInt("postcode"));
 				addrInfo.setAddress1(rs.getString("address1"));
 				addrInfo.setAddress2(rs.getString("address2"));
@@ -337,8 +341,8 @@ public class UserDAO {
 		int updateUserCount = 0;
 		
 		String sql = "update member_tbl"
-				   + " set password=?, name=?, email=?, phone=?"
-				   + " where id=?";
+				   + " set password=?, name=?, email=?"
+				   + " where member_id=?";
 		
 		try {
 			
@@ -348,9 +352,8 @@ public class UserDAO {
 			//암호화가 안 된 상태라면 pstmt.setString(3, SHA256.encodeSHA256(user.getPassword()));
 			pstmt.setString(2, user.getName());
 			pstmt.setString(3, user.getEmail());
-			pstmt.setString(4, user.getPhone());
 			
-			pstmt.setString(5, user.getId());
+			pstmt.setString(4, user.getMember_id());
 			
 			updateUserCount = pstmt.executeUpdate();
 			
@@ -370,17 +373,20 @@ public class UserDAO {
 		int updateAddrCount = 0;
 		
 		String sql = "update address_tbl"
-					+ " set postcode=?, address1=?, address2=?"
-			   		+ " where id=?";
+					+ " set receiver_name=?, phone=?, postcode=?, address1=?, address2=?"
+			   		+ " where member_id=?";
 		
 		try {
 			
 			pstmt = con.prepareStatement(sql);
 			
-			pstmt.setInt(1, addr.getPostcode());
-			pstmt.setString(2, addr.getAddress1());
-			pstmt.setString(3, addr.getAddress2());
-			pstmt.setString(4, addr.getId());
+			pstmt.setString(1, addr.getReceiver_name());
+			pstmt.setString(2, addr.getPhone());
+			pstmt.setInt(3, addr.getPostcode());
+			pstmt.setString(4, addr.getAddress1());
+			pstmt.setString(5, addr.getAddress2());
+			
+			pstmt.setString(6, addr.getMember_id());
 			
 			updateAddrCount = pstmt.executeUpdate();
 			
@@ -399,7 +405,7 @@ public class UserDAO {
 	public int deleteUser(String id) {
 		int deleteeAddrCount = 0;
 		
-		String sql = "delete from member_tbl where id=?";
+		String sql = "delete from member_tbl where member_id=?";
 		
 		try {
 			
@@ -423,7 +429,7 @@ public class UserDAO {
 	public int deleteAddr(String id) {
 		int deleteeAddrCount = 0;
 		
-		String sql = "delete from address_tbl where id=?";
+		String sql = "delete from address_tbl where member_id=?";
 		
 		try {
 			
@@ -459,11 +465,9 @@ public class UserDAO {
 			if(rs.next()) {
 				userInfo = new MemberBean();
 				
-				userInfo.setId(rs.getString("id"));
-				userInfo.setGrade(rs.getString("grade"));
+				userInfo.setMember_id(rs.getString("member_id"));
 				userInfo.setName(rs.getString("name"));
 				userInfo.setEmail(rs.getString("email"));
-				userInfo.setPhone(rs.getString("phone"));
 			}
 			
 		} catch(Exception e) {
@@ -477,41 +481,16 @@ public class UserDAO {
 		return userInfo;
 	}
 
-	//아이디 중복 체크 (해당 아이디가 member_tbl에 존재하는지 확인)
-	public int checkId(String id) {
-		
-		int idCheckCount = 0;
-		
-		String sql = "select id from member_tbl where id=?";
-		
-		try {
-			
-			pstmt = con.prepareStatement(sql);
-			pstmt.setString(1, id);
-			
-			rs = pstmt.executeQuery();
-			
-		} catch(Exception e) {
-			System.out.println("[UserDAO] checkId() 에러 : "+e);//예외객체종류 + 예외메시지
-		} finally {
-			close(pstmt); //JdbcUtil.생략가능
-			close(rs); //JdbcUtil.생략가능
-			//connection 객체에 대한 해제는 DogListService에서 이루어짐
-		}
-		
-		return idCheckCount;
-		
-	}
-	
 	//암호화된 비밀번호 찾기 : 임시비밀번호를 화면에 출력하거나 이메일로 전송
+	//해당 아이디와 이메일이 존재하는지 먼저 확인
 	public MemberBean findHashPw(String u_id, String u_email) {
 		MemberBean userInfo = null;
 		
 		//방법-1
-		String sql = "select name from member_tbl where id=? and email=?";
+		String sql = "select name from member_tbl where member_id=? and email=?";
 		
 		//방법-2
-		//String sql = "select * from member_tbl where id=? and email=?";
+		//String sql = "select * from member_tbl where member_id=? and email=?";
 		
 		try {
 			
@@ -525,7 +504,7 @@ public class UserDAO {
 				userInfo = new MemberBean();
 				
 				//방법-1
-				userInfo.setId(u_id);
+				userInfo.setMember_id(u_id);
 				userInfo.setEmail(u_email);
 				userInfo.setName(rs.getString("name"));	
 				
@@ -550,7 +529,7 @@ public class UserDAO {
 	public int setHashPw(String id, String email, String random_password) {
 		int setHashPwCount = 0;
 		
-		String sql = "update member_tbl set password=? where id=? and email=?";
+		String sql = "update member_tbl set password=? where member_id=? and email=?";
 		
 		try {
 			
@@ -572,10 +551,11 @@ public class UserDAO {
 		return setHashPwCount;
 	}
 
+	//임시비밀번호 발급 후 새 비밀번호로 변경
 	public int changeHashPw(MemberPwChangeBean memberPwChangeBean) {
 		int changeHashPwCount = 0;
 		
-		String sql = "update member_tbl set password=? where id=? and password=?";
+		String sql = "update member_tbl set password=? where member_id=? and password=?";
 		
 		try {
 			

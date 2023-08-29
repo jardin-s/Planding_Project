@@ -35,10 +35,10 @@ public class UserViewAction implements Action {
 			UserViewService userViewService = new UserViewService();
 			
 			MemberBean userInfo = userViewService.getUserInfo(viewId);
-			AddressBean userAddrInfo = userViewService.getUserAddrInfo(viewId);
+			//AddressBean userAddrInfo = userViewService.getUserAddrInfo(viewId);
 						
 			request.setAttribute("user", userInfo);
-			request.setAttribute("addr", userAddrInfo);
+			//request.setAttribute("addr", userAddrInfo);
 			
 			request.setAttribute("showPage", "user/userView.jsp");//어느 폼 보기인지 showPage이름 속성으로 저장
 			

@@ -57,11 +57,11 @@ public class AdminHashPwChangeAction implements Action {
 			PrintWriter out = response.getWriter();
 			out.println("<script>");
 			out.println("alert('비밀번호 변경에 성공했습니다.');");
-			out.println("location.href='adminMain.adm';");
+			out.println("location.href='adminMain.usr';");
 			out.println("</script>");
 			
 			//방법-2
-			//forward = new ActionForward("adminMain.adm", true);
+			//forward = new ActionForward("adminMain.usr", true);
 		}
 		
 		return forward;

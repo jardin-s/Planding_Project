@@ -6,7 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 import action.Action;
 import vo.ActionForward;
 
-public class FundRegisterFundingProjectAction implements Action {
+public class RegisterNewFundAction implements Action {
 
 	@Override
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response) throws Exception {

@@ -28,17 +28,17 @@ public class AdminViewAction implements Action {
 			PrintWriter out = response.getWriter();
 			out.println("<script>");
 			out.println("alert('로그인이 필요한 서비스입니다.');");
-			out.println("location.href='adminLogin.adm'"); //로그인 폼 보기 요청
+			out.println("location.href='adminLogin.usr'"); //로그인 폼 보기 요청
 			out.println("</script>");
 			
 		}else {//로그인 상태
 			AdminViewService adminViewService = new AdminViewService();
 			
 			MemberBean adminInfo = adminViewService.getAdminInfo(viewId);
-			AddressBean adminAddrInfo = adminViewService.getAdminAddrInfo(viewId);
+			//AddressBean adminAddrInfo = adminViewService.getAdminAddrInfo(viewId);
 						
 			request.setAttribute("admin", adminInfo);
-			request.setAttribute("addr", adminAddrInfo);
+			//request.setAttribute("addr", adminAddrInfo);
 			
 			request.setAttribute("showPage", "admin/adminView.jsp");//어느 폼 보기인지 showPage이름 속성으로 저장
 			

@@ -2,7 +2,6 @@ package action.admin;
 
 import java.io.PrintWriter;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -20,12 +19,13 @@ public class AdminJoinAction implements Action {
 		
 		ActionForward forward = null;
 		
-		String a_id = request.getParameter("id");
-		String a_grade = request.getParameter("grade");//admin
+		String a_id = request.getParameter("member_id");
+		String a_grade = request.getParameter("grade");
 		String a_password = request.getParameter("password");		
 		String a_name = request.getParameter("name");
 		String a_email = request.getParameter("email");
-		String a_phone = request.getParameter("phone");
+		int a_account = Integer.parseInt(request.getParameter("account"));
+		boolean isAdmin = Boolean.parseBoolean(request.getParameter("isAdmin"));
 		
 		/*
 		MemberBean admin = new MemberBean();
@@ -39,41 +39,20 @@ public class AdminJoinAction implements Action {
 		*/
 		
 		//비밀번호 암호화 방법-2 (매개변수가 있는 생성자)
-		MemberBean admin = new MemberBean(a_id, a_grade, a_password, a_name, a_email, a_phone);
-		
-		int postcode = Integer.parseInt(request.getParameter("postcode"));
-		String address1 = request.getParameter("address1");
-		String address2 = request.getParameter("address2");
-		
-		AddressBean addr = new AddressBean(a_id, postcode, address1, address2);
+		MemberBean admin = new MemberBean(a_id, a_password, a_name, a_email, a_account, isAdmin);
 		
 		AdminJoinService adminJoinService = new AdminJoinService();
-		boolean isAdminJoinSuccess = adminJoinService.adminJoin(admin, addr);
+		boolean isAdminJoinSuccess = adminJoinService.adminJoin(admin);
 		
-		if(!isAdminJoinSuccess) { //관리자 등록 실패
+		if(!isAdminJoinSuccess) { //회원가입 실패
 			response.setContentType("text/html; charset=UTF-8");
 			
 			PrintWriter out = response.getWriter();
 			out.println("<script>");
-			out.println("alert('관리자 등록에 실패했습니다.');");
+			out.println("alert('회원가입에 실패했습니다.');");
 			out.println("history.back();");
 			out.println("</script>");
 		}else { //회원가입 성공
-			/*
-			 * 1개의 PC를 1사람의 관리자 id로 사용하므로
-			 * 관리자 등록 후 그전 사용자 흔적이 있는 id쿠키객체와 checkbox 쿠키객체를 삭제할 필요가 없다.
-			 * 다시 회원가입한 사용자가 새롭게 입력할 수 있도록 하기
-			 */
-			/*
-			Cookie cookieA_id = new Cookie("a_id", "");
-			cookieA_id.setMaxAge(0);
-			
-			Cookie cookieCheckbox = new Cookie("checkbox","");
-			cookieCheckbox.setMaxAge(0);
-			
-			response.addCookie(cookieA_id);
-			response.addCookie(cookieCheckbox);
-			*/
 			
 			//방법-1 : 알림창을 띄움
 			/*
@@ -82,12 +61,12 @@ public class AdminJoinAction implements Action {
 			PrintWriter out = response.getWriter();
 			out.println("<script>");
 			out.println("alert('회원가입에 성공했습니다.');");
-			out.println("location.href='adminLogin.adm'");
+			out.println("location.href='adminLogin.usr'");
 			out.println("</script>");
 			*/
 			
 			//방법-2 : 알림창을 띄우지 않음
-			forward = new ActionForward("adminLogin.adm", true);
+			forward = new ActionForward("adminLogin.usr", true);
 		}
 		
 		return forward;

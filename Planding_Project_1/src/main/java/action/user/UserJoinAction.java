@@ -41,14 +41,8 @@ public class UserJoinAction implements Action {
 		//비밀번호 암호화 방법-2 (매개변수가 있는 생성자)
 		MemberBean user = new MemberBean(u_id, u_password, u_name, u_email, u_account, isAdmin);
 		
-		int postcode = Integer.parseInt(request.getParameter("postcode"));
-		String address1 = request.getParameter("address1");
-		String address2 = request.getParameter("address2");
-		
-		AddressBean addr = new AddressBean(u_id, postcode, address1, address2);
-		
 		UserJoinService userJoinService = new UserJoinService();
-		boolean isUserJoinSuccess = userJoinService.userJoin(user, addr);
+		boolean isUserJoinSuccess = userJoinService.userJoin(user);
 		
 		if(!isUserJoinSuccess) { //회원가입 실패
 			response.setContentType("text/html; charset=UTF-8");

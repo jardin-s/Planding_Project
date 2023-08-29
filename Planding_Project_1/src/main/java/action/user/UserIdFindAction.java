@@ -34,7 +34,7 @@ public class UserIdFindAction implements Action {
 			out.println("</script>");
 		
 		}else { //해당 email을 가지는 회원이 있다면
-			String u_id = userInfo.getId();
+			String u_id = userInfo.getMember_id();
 			request.setAttribute("u_id", u_id);
 			
 			System.out.println("받아온 id 값 : "+u_id);
