@@ -19,12 +19,20 @@ public class UserJoinAction implements Action {
 		
 		ActionForward forward = null;
 		
-		String u_id = request.getParameter("id");
-		String u_grade = request.getParameter("grade");
+		String u_id = request.getParameter("member_id");
 		String u_password = request.getParameter("password");		
 		String u_name = request.getParameter("name");
 		String u_email = request.getParameter("email");
-		String u_phone = request.getParameter("phone");
+		int u_account = Integer.parseInt(request.getParameter("account"));
+		boolean isAdmin = Boolean.parseBoolean(request.getParameter("isAdmin"));
+		
+		System.out.println("[UserJoinAction] 회원가입 폼에서 전송받은 값");
+		System.out.println("member_id="+u_id);
+		System.out.println("password="+u_password);
+		System.out.println("name="+u_name);
+		System.out.println("email="+u_email);
+		System.out.println("account="+u_account);
+		System.out.println("isAdmin="+isAdmin);
 		
 		/*
 		MemberBean user = new MemberBean();
@@ -38,16 +46,10 @@ public class UserJoinAction implements Action {
 		*/
 		
 		//비밀번호 암호화 방법-2 (매개변수가 있는 생성자)
-		MemberBean user = new MemberBean(u_id, u_grade, u_password, u_name, u_email, u_phone);
-		
-		int postcode = Integer.parseInt(request.getParameter("postcode"));
-		String address1 = request.getParameter("address1");
-		String address2 = request.getParameter("address2");
-		
-		AddressBean addr = new AddressBean(u_id, postcode, address1, address2);
+		MemberBean user = new MemberBean(u_id, u_password, u_name, u_email, u_account, isAdmin);
 		
 		UserJoinService userJoinService = new UserJoinService();
-		boolean isUserJoinSuccess = userJoinService.userJoin(user, addr);
+		boolean isUserJoinSuccess = userJoinService.userJoin(user);
 		
 		if(!isUserJoinSuccess) { //회원가입 실패
 			response.setContentType("text/html; charset=UTF-8");
