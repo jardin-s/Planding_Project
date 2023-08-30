@@ -12,7 +12,7 @@
     <meta content="" name="description">
 
     <!-- Favicon -->
-    <link href="img/favicon.ico" rel="icon">
+    <link href="resources/img/favicon.ico" rel="icon">
 
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -24,15 +24,15 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
 
     <!-- Libraries Stylesheet -->
-    <link href="lib/animate/animate.min.css" rel="stylesheet">
-    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
-    <link href="lib/lightbox/css/lightbox.min.css" rel="stylesheet">
+    <link href="resources/lib/animate/animate.min.css" rel="stylesheet">
+    <link href="resources/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="resources/lib/lightbox/css/lightbox.min.css" rel="stylesheet">
 
     <!-- Customized Bootstrap Stylesheet -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="resources/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Template Stylesheet -->
-    <link href="css/style.css" rel="stylesheet">
+    <link href="resources/css/style.css" rel="stylesheet">
 </head>
 
 <script>
@@ -53,7 +53,7 @@ function userLogout(){
 
     <!-- Topbar Start -->
     <div class="container-fluid bg-dark text-light px-0 py-2">
-        <div class="row gx-0 d-none d-lg-flex">
+        <div class="row gx-0 d-lg-flex">
             <div class="col-lg-7 px-5 text-start">
                 <div class="h-100 d-inline-flex align-items-center">
                     <c:if test="${sessionScope.u_id ne null }">
@@ -117,16 +117,16 @@ function userLogout(){
     <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="lib/wow/wow.min.js"></script>
-    <script src="lib/easing/easing.min.js"></script>
-    <script src="lib/waypoints/waypoints.min.js"></script>
-    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
-    <script src="lib/counterup/counterup.min.js"></script>
-    <script src="lib/parallax/parallax.min.js"></script>
-    <script src="lib/isotope/isotope.pkgd.min.js"></script>
-    <script src="lib/lightbox/js/lightbox.min.js"></script>
+    <script src="resources/lib/wow/wow.min.js"></script>
+    <script src="resources/lib/easing/easing.min.js"></script>
+    <script src="resources/lib/waypoints/waypoints.min.js"></script>
+    <script src="resources/lib/owlcarousel/owl.carousel.min.js"></script>
+    <script src="resources/lib/counterup/counterup.min.js"></script>
+    <script src="resources/lib/parallax/parallax.min.js"></script>
+    <script src="resources/lib/isotope/isotope.pkgd.min.js"></script>
+    <script src="resources/lib/lightbox/js/lightbox.min.js"></script>
 
     <!-- Template Javascript -->
-    <script src="js/main.js"></script>
+    <script src="resources/js/main.js"></script>
 </body>
 </html>

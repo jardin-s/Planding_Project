@@ -21,10 +21,11 @@ public class UserUpdateAction implements Action {
 		String u_password = request.getParameter("password");
 		String u_name = request.getParameter("name");
 		String u_email = request.getParameter("email");
+		String u_phone = request.getParameter("phone");
 		int u_account = Integer.parseInt(request.getParameter("account"));
 		Boolean isAdmin = Boolean.parseBoolean(request.getParameter("isAdmin"));
 				
-		MemberBean userInfo = new MemberBean(u_id, u_password, u_name, u_email, u_account, isAdmin);
+		MemberBean userInfo = new MemberBean(u_id, u_password, u_name, u_email, u_phone, u_account, isAdmin);
 		
 		UserUpdateService userUpdateService = new UserUpdateService();
 		

@@ -31,34 +31,12 @@
 
     <!-- Template Stylesheet -->
     <link href="../resources/css/style.css" rel="stylesheet">
+    
+    <!-- Custom Stylesheet -->
+    <link href="../resources/css/customStyle.css" rel="stylesheet">
 </head>
 
 <script type="text/javascript">
-function findAddr(){
-	//카카오 지도 발생 -> 주소 입력 후 [검색] -> 찾는 주소 [선택] -> 우편번호와 주소 세팅
-	//postcode 객체 생성하여 바로 open
-	new daum.Postcode({
-		oncomplete : function(data) {//[선택] 시 입력값 세팅 (검색결과 중 선택한 주소)
-			console.log(data);
-			//alert(data);//테스트를 위해 값이 뜨도록 함
-			
-			document.getElementById("postcode").value = data.zonecode; //우편번호를 가져와 postcode에 넣음
-			
-			let roadAddr = data.roadAddress;//도로명 주소
-			let jibunAddr = data.jibunAddress;//지번 주소
-			
-			if(roadAddr != ''){//도로명 주소가 있으면 도로명 주소를 등록 ('': 자바스크립트 널)
-				document.getElementById("address1").value = roadAddr;	
-			}else if(jibunAddr != ''){//도로명 주소가 없고 지번 주소만 있으면 지번주소를 등록
-				document.getElementById("address1").value = jibunAddr;
-			}
-			
-			document.getElementById("address2").focus();//상세주소 입력창에 커서를 깜빡거리게 함
-			
-		}
-	}).open();
-}
-
 function checkJoinForm(){
 	
 
@@ -117,6 +95,21 @@ function checkJoinForm(){
 		document.f.email.select();
 		return false;
 	}
+	
+	//휴대번호 정규화 공식
+	const regPhone = /^\d{3}\d{3,4}\d{4}$/; //-제외
+	if(!document.f.phone.value.trim()){
+		alert("휴대전화번호를 입력해주세요.");
+		document.f.phone.focus();
+		return false;
+	}else if(!regPhone.test(document.f.phone.value.trim())){
+		alert("휴대전화번호를 (-)없이 숫자만 입력해주세요.");
+		document.f.phone.select();
+		return false;
+	}
+	
+	
+	document.f.submit();
 		
 	document.f.submit();
 	/*
@@ -128,80 +121,72 @@ function checkJoinForm(){
 
 function idCheckOpen(){
 	if(document.f.member_id.value == ''){
-		window.open('idCheck/idCheck.jsp','아이디중복확인','top=10, left=10, width=500, height=300');
+		window.open('user/idCheck/idCheck.jsp','아이디중복확인','top=10, left=10, width=500, height=300');
 	}else{
-		window.open('idCheck/idCheck.jsp?member_id='+document.f.member_id.value,'아이디중복확인','top=10, left=10, width=500, height=300');
+		window.open('user/idCheck/idCheck.jsp?member_id='+document.f.member_id.value,'아이디중복확인','top=10, left=10, width=500, height=300');
 	}
 }
 </script>
 
 <body>
-	<div>
-		<jsp:include page="../userHeader.jsp" />
-	</div>
 	
 	<!-- Main Section -->
 	<!-- Page Header Start -->
-    <div class="container-fluid page-header py-5 mb-5 wow fadeIn" data-wow-delay="0.1s">
+    <div class="container-fluid page-header pt-4 pb-5 mb-5 wow fadeIn" data-wow-delay="0.1s">
         <div class="container text-center py-5">
-            <h1 class="display-3 text-white mb-4 animated slideInDown">회원가입</h1>
-            <nav aria-label="breadcrumb animated slideInDown">
-                <ol class="breadcrumb justify-content-center mb-0">
-                    <li class="breadcrumb-item"><a href="userLogin.usr">로그인</a></li>
-                    <li class="breadcrumb-item"><a href="userIdFindForm.usr">아이디 찾기</a></li>
-                    <li class="breadcrumb-item"><a href="userHashPwFindForm.usr">비밀번호 찾기</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">회원가입</li>                    
-                </ol>
-            </nav>
+            <h3 class="display-6 text-white mb-4 animated slideInDown">회원가입</h3>
         </div>
     </div>
     <!-- Page Header End -->
 
 
     <!-- Form Start -->
-    <div class="container-fluid py-5">
+    <div class="container-fluid pt-4 pb-5">
         <div class="container">
-            <div class="text-center mx-auto wow fadeInUp" data-wow-delay="0.1s" style="max-width: 500px;">
-                <p class="fs-5 fw-bold text-primary">회원가입하기</p>
-            </div>
             <form action="userJoinAction.usr" method="post" name="f">
 	            <div class="row justify-content-center">
-	                <div class="col-lg-7">
-	                    <div class="bg-light rounded p-4 p-sm-5 wow fadeInUp" data-wow-delay="0.1s">                        
+	                <div class="col-md-9 col-lg-7">
+	                    <div class="bg-light rounded p-4 px-sm-5 py-sm-3 animated fadeIn" data-wow-delay="0.1s">                        
 	                        <div class="row g-5 pt-5">
-	                            <div class="mb-3 row">
-								    <label for="member_id" class="col-sm-3 col-form-label">아이디</label>
-								    <div class="col-sm-6">
+	                            <div class="mb-3 row g-3 justify-content-center">
+								    <label for="member_id" class="col-3 col-form-label text-center">아이디</label>
+								    <div class="col-6">
 								      <input type="text" class="form-control" name="member_id" id="member_id" max-length="20" placeholder="8~20자 영문숫자 조합">
 								    </div>
-		                            <div class="col-sm-3">
+		                            <div class="col-3 text-end">
 		                                <button class="btn btn-primary" type="button" name="idck" id="idck" onclick="idCheckOpen();">
 		                                	<span style="font-size:0.9rem">중복체크</span>
 		                                </button>	                                
 		                            </div>
 	                            </div>
-	                            <div class="mb-3 row">
-								    <label for="password" class="col-sm-3 col-form-label">비밀번호</label>
-								    <div class="col-sm-9">
+	                            <div class="mb-3 row gx-3 justify-content-center">
+								    <label for="password" class="col-3 col-form-label text-center">비밀번호</label>
+								    <div class="col-9">
 								      <input type="password" class="form-control" name="password" id="password" max-length="20" placeholder="8~20자 영문숫자특수문자 조합">
 								    </div>
 	                            </div>
-	                            <div class="mb-3 row">
-								    <label for="confirm_password" class="col-sm-3 col-form-label"><span style="font-size:0.9rem">비밀번호 확인</span></label>
-								    <div class="col-sm-9">
+	                            <div class="mb-3 row gx-3 justify-content-center">
+								    <label for="confirm_password" class="col-3 col-form-label text-center"><span style="font-size:1rem">비밀번호<br class="d-sm-none"> 확인</span></label>
+								    <div class="col-9">
 								      <input type="password" class="form-control" name="confirm_password" id="confirm_password" max-length="20" placeholder="위 비밀번호와 동일하게 입력">
 								    </div>
 	                            </div>
-	                            <div class="mb-3 row">
-								    <label for="name" class="col-sm-3 col-form-label">이름</label>
-								    <div class="col-sm-9">
+	                            <div class="mb-3 row gx-3 justify-content-center">
+								    <label for="name" class="col-3 col-form-label text-center">이름</label>
+								    <div class="col-9">
 								      <input type="text" class="form-control" name="name" id="name" placeholder="한글 또는 영문만 입력">
 								    </div>
 	                            </div>
-	                            <div class="mb-3 row">
-								    <label for="email" class="col-sm-3 col-form-label">이메일</label>
-								    <div class="col-sm-9">
+	                            <div class="mb-3 row gx-3 justify-content-center">
+								    <label for="email" class="col-3 col-form-label text-center">이메일</label>
+								    <div class="col-9">
 								      <input type="text" class="form-control" name="email" id="email" placeholder="example@example.com">
+								    </div>
+	                            </div>
+	                            <div class="mb-3 row gx-3 justify-content-center">
+								    <label for="phone" class="col-3 col-form-label text-center">전화번호</label>
+								    <div class="col-9">
+								      <input type="text" class="form-control" name="phone" id="phone" maxlength="11" placeholder="(-)없이 숫자만 입력">
 								    </div>
 	                            </div>
 	                            <!-- 사용자 가상계좌 -->
@@ -210,7 +195,7 @@ function idCheckOpen(){
 	                            <input type="hidden" class="form-control" name="isAdmin" id="isAdmin" value="false">								    
 	                                                        
 	                            <div class="col-12 text-center">
-	                                <button class="btn btn-primary py-3 px-4" type="submit" onclick="checkJoinForm(); return false;">가입하기</button>
+	                                <button class="btn btn-primary py-2 px-4" type="submit" onclick="checkJoinForm(); return false;">가입하기</button>
 	                            </div>
 	                        </div>
 	                    </div>
@@ -222,10 +207,6 @@ function idCheckOpen(){
     <!-- Form End -->
     
 	
-	<div>
-		<jsp:include page="../userFooter.jsp" />
-	</div>
-    
     <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
