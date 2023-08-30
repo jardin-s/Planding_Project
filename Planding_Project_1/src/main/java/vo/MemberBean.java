@@ -9,6 +9,7 @@ public class MemberBean {
 	private String password; //비밀번호
 	private String name; //이름
 	private String email; //이메일
+	private String phone; //전화번호
 	private int account; //처음 가입한 회원은 0부터 시작
 	private boolean isAdmin; //회원은 false, 관리자는 true
 	
@@ -21,12 +22,13 @@ public class MemberBean {
 	 */
 	public MemberBean() {}
 
-	public MemberBean(String member_id, String password, String name, String email, int account, boolean isAdmin) {
+	public MemberBean(String member_id, String password, String name, String email, String phone, int account, boolean isAdmin) {
 		super();
 		this.member_id = member_id;
 		this.password = SHA256.encodeSHA256(password);
 		this.name = name;
 		this.email = email;
+		this.phone = phone;
 		this.account = account;
 		this.isAdmin = isAdmin;
 		//this.joindate = joindate;
@@ -73,6 +75,14 @@ public class MemberBean {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+	
+	public String getPhone() {
+		return phone;
+	}
+	
+	public void setPhone(String phone) {
+		this.phone = phone;
 	}
 
 	public boolean isAdmin() {

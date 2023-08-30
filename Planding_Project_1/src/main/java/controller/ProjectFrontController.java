@@ -8,8 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import action.Action;
-import action.fund.RegisterNewDonateAction;
-import action.fund.RegisterNewFundAction;
+import action.project.RegisterNewDonateAction;
+import action.project.RegisterNewFundAction;
 import vo.ActionForward;
 
 /**
@@ -17,14 +17,14 @@ import vo.ActionForward;
  */
 
 //확장자가 usr이면 무조건 UserFrontController로 이동하여 doProcess(request, response); 실행
-@WebServlet("*.fnd")
-public class FundFrontController extends HttpServlet {
+@WebServlet("*.pj")
+public class ProjectFrontController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public FundFrontController() {
+    public ProjectFrontController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -73,19 +73,19 @@ public class FundFrontController extends HttpServlet {
 		System.out.println("[Fund]command : "+command);//어떤 요청인지 확인하기 위해 콘솔에 출력
 		
 		/*-- '프로젝트 등록 페이지 이동' 요청 ------------------------------------------*/
-		if(command.equals("/registerNewProject.fnd")) {//'userMain.jsp'에서 프로젝트 등록하기 요청이면
+		if(command.equals("/registerNewProject.pj")) {//'userMain.jsp'에서 프로젝트 등록하기 요청이면
 			forward = new ActionForward("fund/registerNewProject.jsp", false);
 			//false(디스패치) 이유? 
 		}
 		
 		/*-- '기부 프로젝트 폼 보기' 요청 -> 처리 --------------------------------------*/
-		else if(command.equals("/fund/registerNewDonateForm.fnd")) {//'기부 프로젝트 등록 폼 보기' 요청이면
+		else if(command.equals("/fund/registerNewDonateForm.pj")) {//'기부 프로젝트 등록 폼 보기' 요청이면
 			
 			forward = new ActionForward("fund/registerNewDonateForm.jsp",false);//반드시 디스패치 (request를 공유)
 					
 		}
 		
-		else if(command.equals("/fund/registerNewDonateAction.fnd")) {//'로그인 처리' 요청이면
+		else if(command.equals("/fund/registerNewDonateAction.pj")) {//'로그인 처리' 요청이면
 			
 			//부모인터페이스 = 구현한 자식객체
 			action = new RegisterNewDonateAction();//부모인터페이스인 Action으로 받음 
@@ -99,13 +99,13 @@ public class FundFrontController extends HttpServlet {
 		}
 		
 		/*-- '펀딩 프로젝트 폼 보기' 요청 -> 처리 --------------------------------------*/
-		else if(command.equals("/fund/registerNewFundForm.fnd")) {//'펀딩 프로젝트 등록 폼 보기' 요청이면
+		else if(command.equals("/fund/registerNewFundForm.pj")) {//'펀딩 프로젝트 등록 폼 보기' 요청이면
 			
 			forward = new ActionForward("fund/registerNewFundForm.jsp",false);//반드시 디스패치 (request를 공유)
 					
 		}
 		
-		else if(command.equals("/fund/registerNewFundAction.fnd")) {//'로그인 처리' 요청이면
+		else if(command.equals("/fund/registerNewFundAction.pj")) {//'로그인 처리' 요청이면
 			
 			//부모인터페이스 = 구현한 자식객체
 			action = new RegisterNewFundAction();//부모인터페이스인 Action으로 받음 

@@ -1,10 +1,10 @@
-package action.fund;
+package action.project;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import action.Action;
-import svc.fund.FundRegisterDonateProjectService;
+import svc.project.RegisterNewDonateService;
 import vo.ActionForward;
 
 public class RegisterNewDonateAction implements Action {
@@ -27,7 +27,7 @@ public class RegisterNewDonateAction implements Action {
 		//String status = "ready"; //default값
 		//int likes = 0; //default값
 		
-		FundRegisterDonateProjectService fundRegisterDonateProjectService = new FundRegisterDonateProjectService();
+		RegisterNewDonateService registerNewDonateService = new RegisterNewDonateService();
 		
 		
 		

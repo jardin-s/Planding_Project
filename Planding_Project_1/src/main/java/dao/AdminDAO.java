@@ -189,6 +189,7 @@ public class AdminDAO {
 				adminInfo.setMember_id(rs.getString("member_id"));
 				adminInfo.setName(rs.getString("name"));
 				adminInfo.setEmail(rs.getString("email"));
+				adminInfo.setPhone(rs.getString("phone"));
 				adminInfo.setAccount(rs.getInt("account"));
 				adminInfo.setAdmin(rs.getBoolean("isAdmin"));
 			}
@@ -240,7 +241,7 @@ public class AdminDAO {
 		int insertAdminCount = 0;
 		
 		//joindate timestamp default now() -> joindate 생략
-		String sql = "insert into member_tbl(member_id, password, name, email, account, isAdmin) "
+		String sql = "insert into member_tbl(member_id, password, name, email, phone, account, isAdmin) "
 					+ "values(?,?,?,?,?,?,?)";
 		
 		//joindate timestamp (디폴트값 없음) -> insert into member_tbl values(?,?,?,?,?,?,now());
@@ -257,8 +258,9 @@ public class AdminDAO {
 						
 			pstmt.setString(3, admin.getName());
 			pstmt.setString(4, admin.getEmail());
-			pstmt.setInt(5, admin.getAccount());
-			pstmt.setBoolean(6, admin.isAdmin());
+			pstmt.setString(5, admin.getPhone());
+			pstmt.setInt(6, admin.getAccount());
+			pstmt.setBoolean(7, admin.isAdmin());
 			
 			insertAdminCount = pstmt.executeUpdate();
 			
@@ -341,7 +343,7 @@ public class AdminDAO {
 		int updateAdminCount = 0;
 		
 		String sql = "update member_tbl"
-				   + " set password=?, name=?, email=?"
+				   + " set password=?, name=?, email=?, phone=?"
 				   + " where member_id=?";
 		
 		try {
@@ -352,8 +354,9 @@ public class AdminDAO {
 			//암호화가 안 된 상태라면 pstmt.setString(3, SHA256.encodeSHA256(admin.getPassword()));
 			pstmt.setString(2, admin.getName());
 			pstmt.setString(3, admin.getEmail());
+			pstmt.setString(4, admin.getPhone());
 			
-			pstmt.setString(4, admin.getMember_id());
+			pstmt.setString(5, admin.getMember_id());
 			
 			updateAdminCount = pstmt.executeUpdate();
 			

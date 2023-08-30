@@ -31,46 +31,56 @@
 
     <!-- Template Stylesheet -->
     <link href="../resources/css/style.css" rel="stylesheet">
+    
+    <!-- Custom Stylesheet -->
+    <link href="../resources/css/customStyle.css" rel="stylesheet">
+    
 </head>
 <body>
-	
+	<div>
+		<jsp:include page="../userHeader.jsp" />
+	</div>
 	
 	<!-- Main Section -->
 	<!-- Page Header Start -->
-    <div class="container-fluid page-header pt-4 pb-5 mb-5 wow fadeIn" data-wow-delay="0.1s">
-        <div class="container text-center py-5">
-            <h3 class="display-6 text-white mb-4 animated slideInDown">아이디 찾기</h3>
+    <div class="container-fluid page-header pt-5 mb-5 wow fadeIn" data-wow-delay="0.1s">
+        <div class="container text-center pt-5">
+            <h3 class="display-6 text-white animated slideInDown">${sessionScope.u_name}님의 페이지</h3>
+            <div class="row justify-content-center">
+	            <ul class="col-12 col-lg-8 nav nav-pills justify-content-center mt-4 mb-0">
+					<li class="col-6 col-md-3 nav-item"><a class="nav-link active fw-bold" aria-current="page" href="#">내 정보관리</a></li>
+					<li class="col-6 col-md-3 nav-item"><a class="nav-link text-white" href="bookmarkList.usr">관심 프로젝트</a></li>
+					<li class="col-6 col-md-3 nav-item"><a class="nav-link text-white" href="uploadProjectList.usr">등록 프로젝트</a></li>
+					<li class="col-6 col-md-3 nav-item"><a class="nav-link text-white" href="fundProjectList.usr">후원 프로젝트</a></li>
+	            </ul>
+            </div>
         </div>
     </div>
     <!-- Page Header End -->
 
 
-    <!-- Form Start -->
-    <div class="container-fluid pt-4 pb-5">
-        <div class="container">
-            <form action="userIdFindAction.usr" method="post">
-	            <div class="row justify-content-center">
-	                <div class="col-10 col-md-8 col-lg-6">
-	                    <div class="bg-light rounded p-4 animated fadeIn" data-wow-delay="0.1s">                        
-	                        <div class="row g-3">
-	                            <div class="col-12">
-	                                <div class="form-floating">
-	                                    <input type="text" name="email" class="form-control border-0" id="email" placeholder="이메일">
-	                                    <label for="email">가입 시 등록한 이메일 입력</label>
-	                                </div>
-	                            </div>
-	                            <div class="col-12 text-center mt-4">
-	                                <button class="btn btn-primary py-2 px-4" type="submit" onclick="mailCheck(); return false;">확인</button>
-	                            </div>
-	                        </div>
-	                    </div>
-	                </div>
-	            </div>
-            </form>
+    <!-- 404 Start -->
+    <div class="container-xxl py-5 animated fadeIn" data-wow-delay="0.1s">
+        <div class="container text-center">
+            <div class="row justify-content-center">
+            	<div class="col-lg-4">
+            		<img class="img-thumbnail" src="../resources/img/mypage_sample.jpg" style="width:15rem">
+            	</div>
+                <div class="col-md-8 col-lg-4 py-5 py-lg-0">
+                    <ul class="list-group list-group-flush">
+					  <li class="list-group-item"><a href="userView.usr">회원정보 수정</a></li>
+					  <li class="list-group-item"><a href="userHashPwFindForm.usr">비밀번호 변경</a></li>
+					  <li class="list-group-item"><a href="userDelete.usr">회원 탈퇴</a></li>
+					</ul>           
+                </div>
+            </div>
         </div>
     </div>
-    <!-- Form End -->
-	
+    <!-- 404 End -->
+		
+	<div>
+		<jsp:include page="../userFooter.jsp" />
+	</div>
     
     <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>

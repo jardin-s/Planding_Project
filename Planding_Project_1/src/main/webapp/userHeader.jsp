@@ -6,13 +6,13 @@
 <html>
 <head>
 	<meta charset="utf-8">
-    <title>PlanDing - Fund for Our Plannet</title>
+    <title>PlanDing - Fund for Our Planet</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
     <meta content="" name="description">
 
     <!-- Favicon -->
-    <link href="img/favicon.ico" rel="icon">
+    <link href="resources/img/favicon.ico" rel="icon">
 
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -24,16 +24,25 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
 
     <!-- Libraries Stylesheet -->
-    <link href="lib/animate/animate.min.css" rel="stylesheet">
-    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
-    <link href="lib/lightbox/css/lightbox.min.css" rel="stylesheet">
+    <link href="resources/lib/animate/animate.min.css" rel="stylesheet">
+    <link href="resources/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="resources/lib/lightbox/css/lightbox.min.css" rel="stylesheet">
 
     <!-- Customized Bootstrap Stylesheet -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="resources/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Template Stylesheet -->
-    <link href="css/style.css" rel="stylesheet">
+    <link href="resources/css/style.css" rel="stylesheet">
 </head>
+
+<script>
+function userLogout(){
+	if(confirm('로그아웃하시겠습니까?')){
+		location.href="userLogout.usr";	
+	}
+}
+</script>
+
 <body>
 	<!-- Spinner Start -->
     <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
@@ -44,11 +53,11 @@
 
     <!-- Topbar Start -->
     <div class="container-fluid bg-dark text-light px-0 py-2">
-        <div class="row gx-0 d-none d-lg-flex">
+        <div class="row gx-0 d-lg-flex">
             <div class="col-lg-7 px-5 text-start">
                 <div class="h-100 d-inline-flex align-items-center">
                     <c:if test="${sessionScope.u_id ne null }">
-                    	<span>${u_id}님 환영합니다.</span>
+                    	<span>${u_name}님 환영합니다.</span>
                     </c:if> 
                 </div>
             </div>
@@ -58,8 +67,8 @@
                     	<a class="btn btn-link text-light" href="userLogin.usr">로그인하기</a>	
                     </c:if>
                     <c:if test="${sessionScope.u_id ne null }">
-                    	<a class="btn btn-link text-light" href="userLogout.usr">로그아웃하기</a>
-                    	<a class="btn btn-link text-light" href=""><i class="fas fa-user"></i></a>
+                    	<a class="btn btn-link text-light" href="#" onclick="userLogout();">로그아웃하기</a>
+                    	<a class="btn btn-link text-light" href="userMyPage.usr"><i class="fas fa-user"></i></a>
                     	<a class="btn btn-link text-light" href=""><i class="far fa-heart"></i></a>
                     </c:if>                    
                     <a class="btn btn-link text-light" href=""><i class="fas fa-search"></i></a>
@@ -72,7 +81,7 @@
 
     <!-- Navbar Start -->
     <nav class="navbar navbar-expand-lg bg-white navbar-light sticky-top p-0">
-        <a href="index.html" class="navbar-brand d-flex align-items-center px-4 px-lg-5">
+        <a href="index.jsp" class="navbar-brand d-flex align-items-center px-4 px-lg-5">
             <h1 class="m-0">PlanDing</h1>
         </a>
         <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
@@ -108,16 +117,16 @@
     <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="lib/wow/wow.min.js"></script>
-    <script src="lib/easing/easing.min.js"></script>
-    <script src="lib/waypoints/waypoints.min.js"></script>
-    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
-    <script src="lib/counterup/counterup.min.js"></script>
-    <script src="lib/parallax/parallax.min.js"></script>
-    <script src="lib/isotope/isotope.pkgd.min.js"></script>
-    <script src="lib/lightbox/js/lightbox.min.js"></script>
+    <script src="resources/lib/wow/wow.min.js"></script>
+    <script src="resources/lib/easing/easing.min.js"></script>
+    <script src="resources/lib/waypoints/waypoints.min.js"></script>
+    <script src="resources/lib/owlcarousel/owl.carousel.min.js"></script>
+    <script src="resources/lib/counterup/counterup.min.js"></script>
+    <script src="resources/lib/parallax/parallax.min.js"></script>
+    <script src="resources/lib/isotope/isotope.pkgd.min.js"></script>
+    <script src="resources/lib/lightbox/js/lightbox.min.js"></script>
 
     <!-- Template Javascript -->
-    <script src="js/main.js"></script>
+    <script src="resources/js/main.js"></script>
 </body>
 </html>

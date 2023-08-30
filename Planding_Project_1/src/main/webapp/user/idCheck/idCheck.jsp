@@ -6,7 +6,7 @@
 <html>
 <head>
 	<meta charset="utf-8">
-    <title>PlanDing - Fund for Our Plannet</title>
+    <title>아이디 중복 확인창</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
     <meta content="" name="description">
@@ -64,7 +64,7 @@ function cancel(){
         <div class="row text-center">
             <div class="col-lg-6 py-5 border border-primary">
                 <p class="fw-bold fs-4">아이디 중복 확인</p><br>
-                <form action="userJoinIdCheck.usr" method="post" name="chk">
+                <form action="userIdCheckAction.usr" method="post" name="chk">
                 	 <div class="mb-3 row justify-content-center g-0">
 				    	<div class="col-10 text-center">
 				      		<input type="text" class="form-control-sm col-11" name="ckid" id="ckid" value="${setId}" max-length="20" placeholder="중복체크할 아이디 입력">

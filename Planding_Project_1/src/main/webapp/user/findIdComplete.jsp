@@ -4,7 +4,7 @@
 <html>
 <head>
 	<meta charset="utf-8">
-    <title>PlanDing - Fund for Our Plannet</title>
+    <title>PlanDing - Fund for Our Planet</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
     <meta content="" name="description">
@@ -33,23 +33,12 @@
     <link href="../resources/css/style.css" rel="stylesheet">
 </head>
 <body>
-	<div>
-		<jsp:include page="../userHeader.jsp" />
-	</div>
 	
 	<!-- Main Section -->
 	<!-- Page Header Start -->
-    <div class="container-fluid page-header py-5 mb-5 wow fadeIn" data-wow-delay="0.1s">
+    <div class="container-fluid page-header pt-4 pb-5 mb-5 wow fadeIn" data-wow-delay="0.1s">
         <div class="container text-center py-5">
-            <h1 class="display-3 text-white mb-4 animated slideInDown">아이디 찾기</h1>
-            <nav aria-label="breadcrumb animated slideInDown">
-                <ol class="breadcrumb justify-content-center mb-0">
-                    <li class="breadcrumb-item"><a href="userLogin.usr">로그인</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">아이디 찾기</li>
-                    <li class="breadcrumb-item"><a href="userHashPwFindForm.usr">비밀번호 찾기</a></li>
-                    <li class="breadcrumb-item"><a href="userJoin.usr">회원가입</a></li>                    
-                </ol>
-            </nav>
+            <h3 class="display-6 text-white mb-4 animated slideInDown">아이디 찾기</h3>
         </div>
     </div>
     <!-- Page Header End -->
@@ -83,12 +72,7 @@
     </div>
     <!-- Form End -->
     
-	
-	<div>
-		<jsp:include page="../userFooter.jsp" />
-	</div>
-    
-    <!-- JavaScript Libraries -->
+	<!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="../resources/lib/wow/wow.min.js"></script>

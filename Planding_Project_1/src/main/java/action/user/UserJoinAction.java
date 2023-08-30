@@ -23,6 +23,7 @@ public class UserJoinAction implements Action {
 		String u_password = request.getParameter("password");		
 		String u_name = request.getParameter("name");
 		String u_email = request.getParameter("email");
+		String u_phone = request.getParameter("phone");
 		int u_account = Integer.parseInt(request.getParameter("account"));
 		boolean isAdmin = Boolean.parseBoolean(request.getParameter("isAdmin"));
 		
@@ -31,6 +32,7 @@ public class UserJoinAction implements Action {
 		System.out.println("password="+u_password);
 		System.out.println("name="+u_name);
 		System.out.println("email="+u_email);
+		System.out.println("phone="+u_phone);
 		System.out.println("account="+u_account);
 		System.out.println("isAdmin="+isAdmin);
 		
@@ -46,7 +48,7 @@ public class UserJoinAction implements Action {
 		*/
 		
 		//비밀번호 암호화 방법-2 (매개변수가 있는 생성자)
-		MemberBean user = new MemberBean(u_id, u_password, u_name, u_email, u_account, isAdmin);
+		MemberBean user = new MemberBean(u_id, u_password, u_name, u_email, u_phone, u_account, isAdmin);
 		
 		UserJoinService userJoinService = new UserJoinService();
 		boolean isUserJoinSuccess = userJoinService.userJoin(user);

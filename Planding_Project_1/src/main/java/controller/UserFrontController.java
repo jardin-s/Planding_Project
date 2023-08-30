@@ -9,12 +9,13 @@ import javax.servlet.http.HttpServletResponse;
 
 import action.Action;
 import action.user.UserDeleteAction;
+import action.user.UserHashPwChangeAction;
+import action.user.UserIdCheckAction;
 import action.user.UserIdFindAction;
 import action.user.UserJoinAction;
-import action.user.UserJoinIdCheckAction;
 import action.user.UserLoginAction;
 import action.user.UserLogoutAction;
-import action.user.UserPwFindAction;
+import action.user.UserHashPwFindAction;
 import action.user.UserUpdateAction;
 import action.user.UserViewAction;
 import vo.ActionForward;
@@ -79,32 +80,20 @@ public class UserFrontController extends HttpServlet {
 		
 		System.out.println("[User]command : "+command);//어떤 요청인지 확인하기 위해 콘솔에 출력
 		
-		/*-- 메인에서 '메인 보기' 요청 -> 처리 --------------------------------------*/
-		/*
 		if(command.equals("/userMain.usr")) {//'index.jsp'에서 사용자모드 뷰페이지(userMain.jsp) 보기 요청이면
-			forward = new ActionForward("userMain.jsp", false);
+			request.setAttribute("showPage", "userMain.jsp");//어느 폼 보기인지 showPage이름 속성으로 저장
+			forward = new ActionForward("userTemplate.jsp",false);
 			//false(디스패치) 이유? 
 		}
-		*/
 		
-		/*-- 메인에서 '로그인 폼 보기' 요청 -> 처리 --------------------------------------*/
-		if(command.equals("/userLogin.usr")) {//'로그인 폼 보기' 요청이면
+		/*-- '로그인 폼 보기' 요청 -> 처리 --------------------------------------*/
+		else if(command.equals("/userLogin.usr")) {//'로그인 폼 보기' 요청이면
 			
-			forward = new ActionForward("user/loginForm.jsp",true);
+			request.setAttribute("showPage", "user/loginForm.jsp");//어느 폼 보기인지 showPage이름 속성으로 저장
+			forward = new ActionForward("userTemplate.jsp",false);//반드시 디스패치 (request를 공유)
 					
 		}
-		/*-- 아이디찾기, 회원가입 페이지에서 '로그인 폼 보기' 요청 -> 처리 --------------------------------------*/
-		else if(command.equals("/user/userLogin.usr")) {//'로그인 폼 보기' 요청이면
-			
-			forward = new ActionForward("loginForm.jsp",true);
-					
-		}
-		/*-- 비밀번호찾기 페이지에서 '로그인 폼 보기' 요청 -> 처리 --------------------------------------*/
-		else if(command.equals("/user/hash/userLogin.usr")) {//'로그인 폼 보기' 요청이면
-			
-			forward = new ActionForward("../loginForm.jsp",true);
-					
-		}
+		
 		else if(command.equals("/userLoginAction.usr")) {//'로그인 처리' 요청이면
 			
 			//부모인터페이스 = 구현한 자식객체
@@ -131,19 +120,15 @@ public class UserFrontController extends HttpServlet {
 			}		
 		}
 					
-		/*-- 아이디찾기, 로그인 페이지에서 '회원가입 폼 보기' 요청 -> 처리 -------------------------------------*/
-		else if(command.equals("/user/userJoin.usr")) {//'회원가입 폼 보기' 요청이면
+		/*-- '회원가입 폼 보기' 요청 -> 처리 -------------------------------------*/
+		else if(command.equals("/userJoin.usr")) {//'회원가입 폼 보기' 요청이면
 			
-			forward = new ActionForward("joinForm.jsp",true);
+			request.setAttribute("showPage", "user/joinForm.jsp");//어느 폼 보기인지 showPage이름 속성으로 저장
+			forward = new ActionForward("userTemplate.jsp",false);//반드시 디스패치 (request를 공유)
 					
 		}
-		/*-- 비밀번호찾기 페이지에서 '회원가입 폼 보기' 요청 -> 처리 -------------------------------------*/
-		else if(command.equals("/user/hash/userJoin.usr")) {//'회원가입 폼 보기' 요청이면
-			
-			forward = new ActionForward("../joinForm.jsp",true);
-					
-		}
-		else if(command.equals("/user/userJoinAction.usr")) {//'회원가입 처리' 요청이면
+		
+		else if(command.equals("/userJoinAction.usr")) {//'회원가입 처리' 요청이면
 			
 			//부모인터페이스 = 구현한 자식객체
 			action = new UserJoinAction();//부모인터페이스인 Action으로 받음 
@@ -156,11 +141,10 @@ public class UserFrontController extends HttpServlet {
 					
 		}
 		
-		/*-- '아이디 중복체크' 요청 -------------------------------------*/
-		else if(command.equals("/user/idCheck/userJoinIdCheck.usr")) {//'아이디 중복체크' 요청이면
+		else if(command.equals("/user/idCheck/userIdCheckAction.usr")) {//'아이디 중복체크 처리' 요청이면
 			
 			//부모인터페이스 = 구현한 자식객체
-			action = new UserJoinIdCheckAction();//부모인터페이스인 Action으로 받음 
+			action = new UserIdCheckAction();//부모인터페이스인 Action으로 받음 
 			
 			try {
 				forward = action.execute(request, response);
@@ -209,17 +193,10 @@ public class UserFrontController extends HttpServlet {
 			}
 					
 		}
-		
-		/*-- 로그인, 회원가입 페이지에서 '아이디찾기 폼 보기' 요청 -> 처리 -------------------------------------*/
-		else if(command.equals("/user/userIdFindForm.usr")) {//'아이디 찾기 폼 보기' 요청
+		else if(command.equals("/userIdFindForm.usr")) {//'아이디 찾기 폼 보기' 요청
 			
-			forward = new ActionForward("userIdFindForm.jsp",true);
-					
-		}
-		/*-- 비밀번호찾기 페이지에서 '아이디찾기 폼 보기' 요청 -> 처리 -------------------------------------*/
-		else if(command.equals("/user/hash/userIdFindForm.usr")) {//'아이디 찾기 폼 보기' 요청
-			
-			forward = new ActionForward("../userIdFindForm.jsp",true);
+			request.setAttribute("showPage", "user/userIdFindForm.jsp");//어느 폼 보기인지 showPage이름 속성으로 저장
+			forward = new ActionForward("userTemplate.jsp",false);//반드시 디스패치 (request를 공유)
 					
 		}
 		else if(command.equals("/userIdFindAction.usr")) {//'아이디 찾기 처리' 요청
@@ -238,12 +215,29 @@ public class UserFrontController extends HttpServlet {
 		// 8/24 과제
 		/*------- '암호화된 비밀번호찾기 폼 보기' → 처리(임시비밀번호 받아서 메일로 보내기) -------------------------------*/
 		
-		else if(command.equals("/user/userHashPwFindForm.usr")) {//'비밀번호찾기 폼 보기' 요청이면
-			forward = new ActionForward("hash/userHashPwFindForm.jsp",true);
+		else if(command.equals("/userHashPwFindForm.usr")) {//'비밀번호찾기 폼 보기' 요청이면
+			request.setAttribute("showPage", "user/hash/userHashPwFindForm.jsp");
+			forward = new ActionForward("userTemplate.jsp",false); //반드시 디스패치 방식으로 포워딩
 		}
-		else if(command.equals("/userPwFindAction.usr")) {//'비밀번호 찾기 처리'요청하면
+		else if(command.equals("/userHashPwFindAction.usr")) {//'비밀번호 찾기 처리'요청하면
 			//action:부모인터페이스 = UserLoginAction:구현한자식객체;
-			action = new UserPwFindAction();
+			action = new UserHashPwFindAction();
+			try {
+				forward = action.execute(request, response);
+			} catch (Exception e) {
+				// TODO 자동 생성된 catch 블록
+				e.printStackTrace();
+			}
+		}
+		
+		/*------- '암호화된 비밀번호 변경 폼 보기' → 처리 -------------------------------*/
+		else if(command.equals("/userHashPwChangeForm.usr")) {//'비밀번호 변경 폼 보기' 요청이면
+			request.setAttribute("showPage", "user/hash/userHashPwChangeForm.jsp");
+			forward = new ActionForward("userTemplate.jsp",false); //반드시 디스패치 방식으로 포워딩
+		}
+		else if(command.equals("/userHashPwChangeAction.usr")) {//'비밀번호 변경 처리'요청하면
+			//action:부모인터페이스 = UserHashPwChangeAction:구현한자식객체;
+			action = new UserHashPwChangeAction();
 			try {
 				forward = action.execute(request, response);
 			} catch (Exception e) {
