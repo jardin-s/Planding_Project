@@ -81,7 +81,7 @@
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <div class="navbar-nav ms-auto p-4 p-lg-0">
                 <a href="service.html" class="nav-item nav-link fs-6">기부하기</a>
-                <a href="project.html" class="nav-item nav-link fs-6">펀딩하기</a>
+                <a href="projectList.jsp" class="nav-item nav-link fs-6">펀딩하기</a>
                 <div class="nav-item dropdown">
                     <a href="#" class="nav-link fs-6 dropdown-toggle" data-bs-toggle="dropdown">모아보기</a>
                     <div class="dropdown-menu bg-light m-0">
