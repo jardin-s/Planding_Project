@@ -33,7 +33,7 @@ public class UserLogoutAction implements Action {
 		
 		System.out.println("[UserLogoutAction] 세션의 모든 사용자 정보 삭제 완료");
 				
-		forward = new ActionForward("index.jsp", true);
+		forward = new ActionForward("userMain.usr", true);
 		return forward;
 		
 	}

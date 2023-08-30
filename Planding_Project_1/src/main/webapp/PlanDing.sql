@@ -45,6 +45,7 @@ CREATE TABLE IF NOT EXISTS `project`.`member_tbl` (
   `password` VARCHAR(256) NOT NULL COMMENT '비밀번호',
   `name` NVARCHAR(20) NOT NULL COMMENT '이름',
   `email` VARCHAR(45) NOT NULL COMMENT '이메일',
+  `phone` VARCHAR(11) NOT NULL COMMENT '전화번호',
   `account` INT NOT NULL COMMENT '가상계좌 (계좌잔액)',
   `isAdmin` TINYINT NOT NULL COMMENT '관리자 여부',
   `joindate` TIMESTAMP DEFAULT CURRENT_TIMESTAMP() COMMENT '가입일',

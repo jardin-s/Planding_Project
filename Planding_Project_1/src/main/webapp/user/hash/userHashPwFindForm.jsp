@@ -33,38 +33,24 @@
     <link href="../../resources/css/style.css" rel="stylesheet">
 </head>
 <body>
-	<div>
-		<jsp:include page="../../userHeader.jsp" />
-	</div>
 	
 	<!-- Main Section -->
 	<!-- Page Header Start -->
-    <div class="container-fluid page-header py-5 mb-5 wow fadeIn" data-wow-delay="0.1s">
+    <div class="container-fluid page-header pt-4 pb-5 mb-5 wow fadeIn" data-wow-delay="0.1s">
         <div class="container text-center py-5">
-            <h1 class="display-3 text-white mb-4 animated slideInDown">비밀번호 찾기</h1>
-            <nav aria-label="breadcrumb animated slideInDown">
-                <ol class="breadcrumb justify-content-center mb-0">
-                    <li class="breadcrumb-item"><a href="userLogin.usr">로그인</a></li>
-                    <li class="breadcrumb-item"><a href="userIdFindForm.usr">아이디 찾기</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">비밀번호 찾기</li>
-                    <li class="breadcrumb-item"><a href="userJoin.usr">회원가입</a></li>                    
-                </ol>
-            </nav>
+            <h3 class="display-6 text-white mb-4 animated slideInDown">비밀번호 찾기</h3>
         </div>
     </div>
     <!-- Page Header End -->
 
 
     <!-- Form Start -->
-    <div class="container-fluid py-5">
+    <div class="container-fluid pt-4 pb-5">
         <div class="container">
-            <div class="text-center mx-auto wow fadeInUp" data-wow-delay="0.1s" style="max-width: 500px;">
-                <p class="fs-5 fw-bold text-primary">비밀번호 찾기 (임시비밀번호 발급)</p>
-            </div>
             <form action="userPwFindAction.usr" method="post">
 	            <div class="row justify-content-center">
-	                <div class="col-lg-7">
-	                    <div class="bg-light rounded p-4 p-sm-5 wow fadeInUp" data-wow-delay="0.1s">                        
+	                <div class="col-10 col-md-8 col-lg-6">
+	                    <div class="bg-light rounded p-4 animated fadeIn" data-wow-delay="0.1s">                        
 	                        <div class="row g-3">
 	                            <div class="col-12">
 	                                <div class="form-floating">
@@ -78,7 +64,7 @@
 	                                    <label for="email">이메일 입력</label>
 	                                </div>
 	                            </div>
-	                            <div class="col-12 text-center">
+	                            <div class="col-12 text-center mt-4">
 	                                <button class="btn btn-primary py-2 px-4" type="submit" onclick="check(); return false;">확인</button>
 	                            </div>
 	                        </div>
@@ -89,11 +75,7 @@
         </div>
     </div>
     <!-- Form End -->
-		
-	<div>
-		<jsp:include page="../../userFooter.jsp" />
-	</div>
-    
+	    
     <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>

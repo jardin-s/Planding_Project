@@ -189,6 +189,7 @@ public class UserDAO {
 				userInfo.setMember_id(rs.getString("member_id"));
 				userInfo.setName(rs.getString("name"));
 				userInfo.setEmail(rs.getString("email"));
+				userInfo.setPhone(rs.getString("phone"));
 				userInfo.setAccount(rs.getInt("account"));
 				userInfo.setAdmin(rs.getBoolean("isAdmin"));
 			}
@@ -240,8 +241,8 @@ public class UserDAO {
 		int insertUserCount = 0;
 		
 		//joindate timestamp default now() -> joindate 생략
-		String sql = "insert into member_tbl(member_id, password, name, email, account, isAdmin) "
-					+ "values(?,?,?,?,?,?)";
+		String sql = "insert into member_tbl(member_id, password, name, email, phone, account, isAdmin) "
+					+ "values(?,?,?,?,?,?,?)";
 		
 		//joindate timestamp (디폴트값 없음) -> insert into member_tbl values(?,?,?,?,?,?,now());
 		
@@ -257,8 +258,9 @@ public class UserDAO {
 						
 			pstmt.setString(3, user.getName());
 			pstmt.setString(4, user.getEmail());
-			pstmt.setInt(5, user.getAccount());
-			pstmt.setBoolean(6, user.isAdmin());
+			pstmt.setString(5, user.getPhone());
+			pstmt.setInt(6, user.getAccount());
+			pstmt.setBoolean(7, user.isAdmin());
 			
 			insertUserCount = pstmt.executeUpdate();
 			
@@ -341,7 +343,7 @@ public class UserDAO {
 		int updateUserCount = 0;
 		
 		String sql = "update member_tbl"
-				   + " set password=?, name=?, email=?"
+				   + " set password=?, name=?, email=?, phone=?"
 				   + " where member_id=?";
 		
 		try {
@@ -352,8 +354,9 @@ public class UserDAO {
 			//암호화가 안 된 상태라면 pstmt.setString(3, SHA256.encodeSHA256(user.getPassword()));
 			pstmt.setString(2, user.getName());
 			pstmt.setString(3, user.getEmail());
+			pstmt.setString(4, user.getPhone());
 			
-			pstmt.setString(4, user.getMember_id());
+			pstmt.setString(5, user.getMember_id());
 			
 			updateUserCount = pstmt.executeUpdate();
 			
@@ -468,6 +471,7 @@ public class UserDAO {
 				userInfo.setMember_id(rs.getString("member_id"));
 				userInfo.setName(rs.getString("name"));
 				userInfo.setEmail(rs.getString("email"));
+				userInfo.setPhone(rs.getString("phone"));
 			}
 			
 		} catch(Exception e) {

@@ -8,7 +8,7 @@ import dao.AdminDAO;
 import vo.AddressBean;
 import vo.MemberBean;
 
-public class AdminJoinIdCheckService {
+public class AdminIdCheckService {
 	//필드 없음
 	
 		//기본생성자

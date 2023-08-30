@@ -4,10 +4,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import action.Action;
-import svc.admin.AdminJoinIdCheckService;
+import svc.admin.AdminIdCheckService;
 import vo.ActionForward;
 
-public class AdminJoinIdCheckAction implements Action {
+public class AdminIdCheckAction implements Action {
 
 	@Override
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -17,7 +17,7 @@ public class AdminJoinIdCheckAction implements Action {
 		String a_id = request.getParameter("id");
 		System.out.println("[AdminJoinIdCheckAction] 파라미터 id : "+a_id);
 		
-		AdminJoinIdCheckService adminJoinIdCheckService = new AdminJoinIdCheckService();
+		AdminIdCheckService adminJoinIdCheckService = new AdminIdCheckService();
 		boolean isIdUsable = adminJoinIdCheckService.adminIdCheck(a_id);
 		System.out.println("[AdminJoinIdCheckAction]");
 		System.out.println("isIdUsable = "+isIdUsable);

@@ -89,7 +89,7 @@ public class UserLoginAction implements Action {
 			//세션 유지시간 (※세션은 해당 브라우저에서만 유효) (기본값 30분이 지나거나 창을 닫으면 세션영역이 사라짐) 
 			session.setMaxInactiveInterval(1*60*60);//초단위 1시간 = 3600초	
 			
-			forward = new ActionForward("../index.jsp", true);//request에 저장한 게 없으므로 리다이렉션 포워딩
+			forward = new ActionForward("userMain.usr", true);//request에 저장한 게 없으므로 리다이렉션 포워딩
 		}
 		
 		return forward;
