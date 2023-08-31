@@ -72,7 +72,7 @@
                 <div class="col-md-8 col-lg-4 py-5 py-lg-0">
                     <ul class="list-group list-group-flush">
 					  <li class="list-group-item"><a href="userUpdateForm.usr">회원정보 수정</a></li>
-					  <li class="list-group-item"><a href="userHashPwFindForm.usr">비밀번호 변경</a></li>
+					  <li class="list-group-item"><a href="userHashPwChangeForm.usr">비밀번호 변경</a></li>
 					  <li class="list-group-item"><a href="userDelete.usr">회원 탈퇴</a></li>
 					</ul>           
                 </div>
