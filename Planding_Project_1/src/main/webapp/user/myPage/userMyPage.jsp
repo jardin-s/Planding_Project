@@ -52,7 +52,7 @@
             <div class="row justify-content-center">
 	            <ul class="col-12 col-lg-8 nav nav-pills justify-content-center mt-4 mb-0">
 					<li class="col-6 col-md-3 nav-item"><a class="nav-link active fw-bold" aria-current="page" href="#">내 정보관리</a></li>
-					<li class="col-6 col-md-3 nav-item"><a class="nav-link text-white" href="bookmarkList.usr">관심 프로젝트</a></li>
+					<li class="col-6 col-md-3 nav-item"><a class="nav-link text-white" href="userBookmarkList.usr">관심 프로젝트</a></li>
 					<li class="col-6 col-md-3 nav-item"><a class="nav-link text-white" href="uploadProjectList.usr">등록 프로젝트</a></li>
 					<li class="col-6 col-md-3 nav-item"><a class="nav-link text-white" href="fundProjectList.usr">후원 프로젝트</a></li>
 	            </ul>
