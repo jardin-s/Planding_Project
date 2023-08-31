@@ -10,7 +10,7 @@
 </head>
 <body>
 	<a href="userMain.usr">
-		<img class="img-fluid" alt="indexImage" src="resources/img/index/index-Laptop.jpg">
+		<img alt="indexImage" src="resources/img/index/index-Laptop.jpg" width="100%">
 	</a>
 </body>
 </html>

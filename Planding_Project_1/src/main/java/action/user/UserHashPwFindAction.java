@@ -163,6 +163,7 @@ public class UserHashPwFindAction implements Action {
 				
 				//2. 화면에 임시 비밀번호를 뿌리기 위해 request 속성값으로 저장 ----------------------------------------------------
 				request.setAttribute("random_password", random_password);
+				request.setAttribute("u_email", u_email);
 				
 				//임시비밀번호를 화면에 뿌림
 				request.setAttribute("showPage", "user/hash/findHashPwComplete.jsp");
