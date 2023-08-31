@@ -10,6 +10,7 @@ import java.util.ArrayList;
 
 import util.SHA256;
 import vo.AddressBean;
+import vo.BookmarkBean;
 import vo.MemberBean;
 import vo.MemberPwChangeBean;
 
@@ -582,6 +583,41 @@ public class UserDAO {
 		}
 		
 		return changeHashPwCount;
+	}
+
+	public ArrayList<BookmarkBean> selectBookmarkList(String u_id) {
+		ArrayList<BookmarkBean> bookmarkList = null;
+		
+		String sql = "select project_id, DATE_FORMAT(likedate, %Y-%m-%d) as likedate";
+			   sql += " from bookmark_tbl";
+			   sql += " where member_id=?";
+			   sql += " order by likedate desc";
+		
+		try {
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, u_id);
+			
+			if(rs.next()) {
+				bookmarkList = new ArrayList<>();
+				
+				do {
+					bookmarkList.add(new BookmarkBean(u_id,
+													  rs.getInt("project_id"),
+													  rs.getString("likedate")));
+				}while(rs.next());
+			}
+			
+			
+		} catch(Exception e) {
+			System.out.println("[UserDAO] selectBookmarkList() 에러 : "+e);//예외객체종류 + 예외메시지
+		} finally {
+			close(pstmt); //JdbcUtil.생략가능
+			close(rs); //JdbcUtil.생략가능
+			//connection 객체에 대한 해제는 DogListService에서 이루어짐
+		}
+		
+		return bookmarkList;
 	}
 	
 }

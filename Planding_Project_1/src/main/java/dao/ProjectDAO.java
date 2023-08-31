@@ -33,14 +33,14 @@ public class ProjectDAO {
 	
 	
 	
-	private static ProjectDAO fundDAO; //static메서드인 getInstance에서 쓸 수 있게 static (단 외부에서 직접 접근 불가능하도록 private)
+	private static ProjectDAO projectDAO; //static메서드인 getInstance에서 쓸 수 있게 static (단 외부에서 직접 접근 불가능하도록 private)
 	
 	public static ProjectDAO getInstance() {
-		if(fundDAO == null) {//DogDAO객체가 없으면
-			fundDAO = new ProjectDAO();//객체 생성
+		if(projectDAO == null) {//DogDAO객체가 없으면
+			projectDAO = new ProjectDAO();//객체 생성
 		}
 		
-		return fundDAO;//기존 DogDAO객체의 주소 리턴
+		return projectDAO;//기존 DogDAO객체의 주소 리턴
 	}
 	
 	/******************************************************************/

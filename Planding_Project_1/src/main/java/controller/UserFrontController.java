@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import action.Action;
+import action.user.UserBookmarkListAction;
 import action.user.UserDeleteAction;
 import action.user.UserHashPwChangeAction;
 import action.user.UserIdCheckAction;
@@ -248,8 +249,20 @@ public class UserFrontController extends HttpServlet {
 		
 		/*------- '사용자 마이페이지 보기' -------------------------------*/
 		else if(command.equals("/userMyPage.usr")) {//'비밀번호 변경 폼 보기' 요청이면
-			request.setAttribute("showPage", "user/userMyPage.jsp");
+			request.setAttribute("showPage", "user/myPage/userMyPage.jsp");
 			forward = new ActionForward("userTemplate.jsp",false); //반드시 디스패치 방식으로 포워딩
+		}
+		
+		/*------- '관심 프로젝트 목록 보기' -------------------------------*/
+		else if(command.equals("/userBookmarkList.usr")) {//'관심 프로젝트 목록 보기' 요청이면
+			//action:부모인터페이스 = UserHashPwChangeAction:구현한자식객체;
+			action = new UserBookmarkListAction();
+			try {
+				forward = action.execute(request, response);
+			} catch (Exception e) {
+				// TODO 자동 생성된 catch 블록
+				e.printStackTrace();
+			}
 		}
 		
 		/***********************************************************

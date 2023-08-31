@@ -10,7 +10,7 @@
     <meta content="" name="description">
 
     <!-- Favicon -->
-    <link href="../resources/img/favicon.ico" rel="icon">
+    <link href="resources/img/favicon.ico" rel="icon">
 
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -22,18 +22,18 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
 
     <!-- Libraries Stylesheet -->
-    <link href="../resources/lib/animate/animate.min.css" rel="stylesheet">
-    <link href="../resources/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
-    <link href="../resources/lib/lightbox/css/lightbox.min.css" rel="stylesheet">
+    <link href="resources/lib/animate/animate.min.css" rel="stylesheet">
+    <link href="resources/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="resources/lib/lightbox/css/lightbox.min.css" rel="stylesheet">
 
     <!-- Customized Bootstrap Stylesheet -->
-    <link href="../resources/css/bootstrap.min.css" rel="stylesheet">
+    <link href="resources/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Template Stylesheet -->
-    <link href="../resources/css/style.css" rel="stylesheet">
+    <link href="resources/css/style.css" rel="stylesheet">
     
     <!-- Custom Stylesheet -->
-    <link href="../resources/css/customStyle.css" rel="stylesheet">
+    <link href="resources/css/customStyle.css" rel="stylesheet">
     
     <style>
     .nav-pills > .nav-item > .active {
@@ -52,7 +52,7 @@
             <div class="row justify-content-center">
 	            <ul class="col-12 col-lg-8 nav nav-pills justify-content-center mt-4 mb-0">
 					<li class="col-6 col-md-3 nav-item"><a class="nav-link active fw-bold" aria-current="page" href="#">내 정보관리</a></li>
-					<li class="col-6 col-md-3 nav-item"><a class="nav-link text-white" href="bookmarkList.usr">관심 프로젝트</a></li>
+					<li class="col-6 col-md-3 nav-item"><a class="nav-link text-white" href="userBookmarkList.usr">관심 프로젝트</a></li>
 					<li class="col-6 col-md-3 nav-item"><a class="nav-link text-white" href="uploadProjectList.usr">등록 프로젝트</a></li>
 					<li class="col-6 col-md-3 nav-item"><a class="nav-link text-white" href="fundProjectList.usr">후원 프로젝트</a></li>
 	            </ul>
@@ -67,12 +67,12 @@
         <div class="container text-center">
             <div class="row justify-content-center">
             	<div class="col-lg-4">
-            		<img class="img-thumbnail" src="../resources/img/mypage_sample.jpg" style="width:15rem">
+            		<img class="img-thumbnail" src="resources/img/mypage_sample.jpg" style="width:15rem">
             	</div>
                 <div class="col-md-8 col-lg-4 py-5 py-lg-0">
                     <ul class="list-group list-group-flush">
 					  <li class="list-group-item"><a href="userUpdateForm.usr">회원정보 수정</a></li>
-					  <li class="list-group-item"><a href="userHashPwChangeForm.usr">비밀번호 변경</a></li>
+					  <li class="list-group-item"><a href="userHashPwChangeForm.usr?u_id=${u_id}">비밀번호 변경</a></li>
 					  <li class="list-group-item"><a href="userDelete.usr">회원 탈퇴</a></li>
 					</ul>           
                 </div>
@@ -84,14 +84,14 @@
     <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="../resources/lib/wow/wow.min.js"></script>
-    <script src="../resources/lib/easing/easing.min.js"></script>
-    <script src="../resources/lib/waypoints/waypoints.min.js"></script>
-    <script src="../resources/lib/owlcarousel/owl.carousel.min.js"></script>
-    <script src="../resources/lib/counterup/counterup.min.js"></script>
-    <script src="../resources/lib/parallax/parallax.min.js"></script>
-    <script src="../resources/lib/isotope/isotope.pkgd.min.js"></script>
-    <script src="../resources/lib/lightbox/js/lightbox.min.js"></script>
+    <script src="resources/lib/wow/wow.min.js"></script>
+    <script src="resources/lib/easing/easing.min.js"></script>
+    <script src="resources/lib/waypoints/waypoints.min.js"></script>
+    <script src="resources/lib/owlcarousel/owl.carousel.min.js"></script>
+    <script src="resources/lib/counterup/counterup.min.js"></script>
+    <script src="resources/lib/parallax/parallax.min.js"></script>
+    <script src="resources/lib/isotope/isotope.pkgd.min.js"></script>
+    <script src="resources/lib/lightbox/js/lightbox.min.js"></script>
 
     <!-- Template Javascript -->
     <script src="../resources/js/main.js"></script>
