@@ -246,6 +246,12 @@ public class UserFrontController extends HttpServlet {
 			}
 		}
 		
+		/*------- '사용자 마이페이지 보기' -------------------------------*/
+		else if(command.equals("/userMyPage.usr")) {//'비밀번호 변경 폼 보기' 요청이면
+			request.setAttribute("showPage", "user/userMyPage.jsp");
+			forward = new ActionForward("userTemplate.jsp",false); //반드시 디스패치 방식으로 포워딩
+		}
+		
 		/***********************************************************
 		 * 3. 포워딩
 		 * *********************************************************/

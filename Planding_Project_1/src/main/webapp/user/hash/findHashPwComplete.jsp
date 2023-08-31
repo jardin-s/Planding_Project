@@ -43,26 +43,22 @@
     </div>
     <!-- Page Header End -->
 	
-	<%
-	String u_id = (String) request.getAttribute("u_id");
-	u_id = u_id.substring(0, u_id.length()-4)+"****"; //뒤 4자리 숨기기
-	%>
-
     <!-- Form Start -->
     <div class="container-fluid py-5">
         <div class="container">
             <div class="text-center mx-auto wow fadeInUp" data-wow-delay="0.1s" style="max-width: 500px;">
-                <p class="fs-5 fw-bold text-primary">아이디 찾기</p>
+                <p class="fs-5 fw-bold text-primary">비밀번호 찾기</p>
             </div>
             <div class="row justify-content-center">
                 <div class="col-lg-7">
                     <div class="bg-light rounded p-4 p-sm-5 wow fadeInUp" data-wow-delay="0.1s">                        
                         <div class="row g-3">
                             <div class="col-12 text-center">
-                            	<span>회원님의 아이디는 <b><%=u_id %></b>입니다.</span>
+                            	<span>회원님의 임시 비밀번호는 <b>${requestScope.random_password }</b>입니다.</span>
+                            	<span>로그인 후 비밀번호를 재설정하시길 바랍니다.</span>
                             </div>
                             <div class="col-12 text-center">
-                            	<a class="btn btn-primary my-3 py-2 px-3" href="userHashPwFindForm.usr">비밀번호 찾기</a>
+                            	<a class="btn btn-primary my-3 py-2 px-3" href="userLogin.usr">로그인</a>
                             </div>
                         </div>
                     </div>

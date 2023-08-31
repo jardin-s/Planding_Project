@@ -27,8 +27,12 @@ public class UserHashPwFindAction implements Action {
 		
 		ActionForward forward = null;
 		
-		String u_id = request.getParameter("id");
+		String u_id = request.getParameter("member_id");
 		String u_email = request.getParameter("email");
+		
+		System.out.println("[UserHashPwFindAction]");
+		System.out.println("파라미터로 넘어온 member_id = "+u_id);
+		System.out.println("파라미터로 넘어온 email = "+u_email);
 		
 		UserHashPwFindService userHashPwFindService = new UserHashPwFindService();
 		MemberBean userInfo = userHashPwFindService.findHashPw(u_id, u_email);

@@ -512,6 +512,8 @@ public class UserDAO {
 				userInfo.setEmail(u_email);
 				userInfo.setName(rs.getString("name"));	
 				
+				System.out.println("[UserDAO] findHashPw() : 찾은회원의 name = "+rs.getString("name"));
+				
 				//방법-2
 				//userInfo.setId(rs.getString("id"));				
 				//userInfo.setEmail(rs.getString("email"));				

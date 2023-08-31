@@ -35,11 +35,14 @@
     <!-- Custom Stylesheet -->
     <link href="../resources/css/customStyle.css" rel="stylesheet">
     
+    <style>
+    .nav-pills > .nav-item > .active {
+		background-color: #E8F5E9 !important; 
+		color: #348E38 !important;
+	}
+    </style>
 </head>
 <body>
-	<div>
-		<jsp:include page="../userHeader.jsp" />
-	</div>
 	
 	<!-- Main Section -->
 	<!-- Page Header Start -->
@@ -77,11 +80,7 @@
         </div>
     </div>
     <!-- 404 End -->
-		
-	<div>
-		<jsp:include page="../userFooter.jsp" />
-	</div>
-    
+	
     <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
