@@ -5,15 +5,21 @@ import java.util.Date;
 public class ProjectBean {
 	
 	private int project_id;
+	
 	private String kind;
 	private String title;
 	private String summary;
-	private String content;
 	private String thumbnail;
-	private Date startdate;
-	private Date enddate;
+	
+	private String content;
+	private String image;
+	
+	private String startdate;
+	private String enddate;
+	
 	private int goal_amount;
 	private int curr_amount;
+	
 	private String category;
 	private String status;
 	private int likes;
@@ -21,19 +27,25 @@ public class ProjectBean {
 	
 	public ProjectBean() {}
 	
-	public ProjectBean(int project_id, String kind, String title, String summary, String content, String thumbnail,
-			Date startdate, Date enddate, int goal_amount, int curr_amount, String category, String status, int likes) {
+	public ProjectBean(int project_id, String kind, String title, String summary, String thumbnail, String content,
+			String image, String startdate, String enddate, int goal_amount, int curr_amount, String category, String status, int likes) {
 		super();
 		this.project_id = project_id;
+		
 		this.kind = kind;
 		this.title = title;
 		this.summary = summary;
-		this.content = content;
 		this.thumbnail = thumbnail;
+		
+		this.content = content;
+		this.image = image;
+		
 		this.startdate = startdate;
 		this.enddate = enddate;
+		
 		this.goal_amount = goal_amount;
 		this.curr_amount = curr_amount;
+		
 		this.category = category;
 		this.status = status;
 		this.likes = likes;
@@ -70,6 +82,14 @@ public class ProjectBean {
 	public void setSummary(String summary) {
 		this.summary = summary;
 	}
+	
+	public String getThumbnail() {
+		return thumbnail;
+	}
+
+	public void setThumbnail(String thumbnail) {
+		this.thumbnail = thumbnail;
+	}
 
 	public String getContent() {
 		return content;
@@ -79,27 +99,27 @@ public class ProjectBean {
 		this.content = content;
 	}
 
-	public String getThumbnail() {
-		return thumbnail;
+	public String getImage() {
+		return image;
 	}
 
-	public void setThumbnail(String thumbnail) {
-		this.thumbnail = thumbnail;
+	public void setImage(String image) {
+		this.image = image;
 	}
-
-	public Date getStartdate() {
+	
+	public String getStartdate() {
 		return startdate;
 	}
 
-	public void setStartdate(Date startdate) {
+	public void setStartdate(String startdate) {
 		this.startdate = startdate;
 	}
 
-	public Date getEnddate() {
+	public String getEnddate() {
 		return enddate;
 	}
 
-	public void setEnddate(Date enddate) {
+	public void setEnddate(String enddate) {
 		this.enddate = enddate;
 	}
 
@@ -141,8 +161,6 @@ public class ProjectBean {
 
 	public void setLikes(int likes) {
 		this.likes = likes;
-	}
-	
-		
+	}		
 
 }
