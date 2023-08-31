@@ -35,11 +35,14 @@
     <!-- Custom Stylesheet -->
     <link href="../resources/css/customStyle.css" rel="stylesheet">
     
+    <style>
+    .nav-pills > .nav-item > .active {
+		background-color: #E8F5E9 !important; 
+		color: #348E38 !important;
+	}
+    </style>
 </head>
 <body>
-	<div>
-		<jsp:include page="../userHeader.jsp" />
-	</div>
 	
 	<!-- Main Section -->
 	<!-- Page Header Start -->
@@ -68,8 +71,8 @@
             	</div>
                 <div class="col-md-8 col-lg-4 py-5 py-lg-0">
                     <ul class="list-group list-group-flush">
-					  <li class="list-group-item"><a href="userView.usr">회원정보 수정</a></li>
-					  <li class="list-group-item"><a href="userHashPwFindForm.usr">비밀번호 변경</a></li>
+					  <li class="list-group-item"><a href="userUpdateForm.usr">회원정보 수정</a></li>
+					  <li class="list-group-item"><a href="userHashPwChangeForm.usr">비밀번호 변경</a></li>
 					  <li class="list-group-item"><a href="userDelete.usr">회원 탈퇴</a></li>
 					</ul>           
                 </div>
@@ -77,11 +80,7 @@
         </div>
     </div>
     <!-- 404 End -->
-		
-	<div>
-		<jsp:include page="../userFooter.jsp" />
-	</div>
-    
+	
     <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>

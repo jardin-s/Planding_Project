@@ -47,7 +47,7 @@
     <!-- Form Start -->
     <div class="container-fluid pt-4 pb-5">
         <div class="container">
-            <form action="userPwFindAction.usr" method="post">
+            <form action="userHashPwFindAction.usr" method="post">
 	            <div class="row justify-content-center">
 	                <div class="col-10 col-md-8 col-lg-6">
 	                    <div class="bg-light rounded p-4 animated fadeIn" data-wow-delay="0.1s">                        
@@ -55,7 +55,7 @@
 	                            <div class="col-12">
 	                                <div class="form-floating">
 	                                    <input type="text" name="member_id" class="form-control border-0" id="member_id" placeholder="아이디">
-	                                    <label for="email">아이디 입력</label>
+	                                    <label for="member_id">아이디 입력</label>
 	                                </div>
 	                            </div>
 	                            <div class="col-12">

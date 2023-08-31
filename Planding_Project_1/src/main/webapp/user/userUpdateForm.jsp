@@ -37,17 +37,16 @@
 </head>
 
 <script type="text/javascript">
-function checkJoinForm(){
+function checkUpateForm(){
 	
-
 	//아이디와 비밀번호 값 데이터 정규화 공식
-	const regIdPass = /^[a-zA-Z0-9]{7,19}$/;
+	const regId = /^[a-zA-Z0-9]{7,19}$/;
 	if(!document.f.member_id.value.trim()){
 		alert("아이디를 입력해주세요.");
 		document.f.member_id.focus();
 		return false;
-	}else if(!regIdPass.test(document.f.member_id.value.trim())){
-		alert("아이디를 8~20자 사이의 영문과 숫자로 입력해주세요.");		
+	}else if(!regId.test(document.f.member_id.value.trim())){
+		alert("아이디를 8~20자 사이의 영문과 숫자로 입력해주세요.");
 		return false;
 	}
 	/*
@@ -57,21 +56,6 @@ function checkJoinForm(){
 		return false;
 	}
 	*/
-
-	if(!document.f.password.value.trim()){
-		alert("비밀번호를 입력해주세요.");
-		document.f.password.focus();
-		return false;
-	}else if(!regIdPass.test(document.f.password.value.trim())){
-		alert("비밀번호를 8~20자 사이의 영문과 숫자로 입력해주세요.");
-		return false;		
-	}	
-	if(document.f.password.value != document.f.confirm_password.value) {
-	    alert("비밀번호가 다릅니다. 다시 확인해 주세요.");
-	    f.confirm_password.value = "";
-	    f.confirm_password.focus();
-	    return false;
-	}
 	
 	//이름 정규화 공식
 	const regName = /^[가-힣a-zA-Z]{2,}$/;
@@ -117,14 +101,6 @@ function checkJoinForm(){
 	
 	
 }
-
-function idCheckOpen(){
-	if(document.f.member_id.value == ''){
-		window.open('user/idCheck/idCheck.jsp','아이디중복확인','top=10, left=10, width=500, height=300');
-	}else{
-		window.open('user/idCheck/idCheck.jsp?member_id='+document.f.member_id.value,'아이디중복확인','top=10, left=10, width=500, height=300');
-	}
-}
 </script>
 
 <body>
@@ -133,7 +109,7 @@ function idCheckOpen(){
 	<!-- Page Header Start -->
     <div class="container-fluid page-header pt-4 pb-5 mb-5 wow fadeIn" data-wow-delay="0.1s">
         <div class="container text-center py-5">
-            <h3 class="display-6 text-white mb-4 animated slideInDown">회원가입</h3>
+            <h3 class="display-6 text-white mb-4 animated slideInDown">회원정보 수정</h3>
         </div>
     </div>
     <!-- Page Header End -->
@@ -142,59 +118,44 @@ function idCheckOpen(){
     <!-- Form Start -->
     <div class="container-fluid pt-4 pb-5">
         <div class="container">
-            <form action="userJoinAction.usr" method="post" name="f">
+            <form action="userUpdateAction.usr" method="post" name="f">
 	            <div class="row justify-content-center">
 	                <div class="col-md-9 col-lg-7">
 	                    <div class="bg-light rounded p-4 px-sm-5 py-sm-3 animated fadeIn" data-wow-delay="0.1s">                        
 	                        <div class="row g-5 pt-5">
 	                            <div class="mb-3 row g-3 justify-content-center">
 								    <label for="member_id" class="col-3 col-form-label text-center">아이디</label>
-								    <div class="col-6">
-								      <input type="text" class="form-control" name="member_id" id="member_id" max-length="20" placeholder="8~20자 영문숫자 조합">
-								    </div>
-		                            <div class="col-3 text-end">
-		                                <button class="btn btn-primary" type="button" name="idck" id="idck" onclick="idCheckOpen();">
-		                                	<span style="font-size:0.9rem">중복체크</span>
-		                                </button>	                                
-		                            </div>
-	                            </div>
-	                            <div class="mb-3 row gx-3 justify-content-center">
-								    <label for="password" class="col-3 col-form-label text-center">비밀번호</label>
 								    <div class="col-9">
-								      <input type="password" class="form-control" name="password" id="password" max-length="20" placeholder="8~20자 영문숫자특수문자 조합">
-								    </div>
-	                            </div>
-	                            <div class="mb-3 row gx-3 justify-content-center">
-								    <label for="confirm_password" class="col-3 col-form-label text-center"><span style="font-size:1rem">비밀번호<br class="d-sm-none"> 확인</span></label>
-								    <div class="col-9">
-								      <input type="password" class="form-control" name="confirm_password" id="confirm_password" max-length="20" placeholder="위 비밀번호와 동일하게 입력">
+								      <input type="text" class="form-control" name="member_id" id="member_id" value="${user.member_id }" readonly>
 								    </div>
 	                            </div>
 	                            <div class="mb-3 row gx-3 justify-content-center">
 								    <label for="name" class="col-3 col-form-label text-center">이름</label>
 								    <div class="col-9">
-								      <input type="text" class="form-control" name="name" id="name" placeholder="한글 또는 영문만 입력">
+								      <input type="text" class="form-control" name="name" id="name" value="${user.name }" placeholder="한글 또는 영문만 입력">
 								    </div>
 	                            </div>
 	                            <div class="mb-3 row gx-3 justify-content-center">
 								    <label for="email" class="col-3 col-form-label text-center">이메일</label>
 								    <div class="col-9">
-								      <input type="text" class="form-control" name="email" id="email" placeholder="example@example.com">
+								      <input type="text" class="form-control" name="email" id="email" value="${user.name }" placeholder="example@example.com">
 								    </div>
 	                            </div>
 	                            <div class="mb-3 row gx-3 justify-content-center">
 								    <label for="phone" class="col-3 col-form-label text-center">전화번호</label>
 								    <div class="col-9">
-								      <input type="text" class="form-control" name="phone" id="phone" maxlength="11" placeholder="(-)없이 숫자만 입력">
+								      <input type="text" class="form-control" name="phone" id="phone" value="${user.name }" maxlength="11" placeholder="(-)없이 숫자만 입력">
 								    </div>
 	                            </div>
 	                            <!-- 사용자 가상계좌 -->
-	                            <input type="hidden" class="form-control" name="account" id="account" value="0">
-	                            <!-- 관리자 여부 : false -->
-	                            <input type="hidden" class="form-control" name="isAdmin" id="isAdmin" value="false">								    
-	                                                        
+	                            <div class="mb-3 row gx-3 justify-content-center">
+								    <label for="account" class="col-3 col-form-label text-center">잔여금액</label>
+								    <div class="col-9">
+								      <input type="text" class="form-control" name="account" id="account" value="${user.account }" readonly>
+								    </div>
+	                            </div>
 	                            <div class="col-12 text-center">
-	                                <button class="btn btn-primary py-2 px-4" type="submit" onclick="checkJoinForm(); return false;">가입하기</button>
+	                                <button class="btn btn-primary py-2 px-4" type="submit" onclick="checkUpdateForm(); return false;">수정하기</button>
 	                            </div>
 	                        </div>
 	                    </div>
