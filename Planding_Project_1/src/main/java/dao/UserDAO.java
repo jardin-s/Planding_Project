@@ -343,20 +343,20 @@ public class UserDAO {
 		int updateUserCount = 0;
 		
 		String sql = "update member_tbl"
-				   + " set password=?, name=?, email=?, phone=?"
+				   + " set name=?, email=?, phone=?"
 				   + " where member_id=?";
 		
 		try {
 			
 			pstmt = con.prepareStatement(sql);
 			
-			pstmt.setString(1, user.getPassword());
+			//pstmt.setString(1, user.getPassword());
 			//암호화가 안 된 상태라면 pstmt.setString(3, SHA256.encodeSHA256(user.getPassword()));
-			pstmt.setString(2, user.getName());
-			pstmt.setString(3, user.getEmail());
-			pstmt.setString(4, user.getPhone());
+			pstmt.setString(1, user.getName());
+			pstmt.setString(2, user.getEmail());
+			pstmt.setString(3, user.getPhone());
 			
-			pstmt.setString(5, user.getMember_id());
+			pstmt.setString(4, user.getMember_id());
 			
 			updateUserCount = pstmt.executeUpdate();
 			

@@ -47,8 +47,8 @@ function checkJoinForm(){
 		document.f.member_id.focus();
 		return false;
 	}else if(!regIdPass.test(document.f.member_id.value.trim())){
-		alert("아이디를 8~20자 사이의 영문과 숫자로 입력해주세요.");
-		
+		alert("아이디를 8~20자 사이의 영문과 숫자로 입력해주세요.");		
+		return false;
 	}
 	/*
 	else if( document.f.idDuplication.value == 'idUncheck'){
@@ -64,7 +64,7 @@ function checkJoinForm(){
 		return false;
 	}else if(!regIdPass.test(document.f.password.value.trim())){
 		alert("비밀번호를 8~20자 사이의 영문과 숫자로 입력해주세요.");
-		
+		return false;		
 	}	
 	if(document.f.password.value != document.f.confirm_password.value) {
 	    alert("비밀번호가 다릅니다. 다시 확인해 주세요.");
@@ -81,7 +81,7 @@ function checkJoinForm(){
 		return false;
 	}else if(!regIdPass.test(document.f.password.value.trim())){
 		alert("이름을 한글 또는 영문으로만 입력해주세요.");
-		
+		return false;		
 	}
 
 	//email 정규화 공식
@@ -111,7 +111,6 @@ function checkJoinForm(){
 	
 	document.f.submit();
 		
-	document.f.submit();
 	/*
 	 postcode(우편번호)와 address1은 "DAUM api" 검색한 내용으로 자동세팅되어 생략 
  	 */

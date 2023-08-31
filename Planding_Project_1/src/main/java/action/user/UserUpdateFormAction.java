@@ -12,7 +12,7 @@ import vo.ActionForward;
 import vo.AddressBean;
 import vo.MemberBean;
 
-public class UserViewAction implements Action {
+public class UserUpdateFormAction implements Action {
 
 	@Override
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
