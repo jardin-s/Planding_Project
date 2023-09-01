@@ -12,6 +12,7 @@ import util.SHA256;
 import vo.AddressBean;
 import vo.MemberBean;
 import vo.MemberPwChangeBean;
+import vo.ProjectBean;
 
 public class ProjectDAO {
 	
@@ -51,5 +52,46 @@ public class ProjectDAO {
 	//DB연결 : 매개값으로 받은 Connection객체의 주소값을 필드con에 셋팅
 	public void setConnection(Connection con){
 		this.con = con;
+	}
+
+	//1. 프로젝트 ID로 프로젝트 정보를 얻어옴
+	public ProjectBean getProjectInfo(int p_id) {
+		ProjectBean projectInfo = null;
+		
+		String sql = "select * from project_tbl where project_id=?";
+		   	
+		try {
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, p_id);
+						
+			if(rs.next()) {
+				projectInfo = new ProjectBean(rs.getInt("project_id"),
+											  rs.getString("kind"),
+											  rs.getString("title"),
+											  rs.getString("summary"),
+											  rs.getString("thumbnail"),
+											  rs.getString("content"),
+											  rs.getString("image"),
+											  rs.getString("startdate"),
+											  rs.getString("enddate"),
+											  rs.getInt("goal_amount"),
+											  rs.getInt("curr_amount"),
+											  rs.getString("category"),
+											  rs.getString("status"),
+											  rs.getInt("likes")
+											  );
+			}
+			
+			
+		} catch(Exception e) {
+			System.out.println("[ProjectDAO] getProjectInfo() 에러 : "+e);//예외객체종류 + 예외메시지
+		} finally {
+			close(pstmt); //JdbcUtil.생략가능
+			close(rs); //JdbcUtil.생략가능
+			//connection 객체에 대한 해제는 DogListService에서 이루어짐
+		}
+		
+		return projectInfo;
 	}
 }

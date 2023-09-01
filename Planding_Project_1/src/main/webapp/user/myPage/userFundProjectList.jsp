@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -62,89 +64,38 @@
     <!-- Page Header End -->
 
 
-    <!-- Service Start -->
-    <div class="container-xxl py-5">
-        <div class="container">
-            <div class="text-center mx-auto animated fadeIn" data-wow-delay="0.1s" style="max-width: 500px;">
-                <p class="fw-bold text-dark mb-5 pb-5" style="font-size:2rem">관심 프로젝트 리스트</p>
-            </div>
-            <div class="row g-4">
-                <div class="col-lg-4 col-md-6 animated fadeIn" data-wow-delay="0.1s">
-                    <div class="service-item rounded d-flex h-100">
-                        <div class="service-img rounded">
-                            <img class="img-fluid" src="../resources/img/service-1.jpg" alt="">
-                        </div>
-                        <div class="service-text rounded p-5">
-                            <h4 class="mb-3">카테고리 (기부 - 환경)</h4>
-                            <p class="mb-4">프로젝트명 얼마나 길지 모르니까 여기에</p>
-                            <a class="btn btn-sm" href=""><i class="fa fa-plus text-primary me-2"></i>보러가기</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 animated fadeIn" data-wow-delay="0.3s">
-                    <div class="service-item rounded d-flex h-100">
-                        <div class="service-img rounded">
-                            <img class="img-fluid" src="../resources/img/service-2.jpg" alt="">
-                        </div>
-                        <div class="service-text rounded p-5">
-                            <h4 class="mb-3">카테고리 (기부 - 동물)</h4>
-                            <p class="mb-4">프로젝트명 얼마나 길지 모르니까 여기에</p>
-                            <a class="btn btn-sm" href=""><i class="fa fa-plus text-primary me-2"></i>보러가기</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 animated fadeIn" data-wow-delay="0.5s">
-                    <div class="service-item rounded d-flex h-100">
-                        <div class="service-img rounded">
-                            <img class="img-fluid" src="../resources/img/service-3.jpg" alt="">
-                        </div>
-                        <div class="service-text rounded p-5">
-                            <h4 class="mb-3">카테고리 (펀딩 - 취약계층)</h4>
-                            <p class="mb-4">프로젝트명 얼마나 길지 모르니까 여기에.</p>
-                            <a class="btn btn-sm" href=""><i class="fa fa-plus text-primary me-2"></i>보러가기</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 animated fadeIn" data-wow-delay="0.1s">
-                    <div class="service-item rounded d-flex h-100">
-                        <div class="service-img rounded">
-                            <img class="img-fluid" src="../resources/img/service-4.jpg" alt="">
-                        </div>
-                        <div class="service-text rounded p-5">
-                            <h4 class="mb-3">Garden Maintenance </h4>
-                            <p class="mb-4">프로젝트명 얼마나 길지 모르니까 여기에</p>
-                            <a class="btn btn-sm" href=""><i class="fa fa-plus text-primary me-2"></i>보러가기</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 animated fadeIn" data-wow-delay="0.3s">
-                    <div class="service-item rounded d-flex h-100">
-                        <div class="service-img rounded">
-                            <img class="img-fluid" src="../resources/img/service-5.jpg" alt="">
-                        </div>
-                        <div class="service-text rounded p-5">
-                           <h4 class="mb-3">Green Technology</h4>
-                            <p class="mb-4">프로젝트명 얼마나 길지 모르니까 여기에</p>
-                            <a class="btn btn-sm" href=""><i class="fa fa-plus text-primary me-2"></i>보러가기</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 animated fadeIn" data-wow-delay="0.5s">
-                    <div class="service-item rounded d-flex h-100">
-                        <div class="service-img rounded">
-                            <img class="img-fluid" src="../resources/img/service-6.jpg" alt="">
-                        </div>
-                        <div class="service-text rounded p-5">
-                           <h4 class="mb-3">Urban Gardening</h4>
-                            <p class="mb-4">프로젝트명 얼마나 길지 모르니까 여기에</p>
-                            <a class="btn btn-sm" href=""><i class="fa fa-plus text-primary me-2"></i>보러가기</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Service End -->
+    <!-- List Start -->
+    <c:if test="${requestScope.fundProjectList eq null }">
+    	<div class="container-xxl py-5">
+    		<div class="container">
+    			<p class="text-center">관심 프로젝트로 추가된 항목이 없습니다.</p>
+    		</div>
+    	</div>    	
+    </c:if>
+    
+    <c:if test="${requestScope.fundProjectList ne null }">
+    	<div class="container-xxl py-5">
+	        <div class="container">
+				<div class="row g-4">
+					<c:forEach var="project" items="${requestScope.fundProjectList }" varStatus="status">
+						<div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+							<div class="service-item rounded d-flex h-100">
+								<div class="service-img rounded">
+									<img class="img-fluid" src="${project.image }" alt="">
+								</div>
+								<div class="service-text rounded p-5">
+									<h4 class="mb-3">${project.title}</h4>
+									<p class="mb-4">${project.summary}</p>
+									<a class="btn btn-sm" href="projectView.prj?project_id=${project.project_id}"><i class="fa fa-plus text-primary me-2"></i>보러가기</a>
+								</div>
+		                    </div>
+		                </div>
+	                </c:forEach>
+	            </div>
+	        </div>
+	    </div>
+    </c:if>
+    <!-- List End -->
 	
     <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>

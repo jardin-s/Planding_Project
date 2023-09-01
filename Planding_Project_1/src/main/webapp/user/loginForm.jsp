@@ -111,7 +111,7 @@
 	                            </div>
 	                            <div class="col-12">
 	                                <div class="form-check">
-	                                    <input type="checkbox" name="checkbox" checked="<%=checked %>" class="form-check-input border-0" id="checkbox" placeholder="아이디 기억하기">
+	                                    <input type="checkbox" name="checkbox" value="checked" checked="<%=checked %>" class="form-check-input border-0" id="checkbox">
 	                                    <label class="form-check-label" for="checkbox">아이디 기억하기</label>
 	                                </div>
 	                            </div>

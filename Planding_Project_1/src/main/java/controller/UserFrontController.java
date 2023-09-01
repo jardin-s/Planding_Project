@@ -8,8 +8,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import action.Action;
+import action.user.UserUploadProjectListAction;
 import action.user.UserBookmarkListAction;
 import action.user.UserDeleteAction;
+import action.user.UserFundProjectListAction;
 import action.user.UserHashPwChangeAction;
 import action.user.UserIdCheckAction;
 import action.user.UserIdFindAction;
@@ -182,7 +184,15 @@ public class UserFrontController extends HttpServlet {
 					
 		}
 		
-		else if(command.equals("/userDelete.usr")) {//'회원탈퇴 처리' 요청
+		/*-- '회원탈퇴 폼 보기' 요청 -> 수정 처리 -------------------------------------*/
+		else if(command.equals("/userDeleteForm.usr")) {//'회원탈퇴 폼 보기' 요청
+			
+			//부모인터페이스 = 구현한 자식객체
+			request.setAttribute("showPage", "user/userDeleteForm.jsp");
+			forward = new ActionForward();
+					
+		}
+		else if(command.equals("/userDeleteAction.usr")) {//'회원탈퇴 처리' 요청
 			
 			//부모인터페이스 = 구현한 자식객체
 			action = new UserDeleteAction();//부모인터페이스인 Action으로 받음 
@@ -257,6 +267,30 @@ public class UserFrontController extends HttpServlet {
 		else if(command.equals("/userBookmarkList.usr")) {//'관심 프로젝트 목록 보기' 요청이면
 			//action:부모인터페이스 = UserHashPwChangeAction:구현한자식객체;
 			action = new UserBookmarkListAction();
+			try {
+				forward = action.execute(request, response);
+			} catch (Exception e) {
+				// TODO 자동 생성된 catch 블록
+				e.printStackTrace();
+			}
+		}
+		
+		/*------- '등록한 프로젝트 목록 보기' -------------------------------*/
+		else if(command.equals("/uploadProjectList.usr")) {//'등록한 프로젝트 목록 보기' 요청이면
+			//action:부모인터페이스 = UserHashPwChangeAction:구현한자식객체;
+			action = new UserUploadProjectListAction();
+			try {
+				forward = action.execute(request, response);
+			} catch (Exception e) {
+				// TODO 자동 생성된 catch 블록
+				e.printStackTrace();
+			}
+		}
+		
+		/*------- '후원한 프로젝트 목록 보기' -------------------------------*/
+		else if(command.equals("/fundProjectList.usr")) {//'후원한 프로젝트 목록 보기' 요청이면
+			//action:부모인터페이스 = UserHashPwChangeAction:구현한자식객체;
+			action = new UserFundProjectListAction();
 			try {
 				forward = action.execute(request, response);
 			} catch (Exception e) {
