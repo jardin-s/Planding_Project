@@ -49,8 +49,8 @@
         <div class="container">
             <form action="userHashPwFindAction.usr" method="post">
 	            <div class="row justify-content-center">
-	                <div class="col-10 col-md-8 col-lg-6">
-	                    <div class="bg-light rounded p-4 px-sm-5 py-sm-3 animated fadeIn" data-wow-delay="0.1s">                        
+	                <div class="col-8 col-md-6 col-lg-5">
+	                    <div class="bg-light rounded p-4 animated fadeIn" data-wow-delay="0.1s">                        
 	                        <div class="row g-3">
 	                            <div class="col-12">
 	                                <div class="form-floating">

@@ -89,7 +89,7 @@ function checkDeleteForm(){
 	                                    	&nbsp;다음 중 탈퇴 사유를 골라 사이트를 개선하는 데 도움을 주세요.
 						                    <div class="col-12 col-lg-8 px-4 pb-3 pt-0">
 							                    <select class="form-select" name="reason">
-													<option selected>--- 탈퇴 사유를 골라주세요. ---</option>
+													<option value="" selected>--- 탈퇴 사유를 골라주세요. ---</option>
 													<option value="1">원하는 프로젝트를 찾을 수 없음</option>
 													<option value="2">프로젝트 등록 절차가 복잡함</option>
 													<option value="3">프로젝트 후원 절차가 복잡함</option>

@@ -50,13 +50,13 @@ function checkJoinForm(){
 		alert("아이디를 8~20자 사이의 영문과 숫자로 입력해주세요.");		
 		return false;
 	}
-	/*
-	else if( document.f.idDuplication.value == 'idUncheck'){
+	
+	else if( document.f.idChecked.value == "unchecked"){
 		alert("아이디 중복체크를 해주세요.");
 		document.f.idck.focus();
 		return false;
 	}
-	*/
+	
 
 	if(!document.f.password.value.trim()){
 		alert("비밀번호를 입력해주세요.");
@@ -149,7 +149,7 @@ function idCheckOpen(){
 	                        <div class="row g-5 pt-5">
 	                            <div class="mb-3 row g-3 justify-content-center">
 								    <label for="member_id" class="col-3 col-form-label text-center">아이디</label>
-								    <div class="col-6">
+								    <div class="col-6 me-0 pe-0">
 								      <input type="text" class="form-control" name="member_id" id="member_id" max-length="20" placeholder="8~20자 영문숫자 조합">
 								    </div>
 		                            <div class="col-3 text-end">
@@ -157,15 +157,16 @@ function idCheckOpen(){
 		                                	<span style="font-size:0.9rem">중복체크</span>
 		                                </button>	                                
 		                            </div>
+		                            <input type="hidden" name="idChecked" value="unchecked" id="idChecked" placeholder="아이디중복체크 여부">
 	                            </div>
 	                            <div class="mb-3 row gx-3 justify-content-center">
 								    <label for="password" class="col-3 col-form-label text-center">비밀번호</label>
 								    <div class="col-9">
-								      <input type="password" class="form-control" name="password" id="password" max-length="20" placeholder="8~20자 영문숫자특수문자 조합">
+								      <input type="password" class="form-control" name="password" id="password" max-length="20" placeholder="8~20자 영문숫자 조합">
 								    </div>
 	                            </div>
 	                            <div class="mb-3 row gx-3 justify-content-center">
-								    <label for="confirm_password" class="col-3 col-form-label text-center"><span style="font-size:1rem">비밀번호<br class="d-sm-none"> 확인</span></label>
+								    <label for="confirm_password" class="col-3 col-form-label text-center"><span style="font-size:1rem; word-break: keep-all">비밀번호 확인</span></label>
 								    <div class="col-9">
 								      <input type="password" class="form-control" name="confirm_password" id="confirm_password" max-length="20" placeholder="위 비밀번호와 동일하게 입력">
 								    </div>

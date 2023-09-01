@@ -22,6 +22,9 @@ public class UserDeleteAction implements Action {
 		String u_id = request.getParameter("member_id");
 		String u_password = request.getParameter("password");
 		
+		//탈퇴사유가 탈퇴회원테이블에 있을 경우
+		//String reason = request.getParameter("reason");
+		
 		//1. 본인인증 확인
 		UserDeleteService userDeleteService = new UserDeleteService();
 		

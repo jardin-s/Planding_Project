@@ -75,6 +75,8 @@ CREATE TABLE IF NOT EXISTS `project`.`member_tbl` (
   UNIQUE INDEX `email_UNIQUE` (`email` ASC) VISIBLE)
 ENGINE = InnoDB;
 
+select * from member_tbl;
+
 
 -- -----------------------------------------------------
 -- Table `project`.`reward_tbl`

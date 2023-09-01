@@ -38,12 +38,14 @@
 <script>
 function useCheckId(){
 	opener.document.f.member_id.value = document.chk.ckid.value;
+	opener.document.f.idChecked.value = "checked";
 			
 	window.close();
 }
 
 function cancel(){
 	opener.document.f.member_id.value = "";
+	opener.document.f.idChecked.value = "unchecked";
 	
 	window.close();
 }
