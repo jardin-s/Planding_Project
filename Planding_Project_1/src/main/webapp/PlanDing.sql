@@ -21,6 +21,26 @@ drop table notice_tbl;
 drop table member_tbl;
 */
 
+drop table former_member_tbl;
+
+drop table project_reward_tbl;
+drop table donation_tbl;
+drop table reward_tbl;
+
+drop table image_tbl;
+
+drop table project_review_tbl;
+drop table bookmark_tbl;
+drop table project_planner_tbl;
+drop table project_image_tbl;
+drop table admin_income_tbl;
+drop table project_tbl;
+
+drop table address_tbl;
+drop table qna_tbl;
+drop table notice_tbl;
+drop table member_tbl;
+
 -- MySQL Workbench Forward Engineering
 
 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
@@ -71,11 +91,10 @@ CREATE TABLE IF NOT EXISTS `project`.`member_tbl` (
   `account` INT NOT NULL COMMENT '가상계좌 (계좌잔액)',
   `isAdmin` TINYINT NOT NULL COMMENT '관리자 여부',
   `joindate` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP COMMENT '가입일',
+  `isDeleted` TINYINT NULL DEFAULT 0,
   PRIMARY KEY (`member_id`),
   UNIQUE INDEX `email_UNIQUE` (`email` ASC) VISIBLE)
 ENGINE = InnoDB;
-
-select * from member_tbl;
 
 
 -- -----------------------------------------------------
@@ -204,6 +223,7 @@ CREATE TABLE IF NOT EXISTS `project`.`qna_tbl` (
   `q_title` NVARCHAR(30) NOT NULL COMMENT '질문 제목',
   `q_content` VARCHAR(400) NOT NULL COMMENT '질문 내용',
   `q_image` VARCHAR(60) NULL COMMENT '문의사항 이미지',
+  `isPrivate` TINYINT NOT NULL COMMENT '비밀글 여부',
   `q_time` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP COMMENT '질문시간',
   `a_content` NVARCHAR(300) NULL DEFAULT 'unanswered' COMMENT '답변 내용',
   `a_time` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '답변 시간',

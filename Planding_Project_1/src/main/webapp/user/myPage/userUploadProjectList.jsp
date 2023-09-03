@@ -68,7 +68,7 @@
     <c:if test="${requestScope.uploadProjectList eq null }">
     	<div class="container-xxl py-5">
     		<div class="container">
-    			<p class="text-center">관심 프로젝트로 추가된 항목이 없습니다.</p>
+    			<p class="text-center">등록한 프로젝트가 없습니다.</p>
     		</div>
     	</div>    	
     </c:if>
@@ -86,7 +86,7 @@
 								<div class="service-text rounded p-5">
 									<h4 class="mb-3">${project.title}</h4>
 									<p class="mb-4">${project.summary}</p>
-									<a class="btn btn-sm" href="projectView.prj?project_id=${project.project_id}"><i class="fa fa-plus text-primary me-2"></i>보러가기</a>
+									<a class="btn btn-sm" href="projectManage.prj?project_id=${project.project_id}"><i class="fa fa-plus text-primary me-2"></i>관리하기</a>
 								</div>
 		                    </div>
 		                </div>

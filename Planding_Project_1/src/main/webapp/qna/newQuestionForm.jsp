@@ -33,6 +33,42 @@
     <!-- Template Stylesheet -->
     <link href="../resources/css/style.css" rel="stylesheet">
 </head>
+
+<script type="text/javascript">
+
+function qnaFormCheck(){
+	
+	if(document.f.q_title == ''){
+		alert("제목을 입력해주세요.");
+		document.f.q_title.focus();
+		return false;
+	}
+	
+	else
+		
+	if(document.f.q_content == ''){
+		alert('내용을 입력해주세요.')
+		document.f.q_content.focus();
+		return false;
+	}
+	
+	//파일확장자 유효성 검사 (jpg, png, gif 이미지 파일만 가능)
+	if(document.f.q_image != ''){
+		let filepath = document.f.q_image.value;
+		let fileExtension = filepath.substr(filepath.length-3);
+		if(!(fileExtension == 'jpg' || fileExtension == 'png' || fileExtension == 'gif')){
+			alert('jpg, png, gif 형식의 이미지파일만 첨부할 수 있습니다.');
+			document.f.q_image.focus();
+			return false;
+		}
+	}
+	
+	document.f.submit();
+	
+}
+
+</script>
+
 <body>
 	
 	<!-- Main Section -->
@@ -54,66 +90,34 @@
 
     <!-- Table Start -->
     <div class="container-fluid pt-4 pb-4">
-        <div class="container col-lg-8">
+        <div class="container col-md-8 col-lg-7">
             <div class="row justify-content-center">
-				<table class="table table-hover">
-					<thead>
-						<tr>
-							<th scope="col">번호</th>
-							<th scope="col">제목</th>
-							<th scope="col">작성자</th>
-							<th scope="col">날짜</th>
-						</tr>
-					</thead>
-					<tbody class="table-group-divider">
-						<tr>
-							<th scope="row">1</th>
-							<td>Mark</td>
-							<td>Otto</td>
-							<td>@mdo</td>
-						</tr>
-						<tr>
-							<th scope="row">2</th>
-							<td>Jacob</td>
-							<td>Thornton</td>
-							<td>@fat</td>
-						</tr>
-						<tr>
-							<th scope="row">3</th>
-							<td colspan="2">Larry the Bird</td>
-							<td>@twitter</td>
-						</tr>
-					</tbody>
-				</table>
+				<form action="qnaNewQuestionAction.qna" method="post" name="f">
+					<input type="hidden" name="member_id" value="${sessionScope.u_id}">
+					<div class="input-group mb-2">
+						<span class="input-group-text" id="q_title">제목</span>
+						<input type="text" name="q_title" class="form-control" placeholder="제목을 입력하세요." aria-label="q_title" aria-describedby="q_title">
+					</div>
+					<div class="input-group mb-2">
+						<span class="input-group-text">내용</span>
+						<textarea name="q_content" class="form-control" placeholder="내용을 입력하세요." aria-label="q_content" rows="10"></textarea>
+					</div>
+					<div class="input-group mb-3">
+						<input type="file" class="form-control" id="q_image" aria-describedby="q_image" aria-label="q_image">
+						<label></label>
+					</div>
+					<div class="form-check">
+						<input class="form-check-input" type="checkbox" name="isPrivate" value="true" id="isPrivate">
+						<label class="form-check-label" for="isPrivate">비밀글로 하기</label>
+					</div>
+					<div class="col-12 text-center">
+						<button type="submit" class="btn btn-primary" onclick="qnaFormCheck(); return false;">문의글 등록</button>
+					</div>
+				</form>
 			</div>
         </div>		
-    </div>
-    
-    <div class="container-fluid mt-0 pt-0 pb-5">
-    	<div class="container col-lg-4">
-	    	<div class="row">
-				<ul class="pagination justify-content-center">
-					<li class="page-item">
-						<a class="page-link" href="#" aria-label="Previous">
-							<span aria-hidden="true">&laquo;</span>
-						</a>
-					</li>
-					<li class="page-item active" aria-current="page"><a class="page-link" href="#">1</a></li>
-					<li class="page-item"><a class="page-link" href="#">2</a></li>
-					<li class="page-item"><a class="page-link" href="#">3</a></li>
-					<li class="page-item">
-						<a class="page-link" href="#" aria-label="Next">
-							<span aria-hidden="true">&raquo;</span>
-						</a>
-					</li>
-				</ul>
-	        </div>
-        </div>
-    </div>       
-    <!-- Table End -->
-    
-    
-    
+    </div>   
+    <!-- Table End -->   
 		
 	    
     <!-- JavaScript Libraries -->
