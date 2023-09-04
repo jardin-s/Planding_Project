@@ -37,7 +37,7 @@
 </head>
 <body>
 	<div>
-		<jsp:include page="../userHeader.jsp" />
+		<jsp:include page="../user/userHeader.jsp" />
 	</div>
 	
 	<!-- Main Section -->
@@ -72,7 +72,7 @@
               
 	
 	<div>
-		<jsp:include page="../userFooter.jsp" />
+		<jsp:include page="../user/userFooter.jsp" />
 	</div>
     
     <!-- JavaScript Libraries -->

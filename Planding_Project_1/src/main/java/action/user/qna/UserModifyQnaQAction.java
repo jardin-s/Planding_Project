@@ -18,7 +18,7 @@ import svc.user.qna.QnaViewService;
 import vo.ActionForward;
 import vo.QnaBean;
 
-public class ModifyQnaQAction implements Action {
+public class UserModifyQnaQAction implements Action {
 
 	@Override
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -62,7 +62,7 @@ public class ModifyQnaQAction implements Action {
 		
 		ModifyQnaQService qnaEditService = new ModifyQnaQService();
 		boolean isQnaModifySuccess = false; 
-		if(q_image.contains("qna/images/")) {//이미지 수정 X
+		if(q_image.contains("/images/qna")) {//이미지 수정 X
 			isQnaModifySuccess = qnaEditService.updateQuestion(qna);
 		}else {//이미지 수정O
 			qna.setQ_image(q_image);

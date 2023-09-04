@@ -97,7 +97,7 @@
 							<c:forEach var="qna" items="${qnaList }">
 								<tr>
 									<th scope="row">${q_index}</th>
-									<td><a href="qnaView.qna?qna_id=${qna.qna_id}&page=${pageInfo.page}&isPrivate=${qna.isPrivate}">${qna.q_title }</a>
+									<td><a href="userQnaView.usr?qna_id=${qna.qna_id}&page=${pageInfo.page}&isPrivate=${qna.isPrivate}">${qna.q_title }</a>
 										<c:if test="${qna.isPrivate eq true}">
 											<i class="fas fa-lock ms-1"></i>
 										</c:if>
@@ -117,7 +117,7 @@
 	    <div class="container-fluid mt-0 pt-0 pb-5">
 	    	<div class="container col-lg-8 px-0">
 	    		<div class="d-flex justify-content-end">
-	    			<button class="btn btn-outline-primary float-right py-1" type="button" onclick="location.href='insertNewQnaQForm.qna'">문의글 작성</button>
+	    			<button class="btn btn-outline-primary float-right py-1" type="button" onclick="location.href='userInsertNewQnaQForm.usr'">문의글 작성</button>
 	    		</div>
 	    	</div>
 	   	</div>
@@ -129,19 +129,38 @@
 		    	<div class="row">
 					<ul class="pagination justify-content-center">
 						<li class="page-item">
-							<a class="page-link" href="#" aria-label="Previous">
-								<span aria-hidden="true">&laquo;</span>
-							</a>
+							<c:if test="${pageInfo.page <= 1}">
+								<a class="page-link" aria-label="Previous">
+									<span aria-hidden="true">&laquo;</span>
+								</a>	
+							</c:if>
+							<c:if test="${pageInfo.page > 1}">
+								<a class="page-link" href="userQnaList.usr?page=${pageInfo.page -1 }" aria-label="Previous">
+									<span aria-hidden="true">&laquo;</span>
+								</a>	
+							</c:if>								
 						</li>
 						
-							<li class="page-item active" aria-current="page"><a class="page-link" href="#">1</a></li>
-							<li class="page-item"><a class="page-link" href="#">2</a></li>
-							<li class="page-item"><a class="page-link" href="#">3</a></li>
+						<c:forEach var="pNum" begin="${pageInfo.startPage }" end="${pageInfo.endPage}" step="1">
+							<c:if test="${pNum eq pageInfo.page }">
+								<li class="page-item active" aria-current="page"><a class="page-link">${pNum}</a></li>
+							</c:if>
+							<c:if test="${pNum ne pageInfo.page }">
+								<li class="page-item"><a class="page-link" href="userQnaList.usr?page=${pNum}">${pNum}</a></li>
+							</c:if>
+						</c:forEach>
 						
 						<li class="page-item">
-							<a class="page-link" href="#" aria-label="Next">
-								<span aria-hidden="true">&raquo;</span>
-							</a>
+							<c:if test="${pageInfo.page >= maxPage }">
+								<a class="page-link" aria-label="Next">
+									<span aria-hidden="true">&raquo;</span>
+								</a>
+							</c:if>
+							<c:if test="${pageInfo.page < maxPage }">
+								<a class="page-link" href="userQnaList.usr?page=${pageInfo.page +1 }" aria-label="Next">
+									<span aria-hidden="true">&raquo;</span>
+								</a>
+							</c:if>							
 						</li>
 					</ul>
 		        </div>

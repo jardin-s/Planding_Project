@@ -11,7 +11,7 @@ import svc.user.qna.ModifyQnaQFormService;
 import vo.ActionForward;
 import vo.QnaBean;
 
-public class ModifyQnaQFormAction implements Action {
+public class UserModifyQnaQFormAction implements Action {
 
 	@Override
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response) throws Exception {

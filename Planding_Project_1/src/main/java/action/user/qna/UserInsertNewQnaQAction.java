@@ -16,7 +16,7 @@ import svc.user.qna.QnaNewQuestionService;
 import vo.ActionForward;
 import vo.QnaBean;
 
-public class InsertNewQnaQAction implements Action {
+public class UserInsertNewQnaQAction implements Action {
 
 	@Override
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -24,7 +24,7 @@ public class InsertNewQnaQAction implements Action {
 		
 		//이미지 파일을 업로드할 위치
 		ServletContext context = request.getServletContext();
-		String uploadPath = context.getRealPath("/qna/images");
+		String uploadPath = context.getRealPath("/images/qna");
 		System.out.println("서버상의 실제 경로(절대경로) = "+uploadPath);
 		
 		//업로드할 절대경로로 파일객체를 얻음

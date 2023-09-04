@@ -11,7 +11,7 @@ import svc.user.qna.DeleteQnaService;
 import vo.ActionForward;
 import vo.QnaBean;
 
-public class DeleteQnaAction implements Action {
+public class UserDeleteQnaAction implements Action {
 
 	@Override
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response) throws Exception {

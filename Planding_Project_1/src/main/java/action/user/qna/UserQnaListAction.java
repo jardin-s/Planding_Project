@@ -12,7 +12,7 @@ import vo.ActionForward;
 import vo.PageInfo;
 import vo.QnaBean;
 
-public class QnaListAction implements Action {
+public class UserQnaListAction implements Action {
 
 	@Override
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response) throws Exception {

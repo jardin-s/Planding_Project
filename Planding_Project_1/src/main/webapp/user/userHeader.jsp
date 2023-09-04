@@ -81,7 +81,7 @@ function userLogout(){
 
     <!-- Navbar Start -->
     <nav class="navbar navbar-expand-lg bg-white navbar-light sticky-top p-0">
-        <a href="index.jsp" class="navbar-brand d-flex align-items-center px-4 px-lg-5">
+        <a href="userMain.usr" class="navbar-brand d-flex align-items-center px-4 px-lg-5">
             <h1 class="m-0">PlanDing</h1>
         </a>
         <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
@@ -104,11 +104,11 @@ function userLogout(){
                     <div class="dropdown-menu bg-light m-0">
                         <a href="about.html" class="dropdown-item fs-6">사이트소개</a>
                         <a href="feature.html" class="dropdown-item fs-6">공지사항</a>
-                        <a href="quote.html" class="dropdown-item fs-6">문의사항</a>
+                        <a href="userQnaList.usr" class="dropdown-item fs-6">문의사항</a>
                     </div>
                 </div>
             </div>
-            <a href="registerNewProject.fnd" class="btn btn-primary py-4 px-lg-4 rounded-0 d-none d-lg-block">프로젝트 등록하기<i class="fa fa-arrow-right ms-3"></i></a>
+            <a href="registerNewProject.pj" class="btn btn-primary py-4 px-lg-4 rounded-0 d-none d-lg-block">프로젝트 등록하기<i class="fa fa-arrow-right ms-3"></i></a>
         </div>
     </nav>
     <!-- Navbar End -->

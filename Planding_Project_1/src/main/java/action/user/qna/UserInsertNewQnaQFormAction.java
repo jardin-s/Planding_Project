@@ -9,7 +9,7 @@ import javax.servlet.http.HttpSession;
 import action.Action;
 import vo.ActionForward;
 
-public class InsertNewQnaQFormAction implements Action {
+public class UserInsertNewQnaQFormAction implements Action {
 
 	@Override
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response) throws Exception {

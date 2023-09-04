@@ -99,7 +99,7 @@ function qnaFormCheck(){
     <div class="container-fluid pt-4 pb-4">
         <div class="container col-md-8 col-lg-7">
             <div class="row justify-content-center">
-				<form action="modifyQnaQAction.qna" method="post" name="f" enctype="multipart/form-data">
+				<form action="userModifyQnaQAction.qna" method="post" name="f" enctype="multipart/form-data">
 					<input type="hidden" name="qna_id" value="${qnaInfo.qna_id}">
 					<input type="hidden" name="member_id" value="${sessionScope.u_id}">
 					<div class="input-group mb-2">
@@ -111,7 +111,7 @@ function qnaFormCheck(){
 						<textarea name="q_content" value="${qnaInfo.q_content }" class="form-control" placeholder="내용을 입력하세요." aria-label="q_content" rows="10"></textarea>
 					</div>
 					<div class="input-group mb-3">
-						<input type="file" name="q_image" value="qna/images/${qnaInfo.q_image }" class="form-control" id="q_image" aria-describedby="q_image" aria-label="q_image">
+						<input type="file" name="q_image" value="/images/qna/${qnaInfo.q_image }" class="form-control" id="q_image" aria-describedby="q_image" aria-label="q_image">
 						<label></label>
 					</div>
 					<div class="form-check">

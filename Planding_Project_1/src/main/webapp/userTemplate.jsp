@@ -36,7 +36,7 @@
 </head>
 <body>
 	<div>
-		<jsp:include page="userHeader.jsp" />
+		<jsp:include page="user/userHeader.jsp" />
 	</div>
 		
 	<c:if test="${requestScope.showPage ne null }">
@@ -48,7 +48,7 @@
 	</c:if>
 	
 	<div>
-		<jsp:include page="userFooter.jsp" />
+		<jsp:include page="user/userFooter.jsp" />
 	</div>
 	
 	<!-- JavaScript Libraries -->

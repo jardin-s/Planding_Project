@@ -11,7 +11,7 @@ import svc.user.qna.QnaViewService;
 import vo.ActionForward;
 import vo.QnaBean;
 
-public class QnaViewAction implements Action {
+public class UserQnaViewAction implements Action {
 
 	@Override
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response) throws Exception {

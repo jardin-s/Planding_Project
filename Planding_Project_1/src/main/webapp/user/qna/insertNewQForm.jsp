@@ -92,7 +92,7 @@ function qnaFormCheck(){
     <div class="container-fluid pt-4 pb-4">
         <div class="container col-md-8 col-lg-7">
             <div class="row justify-content-center">
-				<form action="insertNewQnaQAction.qna" method="post" name="f" enctype="multipart/form-data">
+				<form action="userInsertNewQnaQAction.usr" method="post" name="f" enctype="multipart/form-data">
 					<input type="hidden" name="member_id" value="${sessionScope.u_id}">
 					<div class="input-group mb-2">
 						<span class="input-group-text" id="q_title">제목</span>
