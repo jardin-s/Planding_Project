@@ -1,4 +1,4 @@
-package action.qna;
+package action.user.qna;
 
 import java.io.PrintWriter;
 
@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import action.Action;
-import svc.qna.QnaViewService;
+import svc.user.qna.QnaViewService;
 import vo.ActionForward;
 import vo.QnaBean;
 

@@ -220,7 +220,7 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `project`.`qna_tbl` (
   `qna_id` INT NOT NULL AUTO_INCREMENT COMMENT '문의사항 ID',
   `member_id` VARCHAR(20) NOT NULL COMMENT '작성자 ID',
-  `q_title` NVARCHAR(30) NOT NULL COMMENT '질문 제목',
+  `q_title` VARCHAR(256) NOT NULL COMMENT '질문 제목',
   `q_content` VARCHAR(400) NOT NULL COMMENT '질문 내용',
   `q_image` VARCHAR(60) NULL COMMENT '문의사항 이미지',
   `isPrivate` TINYINT NOT NULL COMMENT '비밀글 여부',

@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+    
 <!DOCTYPE html>
 <html>
 <head>
@@ -34,6 +36,16 @@
     <link href="../resources/css/style.css" rel="stylesheet">
 </head>
 
+<script>
+function deleteConfirm(page, qna_id, member_id){
+	if(!confirm('문의글을 삭제하시겠습니까?')){
+		return false;
+	}else{
+		location.href="deleteQnaAction.qna?page="+page+"&qna_id="+qna_id+"&member_id="+member_id;
+	}
+}
+</script>
+
 <body>
 	
 	<!-- Main Section -->
@@ -57,7 +69,44 @@
     <div class="container-fluid pt-4 pb-4">
         <div class="container col-md-8 col-lg-7">
             <div class="row justify-content-center">
-				
+				<h4 class="mb-3">문의사항 글 제목</h4>
+				<hr>
+				<div class="mb-3">
+					<span>작성자아이디</span> | <span>작성일자</span>
+				</div>
+				<hr>
+                <p class="mb-3">
+                	글 내용
+                </p>
+                <c:if test="${qnaInfo.q_image ne null }">
+                	<hr>
+	                <div>
+	                	<img src="qna/images/${qnaInfo.q_image}">
+	                	<span>첨부파일 : <a href="qnaImageFileDown.qna?q_image=${qnaInfo.q_iamge }">${qnaInfo.q_image}</a></span>	                	
+	                </div>
+	                <hr>
+                </c:if>
+                <hr class="mb-5">
+                <c:if test="${qnaInfo.a_content eq 'unanswered'}">
+                	<p>아직 등록된 답변이 없습니다.</p>
+                </c:if>
+                <c:if test="${qnaInfo.a_content ne 'unanwsered'}">
+                	<div class="mb-3">
+                		<span class="fw-bold fs-5">문의사항에 대한 답변입니다.</span> | <span>답변일시</span>
+                	</div>
+                	<hr>
+                	<p>답변 내용</p>
+                	<hr class="mb-4">
+                </c:if>
+                
+                <div class="col-12 text-center">
+                	<c:if test="${sessionScope.u_id eq qna.member_id }">
+						<button class="btn btn-light" type="button" onclick="location.href='modifyQnaQForm.qna?qna_id=${qnaInfo.qna_id}&member_id=${qnaInfo.member_id }&page=${page}'">수정</button>
+                		<button class="btn btn-light" type="button" onclick="deleteConfirm(${page},${qnaInfo.qna_id},'${qnaInfo.member_id }');">삭제</button>
+                	</c:if>
+                	<button class="btn btn-light" onclick="location.href='qnaList.qna?page=${page}'">글 목록</button>
+                </div>
+                
 			</div>
         </div>		
     </div>   

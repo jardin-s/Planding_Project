@@ -7,6 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
+import util.SHA256;
 import vo.QnaBean;
 
 public class QnaDAO {
@@ -212,6 +213,89 @@ public class QnaDAO {
 		
 		return qna;
 	}
+
+	public int updateQuestion(QnaBean qna) {
+		int updateQuestionCount = 0;
+		
+		String sql = "update qna_tbl"
+				  + " set q_title=?, q_content=?, isPrivate=?"
+				  + " where qna_id=?";
+		
+		try {
+			pstmt = con.prepareStatement(sql);
+			
+			pstmt.setString(1, qna.getQ_title());
+			pstmt.setString(2, qna.getQ_content());
+			pstmt.setBoolean(3, qna.isPrivate());
+			pstmt.setInt(4, qna.getQna_id());
+			
+			updateQuestionCount = pstmt.executeUpdate();
+						
+		} catch(Exception e) {
+			System.out.println("[QnaDAO] updateQuestion() 에러 : "+e);//예외객체종류 + 예외메시지
+		} finally {
+			close(pstmt); //JdbcUtil.생략가능
+			close(rs); //JdbcUtil.생략가능
+			//connection 객체에 대한 해제는 DogListService에서 이루어짐
+		}
+		
+		return updateQuestionCount;
+	}
+
+	public int updateQuestionImg(QnaBean qna) {
+		
+		int updateQuestionImgCount = 0;
+		
+		String sql = "update qna_tbl"
+				  + " set q_title=?, q_content=?, q_image=?, isPrivate=?"
+				  + " where qna_id=?";
+		
+		try {
+			pstmt = con.prepareStatement(sql);
+			
+			pstmt.setString(1, qna.getQ_title());
+			pstmt.setString(2, qna.getQ_content());
+			pstmt.setString(3, qna.getQ_image());
+			pstmt.setBoolean(4, qna.isPrivate());
+			pstmt.setInt(5, qna.getQna_id());
+			
+						
+		} catch(Exception e) {
+			System.out.println("[QnaDAO] updateQuestionImg() 에러 : "+e);//예외객체종류 + 예외메시지
+		} finally {
+			close(pstmt); //JdbcUtil.생략가능
+			close(rs); //JdbcUtil.생략가능
+			//connection 객체에 대한 해제는 DogListService에서 이루어짐
+		}
+		
+		return updateQuestionImgCount;
+	}
+
+	//문의글 삭제
+	public int deleteQna(int qna_id) {
+		
+		int deleteQnaCount = 0;
+		
+		String sql = "delete from qna_tbl where qna_id=?";
+		
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, qna_id);
+			
+			deleteQnaCount = pstmt.executeUpdate();			
+						
+		} catch(Exception e) {
+			System.out.println("[QnaDAO] deleteQna() 에러 : "+e);//예외객체종류 + 예외메시지
+		} finally {
+			close(pstmt); //JdbcUtil.생략가능
+			//close(rs); //JdbcUtil.생략가능
+			//connection 객체에 대한 해제는 DogListService에서 이루어짐
+		}
+		
+		return deleteQnaCount;
+	}
+
+	
 
 	
 	/* 관리자 모드 ---------------------------------------------------------------------------*/

@@ -1,4 +1,4 @@
-package action.qna;
+package action.user.qna;
 
 import java.util.ArrayList;
 
@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import action.Action;
-import svc.qna.QnaListService;
+import svc.user.qna.QnaListService;
 import vo.ActionForward;
 import vo.PageInfo;
 import vo.QnaBean;

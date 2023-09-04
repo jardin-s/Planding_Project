@@ -1,4 +1,4 @@
-package action.qna;
+package action.user.qna;
 
 import java.io.File;
 import java.io.PrintWriter;
@@ -12,11 +12,11 @@ import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
 import action.Action;
-import svc.qna.QnaNewQuestionService;
+import svc.user.qna.QnaNewQuestionService;
 import vo.ActionForward;
 import vo.QnaBean;
 
-public class QnaNewQuestionAction implements Action {
+public class InsertNewQnaQAction implements Action {
 
 	@Override
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -35,34 +35,20 @@ public class QnaNewQuestionAction implements Action {
 		
 		//한번에 올릴 수 있는 최대 파일용량 10MB 제한
 		int size = 10 * 1024 * 1024;
+			
+		MultipartRequest multi = new MultipartRequest(request, uploadPath, size, "UTF-8", new DefaultFileRenamePolicy());
+													//request객체, 업로드위치, 최대용량, 파일명인코딩, 파일명 중복방지
 		
+		String member_id = multi.getParameter("member_id");
 		
-		String member_id = "";
-		String q_title = "";
-		String q_content = "";
-		String q_image = "";
-		boolean isPrivate = false;
+		String q_title = multi.getParameter("q_title");
+		String q_content = multi.getParameter("q_content");
+		boolean isPrivate = Boolean.parseBoolean(multi.getParameter("isPrivate"));
+					
+		String q_image = multi.getFilesystemName("q_image");
+			
+		System.out.println("[QnaNewQuestionAction] 파라미터값 이미지파일 업로드 성공");
 		
-		try {
-			
-			MultipartRequest multi = new MultipartRequest(request, uploadPath, size, "UTF-8", new DefaultFileRenamePolicy());
-														//request객체, 업로드위치, 최대용량, 파일명인코딩, 파일명 중복방지
-			
-			member_id = multi.getParameter("member_id");
-			q_title = multi.getParameter("q_title");
-			q_content = multi.getParameter("q_content");
-			isPrivate = Boolean.parseBoolean(multi.getParameter("isPrivate"));
-			
-			Enumeration<String> files = multi.getFileNames();
-			if(files != null) {
-				q_image = multi.getFilesystemName(files.nextElement());
-				
-				System.out.println("[QnaNewQuestionAction] 파라미터값 이미지파일 업로드 성공");
-			}
-			
-		} catch(Exception e) {
-			System.out.println("[QnaNewQuestionAction] 파일 업로드 에러 발생 : "+e);
-		}
 		
 		QnaBean qna = new QnaBean();
 		qna.setMember_id(member_id);
@@ -84,7 +70,7 @@ public class QnaNewQuestionAction implements Action {
 		}else {//글 등록 성공 시
 						
 			request.setAttribute("showPage", "qna/qnaList.jsp");
-			forward = new ActionForward("userTemplage.jsp", false);
+			forward = new ActionForward("userTemplate.jsp", false);
 		}
 		
 		return forward;

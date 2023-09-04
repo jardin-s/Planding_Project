@@ -56,7 +56,7 @@
     	<div class="container-xxl py-5">
     		<div class="container col-lg-8">
     				<p class="text-center">작성된 문의글이 없습니다.</p>
-	    			<button class="btn btn-outline-primary float-right py-1">문의글 작성</button>
+	    			<button class="btn btn-outline-primary float-right py-1" type="button" onclick="location.href='insertNewQnaQForm.qna'">문의글 작성</button>
     			</div>
     		</div>
     	</div>
@@ -117,7 +117,7 @@
 	    <div class="container-fluid mt-0 pt-0 pb-5">
 	    	<div class="container col-lg-8 px-0">
 	    		<div class="d-flex justify-content-end">
-	    			<button class="btn btn-outline-primary float-right py-1" type="button" onclick="location.href='qnaNewQuestionForm.qna'">문의글 작성</button>
+	    			<button class="btn btn-outline-primary float-right py-1" type="button" onclick="location.href='insertNewQnaQForm.qna'">문의글 작성</button>
 	    		</div>
 	    	</div>
 	   	</div>

@@ -1,4 +1,4 @@
-package action.qna;
+package action.user.qna;
 
 import java.io.PrintWriter;
 
@@ -9,7 +9,7 @@ import javax.servlet.http.HttpSession;
 import action.Action;
 import vo.ActionForward;
 
-public class QnaNewQuestionFormAction implements Action {
+public class InsertNewQnaQFormAction implements Action {
 
 	@Override
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -28,7 +28,7 @@ public class QnaNewQuestionFormAction implements Action {
 		
 		}else {//로그인 된 상태면 글쓰기 폼으로 이동
 		
-			request.setAttribute("showPage", "qna/newQuestionForm.jsp");
+			request.setAttribute("showPage", "qna/insertNewQForm.jsp");
 			forward = new ActionForward("userTemplate.jsp", false);
 			
 		}

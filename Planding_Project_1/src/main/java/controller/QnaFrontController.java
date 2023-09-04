@@ -8,11 +8,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import action.Action;
-import action.qna.QnaListAction;
-import action.qna.QnaNewQuestionAction;
-import action.qna.QnaNewQuestionFormAction;
-import action.qna.QnaViewAction;
 import action.user.UserUploadProjectListAction;
+import action.user.qna.DeleteQnaAction;
+import action.user.qna.InsertNewQnaQAction;
+import action.user.qna.InsertNewQnaQFormAction;
+import action.user.qna.ModifyQnaQAction;
+import action.user.qna.ModifyQnaQFormAction;
+import action.user.qna.QnaListAction;
+import action.user.qna.QnaViewAction;
 import action.user.UserBookmarkListAction;
 import action.user.UserDeleteAction;
 import action.user.UserFundProjectListAction;
@@ -104,9 +107,9 @@ public class QnaFrontController extends HttpServlet {
 		}
 				
 		/*-- '문의글 쓰기 폼 보기' 요청 -> 처리 --------------------------------------*/
-		else if(command.equals("/qnaNewQuestionForm.qna")) {//문의글 쓰기 폼 보기 요청
+		else if(command.equals("/insertNewQnaQForm.qna")) {//문의글 쓰기 폼 보기 요청
 			
-			action = new QnaNewQuestionFormAction();
+			action = new InsertNewQnaQFormAction();
 
 			try {
 				forward = action.execute(request, response); //DogListAction의 execute()를 실행
@@ -115,9 +118,9 @@ public class QnaFrontController extends HttpServlet {
 			}
 			
 		}
-		else if(command.equals("/qnaNewQuestionAction.qna")) {//문의글 등록 요청
+		else if(command.equals("/insertNewQnaQAction.qna")) {//문의글 등록 요청
 			
-			action = new QnaNewQuestionAction();
+			action = new InsertNewQnaQAction();
 
 			try {
 				forward = action.execute(request, response); //DogListAction의 execute()를 실행
@@ -131,6 +134,43 @@ public class QnaFrontController extends HttpServlet {
 		else if(command.equals("/qnaView.qna")) {//문의글 쓰기 폼 보기 요청
 			
 			action = new QnaViewAction();
+
+			try {
+				forward = action.execute(request, response); //DogListAction의 execute()를 실행
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+			
+		}
+		
+		/*-- '문의글 수정 폼 보기' 요청 -> 처리 --------------------------------------*/
+		else if(command.equals("/modifyQnaQForm.qna")) {//문의글 수정 폼 보기 요청
+			
+			action = new ModifyQnaQFormAction();
+
+			try {
+				forward = action.execute(request, response); //DogListAction의 execute()를 실행
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+			
+		}
+		else if(command.equals("/modifyQnaQAction.qna")) {//문의글 수정하기 요청
+			
+			action = new ModifyQnaQAction();
+
+			try {
+				forward = action.execute(request, response); //DogListAction의 execute()를 실행
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+			
+		}
+		
+		/*-- '문의글 삭제하기' 요청 -> 처리 --------------------------------------*/
+		else if(command.equals("/deleteQnaAction.qna")) {//문의글 삭제하기 요청
+			
+			action = new DeleteQnaAction();
 
 			try {
 				forward = action.execute(request, response); //DogListAction의 execute()를 실행
