@@ -21,26 +21,6 @@ drop table notice_tbl;
 drop table member_tbl;
 */
 
-drop table former_member_tbl;
-
-drop table project_reward_tbl;
-drop table donation_tbl;
-drop table reward_tbl;
-
-drop table image_tbl;
-
-drop table project_review_tbl;
-drop table bookmark_tbl;
-drop table project_planner_tbl;
-drop table project_image_tbl;
-drop table admin_income_tbl;
-drop table project_tbl;
-
-drop table address_tbl;
-drop table qna_tbl;
-drop table notice_tbl;
-drop table member_tbl;
-
 -- MySQL Workbench Forward Engineering
 
 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
