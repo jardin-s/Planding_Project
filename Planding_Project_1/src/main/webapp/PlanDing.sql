@@ -213,6 +213,18 @@ CREATE TABLE IF NOT EXISTS `project`.`qna_tbl` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
+select * from qna_tbl;
+
+select count(*) from qna_tbl;
+
+select qna_id, member_id, q_title, q_content, q_image, isPrivate
+from qna_tbl;
+
+select qna_id, member_id, q_title, q_content, q_image, isPrivate,
+DATE_FORMAT(q_time,'%Y.%m.%d %H:%i') as q_time,
+a_content,
+DATE_FORMAT(a_time,'%Y.%m.%d %H:%i') as a_time
+from qna_tbl;
 
 -- -----------------------------------------------------
 -- Table `project`.`project_planner_tbl`

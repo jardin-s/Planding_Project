@@ -69,7 +69,7 @@ public class UserInsertNewQnaQAction implements Action {
 			out.println("</script>");
 		}else {//글 등록 성공 시
 						
-			request.setAttribute("showPage", "qna/qnaList.jsp");
+			request.setAttribute("showPage", "user/qna/qnaList.jsp");
 			forward = new ActionForward("userTemplate.jsp", false);
 		}
 		

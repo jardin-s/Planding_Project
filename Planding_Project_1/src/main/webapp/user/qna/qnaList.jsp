@@ -97,11 +97,11 @@
 							</tr>
 						</thead>
 						<tbody class="table-group-divider">
-							<c:forEach var="qna" items="${qnaList }">
+							<c:forEach var="qna" items="${qnaList}">
 								<tr>
 									<th scope="row">${q_index}</th>
 									<td><a href="userQnaView.usr?qna_id=${qna.qna_id}&page=${pageInfo.page}&isPrivate=${qna.isPrivate}">${qna.q_title }</a>
-										<c:if test="${qna.isPrivate eq true}">
+										<c:if test="${qna.isPrivate}">
 											<i class="fas fa-lock ms-1"></i>
 										</c:if>
 									</td>

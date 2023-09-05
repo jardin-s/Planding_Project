@@ -86,7 +86,7 @@ public class QnaDAO {
 		//3페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 20부터
 		
 		String sql = "select qna_id, member_id,"
-				  + " q_title, q_content, q_image, isPrivate"
+				  + " q_title, q_content, q_image, isPrivate,"
 				  + " DATE_FORMAT(q_time,'%Y.%m.%d %H:%i') as q_time,"
 				  + " a_content, DATE_FORMAT(a_time,'%Y.%m.%d %H:%i') as a_time"
 				  + " from qna_tbl"
@@ -98,7 +98,7 @@ public class QnaDAO {
 			pstmt = con.prepareStatement(sql);
 			pstmt.setInt(1, startrow);//startrow번째행부터 limit개만 가져옴
 			pstmt.setInt(2, limit);
-			pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			
 			if(rs.next()) {
 				qnaList = new ArrayList<>();
@@ -178,7 +178,7 @@ public class QnaDAO {
 		QnaBean qna = null;
 		
 		String sql = "select qna_id, member_id,"
-				 + " q_title, q_content, q_image, isPrivate"
+				 + " q_title, q_content, q_image, isPrivate,"
 				 + " DATE_FORMAT(q_time,'%Y.%m.%d %H:%i') as q_time,"
 				 + " a_content,"
 				 + " DATE_FORMAT(a_time,'%Y.%m.%d %H:%i') as a_time"
