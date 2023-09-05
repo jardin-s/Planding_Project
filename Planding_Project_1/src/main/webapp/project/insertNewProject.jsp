@@ -36,9 +36,7 @@
     <link href="../resources/css/customStyle.css" rel="stylesheet">
 </head>
 <body>
-	<div>
-		<jsp:include page="../userHeader.jsp" />
-	</div>
+
 	
 	<!-- Main Section -->
 	<div class="container my-5">
@@ -47,31 +45,27 @@
                 <h1 class="display-6 mb-5">프로젝트를 등록하여<br>기부 또는 투자를 받으세요.</h1>
             </div>
             <div class="row g-4 justify-content-center">
-                <div class="col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+                <div class="col-md-5 wow fadeInUp" data-wow-delay="0.1s">
                     <div class="service-item rounded d-flex h-100">
                         <div class="service-text rounded p-5">
                             <h4 class="mb-3">기부 프로젝트</h4>
                             <p class="mb-4">취약계층이나 동물, 환경을 보호하기 위한<br>기부를 받고자 한다면</p>
-                            <a class="btn btn-sm" href="registerNewDonateForm.fnd"><i class="fas fa-plus me-2"></i>등록하기</a>
+                            <a class="btn btn-sm" href="donateProjectInsert.pj"><i class="fas fa-plus me-2"></i>등록하기</a>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+                <div class="col-md-5 wow fadeInUp" data-wow-delay="0.1s">
                     <div class="service-item rounded d-flex h-100">
                         <div class="service-text rounded p-5">
                             <h4 class="mb-3">펀딩 프로젝트</h4>
                             <p class="mb-4">지구를 위한 아이템을 개발하기 위해<br>투자를 받고자 한다면</p>
-                            <a class="btn btn-sm" href="registerNewFundForm.fnd"><i class="fas fa-plus me-2"></i>등록하기</a>
+                            <a class="btn btn-sm" href="fundProjectInsert.pj"><i class="fas fa-plus me-2"></i>등록하기</a>
                         </div>
                     </div>
                 </div>
             </div>
     </div>
               
-	
-	<div>
-		<jsp:include page="../userFooter.jsp" />
-	</div>
     
     <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>

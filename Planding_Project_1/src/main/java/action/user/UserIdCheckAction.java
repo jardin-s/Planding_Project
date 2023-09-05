@@ -1,7 +1,5 @@
 package action.user;
 
-import java.io.PrintWriter;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -13,24 +11,24 @@ public class UserIdCheckAction implements Action {
 
 	@Override
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
 		ActionForward forward = null;
 		
-		String id = request.getParameter("id");
+		String check_id = request.getParameter("ckid");
+		System.out.println("[UserJoinIdCheckAction] 파라미터 ckid : "+check_id);
 		
-		UserIdCheckService userIdCheckService = new UserIdCheckService();
-		boolean isIdExits = userIdCheckService.checkId(id);
+		UserIdCheckService userJoinIdCheckService = new UserIdCheckService();
+		boolean isIdUsable = userJoinIdCheckService.userIdCheck(check_id);
+		System.out.println("[UserJoinIdCheckAction]");
+		System.out.println("isIdUsable = "+isIdUsable);
 		
-		response.setContentType("text/html; charset=utf-8");
-		PrintWriter out = response.getWriter();
-		if(isIdExits) {
-			out.println("0");
-		}else {
-			out.println("1");
-		}
+		request.setAttribute("isIdUsable", isIdUsable);
+		request.setAttribute("check_id", check_id);
 		
-		out.close();
+		forward = new ActionForward("idCheck.jsp", false);
 		
 		return forward;
+		
 	}
 
 }

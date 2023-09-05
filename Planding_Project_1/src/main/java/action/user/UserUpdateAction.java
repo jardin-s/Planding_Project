@@ -18,14 +18,16 @@ public class UserUpdateAction implements Action {
 		ActionForward forward = null;
 		
 		String u_id = request.getParameter("id");	
-		String u_password = request.getParameter("password");
 		String u_name = request.getParameter("name");
 		String u_email = request.getParameter("email");
-		int u_account = Integer.parseInt(request.getParameter("account"));
-		Boolean isAdmin = Boolean.parseBoolean(request.getParameter("isAdmin"));
+		String u_phone = request.getParameter("phone");
+						
+		MemberBean userInfo = new MemberBean();
+		userInfo.setMember_id(u_id);
+		userInfo.setName(u_name);
+		userInfo.setEmail(u_email);
+		userInfo.setPhone(u_phone);
 				
-		MemberBean userInfo = new MemberBean(u_id, u_password, u_name, u_email, u_account, isAdmin);
-		
 		UserUpdateService userUpdateService = new UserUpdateService();
 		
 		boolean isUserUpdateSuccess = false;
@@ -41,6 +43,14 @@ public class UserUpdateAction implements Action {
 			out.println("history.back();");
 			out.println("</script>");
 		}else {
+			
+			response.setContentType("text/html; charset=UTF-8");
+			
+			PrintWriter out = response.getWriter();
+			out.println("<script>");
+			out.println("alert('회원 수정이 완료되었습니다.');");
+			out.println("</script>");
+			
 			forward = new ActionForward("userView.usr", true);
 		}
 		

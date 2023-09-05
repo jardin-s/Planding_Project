@@ -27,8 +27,12 @@ public class UserHashPwFindAction implements Action {
 		
 		ActionForward forward = null;
 		
-		String u_id = request.getParameter("id");
+		String u_id = request.getParameter("member_id");
 		String u_email = request.getParameter("email");
+		
+		System.out.println("[UserHashPwFindAction]");
+		System.out.println("파라미터로 넘어온 member_id = "+u_id);
+		System.out.println("파라미터로 넘어온 email = "+u_email);
 		
 		UserHashPwFindService userHashPwFindService = new UserHashPwFindService();
 		MemberBean userInfo = userHashPwFindService.findHashPw(u_id, u_email);
@@ -159,6 +163,7 @@ public class UserHashPwFindAction implements Action {
 				
 				//2. 화면에 임시 비밀번호를 뿌리기 위해 request 속성값으로 저장 ----------------------------------------------------
 				request.setAttribute("random_password", random_password);
+				request.setAttribute("u_email", u_email);
 				
 				//임시비밀번호를 화면에 뿌림
 				request.setAttribute("showPage", "user/hash/findHashPwComplete.jsp");

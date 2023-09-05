@@ -61,6 +61,9 @@ public class UserHashPwFindService {
 		 * 		 단, select는 이런 작업을 제외 ------------------*/
 		if(updatePwCount > 0) {
 			isSetHashPwSuccess = true;
+			commit(con);
+		}else {
+			rollback(con);
 		}
 		
 		//4. 해제

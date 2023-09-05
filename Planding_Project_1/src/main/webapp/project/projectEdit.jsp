@@ -90,16 +90,20 @@
 		    }
 		  }
 		  function otherBank() {
-		      var bankSelect = document.getElementById("bank");
-		      var bankInput = document.getElementById("otherBank");
-		      var selectedValue = bankSelect.value;
-		            
-		      if (selectedValue === "OtherBank") {
-		       bankInput.style.display = "block";
-		      } else {
-		        bankInput.style.display = "none";
-		           }
-		  }
+			  var bankSelect = document.getElementById("bank");
+			    var bankInput = document.getElementById("otherBank");
+			    var accountInput = document.getElementById("account");
+			    var selectedValue = bankSelect.value;
+
+			    if (selectedValue === "OtherBank") {
+			        bankInput.style.display = "block";
+			        bankInput.querySelector("input").value = ""; // 은행 이름 초기화
+			        accountInput.value = ""; // 계좌번호 초기화
+			    } else {
+			        bankInput.style.display = "none";
+			        accountInput.value = ""; // 계좌번호 초기화
+			    }
+			}
 		  function formatCurrency(amount) {
 			    return amount.toLocaleString();
 			}
@@ -125,6 +129,7 @@
 	<%
 	String bank=request.getParameter("bank");
 	String otherBankName=request.getParameter("otherBankName");
+	String category=request.getParameter("category");
 	%>
 	<div>
 		<jsp:include page="../userHeader.jsp" />
@@ -132,24 +137,25 @@
 
 	<div class="m-5">
 		<form action="insert_project.pj" method="post">
-			<input type="text" name="kind" value="${kind}" readonly required> 
-			<input type="text" name="member_id" value="${member_id}" readonly required>
-			
+			<div class="mb-3">
+				<label for="project_id" class="form-label">프로젝트 아이디</label> 
+				<input type="text" class="form-control" id="project_id" name="project_id" maxlength="20" value="${project_id }" required readonly>
+			</div>
 			<div class="mb-3">
 				<label for="kind" class="form-label">프로젝트 종류</label> 
-				<input type="text" class="form-control" id="kind" name="kind" maxlength="20" required readonly>
+				<input type="text" class="form-control" id="kind" name="kind" maxlength="20" value="${kind }" required readonly>
 			</div>
 			<div class="mb-3">
 				<label for="member_id" class="form-label">아이디</label> 
-				<input type="text" class="form-control" id="member_id" name="member_id" maxlength="20" required readonly>
+				<input type="text" class="form-control" id="member_id" name="member_id" maxlength="20" value="${member_id}" required readonly>
 			</div>
 			<div class="mb-3">
 				<label for="planner_name" class="form-label">기획자명</label> 
-				<input type="text" class="form-control" id="planner_name" name="planner_name" maxlength="20" required placeholder="개인 또는 기업, 단체명">
+				<input type="text" class="form-control" id="planner_name" name="planner_name" maxlength="20" value="${planner_name}" required placeholder="개인 또는 기업, 단체명">
 			</div>
 			<div class="mb-3">
 				<label for="introduce" class="form-label">기획자소개</label>
-				<textarea class="form-control" id="introduce" name="introduce" rows="3" maxlength="100" required></textarea>
+				<textarea class="form-control" id="introduce" name="introduce" rows="3" maxlength="100" required>${introduce }</textarea>
 			</div>
 			<div class="mb-3">
 				<select class="form-select" aria-label="bank"  id="bank" name="bank" onchange="otherBank()" required>
@@ -181,44 +187,44 @@
        		</div>
 			<div class="mb-3">
 				<label for="account" class="form-label">입금계좌번호</label> 
-				<input type="text" class="form-control" id="account" name="account" maxlength="45byte" required placeholder="펀딩 성공 시 입금받을 계좌를 입력해주세요">
+				<input type="text" class="form-control" id="account" name="account" maxlength="45byte" value="${account}" required placeholder="펀딩 성공 시 입금받을 계좌를 입력해주세요">
 			</div>
 
 			<div class="mb-3">
 				<label for="title" class="form-label">프로젝트명</label> 
-				<input type="text" class="form-control" id="title" name="title" maxlength="50" required>
+				<input type="text" class="form-control" id="title" name="title" maxlength="50" value="${title}" required>
 			</div>
 			<div class="mb-3">
 				<label for="summary" class="form-label">프로젝트 요약</label>
-				<textarea class="form-control" id="summary" name="summary" rows="3" maxlength="100" required></textarea>
-			</div>
-			<div class="mb-3">
-				<label for="contentImg" class="form-label">프로젝트 내용 이미지 어케해요..</label> 
-				<input type="file" class="form-control" id="contentImg" name="contentImg">
-			</div>
-			<div class="mb-3">
-				<label for="content" class="form-label">프로젝트 내용</label>
-				<textarea class="form-control" id="content" name="content" rows="3" maxlength="500" required></textarea>
+				<textarea class="form-control" id="summary" name="summary" rows="3" maxlength="100" required>${summary}</textarea>
 			</div>
 			<div class="mb-3">
 				<label for="thumbnail" class="form-label">썸네일 이미지</label>
-				<!-- image_tbl -->
 				<input type="file" class="form-control" id="thumbnail" name="thumbnail" required>
 			</div>
 			<div class="mb-3">
-				<label for="startdate" class="form-label">시작예정일</label> 
-					<input type="date" class="form-control" id="startdate" name="startdate" required oninput="startDate()"> 
+				<label for="content" class="form-label">프로젝트 내용</label>
+				<textarea class="form-control" id="content" name="content" rows="3" maxlength="500" required>${content}</textarea>
+			</div>
+			<div class="mb-3">
+				<label for="image" class="form-label">프로젝트 이미지</label> 
+				<input type="file" class="form-control" id="image" name="image" value="${image }">
+			</div>
+			
+			<div class="mb-3">
+				<label for="startdate" class="form-label">시작일</label> 
+					<input type="date" class="form-control" id="startdate" name="startdate" required oninput="startDate()" value="${startdate }"> 
 					<span id="startdate-error" style="color: red;"></span>
 			</div>
 			<div class="mb-3">
 				<label for="enddate" class="form-label">종료일</label> 
-					<input type="date" class="form-control" id="enddate" name="enddate" required oninput="endDate()"> 
+					<input type="date" class="form-control" id="enddate" name="enddate" required oninput="endDate()" value="${enddate }"> 
 					<span id="enddate-error" style="color: red;"></span>
 			</div>
 			<div class="mb-3">
 		        <label for="goal_amount" class="form-label">목표 모금액</label>
 		        <div class="input-group">
-		            <input type="text" class="form-control" id="goal_amount" name="goal_amount" required oninput="updateFormattedAmount(this);">
+		            <input type="text" class="form-control" id="goal_amount" name="goal_amount" required oninput="updateFormattedAmount(this);" value="${goal_amount }">
 		            <span class="input-group-text">원</span>
 		        </div>
 		        <p id="korean-amount"></p>
@@ -226,12 +232,12 @@
 			<div class="mb-3">
 				<label for="category">카테고리:</label><br> 
 					<select id="category" name="category" class="form-select" required>
-						<option value="nature">환경</option>
-						<option value="animal">동물</option>
-						<option value="human">사람</option>
+						<option value="nature" <%=(category.equals("nature"))?"selected":"" %>>환경</option>
+						<option value="animal" <%=(category.equals("animal"))?"selected":"" %>>동물</option>
+						<option value="human" <%=(category.equals("human"))?"selected":"" %>>사람</option>
 				</select>
 			</div>
-
+			
 			<div align="center">
 			<input class="btn btn-primary" type="submit" id="submit" value="프로젝트 수정하기"><!-- 유효성 검사는 모든 항목에 required를 입력하여 대체함 -->
 			</div>

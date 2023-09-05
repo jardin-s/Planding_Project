@@ -10,6 +10,7 @@ import java.util.ArrayList;
 
 import util.SHA256;
 import vo.AddressBean;
+import vo.BookmarkBean;
 import vo.MemberBean;
 import vo.MemberPwChangeBean;
 
@@ -189,6 +190,7 @@ public class UserDAO {
 				userInfo.setMember_id(rs.getString("member_id"));
 				userInfo.setName(rs.getString("name"));
 				userInfo.setEmail(rs.getString("email"));
+				userInfo.setPhone(rs.getString("phone"));
 				userInfo.setAccount(rs.getInt("account"));
 				userInfo.setAdmin(rs.getBoolean("isAdmin"));
 			}
@@ -240,8 +242,8 @@ public class UserDAO {
 		int insertUserCount = 0;
 		
 		//joindate timestamp default now() -> joindate 생략
-		String sql = "insert into member_tbl(member_id, password, name, email, account, isAdmin) "
-					+ "values(?,?,?,?,?,?)";
+		String sql = "insert into member_tbl(member_id, password, name, email, phone, account, isAdmin) "
+					+ "values(?,?,?,?,?,?,?)";
 		
 		//joindate timestamp (디폴트값 없음) -> insert into member_tbl values(?,?,?,?,?,?,now());
 		
@@ -257,8 +259,9 @@ public class UserDAO {
 						
 			pstmt.setString(3, user.getName());
 			pstmt.setString(4, user.getEmail());
-			pstmt.setInt(5, user.getAccount());
-			pstmt.setBoolean(6, user.isAdmin());
+			pstmt.setString(5, user.getPhone());
+			pstmt.setInt(6, user.getAccount());
+			pstmt.setBoolean(7, user.isAdmin());
 			
 			insertUserCount = pstmt.executeUpdate();
 			
@@ -341,17 +344,18 @@ public class UserDAO {
 		int updateUserCount = 0;
 		
 		String sql = "update member_tbl"
-				   + " set password=?, name=?, email=?"
+				   + " set name=?, email=?, phone=?"
 				   + " where member_id=?";
 		
 		try {
 			
 			pstmt = con.prepareStatement(sql);
 			
-			pstmt.setString(1, user.getPassword());
+			//pstmt.setString(1, user.getPassword());
 			//암호화가 안 된 상태라면 pstmt.setString(3, SHA256.encodeSHA256(user.getPassword()));
-			pstmt.setString(2, user.getName());
-			pstmt.setString(3, user.getEmail());
+			pstmt.setString(1, user.getName());
+			pstmt.setString(2, user.getEmail());
+			pstmt.setString(3, user.getPhone());
 			
 			pstmt.setString(4, user.getMember_id());
 			
@@ -468,6 +472,7 @@ public class UserDAO {
 				userInfo.setMember_id(rs.getString("member_id"));
 				userInfo.setName(rs.getString("name"));
 				userInfo.setEmail(rs.getString("email"));
+				userInfo.setPhone(rs.getString("phone"));
 			}
 			
 		} catch(Exception e) {
@@ -507,6 +512,8 @@ public class UserDAO {
 				userInfo.setMember_id(u_id);
 				userInfo.setEmail(u_email);
 				userInfo.setName(rs.getString("name"));	
+				
+				System.out.println("[UserDAO] findHashPw() : 찾은회원의 name = "+rs.getString("name"));
 				
 				//방법-2
 				//userInfo.setId(rs.getString("id"));				
@@ -576,6 +583,208 @@ public class UserDAO {
 		}
 		
 		return changeHashPwCount;
+	}
+
+	public ArrayList<BookmarkBean> selectBookmarkList(String u_id) {
+		ArrayList<BookmarkBean> bookmarkList = null;
+		
+		String sql = "select project_id, DATE_FORMAT(likedate, %Y-%m-%d) as likedate";
+			   sql += " from bookmark_tbl";
+			   sql += " where member_id=?";
+			   sql += " order by likedate desc";
+		
+		try {
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, u_id);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				bookmarkList = new ArrayList<>();
+				
+				do {
+					bookmarkList.add(new BookmarkBean(u_id,
+													  rs.getInt("project_id"),
+													  rs.getString("likedate")));
+				}while(rs.next());
+			}
+			
+			
+		} catch(Exception e) {
+			System.out.println("[UserDAO] selectBookmarkList() 에러 : "+e);//예외객체종류 + 예외메시지
+		} finally {
+			close(pstmt); //JdbcUtil.생략가능
+			close(rs); //JdbcUtil.생략가능
+			//connection 객체에 대한 해제는 DogListService에서 이루어짐
+		}
+		
+		return bookmarkList;
+	}
+
+	public ArrayList<Integer> selectBookmarkIdList(String u_id) {
+		
+		ArrayList<Integer> bookmarkIdList = null;
+		
+		//최근순으로 정렬하여 projectId를 얻어옴
+		String sql = "select project_id";
+			   sql += " from bookmark_tbl";
+			   sql += " where member_id=?";
+			   sql += " order by likedate desc";
+		
+		try {
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, u_id);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				bookmarkIdList = new ArrayList<>();
+				
+				do {
+					bookmarkIdList.add(rs.getInt("project_id"));
+				}while(rs.next());
+			}
+			
+			
+		} catch(Exception e) {
+			System.out.println("[UserDAO] selectBookmarkList() 에러 : "+e);//예외객체종류 + 예외메시지
+		} finally {
+			close(pstmt); //JdbcUtil.생략가능
+			close(rs); //JdbcUtil.생략가능
+			//connection 객체에 대한 해제는 DogListService에서 이루어짐
+		}
+		
+		return bookmarkIdList;
+	}
+
+	public ArrayList<Integer> selectUploadProjectIdList(String p_id) {
+		
+		ArrayList<Integer> uploadProjectIdList = null;
+		
+		String sql = "select project_id";
+			   sql += " from project_planner_tbl";
+			   sql += " where member_id=?";
+		
+		try {
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, p_id);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				uploadProjectIdList = new ArrayList<>();
+				
+				do {
+					uploadProjectIdList.add(rs.getInt("project_id"));
+				}while(rs.next());
+			}
+			
+			
+		} catch(Exception e) {
+			System.out.println("[UserDAO] selectUploadProjectIdList() 에러 : "+e);//예외객체종류 + 예외메시지
+		} finally {
+			close(pstmt); //JdbcUtil.생략가능
+			close(rs); //JdbcUtil.생략가능
+			//connection 객체에 대한 해제는 DogListService에서 이루어짐
+		}
+		
+		return uploadProjectIdList;
+	}
+
+	public ArrayList<Integer> selectFundProjectIdList(String p_id) {
+		ArrayList<Integer> fundProjectIdList = null;
+		
+		String sql = "select project_id";
+			   sql += " from donation_tbl";
+			   sql += " where member_id=?";
+		
+		try {
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, p_id);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				fundProjectIdList = new ArrayList<>();
+				
+				do {
+					fundProjectIdList.add(rs.getInt("project_id"));
+				}while(rs.next());
+			}
+			
+			
+		} catch(Exception e) {
+			System.out.println("[UserDAO] selectFundProjectIdList() 에러 : "+e);//예외객체종류 + 예외메시지
+		} finally {
+			close(pstmt); //JdbcUtil.생략가능
+			close(rs); //JdbcUtil.생략가능
+			//connection 객체에 대한 해제는 DogListService에서 이루어짐
+		}
+		
+		return fundProjectIdList;
+	}
+
+	public MemberBean selectUserToDelete(MemberBean user) {
+		MemberBean member = null;
+		
+		String sql = "select email, joindate";
+		   sql += " from member_tbl";
+		   sql += " where member_id=? and password=?";
+	
+		try {
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, user.getMember_id());
+			pstmt.setString(2, user.getPassword());
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				member = new MemberBean();
+				member.setMember_id(user.getMember_id());
+				member.setEmail(rs.getString("email"));
+				member.setJoindate(rs.getString("joindate"));
+			}
+			
+			
+		} catch(Exception e) {
+			System.out.println("[UserDAO] selectUserToDelete() 에러 : "+e);//예외객체종류 + 예외메시지
+		} finally {
+			close(pstmt); //JdbcUtil.생략가능
+			close(rs); //JdbcUtil.생략가능
+			//connection 객체에 대한 해제는 DogListService에서 이루어짐
+		}
+		
+		return member;
+	}
+
+	public int insertFormerUser(MemberBean user) {
+		int insertFormerUserCount = 0;
+		
+		String sql = "insert into former_member_tbl(member_id, email, joindate) values(?,?,?)";
+	
+		try {
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, user.getMember_id());
+			pstmt.setString(2, user.getEmail());
+			pstmt.setString(3, user.getJoindate());
+			
+			insertFormerUserCount = pstmt.executeUpdate();			
+			
+		} catch(Exception e) {
+			System.out.println("[UserDAO] insertFormerUser() 에러 : "+e);//예외객체종류 + 예외메시지
+		} finally {
+			close(pstmt); //JdbcUtil.생략가능
+			//close(rs); //JdbcUtil.생략가능
+			//connection 객체에 대한 해제는 DogListService에서 이루어짐
+		}
+		
+		return insertFormerUserCount;
 	}
 	
 }
