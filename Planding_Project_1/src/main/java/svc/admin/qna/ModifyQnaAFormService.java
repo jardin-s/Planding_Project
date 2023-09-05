@@ -1,17 +1,17 @@
-package svc.user.qna;
+package svc.admin.qna;
 
 import static db.JdbcUtil.close;
-import static db.JdbcUtil.commit;
 import static db.JdbcUtil.getConnection;
-import static db.JdbcUtil.rollback;
 
 import java.sql.Connection;
 
 import dao.QnaDAO;
+import vo.QnaBean;
 
-public class DeleteQnaService {
+public class ModifyQnaAFormService {
 
-	public boolean deleteQna(int qna_id) {
+public QnaBean getQnaInfo(int qna_id) {
+		
 		//1. 커넥션 풀에서 Connection객체를 얻어와
 		Connection con = getConnection(); //JdbcUtil. 생략(이유?import static 하여)
 		
@@ -22,22 +22,15 @@ public class DeleteQnaService {
 		qnaDAO.setConnection(con);
 				
 		/*-------DAO의 해당 메서드를 호출하여 처리----------------------------------------------------*/
-		int deleteQnaCount = qnaDAO.deleteQna(qna_id);
+		QnaBean qnaInfo = qnaDAO.selectQna(qna_id);
 		
-		boolean isDeleteQnaResult = false;
 		/*-------(insert, update, delete) 성공하면 commit(), 실패하면 rollback() 호출
 		 * 		 단, select는 이런 작업을 제외 ------------------*/
-		if(deleteQnaCount > 0) {
-			isDeleteQnaResult = true;
-			commit(con);
-		}else {
-			rollback(con);
-		}
 		
 		//4. 해제
 		close(con); //JdbcUtil. 생략(이유?import static 하여)
 		
-		return isDeleteQnaResult;
+		return qnaInfo;
 	}
-
+	
 }

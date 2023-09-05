@@ -64,7 +64,7 @@ function userLogout(){
             <div class="col-lg-5 px-5 text-end">
                 <div class="h-100 d-inline-flex align-items-center mx-n2">
                     <c:if test="${sessionScope.u_id eq null }">
-                    	<a class="btn btn-link text-light" href="userLogin.usr">로그인하기</a>	
+                    	<a class="btn btn-link text-light" href="userLoginForm.usr">로그인하기</a>	
                     </c:if>
                     <c:if test="${sessionScope.u_id ne null }">
                     	<a class="btn btn-link text-light" href="#" onclick="userLogout();">로그아웃하기</a>

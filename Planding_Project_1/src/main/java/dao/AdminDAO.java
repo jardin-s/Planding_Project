@@ -137,10 +137,10 @@ public class AdminDAO {
 //	}
 	
 	//1. 로그인 폼에서 전달받은 id와 pw로 회원여부 조회한 후, 그 id를 다시 반환 (boolean으로 반환해도 됨)
-	public String selectLoginId(MemberBean admin) {
-		String loginId = null;
+	public MemberBean selectLoginAdmin(MemberBean admin) {
+		MemberBean loginAdmin = null;
 		
-		String sql = "select member_id, password from member_tbl where member_id=? and password=?";
+		String sql = "select member_id, password, isAdmin from member_tbl where member_id=? and password=?";
 		
 		System.out.println("[AdminDAO] selectLoginId() - 매개변수의 id : "+admin.getMember_id());
 		System.out.println("[AdminDAO] selectLoginId() - 매개변수의 password : "+admin.getPassword());
@@ -156,7 +156,9 @@ public class AdminDAO {
 			
 			//결과 처리
 			if(rs.next()) {
-				loginId = rs.getString("member_id"); 
+				loginAdmin = new MemberBean();
+				loginAdmin.setMember_id(rs.getString("member_id"));
+				loginAdmin.setAdmin(rs.getBoolean("isAdmin"));
 			}
 			
 		} catch(Exception e) {
@@ -167,7 +169,7 @@ public class AdminDAO {
 			//connection 객체에 대한 해제는 DogListService에서 이루어짐
 		}
 		
-		return loginId;
+		return loginAdmin;
 	}
 
 	public MemberBean selectAdminInfo(String a_id) {
@@ -580,5 +582,6 @@ public class AdminDAO {
 		
 		return changeHashPwCount;
 	}
+
 	
 }

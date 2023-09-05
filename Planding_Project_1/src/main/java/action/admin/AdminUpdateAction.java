@@ -17,7 +17,7 @@ public class AdminUpdateAction implements Action {
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ActionForward forward = null;
 		
-		String a_id = request.getParameter("id");	
+		String a_id = request.getParameter("member_id");	
 		String a_password = request.getParameter("password");
 		String a_name = request.getParameter("name");
 		String a_email = request.getParameter("email");

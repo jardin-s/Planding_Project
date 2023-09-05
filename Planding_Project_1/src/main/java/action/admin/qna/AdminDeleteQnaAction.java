@@ -1,4 +1,4 @@
-package action.user.qna;
+package action.admin.qna;
 
 import java.io.PrintWriter;
 
@@ -11,7 +11,7 @@ import svc.qna.DeleteQnaService;
 import vo.ActionForward;
 import vo.QnaBean;
 
-public class UserDeleteQnaAction implements Action {
+public class AdminDeleteQnaAction implements Action {
 
 	@Override
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response) throws Exception {

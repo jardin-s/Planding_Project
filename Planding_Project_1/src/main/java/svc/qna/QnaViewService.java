@@ -1,4 +1,4 @@
-package svc.user.qna;
+package svc.qna;
 
 import static db.JdbcUtil.close;
 import static db.JdbcUtil.getConnection;

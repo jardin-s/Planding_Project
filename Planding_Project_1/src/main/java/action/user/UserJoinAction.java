@@ -75,7 +75,7 @@ public class UserJoinAction implements Action {
 			*/
 			
 			//방법-2 : 알림창을 띄우지 않음
-			forward = new ActionForward("userLogin.usr", true);
+			forward = new ActionForward("userLoginForm.usr", true);
 		}
 		
 		return forward;

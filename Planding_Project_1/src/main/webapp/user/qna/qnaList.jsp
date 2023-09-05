@@ -54,10 +54,13 @@
     
     <c:if test="${pageInfo.listCount == 0 }">
     	<div class="container-xxl py-5">
-    		<div class="container col-lg-8">
+    		<div class="container col-10 col-md-6 col-lg-4">
+    			<div class="col-12 mb-5">
     				<p class="text-center">작성된 문의글이 없습니다.</p>
-	    			<button class="btn btn-outline-primary float-right py-1" type="button" onclick="location.href='insertNewQnaQForm.qna'">문의글 작성</button>
     			</div>
+    			<div class="col-12 text-center mx-auto">
+					<button class="btn btn-outline-primary py-1" type="button" onclick="location.href='userInsertNewQnaQForm.usr'">문의글 작성</button>
+				</div>
     		</div>
     	</div>
     </c:if>

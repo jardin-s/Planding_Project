@@ -13,16 +13,17 @@ public class AdminIdCheckAction implements Action {
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		ActionForward forward = null;
-		
-		String a_id = request.getParameter("id");
-		System.out.println("[AdminJoinIdCheckAction] 파라미터 id : "+a_id);
+
+		String ckid = request.getParameter("ckid");
+		System.out.println("[AdminIdCheckAction] 파라미터 ckid : "+ckid);
 		
 		AdminIdCheckService adminJoinIdCheckService = new AdminIdCheckService();
-		boolean isIdUsable = adminJoinIdCheckService.adminIdCheck(a_id);
-		System.out.println("[AdminJoinIdCheckAction]");
+		boolean isIdUsable = adminJoinIdCheckService.adminIdCheck(ckid);
+		System.out.println("[AdminIdCheckAction]");
 		System.out.println("isIdUsable = "+isIdUsable);
 		
 		request.setAttribute("isIdUsable", isIdUsable);
+		request.setAttribute("check_id", ckid);
 		
 		forward = new ActionForward("idCheck.jsp", false);
 		

@@ -1,4 +1,4 @@
-package action.user.qna;
+package action.admin.qna;
 
 import java.util.ArrayList;
 
@@ -12,13 +12,14 @@ import vo.ActionForward;
 import vo.PageInfo;
 import vo.QnaBean;
 
-public class UserQnaListAction implements Action {
+public class AdminQnaListAction implements Action {
 
 	@Override
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ActionForward forward = null;
 		
 		HttpSession session = request.getSession();
+		boolean isAdmin = (Boolean) session.getAttribute("isAdmin");
 		
 		//처음 요청할 경우 조회하는 페이지넘버 기본값 1
 		int page = 1;
@@ -65,8 +66,8 @@ public class UserQnaListAction implements Action {
 		request.setAttribute("pageInfo", pageInfo);
 		request.setAttribute("qnaList", qnaList);
 		
-		request.setAttribute("showPage", "user/qna/qnaList.jsp");
-		forward = new ActionForward("userTemplate.jsp", false);
+		request.setAttribute("showAdmin", "admin/qna/qnaList.jsp");//문의사항 페이지로 디스패치 포워딩
+		forward = new ActionForward("adminTemplate.jsp", false);
 		
 		return forward;
 	}

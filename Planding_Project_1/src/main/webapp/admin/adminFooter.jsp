@@ -40,6 +40,7 @@
             <div class="row">
                 <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
                     &copy; <a class="border-bottom" href="#">PlanDing</a>, All Right Reserved.
+                    <a class="btn btn-sm btn-dark ms-3 py-0 px-3 text-light" href="#" onclick="adminLogout();">로그아웃 후 사용자페이지로 돌아가기</a>
                 </div>
                 <div class="col-md-6 text-center text-md-end">
                     <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->

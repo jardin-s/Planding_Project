@@ -72,15 +72,16 @@ CREATE TABLE IF NOT EXISTS `project`.`member_tbl` (
   UNIQUE INDEX `email_UNIQUE` (`email` ASC) VISIBLE)
 ENGINE = InnoDB;
 
+select * from member_tbl;
 
 -- -----------------------------------------------------
 -- Table `project`.`reward_tbl`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `project`.`reward_tbl` (
   `reward_id` INT NOT NULL AUTO_INCREMENT COMMENT '리워드 ID',
-  `name` NVARCHAR(30) NOT NULL COMMENT '리워드 이름',
-  `desc` NVARCHAR(100) NOT NULL COMMENT '리워드 설명',
-  `price` INT NOT NULL COMMENT '리워드 금액',
+  `r_name` NVARCHAR(30) NOT NULL COMMENT '리워드 이름',
+  `r_content` NVARCHAR(100) NOT NULL COMMENT '리워드 설명',
+  `r_price` INT NOT NULL COMMENT '리워드 금액',
   PRIMARY KEY (`reward_id`))
 ENGINE = InnoDB;
 
@@ -174,9 +175,9 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `project`.`notice_tbl` (
   `notice_id` INT NOT NULL AUTO_INCREMENT,
   `member_id` VARCHAR(20) NOT NULL,
-  `title` NVARCHAR(30) NOT NULL,
-  `content` NVARCHAR(500) NOT NULL,
-  `image` VARCHAR(60) NULL,
+  `n_title` NVARCHAR(30) NOT NULL,
+  `n_content` NVARCHAR(500) NOT NULL,
+  `n_image` VARCHAR(60) NULL,
   `importance` TINYINT NULL,
   `viewcount` INT NOT NULL,
   `writetime` TIMESTAMP NULL DEFAULT now(),

@@ -92,7 +92,7 @@
     <!-- Form Start -->
     <div class="container-fluid pt-4 pb-5">
         <div class="container">
-            <form action="userLoginAction.usr" method="post">
+            <form action="userLoginAction.usr" method="post" name="f">
 	            <div class="row justify-content-center">
 	                <div class="col-8 col-md-6 col-lg-5 col-xl-4">
 	                    <div class="bg-light rounded p-4 animated fadeIn" data-wow-delay="0.1s">                        
@@ -111,7 +111,7 @@
 	                            </div>
 	                            <div class="col-12">
 	                                <div class="form-check">
-	                                    <input type="checkbox" name="checkbox" value="checked" checked="<%=checked %>" class="form-check-input border-0" id="checkbox">
+	                                    <input type="checkbox" name="checkbox" value="checked" <%=checked %> class="form-check-input border-0" id="checkbox">
 	                                    <label class="form-check-label" for="checkbox">아이디 기억하기</label>
 	                                </div>
 	                            </div>
@@ -120,6 +120,7 @@
 	                            </div>
 	                        </div>
 	                    </div>
+	                    
 	                    <ul class="nav justify-content-center mt-3 animated fadeIn">
 						  <li class="nav-item">
 						    <a class="nav-link text-secondary" href="userIdFindForm.usr">아이디 찾기</a>
@@ -128,7 +129,7 @@
 						    <a class="nav-link text-secondary" href="userHashPwFindForm.usr">비밀번호 찾기</a>
 						  </li>
 						  <li class="nav-item">
-						    <a class="nav-link text-secondary" href="userJoin.usr">회원가입</a>
+						    <a class="nav-link text-secondary" href="userJoinForm.usr">회원가입</a>
 						  </li>
 						</ul>
 	                </div>

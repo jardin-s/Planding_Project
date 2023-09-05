@@ -98,7 +98,7 @@ public class UserFrontController extends HttpServlet {
 		}
 		
 		/*-- '로그인 폼 보기' 요청 -> 처리 --------------------------------------*/
-		else if(command.equals("/userLogin.usr")) {//'로그인 폼 보기' 요청이면
+		else if(command.equals("/userLoginForm.usr")) {//'로그인 폼 보기' 요청이면
 			
 			request.setAttribute("showPage", "user/account/loginForm.jsp");//어느 폼 보기인지 showPage이름 속성으로 저장
 			forward = new ActionForward("userTemplate.jsp",false);//반드시 디스패치 (request를 공유)
@@ -132,7 +132,7 @@ public class UserFrontController extends HttpServlet {
 		}
 					
 		/*-- '회원가입 폼 보기' 요청 -> 처리 -------------------------------------*/
-		else if(command.equals("/userJoin.usr")) {//'회원가입 폼 보기' 요청이면
+		else if(command.equals("/userJoinForm.usr")) {//'회원가입 폼 보기' 요청이면
 			
 			request.setAttribute("showPage", "user/account/joinForm.jsp");//어느 폼 보기인지 showPage이름 속성으로 저장
 			forward = new ActionForward("userTemplate.jsp",false);//반드시 디스패치 (request를 공유)

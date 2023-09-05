@@ -1,4 +1,4 @@
-package action.user.qna;
+package action.admin.qna;
 
 import java.io.File;
 import java.io.PrintWriter;
@@ -15,7 +15,7 @@ import svc.user.qna.ModifyQnaQService;
 import vo.ActionForward;
 import vo.QnaBean;
 
-public class UserModifyQnaQAction implements Action {
+public class AdminModifyQnaAAction implements Action {
 
 	@Override
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response) throws Exception {

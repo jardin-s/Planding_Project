@@ -3,7 +3,7 @@
     
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
-<html>
+<html class="h-100">
 <head>
 	<meta charset="utf-8">
     <title>PlanDing - Fund for Our Planet</title>
@@ -34,24 +34,12 @@
     <!-- Template Stylesheet -->
     <link href="resources/css/style.css" rel="stylesheet">
 </head>
-<body>
+<body class="d-flex align-items-center h-100">
 
-	<div>
-		<jsp:include page="/admin/adminHeader.jsp" />
-	</div>
-
-	<c:if test="${requestScope.showAdmin ne null }">
-		<section>
-			<div>
-				<jsp:include page="${showAdmin}"/>
-			</div>
-		</section>
+	<c:if test="${requestScope.showPage ne null }">
+		<jsp:include page="${showPage}"/>
 	</c:if>
-	
-	<div>
-		<jsp:include page="/admin/adminFooter.jsp" />
-	</div>
-	
+
 	<!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>

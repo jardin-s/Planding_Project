@@ -27,7 +27,7 @@ public class AdminHashPwFindAction implements Action {
 		
 		ActionForward forward = null;
 		
-		String a_id = request.getParameter("id");
+		String a_id = request.getParameter("member_id");
 		String a_email = request.getParameter("email");
 		
 		AdminHashPwFindService adminHashPwFindService = new AdminHashPwFindService();

@@ -50,7 +50,7 @@ public class AdminJoinAction implements Action {
 			
 			PrintWriter out = response.getWriter();
 			out.println("<script>");
-			out.println("alert('회원가입에 실패했습니다.');");
+			out.println("alert('관리자 등록에 실패했습니다.');");
 			out.println("history.back();");
 			out.println("</script>");
 		}else { //회원가입 성공
@@ -67,7 +67,7 @@ public class AdminJoinAction implements Action {
 			*/
 			
 			//방법-2 : 알림창을 띄우지 않음
-			forward = new ActionForward("adminLogin.adm", true);
+			forward = new ActionForward("loginForm.jsp", true);
 		}
 		
 		return forward;
