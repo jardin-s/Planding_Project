@@ -12,7 +12,7 @@
     <meta content="" name="description">
 
     <!-- Favicon -->
-    <link href="resources/img/favicon.ico" rel="icon">
+    <link href="../resources/img/favicon.ico" rel="icon">
 
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -24,21 +24,21 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
 
     <!-- Libraries Stylesheet -->
-    <link href="resources/lib/animate/animate.min.css" rel="stylesheet">
-    <link href="resources/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
-    <link href="resources/lib/lightbox/css/lightbox.min.css" rel="stylesheet">
+    <link href="../resources/lib/animate/animate.min.css" rel="stylesheet">
+    <link href="../resources/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="../resources/lib/lightbox/css/lightbox.min.css" rel="stylesheet">
 
     <!-- Customized Bootstrap Stylesheet -->
-    <link href="resources/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../resources/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Template Stylesheet -->
-    <link href="resources/css/style.css" rel="stylesheet">
+    <link href="../resources/css/style.css" rel="stylesheet">
 </head>
 
 <script>
-function userLogout(){
+function adminLogout(){
 	if(confirm('로그아웃하시겠습니까?')){
-		location.href="userLogout.usr";	
+		location.href="adminLogout.adm";	
 	}
 }
 </script>
@@ -54,21 +54,21 @@ function userLogout(){
     <!-- Topbar Start -->
     <div class="container-fluid bg-dark text-light px-0 py-2">
         <div class="row gx-0 d-lg-flex">
-            <div class="col-lg-7 px-5 text-start">
+            <div class="col-lg-7 px-5 text-start d-none d-lg-block">
                 <div class="h-100 d-inline-flex align-items-center">
-                    <c:if test="${sessionScope.u_id ne null }">
-                    	<span>${u_name}님 환영합니다.</span>
+                    <c:if test="${sessionScope.a_id ne null }">
+                    	<span>${a_name} 관리자님 환영합니다.</span>
                     </c:if> 
                 </div>
             </div>
             <div class="col-lg-5 px-5 text-end">
                 <div class="h-100 d-inline-flex align-items-center mx-n2">
-                    <c:if test="${sessionScope.u_id eq null }">
-                    	<a class="btn btn-link text-light" href="userLogin.usr">로그인하기</a>	
+                    <c:if test="${sessionScope.a_id eq null }">
+                    	<a class="btn btn-link text-light" href="adminLogin.adm">로그인하기</a>	
                     </c:if>
-                    <c:if test="${sessionScope.u_id ne null }">
-                    	<a class="btn btn-link text-light" href="#" onclick="userLogout();">로그아웃하기</a>
-                    	<a class="btn btn-link text-light" href="userMyPage.usr"><i class="fas fa-user"></i></a>
+                    <c:if test="${sessionScope.a_id ne null }">
+                    	<a class="btn btn-link text-light" href="#" onclick="adminLogout();">로그아웃하기</a>
+                    	<a class="btn btn-link text-light" href="adminMyPage.adm"><i class="fas fa-user"></i></a>
                     	<a class="btn btn-link text-light" href=""><i class="far fa-heart"></i></a>
                     </c:if>                    
                     <a class="btn btn-link text-light" href=""><i class="fas fa-search"></i></a>
@@ -89,10 +89,10 @@ function userLogout(){
         </button>
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <div class="navbar-nav ms-auto p-4 p-lg-0">
-                <a href="service.html" class="nav-item nav-link fs-6">기부하기</a>
-                <a href="project.html" class="nav-item nav-link fs-6">펀딩하기</a>
+                <a href="service.html" class="nav-item nav-link fs-6">회원관리</a>
+                <a href="project.html" class="nav-item nav-link fs-6">매출관리</a>
                 <div class="nav-item dropdown">
-                    <a href="#" class="nav-link fs-6 dropdown-toggle" data-bs-toggle="dropdown">모아보기</a>
+                    <a href="#" class="nav-link fs-6 dropdown-toggle" data-bs-toggle="dropdown">프로젝트 관리</a>
                     <div class="dropdown-menu bg-light m-0">
                         <a href="feature.html" class="dropdown-item fs-6">신규 프로젝트</a>
                         <a href="quote.html" class="dropdown-item fs-6">마감임박 프로젝트</a>
@@ -108,7 +108,6 @@ function userLogout(){
                     </div>
                 </div>
             </div>
-            <a href="registerNewProject.fnd" class="btn btn-primary py-4 px-lg-4 rounded-0 d-none d-lg-block">프로젝트 등록하기<i class="fa fa-arrow-right ms-3"></i></a>
         </div>
     </nav>
     <!-- Navbar End -->
@@ -117,16 +116,16 @@ function userLogout(){
     <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="resources/lib/wow/wow.min.js"></script>
-    <script src="resources/lib/easing/easing.min.js"></script>
-    <script src="resources/lib/waypoints/waypoints.min.js"></script>
-    <script src="resources/lib/owlcarousel/owl.carousel.min.js"></script>
-    <script src="resources/lib/counterup/counterup.min.js"></script>
-    <script src="resources/lib/parallax/parallax.min.js"></script>
-    <script src="resources/lib/isotope/isotope.pkgd.min.js"></script>
-    <script src="resources/lib/lightbox/js/lightbox.min.js"></script>
+    <script src="../resources/lib/wow/wow.min.js"></script>
+    <script src="../resources/lib/easing/easing.min.js"></script>
+    <script src="../resources/lib/waypoints/waypoints.min.js"></script>
+    <script src="../resources/lib/owlcarousel/owl.carousel.min.js"></script>
+    <script src="../resources/lib/counterup/counterup.min.js"></script>
+    <script src="../resources/lib/parallax/parallax.min.js"></script>
+    <script src="../resources/lib/isotope/isotope.pkgd.min.js"></script>
+    <script src="../resources/lib/lightbox/js/lightbox.min.js"></script>
 
     <!-- Template Javascript -->
-    <script src="resources/js/main.js"></script>
+    <script src="../resources/js/main.js"></script>
 </body>
 </html>

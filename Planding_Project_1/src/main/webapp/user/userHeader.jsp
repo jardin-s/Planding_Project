@@ -54,7 +54,7 @@ function userLogout(){
     <!-- Topbar Start -->
     <div class="container-fluid bg-dark text-light px-0 py-2">
         <div class="row gx-0 d-lg-flex">
-            <div class="col-lg-7 px-5 text-start">
+            <div class="col-lg-7 px-5 text-start d-none d-lg-block">
                 <div class="h-100 d-inline-flex align-items-center">
                     <c:if test="${sessionScope.u_id ne null }">
                     	<span>${u_name}님 환영합니다.</span>

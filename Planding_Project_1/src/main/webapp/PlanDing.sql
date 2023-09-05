@@ -5,13 +5,9 @@ drop table project_reward_tbl;
 drop table donation_tbl;
 drop table reward_tbl;
 
-drop table qna_image_tbl;
-drop table image_tbl;
-
 drop table project_review_tbl;
 drop table bookmark_tbl;
 drop table project_planner_tbl;
-drop table project_image_tbl;
 drop table admin_income_tbl;
 drop table project_tbl;
 

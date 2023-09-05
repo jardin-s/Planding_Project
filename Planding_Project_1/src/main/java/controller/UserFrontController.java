@@ -100,7 +100,7 @@ public class UserFrontController extends HttpServlet {
 		/*-- '로그인 폼 보기' 요청 -> 처리 --------------------------------------*/
 		else if(command.equals("/userLogin.usr")) {//'로그인 폼 보기' 요청이면
 			
-			request.setAttribute("showPage", "user/loginForm.jsp");//어느 폼 보기인지 showPage이름 속성으로 저장
+			request.setAttribute("showPage", "user/account/loginForm.jsp");//어느 폼 보기인지 showPage이름 속성으로 저장
 			forward = new ActionForward("userTemplate.jsp",false);//반드시 디스패치 (request를 공유)
 					
 		}
@@ -134,7 +134,7 @@ public class UserFrontController extends HttpServlet {
 		/*-- '회원가입 폼 보기' 요청 -> 처리 -------------------------------------*/
 		else if(command.equals("/userJoin.usr")) {//'회원가입 폼 보기' 요청이면
 			
-			request.setAttribute("showPage", "user/joinForm.jsp");//어느 폼 보기인지 showPage이름 속성으로 저장
+			request.setAttribute("showPage", "user/account/joinForm.jsp");//어느 폼 보기인지 showPage이름 속성으로 저장
 			forward = new ActionForward("userTemplate.jsp",false);//반드시 디스패치 (request를 공유)
 					
 		}
@@ -152,7 +152,7 @@ public class UserFrontController extends HttpServlet {
 					
 		}
 		
-		else if(command.equals("/user/idCheck/userIdCheckAction.usr")) {//'아이디 중복체크 처리' 요청이면
+		else if(command.equals("/user/account/idCheck/userIdCheckAction.usr")) {//'아이디 중복체크 처리' 요청이면
 			
 			//부모인터페이스 = 구현한 자식객체
 			action = new UserIdCheckAction();//부모인터페이스인 Action으로 받음 
@@ -196,7 +196,7 @@ public class UserFrontController extends HttpServlet {
 		else if(command.equals("/userDeleteForm.usr")) {//'회원탈퇴 폼 보기' 요청
 			
 			//부모인터페이스 = 구현한 자식객체
-			request.setAttribute("showPage", "user/userDeleteForm.jsp");
+			request.setAttribute("showPage", "user/account/userDeleteForm.jsp");
 			forward = new ActionForward();
 					
 		}
@@ -214,7 +214,7 @@ public class UserFrontController extends HttpServlet {
 		}
 		else if(command.equals("/userIdFindForm.usr")) {//'아이디 찾기 폼 보기' 요청
 			
-			request.setAttribute("showPage", "user/userIdFindForm.jsp");//어느 폼 보기인지 showPage이름 속성으로 저장
+			request.setAttribute("showPage", "user/account/userIdFindForm.jsp");//어느 폼 보기인지 showPage이름 속성으로 저장
 			forward = new ActionForward("userTemplate.jsp",false);//반드시 디스패치 (request를 공유)
 					
 		}
@@ -235,7 +235,7 @@ public class UserFrontController extends HttpServlet {
 		/*------- '암호화된 비밀번호찾기 폼 보기' → 처리(임시비밀번호 받아서 메일로 보내기) -------------------------------*/
 		
 		else if(command.equals("/userHashPwFindForm.usr")) {//'비밀번호찾기 폼 보기' 요청이면
-			request.setAttribute("showPage", "user/hash/userHashPwFindForm.jsp");
+			request.setAttribute("showPage", "user/account/hash/userHashPwFindForm.jsp");
 			forward = new ActionForward("userTemplate.jsp",false); //반드시 디스패치 방식으로 포워딩
 		}
 		else if(command.equals("/userHashPwFindAction.usr")) {//'비밀번호 찾기 처리'요청하면
@@ -251,7 +251,7 @@ public class UserFrontController extends HttpServlet {
 		
 		/*------- '암호화된 비밀번호 변경 폼 보기' → 처리 -------------------------------*/
 		else if(command.equals("/userHashPwChangeForm.usr")) {//'비밀번호 변경 폼 보기' 요청이면
-			request.setAttribute("showPage", "user/hash/userHashPwChangeForm.jsp");
+			request.setAttribute("showPage", "user/account/hash/userHashPwChangeForm.jsp");
 			forward = new ActionForward("userTemplate.jsp",false); //반드시 디스패치 방식으로 포워딩
 		}
 		else if(command.equals("/userHashPwChangeAction.usr")) {//'비밀번호 변경 처리'요청하면

@@ -166,7 +166,7 @@ public class UserHashPwFindAction implements Action {
 				request.setAttribute("u_email", u_email);
 				
 				//임시비밀번호를 화면에 뿌림
-				request.setAttribute("showPage", "user/hash/findHashPwComplete.jsp");
+				request.setAttribute("showPage", "user/account/hash/findHashPwComplete.jsp");
 				forward = new ActionForward("userTemplate.jsp",false);
 					
 			}

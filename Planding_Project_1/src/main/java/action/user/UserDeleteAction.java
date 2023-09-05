@@ -102,10 +102,6 @@ public class UserDeleteAction implements Action {
 			}
 		}
 		
-		
-		
-		
-		
 		return forward;
 	}
 

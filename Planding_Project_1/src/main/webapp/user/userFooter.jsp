@@ -57,8 +57,7 @@
                     <a class="btn btn-link" href="">인재채용</a>
                 </div>
                 <div class="col-lg-4 col-md-6">
-                    <span>대표이사 : 손정원, 이주헌</span><br>
-                    <a class="btn btn-sm btn-light my-3 py-0 px-3" href="adminMain.adm">관리자 페이지</a>
+                    <span>대표이사 : 손정원, 이주헌</span>
                 </div>
             </div>
         </div>
@@ -72,6 +71,7 @@
             <div class="row">
                 <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
                     &copy; <a class="border-bottom" href="#">PlanDing</a>, All Right Reserved.
+                    <a class="btn btn-sm btn-dark ms-3 py-0 px-3 text-light" href="admin/account/loginForm.jsp">관리자 페이지</a>
                 </div>
                 <div class="col-md-6 text-center text-md-end">
                     <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->

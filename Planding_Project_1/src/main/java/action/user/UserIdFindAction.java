@@ -39,7 +39,7 @@ public class UserIdFindAction implements Action {
 			
 			System.out.println("받아온 id 값 : "+u_id);
 			
-			request.setAttribute("showPage", "user/findIdComplete.jsp");//'회원님의 아이디는~입니다' 보여줄 페이지로 이동
+			request.setAttribute("showPage", "user/account/findIdComplete.jsp");//'회원님의 아이디는~입니다' 보여줄 페이지로 이동
 			forward = new ActionForward("userTemplate.jsp",false);//request에 id값을 저장하였으므로 디스패치 포워딩
 			
 		}
