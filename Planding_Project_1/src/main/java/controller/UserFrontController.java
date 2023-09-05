@@ -8,7 +8,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import action.Action;
+import action.qna.QnaImageFileDownAction;
 import action.user.UserUploadProjectListAction;
+import action.user.qna.UserDeleteQnaAction;
+import action.user.qna.UserInsertNewQnaQAction;
+import action.user.qna.UserInsertNewQnaQFormAction;
+import action.user.qna.UserModifyQnaQAction;
+import action.user.qna.UserModifyQnaQFormAction;
+import action.user.qna.UserQnaListAction;
+import action.user.qna.UserQnaViewAction;
 import action.user.UserBookmarkListAction;
 import action.user.UserDeleteAction;
 import action.user.UserFundProjectListAction;
@@ -84,7 +92,7 @@ public class UserFrontController extends HttpServlet {
 		System.out.println("[User]command : "+command);//어떤 요청인지 확인하기 위해 콘솔에 출력
 		
 		if(command.equals("/userMain.usr")) {//'index.jsp'에서 사용자모드 뷰페이지(userMain.jsp) 보기 요청이면
-			request.setAttribute("showPage", "userMain.jsp");//어느 폼 보기인지 showPage이름 속성으로 저장
+			request.setAttribute("showPage", "user/userMain.jsp");//어느 폼 보기인지 showPage이름 속성으로 저장
 			forward = new ActionForward("userTemplate.jsp",false);
 			//false(디스패치) 이유? 
 		}
@@ -92,7 +100,7 @@ public class UserFrontController extends HttpServlet {
 		/*-- '로그인 폼 보기' 요청 -> 처리 --------------------------------------*/
 		else if(command.equals("/userLogin.usr")) {//'로그인 폼 보기' 요청이면
 			
-			request.setAttribute("showPage", "user/loginForm.jsp");//어느 폼 보기인지 showPage이름 속성으로 저장
+			request.setAttribute("showPage", "user/account/loginForm.jsp");//어느 폼 보기인지 showPage이름 속성으로 저장
 			forward = new ActionForward("userTemplate.jsp",false);//반드시 디스패치 (request를 공유)
 					
 		}
@@ -103,7 +111,7 @@ public class UserFrontController extends HttpServlet {
 			action = new UserLoginAction();//부모인터페이스인 Action으로 받음 
 			
 			try {
-				forward = action.execute(request, response); //DogListAction의 execute()를 실행
+				forward = action.execute(request, response);
 			} catch(Exception e) {
 				e.printStackTrace();
 			}
@@ -126,7 +134,7 @@ public class UserFrontController extends HttpServlet {
 		/*-- '회원가입 폼 보기' 요청 -> 처리 -------------------------------------*/
 		else if(command.equals("/userJoin.usr")) {//'회원가입 폼 보기' 요청이면
 			
-			request.setAttribute("showPage", "user/joinForm.jsp");//어느 폼 보기인지 showPage이름 속성으로 저장
+			request.setAttribute("showPage", "user/account/joinForm.jsp");//어느 폼 보기인지 showPage이름 속성으로 저장
 			forward = new ActionForward("userTemplate.jsp",false);//반드시 디스패치 (request를 공유)
 					
 		}
@@ -144,7 +152,7 @@ public class UserFrontController extends HttpServlet {
 					
 		}
 		
-		else if(command.equals("/user/idCheck/userIdCheckAction.usr")) {//'아이디 중복체크 처리' 요청이면
+		else if(command.equals("/user/account/idCheck/userIdCheckAction.usr")) {//'아이디 중복체크 처리' 요청이면
 			
 			//부모인터페이스 = 구현한 자식객체
 			action = new UserIdCheckAction();//부모인터페이스인 Action으로 받음 
@@ -188,7 +196,7 @@ public class UserFrontController extends HttpServlet {
 		else if(command.equals("/userDeleteForm.usr")) {//'회원탈퇴 폼 보기' 요청
 			
 			//부모인터페이스 = 구현한 자식객체
-			request.setAttribute("showPage", "user/userDeleteForm.jsp");
+			request.setAttribute("showPage", "user/account/userDeleteForm.jsp");
 			forward = new ActionForward();
 					
 		}
@@ -206,7 +214,7 @@ public class UserFrontController extends HttpServlet {
 		}
 		else if(command.equals("/userIdFindForm.usr")) {//'아이디 찾기 폼 보기' 요청
 			
-			request.setAttribute("showPage", "user/userIdFindForm.jsp");//어느 폼 보기인지 showPage이름 속성으로 저장
+			request.setAttribute("showPage", "user/account/userIdFindForm.jsp");//어느 폼 보기인지 showPage이름 속성으로 저장
 			forward = new ActionForward("userTemplate.jsp",false);//반드시 디스패치 (request를 공유)
 					
 		}
@@ -227,7 +235,7 @@ public class UserFrontController extends HttpServlet {
 		/*------- '암호화된 비밀번호찾기 폼 보기' → 처리(임시비밀번호 받아서 메일로 보내기) -------------------------------*/
 		
 		else if(command.equals("/userHashPwFindForm.usr")) {//'비밀번호찾기 폼 보기' 요청이면
-			request.setAttribute("showPage", "user/hash/userHashPwFindForm.jsp");
+			request.setAttribute("showPage", "user/account/hash/userHashPwFindForm.jsp");
 			forward = new ActionForward("userTemplate.jsp",false); //반드시 디스패치 방식으로 포워딩
 		}
 		else if(command.equals("/userHashPwFindAction.usr")) {//'비밀번호 찾기 처리'요청하면
@@ -243,7 +251,7 @@ public class UserFrontController extends HttpServlet {
 		
 		/*------- '암호화된 비밀번호 변경 폼 보기' → 처리 -------------------------------*/
 		else if(command.equals("/userHashPwChangeForm.usr")) {//'비밀번호 변경 폼 보기' 요청이면
-			request.setAttribute("showPage", "user/hash/userHashPwChangeForm.jsp");
+			request.setAttribute("showPage", "user/account/hash/userHashPwChangeForm.jsp");
 			forward = new ActionForward("userTemplate.jsp",false); //반드시 디스패치 방식으로 포워딩
 		}
 		else if(command.equals("/userHashPwChangeAction.usr")) {//'비밀번호 변경 처리'요청하면
@@ -298,6 +306,116 @@ public class UserFrontController extends HttpServlet {
 				e.printStackTrace();
 			}
 		}
+		
+		
+		
+		/***************************************************************************************
+		 * 문의사항 게시판
+		 ***************************************************************************************/
+		
+		/*-- '문의글 목록 보기' 요청 --------------------------------------*/
+		if(command.equals("/userQnaList.usr")) {//
+
+			//부모인터페이스 = 구현한 자식객체
+			action = new UserQnaListAction();//부모인터페이스인 Action으로 받음 
+			
+			try {
+				forward = action.execute(request, response);
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+ 
+		}
+				
+		/*-- '문의글 쓰기 폼 보기' 요청 -> 처리 --------------------------------------*/
+		else if(command.equals("/userInsertNewQnaQForm.usr")) {//'문의글 쓰기 폼 보기' 요청
+			
+			action = new UserInsertNewQnaQFormAction();
+
+			try {
+				forward = action.execute(request, response);
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+			
+		}
+		else if(command.equals("/userInsertNewQnaQAction.usr")) {//'문의글 등록' 요청
+			
+			action = new UserInsertNewQnaQAction();
+
+			try {
+				forward = action.execute(request, response);
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+			
+		}
+		
+		/*-- '문의글 상세보기' 요청 -> 처리 --------------------------------------*/
+		else if(command.equals("/userQnaView.usr")) {//'문의글 상세보기' 요청
+			
+			action = new UserQnaViewAction();
+
+			try {
+				forward = action.execute(request, response);
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+			
+		}
+		
+		/*-- '문의글 파일 다운로드' 요청 -> 처리 --------------------------------------*/
+		else if(command.equals("/qnaImageFileDown.usr")) {//'문의글 파일 다운로드' 요청
+			
+			
+			action = new QnaImageFileDownAction();
+
+			try {
+				forward = action.execute(request, response);
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+			
+		}
+		
+		/*-- '문의글 수정 폼 보기' 요청 -> 처리 --------------------------------------*/
+		else if(command.equals("/userModifyQnaQForm.usr")) {//'문의글 수정 폼 보기' 요청
+			
+			action = new UserModifyQnaQFormAction();
+
+			try {
+				forward = action.execute(request, response);
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+			
+		}
+		else if(command.equals("/userModifyQnaQAction.usr")) {//'문의글 수정하기' 요청
+			
+			action = new UserModifyQnaQAction();
+
+			try {
+				forward = action.execute(request, response);
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+			
+		}
+		
+		/*-- '문의글 삭제하기' 요청 -> 처리 --------------------------------------*/
+		else if(command.equals("/userDeleteQnaAction.usr")) {//문의글 삭제하기 요청
+			
+			action = new UserDeleteQnaAction();
+
+			try {
+				forward = action.execute(request, response);
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+			
+		}
+		
+		
 		
 		/***********************************************************
 		 * 3. 포워딩

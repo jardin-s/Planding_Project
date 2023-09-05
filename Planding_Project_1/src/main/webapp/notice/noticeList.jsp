@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
 <!DOCTYPE html>
 <html>
 <head>
@@ -31,49 +32,81 @@
 
     <!-- Template Stylesheet -->
     <link href="../resources/css/style.css" rel="stylesheet">
-    
-    <!-- Custom Stylesheet (style modify) -->
-    <link href="../resources/css/customStyle.css" rel="stylesheet">
 </head>
 <body>
-	<div>
-		<jsp:include page="../user/userHeader.jsp" />
-	</div>
 	
 	<!-- Main Section -->
-	<div class="container-xxl my-5">
-		<div class="container">
-		    <div class="text-center mx-auto wow fadeInUp" data-wow-delay="0.1s" style="max-width: 500px;">
-		        <p class="fs-5 fw-bold text-primary">새 프로젝트 등록하기</p>
-		        <h1 class="display-6 mb-5">프로젝트를 등록하여<br>기부 또는 투자를 받으세요.</h1>
-		    </div>
-		    <div class="row g-4 justify-content-center">
-		        <div class="col-md-6 wow fadeInUp" data-wow-delay="0.1s">
-		            <div class="service-item rounded d-flex h-100">
-		                <div class="service-text rounded p-5">
-		                    <h4 class="mb-3">기부 프로젝트</h4>
-		                    <p class="mb-4">취약계층이나 동물, 환경을 보호하기 위한<br>기부를 받고자 한다면</p>
-		                    <a class="btn btn-sm" href="registerNewDonateForm.fnd"><i class="fas fa-plus me-2"></i>등록하기</a>
-		                </div>
-		            </div>
-		        </div>
-		        <div class="col-md-6 wow fadeInUp" data-wow-delay="0.1s">
-		            <div class="service-item rounded d-flex h-100">
-		                <div class="service-text rounded p-5">
-		                    <h4 class="mb-3">펀딩 프로젝트</h4>
-		                    <p class="mb-4">지구를 위한 아이템을 개발하기 위해<br>투자를 받고자 한다면</p>
-		                    <a class="btn btn-sm" href="registerNewFundForm.fnd"><i class="fas fa-plus me-2"></i>등록하기</a>
-		                </div>
-		            </div>
-		        </div>
-		    </div>
-	    </div>
+	<!-- Page Header Start -->
+    <div class="container-fluid page-header py-5 mb-5 wow fadeIn" data-wow-delay="0.1s">
+        <div class="container text-center py-5">
+            <h3 class="display-6 text-white mb-5 animated slideInDown">공지사항</h3>
+            <nav aria-label="breadcrumb animated slideInDown">
+                <ol class="breadcrumb justify-content-center mb-0">
+                    <li class="breadcrumb-item"><a href="#">메인</a></li>
+                    <li class="breadcrumb-item"><a href="#">고객센터</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">공지사항</li>
+                </ol>
+            </nav>
+        </div>
     </div>
-              
-	
-	<div>
-		<jsp:include page="../user/userFooter.jsp" />
-	</div>
+    <!-- Page Header End -->
+
+
+    <!-- Table Start -->
+    <div class="container-fluid pt-4 pb-4">
+        <div class="container col-lg-8">
+            <div class="row justify-content-center">
+				<table class="table table-hover">
+					<thead>
+						<tr>
+							<th scope="col">번호</th>
+							<th scope="col">제목</th>
+							<th scope="col">작성자</th>
+							<th scope="col">날짜</th>
+						</tr>
+					</thead>
+					<tbody class="table-group-divider">
+						<tr>
+							<th scope="row">1</th>
+							<td>Mark</td>
+							<td>Otto</td>
+							<td>@mdo</td>
+						</tr>
+						<tr>
+							<th scope="row">2</th>
+							<td>Jacob</td>
+							<td>Thornton</td>
+							<td>@fat</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+        </div>		
+    </div>
+    
+    <div class="container-fluid mt-0 pt-0 pb-5">
+    	<div class="container col-lg-4">
+	    	<div class="row">
+				<ul class="pagination justify-content-center">
+					<li class="page-item">
+						<a class="page-link" href="#" aria-label="Previous">
+							<span aria-hidden="true">&laquo;</span>
+						</a>
+					</li>
+					<li class="page-item"><a class="page-link" href="#">1</a></li>
+					<li class="page-item"><a class="page-link" href="#">2</a></li>
+					<li class="page-item"><a class="page-link" href="#">3</a></li>
+					<li class="page-item">
+						<a class="page-link" href="#" aria-label="Next">
+							<span aria-hidden="true">&raquo;</span>
+						</a>
+					</li>
+				</ul>
+	        </div>
+        </div>
+    </div>       
+    <!-- Table End -->
+    
     
     <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>

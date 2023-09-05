@@ -68,7 +68,7 @@
     <c:if test="${requestScope.fundProjectList eq null }">
     	<div class="container-xxl py-5">
     		<div class="container">
-    			<p class="text-center">관심 프로젝트로 추가된 항목이 없습니다.</p>
+    			<p class="text-center">후원한 프로젝트가 없습니다.</p>
     		</div>
     	</div>    	
     </c:if>

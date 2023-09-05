@@ -117,7 +117,7 @@ public class UserPwFindAction implements Action {
 			
 			System.out.println("UserPwFindAction : 메일이 정상적으로 전송되었습니다.");//콘솔에 출력 : 메일전송 확인			
 			
-			request.setAttribute("showPage", "user/findHashPwComplete.jsp");
+			request.setAttribute("showPage", "user/account/hash/findHashPwComplete.jsp");
 			forward = new ActionForward("userTemplate.jsp",false);
 					
 		}catch(Exception e) {

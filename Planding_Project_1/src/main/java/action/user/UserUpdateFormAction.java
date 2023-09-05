@@ -40,7 +40,7 @@ public class UserUpdateFormAction implements Action {
 			request.setAttribute("user", userInfo);
 			//request.setAttribute("addr", userAddrInfo);
 			
-			request.setAttribute("showPage", "user/userView.jsp");//어느 폼 보기인지 showPage이름 속성으로 저장
+			request.setAttribute("showPage", "user/account/userUpdateForm.jsp");//어느 폼 보기인지 showPage이름 속성으로 저장
 			
 			forward = new ActionForward("userTemplate.jsp",false);//반드시 디스패치 (request를 공유)
 		}
