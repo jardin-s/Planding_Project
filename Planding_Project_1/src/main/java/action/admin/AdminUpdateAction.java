@@ -23,9 +23,9 @@ public class AdminUpdateAction implements Action {
 		String a_email = request.getParameter("email");
 		String a_phone = request.getParameter("phone");
 		int a_account = Integer.parseInt(request.getParameter("account"));
-		Boolean isAdmin = Boolean.parseBoolean(request.getParameter("isAdmin"));
+		String a_admin_status = request.getParameter("admin_status");
 				
-		MemberBean adminInfo = new MemberBean(a_id, a_password, a_name, a_email, a_phone, a_account, isAdmin);
+		MemberBean adminInfo = new MemberBean(a_id, a_password, a_name, a_email, a_phone, a_account, a_admin_status);
 		
 		AdminUpdateService adminUpdateService = new AdminUpdateService();
 		

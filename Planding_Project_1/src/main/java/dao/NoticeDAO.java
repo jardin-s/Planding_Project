@@ -7,6 +7,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
+import vo.NoticeBean;
+import vo.QnaBean;
+
 public class NoticeDAO {
 	
 	//필드 : 전역변수 - 전체 메서드에서 사용가능하도록 선언
@@ -26,14 +29,14 @@ public class NoticeDAO {
 	
 	
 	
-	private static NoticeDAO userDAO; //static메서드인 getInstance에서 쓸 수 있게 static (단 외부에서 직접 접근 불가능하도록 private)
+	private static NoticeDAO noticeDAO; //static메서드인 getInstance에서 쓸 수 있게 static (단 외부에서 직접 접근 불가능하도록 private)
 	
 	public static NoticeDAO getInstance() {
-		if(userDAO == null) {//DogDAO객체가 없으면
-			userDAO = new NoticeDAO();//객체 생성
+		if(noticeDAO == null) {//DogDAO객체가 없으면
+			noticeDAO = new NoticeDAO();//객체 생성
 		}
 		
-		return userDAO;//기존 DogDAO객체의 주소 리턴
+		return noticeDAO;//기존 DogDAO객체의 주소 리턴
 	}
 	
 	/******************************************************************/
@@ -47,7 +50,85 @@ public class NoticeDAO {
 	}
 
 	
-	//1. 공지사항 게시판에 글 등록
+	//1. 전체 공지글 개수를 가져옴
+	public int selectNoticeCount() {
+		int qnaCount = 0;
+		
+		String sql = "select count(*) from notice_tbl";
+		
+		try {
+			
+			pstmt = con.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				qnaCount = rs.getInt(1);
+			}
+			
+		} catch(Exception e) {
+			System.out.println("[NoticeDAO] selectNoticeCount() 에러 : "+e);//예외객체종류 + 예외메시지
+		} finally {
+			close(pstmt); //JdbcUtil.생략가능
+			close(rs); //JdbcUtil.생략가능
+			//connection 객체에 대한 해제는 DogListService에서 이루어짐
+		}
+		
+		return qnaCount;
+	}
 	
+	//2. 원하는 페이지의 원하는 개수만큼 글 불러오기
+	public ArrayList<NoticeBean> selectNoticeList(int page, int limit){
+		ArrayList<NoticeBean> noticeList = null;
+			
+		int startrow = (page-1)*10;
+		//1페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 0부터
+		//2페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 10부터
+		//3페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 20부터
+		
+		String sql = "select notice_id, member_id,"
+				  + " n_title, n_content, n_image, importance,"
+				  + " viewcount,"
+				  + " DATE_FORMAT(writetime,'%Y.%m.%d %H:%i') as writetime"
+				  + " from notice_tbl"
+				  + " order by writetime desc"
+				  + " limit ?, ?";
+		
+		try {
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, startrow);//startrow번째행부터 limit개만 가져옴
+			pstmt.setInt(2, limit);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				noticeList = new ArrayList<>();
+				
+				do {
+					NoticeBean noticeInfo = new NoticeBean();
+					
+					noticeInfo.setNotice_id(rs.getInt("notice_id"));
+					noticeInfo.setMember_id(rs.getString("member_id"));
+					noticeInfo.setN_title(rs.getString("n_title"));
+					noticeInfo.setN_content(rs.getString("n_content"));
+					noticeInfo.setN_image(rs.getString("n_image"));
+					noticeInfo.setImportance(rs.getString("importance"));
+					noticeInfo.setViewcount(rs.getInt("viewcount"));
+					noticeInfo.setWritetime(rs.getString("writetime"));
+				
+					noticeList.add(noticeInfo);
+					
+				}while(rs.next());
+			}
+			
+		} catch(Exception e) {
+			System.out.println("[QnaDAO] selectQnaList() 에러 : "+e);//예외객체종류 + 예외메시지
+		} finally {
+			close(pstmt); //JdbcUtil.생략가능
+			close(rs); //JdbcUtil.생략가능
+			//connection 객체에 대한 해제는 DogListService에서 이루어짐
+		}
+		
+		return noticeList;
+	}
 	
 }

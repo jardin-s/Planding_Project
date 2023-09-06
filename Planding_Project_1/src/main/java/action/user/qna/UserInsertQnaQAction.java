@@ -16,7 +16,7 @@ import svc.user.qna.QnaNewQuestionService;
 import vo.ActionForward;
 import vo.QnaBean;
 
-public class UserInsertNewQnaQAction implements Action {
+public class UserInsertQnaQAction implements Action {
 
 	@Override
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -43,8 +43,8 @@ public class UserInsertNewQnaQAction implements Action {
 		
 		String q_title = multi.getParameter("q_title");
 		String q_content = multi.getParameter("q_content");
-		boolean isPrivate = Boolean.parseBoolean(multi.getParameter("isPrivate"));
-					
+		String q_private = multi.getParameter("q_private");
+							
 		String q_image = multi.getFilesystemName("q_image");
 			
 		System.out.println("[QnaNewQuestionAction] 파라미터값 이미지파일 업로드 성공");
@@ -55,7 +55,7 @@ public class UserInsertNewQnaQAction implements Action {
 		qna.setQ_title(q_title);
 		qna.setQ_content(q_content);
 		qna.setQ_image(q_image);
-		qna.setPrivate(isPrivate);
+		qna.setQ_private(q_private);
 		
 		QnaNewQuestionService qnaNewQuestionService = new QnaNewQuestionService();
 		boolean isWriteSuccess = qnaNewQuestionService.insertNewQuestion(qna);

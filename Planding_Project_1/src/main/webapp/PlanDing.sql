@@ -43,7 +43,7 @@ CREATE TABLE IF NOT EXISTS `project`.`project_tbl` (
   `summary` NVARCHAR(100) NOT NULL COMMENT '요약글',
   `thumbnail` VARCHAR(60) NOT NULL,
   `content` NVARCHAR(500) NOT NULL COMMENT '내용',
-  `image` VARCHAR(60) NOT NULL COMMENT '프로젝트 이미지',
+  `image` VARCHAR(1024) NOT NULL COMMENT '프로젝트 이미지',
   `startdate` DATETIME NOT NULL COMMENT '시작일',
   `enddate` DATETIME NOT NULL COMMENT '종료일',
   `goal_amount` INT NOT NULL COMMENT '목표 모금액',
@@ -51,6 +51,7 @@ CREATE TABLE IF NOT EXISTS `project`.`project_tbl` (
   `category` VARCHAR(30) NOT NULL COMMENT '카테고리 - 환경/동물/사람',
   `status` VARCHAR(30) NOT NULL COMMENT '상태',
   `likes` INT NOT NULL COMMENT '관심 수',
+  `regdate` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`project_id`))
 ENGINE = InnoDB;
 
@@ -65,9 +66,10 @@ CREATE TABLE IF NOT EXISTS `project`.`member_tbl` (
   `email` VARCHAR(45) NOT NULL COMMENT '이메일',
   `phone` VARCHAR(11) NOT NULL,
   `account` INT NOT NULL COMMENT '가상계좌 (계좌잔액)',
-  `isAdmin` TINYINT NOT NULL COMMENT '관리자 여부',
+  `admin_status` VARCHAR(1) NOT NULL COMMENT '관리자 여부',
   `joindate` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP COMMENT '가입일',
-  `isDeleted` TINYINT NULL DEFAULT 0,
+  `delete_status` VARCHAR(1) NULL DEFAULT 'N' COMMENT '탈퇴회원 여부',
+  `deletedate` TIMESTAMP NULL,
   PRIMARY KEY (`member_id`),
   UNIQUE INDEX `email_UNIQUE` (`email` ASC) VISIBLE)
 ENGINE = InnoDB;
@@ -120,18 +122,6 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `project`.`former_member_tbl`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `project`.`former_member_tbl` (
-  `member_id` VARCHAR(20) NOT NULL COMMENT '탈퇴한 회원 ID',
-  `email` VARCHAR(45) NOT NULL COMMENT '이메일',
-  `joindate` DATETIME NOT NULL COMMENT '가입일',
-  `withdrawdate` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP COMMENT '탈퇴일',
-  PRIMARY KEY (`member_id`))
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
 -- Table `project`.`admin_income_tbl`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `project`.`admin_income_tbl` (
@@ -173,14 +163,14 @@ ENGINE = InnoDB;
 -- Table `project`.`notice_tbl`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `project`.`notice_tbl` (
-  `notice_id` INT NOT NULL AUTO_INCREMENT,
-  `member_id` VARCHAR(20) NOT NULL,
-  `n_title` NVARCHAR(30) NOT NULL,
-  `n_content` NVARCHAR(500) NOT NULL,
-  `n_image` VARCHAR(60) NULL,
-  `importance` TINYINT NULL,
-  `viewcount` INT NOT NULL,
-  `writetime` TIMESTAMP NULL DEFAULT now(),
+  `notice_id` INT NOT NULL AUTO_INCREMENT COMMENT '공지사항ID',
+  `member_id` VARCHAR(20) NOT NULL COMMENT '작성자 ID',
+  `n_title` NVARCHAR(30) NOT NULL COMMENT '공지사항 제목',
+  `n_content` NVARCHAR(500) NOT NULL COMMENT '공지사항 내용',
+  `n_image` VARCHAR(100) NULL COMMENT '공지사항 이미지',
+  `importance` VARCHAR(1) NULL COMMENT '중요글 여부 YN',
+  `viewcount` INT NOT NULL COMMENT '조회수',
+  `writetime` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP COMMENT '작성시간',
   PRIMARY KEY (`notice_id`),
   INDEX `fk_notice_tbl_member_tbl1_idx` (`member_id` ASC) VISIBLE,
   CONSTRAINT `fk_notice_tbl_member_tbl1`
@@ -198,12 +188,12 @@ CREATE TABLE IF NOT EXISTS `project`.`qna_tbl` (
   `qna_id` INT NOT NULL AUTO_INCREMENT COMMENT '문의사항 ID',
   `member_id` VARCHAR(20) NOT NULL COMMENT '작성자 ID',
   `q_title` VARCHAR(256) NOT NULL COMMENT '질문 제목',
-  `q_content` VARCHAR(400) NOT NULL COMMENT '질문 내용',
-  `q_image` VARCHAR(60) NULL COMMENT '문의사항 이미지',
-  `isPrivate` TINYINT NOT NULL COMMENT '비밀글 여부',
+  `q_content` NVARCHAR(500) NOT NULL COMMENT '질문 내용',
+  `q_image` VARCHAR(100) NULL COMMENT '문의사항 이미지',
+  `q_private` VARCHAR(1) NOT NULL COMMENT '비밀글 여부 YN',
   `q_time` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP COMMENT '질문시간',
   `a_content` NVARCHAR(300) NULL DEFAULT 'unanswered' COMMENT '답변 내용',
-  `a_time` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '답변 시간',
+  `a_time` TIMESTAMP NULL COMMENT '답변 시간',
   PRIMARY KEY (`qna_id`),
   INDEX `fk_qna_tbl_member_tbl1_idx` (`member_id` ASC) VISIBLE,
   CONSTRAINT `fk_qna_tbl_member_tbl1`
@@ -277,12 +267,10 @@ ENGINE = InnoDB;
 -- Table `project`.`project_review_tbl`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `project`.`project_review_tbl` (
-  `review_id` INT NOT NULL AUTO_INCREMENT,
-  `project_id` INT NOT NULL,
-  `content` NVARCHAR(500) NOT NULL,
-  `image1` VARCHAR(60) NULL,
-  `image2` VARCHAR(60) NULL,
-  `image3` VARCHAR(60) NULL,
+  `review_id` INT NOT NULL AUTO_INCREMENT COMMENT '프로젝트후기ID',
+  `project_id` INT NOT NULL COMMENT '프로젝트ID',
+  `content` NVARCHAR(500) NOT NULL COMMENT '후기내용',
+  `image` VARCHAR(310) NULL COMMENT '이미지',
   INDEX `fk_project_review_tbl_project_tbl1_idx` (`project_id` ASC) VISIBLE,
   PRIMARY KEY (`review_id`),
   CONSTRAINT `fk_project_review_tbl_project_tbl1`

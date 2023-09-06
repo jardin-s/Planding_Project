@@ -26,10 +26,10 @@ public class UserLogoutAction implements Action {
 		//session.invalidate();//세션의 모든 속성들 삭제	
 		
 		session.removeAttribute("u_id");
-		session.removeAttribute("u_password");
-		session.removeAttribute("u_grade");		
+		session.removeAttribute("u_password");	
 		session.removeAttribute("u_name");			
 		session.removeAttribute("u_email");
+		session.removeAttribute("u_admin_status");
 		
 		System.out.println("[UserLogoutAction] 세션의 모든 사용자 정보 삭제 완료");
 				

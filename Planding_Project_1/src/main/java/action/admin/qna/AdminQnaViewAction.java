@@ -42,7 +42,7 @@ public class AdminQnaViewAction implements Action {
 			out.println("history.back();");
 			out.println("</script>");
 			
-		}else if(qna.isPrivate() == true && !u_id.equals(qna.getMember_id())) {//비밀글이고, 현재 회원이 작성자가 아니라면
+		}else if(qna.getQ_private().equalsIgnoreCase("Y") && !u_id.equals(qna.getMember_id())) {//비밀글이고, 현재 회원이 작성자가 아니라면
 			response.setContentType("text/html; charset=utf-8");
 			PrintWriter out = response.getWriter();
 			out.println("<script>");
@@ -50,8 +50,8 @@ public class AdminQnaViewAction implements Action {
 			out.println("history.back();");
 			out.println("</script>");
 			
-		}else if((qna.isPrivate() == true && u_id.equals(qna.getMember_id()))//비밀글의 작성자이거나 비밀글이 아니면
-				|| qna.isPrivate() == false) {
+		}else if((qna.getQ_private().equalsIgnoreCase("Y") && u_id.equals(qna.getMember_id()))//비밀글의 작성자이거나 비밀글이 아니면
+				|| qna.getQ_private().equalsIgnoreCase("N")) {
 			
 			request.setAttribute("page", page);
 			request.setAttribute("qnaInfo", qna);

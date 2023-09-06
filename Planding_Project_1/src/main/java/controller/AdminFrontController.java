@@ -17,7 +17,7 @@ import action.admin.AdminJoinAction;
 import action.admin.AdminLoginAction;
 import action.admin.AdminLogoutAction;
 import action.admin.AdminUpdateAction;
-import action.admin.AdminViewAction;
+import action.admin.AdminUpdateFormAction;
 import action.qna.QnaImageFileDownAction;
 import action.admin.qna.AdminDeleteQnaAction;
 import action.admin.qna.AdminInsertNewQnaAAction;
@@ -165,7 +165,7 @@ public class AdminFrontController extends HttpServlet {
 		else if(command.equals("/adminView.adm")) {//'회원정보관리 보기' 요청이면
 
 			//부모인터페이스 = 구현한 자식객체
-			action = new AdminViewAction();//부모인터페이스인 Action으로 받음 
+			action = new AdminUpdateFormAction();//부모인터페이스인 Action으로 받음 
 			
 			try {
 				forward = action.execute(request, response);

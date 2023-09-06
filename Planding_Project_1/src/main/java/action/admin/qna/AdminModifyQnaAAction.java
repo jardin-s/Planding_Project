@@ -46,7 +46,7 @@ public class AdminModifyQnaAAction implements Action {
 		String member_id = multi.getParameter("member_id");
 		String q_title = multi.getParameter("q_title");
 		String q_content = multi.getParameter("q_content");
-		boolean isPrivate = Boolean.parseBoolean(multi.getParameter("isPrivate"));
+		String q_private = multi.getParameter("q_private");
 		
 		String q_image = multi.getFilesystemName("q_image");
 		
@@ -55,7 +55,7 @@ public class AdminModifyQnaAAction implements Action {
 		qna.setMember_id(member_id);
 		qna.setQ_title(q_title);
 		qna.setQ_content(q_content);
-		qna.setPrivate(isPrivate);
+		qna.setQ_private(q_private);
 		
 		ModifyQnaQService qnaEditService = new ModifyQnaQService();
 		boolean isQnaModifySuccess = false; 
@@ -76,7 +76,7 @@ public class AdminModifyQnaAAction implements Action {
 			out.println("</script>");
 		}else {
 			
-			forward = new ActionForward("qnaView.qna?page="+page+"&qna_id="+qna_id+"&isPrivate="+isPrivate, true);			
+			forward = new ActionForward("qnaView.qna?page="+page+"&qna_id="+qna_id+"&q_private="+q_private, true);			
 			
 		}
 		

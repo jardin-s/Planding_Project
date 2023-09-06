@@ -115,8 +115,8 @@ function qnaFormCheck(){
 						<label></label>
 					</div>
 					<div class="form-check">
-						<input class="form-check-input" type="checkbox" name="isPrivate" value="true" id="isPrivate" ${privateChk}>
-						<label class="form-check-label" for="isPrivate">비밀글로 하기</label>
+						<input class="form-check-input" type="checkbox" name="q_private" value="Y" id="q_private" ${privateChk}>
+						<label class="form-check-label" for="q_private">비밀글로 하기</label>
 					</div>
 					<div class="col-12 text-center">
 						<button type="submit" class="btn btn-primary" onclick="qnaFormCheck(); return false;">수정하기</button>

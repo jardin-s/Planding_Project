@@ -26,7 +26,7 @@ public class AdminJoinAction implements Action {
 		String a_email = request.getParameter("email");
 		String a_phone = request.getParameter("phone");
 		int a_account = Integer.parseInt(request.getParameter("account"));
-		boolean isAdmin = Boolean.parseBoolean(request.getParameter("isAdmin"));
+		String a_admin_status = request.getParameter("admin_status");
 		
 		/*
 		MemberBean admin = new MemberBean();
@@ -40,7 +40,7 @@ public class AdminJoinAction implements Action {
 		*/
 		
 		//비밀번호 암호화 방법-2 (매개변수가 있는 생성자)
-		MemberBean admin = new MemberBean(a_id, a_password, a_name, a_email, a_phone, a_account, isAdmin);
+		MemberBean admin = new MemberBean(a_id, a_password, a_name, a_email, a_phone, a_account, a_admin_status);
 		
 		AdminJoinService adminJoinService = new AdminJoinService();
 		boolean isAdminJoinSuccess = adminJoinService.adminJoin(admin);

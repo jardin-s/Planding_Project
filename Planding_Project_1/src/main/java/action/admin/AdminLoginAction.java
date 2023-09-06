@@ -56,7 +56,7 @@ public class AdminLoginAction implements Action {
 		}else {//회원가입 + 아이디와 비밀번호가 일치
 			
 			//해당 계정이 관리자 계정인지 확인
-			if(!adminLoginInfo.isAdmin()) {//관리자 계정이 아니면
+			if(!adminLoginInfo.getAdmin_status().equalsIgnoreCase("Y")) {//관리자 계정이 아니면
 				response.setContentType("text/html; charset=UTF-8");
 				
 				PrintWriter out = response.getWriter();
@@ -102,7 +102,7 @@ public class AdminLoginAction implements Action {
 				session.setAttribute("a_email", adminInfo.getEmail());
 				
 				//isAdmin이 false이면 관리자페이지 접근제한
-				session.setAttribute("isAdmin", adminInfo.isAdmin());
+				session.setAttribute("a_admin_status", adminInfo.getAdmin_status());
 				
 				//세션 유지시간 (※세션은 해당 브라우저에서만 유효) (기본값 30분이 지나거나 창을 닫으면 세션영역이 사라짐) 
 				session.setMaxInactiveInterval(1*60*60);//초단위 1시간 = 3600초	

@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
-<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>   
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>  
 <!DOCTYPE html>
 <html>
 <head>
@@ -37,15 +37,16 @@
 <body>
 	
 	<!-- Main Section -->
+	<!-- Main Section -->
 	<!-- Page Header Start -->
     <div class="container-fluid page-header py-5 mb-5 wow fadeIn" data-wow-delay="0.1s">
         <div class="container text-center py-5">
-            <h3 class="display-6 text-white mb-5 animated slideInDown">문의사항</h3>
+            <h3 class="display-6 text-white mb-5 animated slideInDown">공지사항</h3>
             <nav aria-label="breadcrumb animated slideInDown">
                 <ol class="breadcrumb justify-content-center mb-0">
                     <li class="breadcrumb-item"><a href="#">메인</a></li>
                     <li class="breadcrumb-item"><a href="#">고객센터</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">문의사항</li>
+                    <li class="breadcrumb-item active" aria-current="page">공지사항</li>
                 </ol>
             </nav>
         </div>
@@ -56,17 +57,17 @@
     	<div class="container-xxl py-5">
     		<div class="container col-10 col-md-6 col-lg-4">
     			<div class="col-12 mb-5">
-    				<p class="text-center">작성된 문의글이 없습니다.</p>
+    				<p class="text-center">작성된 공지사항이 없습니다.</p>
     			</div>
     			<div class="col-12 text-center mx-auto">
-					<button class="btn btn-outline-primary py-1" type="button" onclick="location.href='userInsertQnaQForm.usr'">문의글 작성</button>
+					<button class="btn btn-outline-primary py-1" type="button" onclick="location.href='insertNoticeForm.adm'">공지글 작성</button>
 				</div>
     		</div>
     	</div>
     </c:if>
     
     <c:if test="${pageInfo.listCount != 0 }">
-    	<c:set var="q_index" value="${pageInfo.listCount - (pageInfo.page-1)*10 }" />
+    	<c:set var="n_index" value="${pageInfo.listCount - (pageInfo.page-1)*10 }" />
 	    
 	    <%-- Search Tab Start --%>
 	    <div class="container-fluid pt-4 pb-3">
@@ -74,8 +75,8 @@
 	    		<div class="d-flex justify-content-end">
 					<form>
 		    			<div class="btn btn-outline-light py-1 px-2 me-1">
-			    			<input type="text" name="q_title" id="q_title" class="border-0 me-2" placeholder="제목으로 검색">
-			    			<a href="javascript:searchQnaList();"><i class="fas fa-search"></i></a>
+			    			<input type="text" name="n_title" id="n_title" class="border-0 me-2" placeholder="제목으로 검색">
+			    			<a href="javascript:searchNoticeList();"><i class="fas fa-search"></i></a>
 		    			</div>
 		    		</form>
 	    		</div>
@@ -92,23 +93,19 @@
 							<tr>
 								<th scope="col">번호</th>
 								<th scope="col">제목</th>
-								<th scope="col">작성자</th>
 								<th scope="col">날짜</th>
+								<th scope="col">조회수</th>
 							</tr>
 						</thead>
 						<tbody class="table-group-divider">
-							<c:forEach var="qna" items="${qnaList}">
+							<c:forEach var="notice" items="${noticeList}">
 								<tr>
-									<th scope="row">${q_index}</th>
-									<td><a href="userQnaView.usr?qna_id=${qna.qna_id}&page=${pageInfo.page}&q_private=${qna.q_private}">${qna.q_title }</a>
-										<c:if test="${qna.q_private eq 'Y'}">
-											<i class="fas fa-lock ms-1"></i>
-										</c:if>
-									</td>
-									<td>${qna.member_id }</td>
-									<td>${qna.q_time }</td>
+									<th scope="row">${n_index}</th>
+									<td><a href="adminNoticeView.adm?notice_id=${notice.notice_id}&page=${pageInfo.page}">${notice.n_title }</a></td>
+									<td>${notice.writetime }</td>
+									<td>${notice.viewcount }</td>
 								</tr>
-								<c:set var="q_index" value="${q_index -1 }"/>
+								<c:set var="n_index" value="${n_index -1 }"/>
 							</c:forEach>
 						</tbody>
 					</table>
@@ -120,7 +117,7 @@
 	    <div class="container-fluid mt-0 pt-0 pb-5">
 	    	<div class="container col-lg-8 px-0">
 	    		<div class="d-flex justify-content-end">
-	    			<button class="btn btn-outline-primary float-right py-1" type="button" onclick="location.href='userInsertQnaQForm.usr'">문의글 작성</button>
+	    			<button class="btn btn-outline-primary float-right py-1" type="button" onclick="location.href='insertNoticeForm.adm'">문의글 작성</button>
 	    		</div>
 	    	</div>
 	   	</div>
@@ -138,7 +135,7 @@
 								</a>	
 							</c:if>
 							<c:if test="${pageInfo.page > 1}">
-								<a class="page-link" href="userQnaList.usr?page=${pageInfo.page -1 }" aria-label="Previous">
+								<a class="page-link" href="adminNoticeList.adm?page=${pageInfo.page -1 }" aria-label="Previous">
 									<span aria-hidden="true">&laquo;</span>
 								</a>	
 							</c:if>								
@@ -149,7 +146,7 @@
 								<li class="page-item active" aria-current="page"><a class="page-link">${pNum}</a></li>
 							</c:if>
 							<c:if test="${pNum ne pageInfo.page }">
-								<li class="page-item"><a class="page-link" href="userQnaList.usr?page=${pNum}">${pNum}</a></li>
+								<li class="page-item"><a class="page-link" href="adminNoticeList.adm?page=${pNum}">${pNum}</a></li>
 							</c:if>
 						</c:forEach>
 						
@@ -160,7 +157,7 @@
 								</a>
 							</c:if>
 							<c:if test="${pageInfo.page < pageInfo.maxPage }">
-								<a class="page-link" href="userQnaList.usr?page=${pageInfo.page +1 }" aria-label="Next">
+								<a class="page-link" href="adminNoticeList.adm?page=${pageInfo.page +1 }" aria-label="Next">
 									<span aria-hidden="true">&raquo;</span>
 								</a>
 							</c:if>							
@@ -174,8 +171,6 @@
     </c:if>
     
     
-		
-	    
     <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>

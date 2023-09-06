@@ -43,7 +43,7 @@ public class AdminInsertNewQnaAAction implements Action {
 		
 		String q_title = multi.getParameter("q_title");
 		String q_content = multi.getParameter("q_content");
-		boolean isPrivate = Boolean.parseBoolean(multi.getParameter("isPrivate"));
+		String q_private = multi.getParameter("q_private");
 					
 		String q_image = multi.getFilesystemName("q_image");
 			
@@ -55,7 +55,7 @@ public class AdminInsertNewQnaAAction implements Action {
 		qna.setQ_title(q_title);
 		qna.setQ_content(q_content);
 		qna.setQ_image(q_image);
-		qna.setPrivate(isPrivate);
+		qna.setQ_private(q_private);
 		
 		QnaNewQuestionService qnaNewQuestionService = new QnaNewQuestionService();
 		boolean isWriteSuccess = qnaNewQuestionService.insertNewQuestion(qna);

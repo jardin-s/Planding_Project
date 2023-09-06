@@ -39,7 +39,6 @@
 <script type="text/javascript">
 function checkJoinForm(){
 	
-
 	//아이디와 비밀번호 값 데이터 정규화 공식
 	const regIdPass = /^[a-zA-Z0-9]{7,19}$/;
 	if(!document.f.member_id.value.trim()){
@@ -194,8 +193,8 @@ function idCheckOpen(){
 	                            </div>
 	                            <!-- 사용자 가상계좌 -->
 	                            <input type="hidden" class="form-control" name="account" id="account" value="0">
-	                            <!-- 관리자 여부 : false -->
-	                            <input type="hidden" class="form-control" name="isAdmin" id="isAdmin" value="false">								    
+	                            <!-- 관리자 여부 : N -->
+	                            <input type="hidden" class="form-control" name="isAdmin" id="isAdmin" value="N">								    
 	                                                        
 	                            <div class="col-12 text-center my-4">
 	                                <button class="btn btn-primary py-2 px-4" type="submit" onclick="checkJoinForm(); return false;">가입하기</button>

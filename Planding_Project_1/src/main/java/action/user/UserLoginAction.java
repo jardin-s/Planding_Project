@@ -83,8 +83,8 @@ public class UserLoginAction implements Action {
 			session.setAttribute("u_name", userInfo.getName());			
 			session.setAttribute("u_email", userInfo.getEmail());
 			
-			//isAdmin이 false이면 관리자페이지 접근제한
-			session.setAttribute("isAdmin", userInfo.isAdmin());
+			//isAdmin이 N이면 관리자페이지 접근제한
+			session.setAttribute("u_admin_status", userInfo.getAdmin_status());
 			
 			//세션 유지시간 (※세션은 해당 브라우저에서만 유효) (기본값 30분이 지나거나 창을 닫으면 세션영역이 사라짐) 
 			session.setMaxInactiveInterval(1*60*60);//초단위 1시간 = 3600초	

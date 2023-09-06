@@ -19,7 +19,6 @@ public class AdminQnaListAction implements Action {
 		ActionForward forward = null;
 		
 		HttpSession session = request.getSession();
-		boolean isAdmin = (Boolean) session.getAttribute("isAdmin");
 		
 		//처음 요청할 경우 조회하는 페이지넘버 기본값 1
 		int page = 1;

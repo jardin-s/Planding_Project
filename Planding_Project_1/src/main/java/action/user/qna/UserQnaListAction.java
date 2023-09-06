@@ -18,8 +18,6 @@ public class UserQnaListAction implements Action {
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ActionForward forward = null;
 		
-		HttpSession session = request.getSession();
-		
 		//처음 요청할 경우 조회하는 페이지넘버 기본값 1
 		int page = 1;
 		int limit = 10;//한 페이지 당 최대 글 개수 10개

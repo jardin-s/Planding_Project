@@ -10,9 +10,10 @@ import javax.servlet.http.HttpServletResponse;
 import action.Action;
 import action.qna.QnaImageFileDownAction;
 import action.user.UserUploadProjectListAction;
+import action.user.notice.UserNoticeListAction;
 import action.user.qna.UserDeleteQnaAction;
-import action.user.qna.UserInsertNewQnaQAction;
-import action.user.qna.UserInsertNewQnaQFormAction;
+import action.user.qna.UserInsertQnaQAction;
+import action.user.qna.UserInsertQnaQFormAction;
 import action.user.qna.UserModifyQnaQAction;
 import action.user.qna.UserModifyQnaQFormAction;
 import action.user.qna.UserQnaListAction;
@@ -328,9 +329,9 @@ public class UserFrontController extends HttpServlet {
 		}
 				
 		/*-- '문의글 쓰기 폼 보기' 요청 -> 처리 --------------------------------------*/
-		else if(command.equals("/userInsertNewQnaQForm.usr")) {//'문의글 쓰기 폼 보기' 요청
+		else if(command.equals("/userInsertQnaQForm.usr")) {//'문의글 쓰기 폼 보기' 요청
 			
-			action = new UserInsertNewQnaQFormAction();
+			action = new UserInsertQnaQFormAction();
 
 			try {
 				forward = action.execute(request, response);
@@ -339,9 +340,9 @@ public class UserFrontController extends HttpServlet {
 			}
 			
 		}
-		else if(command.equals("/userInsertNewQnaQAction.usr")) {//'문의글 등록' 요청
+		else if(command.equals("/userInsertQnaQAction.usr")) {//'문의글 등록' 요청
 			
-			action = new UserInsertNewQnaQAction();
+			action = new UserInsertQnaQAction();
 
 			try {
 				forward = action.execute(request, response);
@@ -415,6 +416,22 @@ public class UserFrontController extends HttpServlet {
 			
 		}
 		
+		/***************************************************************************************
+		 * 공지사항 게시판
+		 ***************************************************************************************/
+		/*-- [사용자모드] '공지사항 글 목록 보기' 요청 --------------------------------------*/
+		else if(command.equals("/userNoticeList.usr")) {//'공지사항 글 목록 보기' 요청
+			
+			action = new UserNoticeListAction();
+
+			try {
+				forward = action.execute(request, response);
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+			
+		}
+
 		
 		
 		/***********************************************************

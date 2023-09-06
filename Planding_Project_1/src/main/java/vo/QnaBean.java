@@ -11,7 +11,7 @@ public class QnaBean {
 	private String q_title;
 	private String q_content;
 	private String q_image;
-	private boolean isPrivate;
+	private String q_private;
 
 	private String q_time; //SQL에서 자동셋팅
 	
@@ -22,7 +22,7 @@ public class QnaBean {
 	public QnaBean() {}
 
 
-	public QnaBean(int qna_id, String member_id, String q_title, String q_content, String q_image, boolean isPrivate,
+	public QnaBean(int qna_id, String member_id, String q_title, String q_content, String q_image, String q_private,
 			String a_content) {
 		super();
 		this.qna_id = qna_id;
@@ -30,7 +30,7 @@ public class QnaBean {
 		this.q_title = q_title;
 		this.q_content = q_content;
 		this.q_image = q_image;
-		this.isPrivate = isPrivate;
+		this.q_private = q_private;
 		this.a_content = a_content;
 	}
 
@@ -85,13 +85,13 @@ public class QnaBean {
 	}
 
 
-	public boolean isPrivate() {
-		return isPrivate;
+	public String getQ_private() {
+		return q_private;
 	}
 
 
-	public void setPrivate(boolean isPrivate) {
-		this.isPrivate = isPrivate;
+	public void setQ_private(String q_private) {
+		this.q_private = q_private;
 	}
 
 

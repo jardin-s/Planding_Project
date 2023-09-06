@@ -86,7 +86,7 @@ public class QnaDAO {
 		//3페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 20부터
 		
 		String sql = "select qna_id, member_id,"
-				  + " q_title, q_content, q_image, isPrivate,"
+				  + " q_title, q_content, q_image, q_private,"
 				  + " DATE_FORMAT(q_time,'%Y.%m.%d %H:%i') as q_time,"
 				  + " a_content, DATE_FORMAT(a_time,'%Y.%m.%d %H:%i') as a_time"
 				  + " from qna_tbl"
@@ -112,7 +112,7 @@ public class QnaDAO {
 					qna.setQ_title(rs.getString("q_title"));
 					qna.setQ_content(rs.getString("q_content"));
 					qna.setQ_image(rs.getString("q_image"));
-					qna.setPrivate(rs.getBoolean("isPrivate"));
+					qna.setQ_private(rs.getString("q_private"));
 					qna.setQ_time(rs.getString("q_time"));
 					
 					qna.setA_content(rs.getString("a_content"));
@@ -144,7 +144,7 @@ public class QnaDAO {
 		
 		int insertNewQuestionCount = 0;
 		
-		String sql = "insert into qna_tbl(member_id, q_title, q_content, q_image, isPrivate) values(?,?,?,?,?)";
+		String sql = "insert into qna_tbl(member_id, q_title, q_content, q_image, q_private) values(?,?,?,?,?)";
 		
 		try {
 			
@@ -153,7 +153,7 @@ public class QnaDAO {
 			pstmt.setString(2, qna.getQ_title());
 			pstmt.setString(3, qna.getQ_content());
 			pstmt.setString(4, qna.getQ_image());
-			pstmt.setBoolean(5, qna.isPrivate());
+			pstmt.setString(5, qna.getQ_private());
 			
 			insertNewQuestionCount = pstmt.executeUpdate();
 						
@@ -178,7 +178,7 @@ public class QnaDAO {
 		QnaBean qna = null;
 		
 		String sql = "select qna_id, member_id,"
-				 + " q_title, q_content, q_image, isPrivate,"
+				 + " q_title, q_content, q_image, q_private,"
 				 + " DATE_FORMAT(q_time,'%Y.%m.%d %H:%i') as q_time,"
 				 + " a_content,"
 				 + " DATE_FORMAT(a_time,'%Y.%m.%d %H:%i') as a_time"
@@ -196,7 +196,7 @@ public class QnaDAO {
 				
 				qna.setQ_title(rs.getString("q_title"));
 				qna.setQ_content(rs.getString("q_content"));
-				qna.setPrivate(rs.getBoolean("isPrivate"));
+				qna.setQ_private(rs.getString("q_private"));
 				qna.setQ_title(rs.getString("q_time"));
 				
 				qna.setA_content(rs.getString("a_content"));
@@ -218,7 +218,7 @@ public class QnaDAO {
 		int updateQuestionCount = 0;
 		
 		String sql = "update qna_tbl"
-				  + " set q_title=?, q_content=?, isPrivate=?"
+				  + " set q_title=?, q_content=?, q_private=?"
 				  + " where qna_id=?";
 		
 		try {
@@ -226,7 +226,7 @@ public class QnaDAO {
 			
 			pstmt.setString(1, qna.getQ_title());
 			pstmt.setString(2, qna.getQ_content());
-			pstmt.setBoolean(3, qna.isPrivate());
+			pstmt.setString(3, qna.getQ_private());
 			pstmt.setInt(4, qna.getQna_id());
 			
 			updateQuestionCount = pstmt.executeUpdate();
@@ -247,7 +247,7 @@ public class QnaDAO {
 		int updateQuestionImgCount = 0;
 		
 		String sql = "update qna_tbl"
-				  + " set q_title=?, q_content=?, q_image=?, isPrivate=?"
+				  + " set q_title=?, q_content=?, q_image=?, q_private=?"
 				  + " where qna_id=?";
 		
 		try {
@@ -256,7 +256,7 @@ public class QnaDAO {
 			pstmt.setString(1, qna.getQ_title());
 			pstmt.setString(2, qna.getQ_content());
 			pstmt.setString(3, qna.getQ_image());
-			pstmt.setBoolean(4, qna.isPrivate());
+			pstmt.setString(4, qna.getQ_private());
 			pstmt.setInt(5, qna.getQna_id());
 			
 						
