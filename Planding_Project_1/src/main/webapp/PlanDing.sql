@@ -76,6 +76,8 @@ ENGINE = InnoDB;
 
 select * from member_tbl;
 
+
+
 -- -----------------------------------------------------
 -- Table `project`.`reward_tbl`
 -- -----------------------------------------------------
@@ -181,6 +183,7 @@ CREATE TABLE IF NOT EXISTS `project`.`notice_tbl` (
 ENGINE = InnoDB;
 
 
+drop table qna_tbl;
 -- -----------------------------------------------------
 -- Table `project`.`qna_tbl`
 -- -----------------------------------------------------
@@ -206,6 +209,8 @@ ENGINE = InnoDB;
 select * from qna_tbl;
 
 select count(*) from qna_tbl;
+
+delete from qna_tbl;
 
 select qna_id, member_id, q_title, q_content, q_image, isPrivate
 from qna_tbl;

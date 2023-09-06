@@ -69,20 +69,19 @@ function deleteConfirm(page, qna_id, member_id){
     <div class="container-fluid pt-4 pb-4">
         <div class="container col-md-8 col-lg-7">
             <div class="row justify-content-center">
-				<h4 class="mb-3">문의사항 글 제목</h4>
+				<h4 class="mb-3">${qnaInfo.q_title}</h4>
 				<hr>
 				<div class="mb-3">
-					<span>작성자아이디</span> | <span>작성일자</span>
+					<span>${qnaInfo.member_id}</span> | <span>${qnaInfo.q_time}</span>
 				</div>
 				<hr>
                 <p class="mb-3">
-                	글 내용
+                	${qnaInfo.q_content}
                 </p>
                 <c:if test="${qnaInfo.q_image ne null }">
                 	<hr>
 	                <div>
-	                	<img src="qna/images/${qnaInfo.q_image}">
-	                	<span>첨부파일 : <a href="qnaImageFileDown.usr?q_image=${qnaInfo.q_iamge }">${qnaInfo.q_image}</a></span>	                	
+	                	<img src="${pageContext.request.contextPath}/images/qna/${qnaInfo.q_image}">	                	
 	                </div>
 	                <hr>
                 </c:if>

@@ -44,7 +44,19 @@ public class UserInsertQnaQAction implements Action {
 		String q_title = multi.getParameter("q_title");
 		String q_content = multi.getParameter("q_content");
 		String q_private = multi.getParameter("q_private");
-							
+		
+		Enumeration<String> filenames =  multi.getFileNames();
+		
+		while(filenames.hasMoreElements()) {
+			
+			String filename = filenames.nextElement();
+			
+			String filesystemname = multi.getFilesystemName(filename);
+			
+			
+			
+		}
+		
 		String q_image = multi.getFilesystemName("q_image");
 			
 		System.out.println("[QnaNewQuestionAction] 파라미터값 이미지파일 업로드 성공");
@@ -69,8 +81,7 @@ public class UserInsertQnaQAction implements Action {
 			out.println("</script>");
 		}else {//글 등록 성공 시
 						
-			request.setAttribute("showPage", "user/qna/qnaList.jsp");
-			forward = new ActionForward("userTemplate.jsp", false);
+			forward = new ActionForward("userQnaList.usr", true);
 		}
 		
 		return forward;

@@ -39,33 +39,31 @@
 function qnaFormCheck(){
 	
 	//제목 데이터 유효성 검사
-	if(document.f.q_title == ''){
+	if(document.f.q_title.value == ''){
 		alert("제목을 입력해주세요.");
 		document.f.q_title.focus();
 		return false;
 	}
 	
-	else
-	
 	//내용 데이터 유효성 검사
-	if(document.f.q_content == ''){
+	if(document.f.q_content.value == ''){
 		alert('내용을 입력해주세요.')
 		document.f.q_content.focus();
 		return false;
 	}
 	
-	//비밀글 값 가져오기
-	var checkbox = document.getElementById("checkbox");
-	var check_value = checkbox.checked?"Y":"N";
-	document.f.q_private.value = check_value;
-	
-	
 	//파일확장자 유효성 검사 (jpg, png, gif, bmp 이미지 파일만 가능)
-	const regImageFile = ^([\\S\\s]+(\\.(?i)(jpg|png|gif|bmp))$)/i;
-	if(!regImageFile.test(document.f.image.value.trim())){
+	const regImageFile = /^[\S\s]+(\.(jpg|png|gif|bmp))$/i;
+	if(!regImageFile.test(document.f.q_image.value.trim())){
 		alert("jpg, png, gif, bmp 확장자의 이미지 파일만 첨부가능합니다.");
 		return false;
 	}
+	
+	//비밀글 값 가져오기
+	var check_value = document.f.checkbox.checked ? "Y" : "N";
+	alert("check_value = "+check_value);
+	document.f.q_private.value = check_value;
+	
 	
 	document.f.submit();
 	
@@ -107,8 +105,7 @@ function qnaFormCheck(){
 						<textarea name="q_content" class="form-control" placeholder="내용을 입력하세요." aria-label="q_content" rows="10"></textarea>
 					</div>
 					<div class="input-group mb-3">
-						<input type="file" name="q_image" class="form-control" id="q_image" aria-describedby="q_image" aria-label="q_image">
-						<label></label>
+						<input type="file" name="q_image" class="form-control" id="q_image" accept="image/*" aria-describedby="q_image" aria-label="q_image" maxlength="100">
 					</div>
 					<div class="form-check">
 						<input class="form-check-input" type="checkbox" name="checkbox" value="Y" id="checkbox">

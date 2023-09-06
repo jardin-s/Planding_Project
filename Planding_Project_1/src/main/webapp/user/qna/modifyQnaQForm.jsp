@@ -111,7 +111,7 @@ function qnaFormCheck(){
 						<textarea name="q_content" value="${qnaInfo.q_content }" class="form-control" placeholder="내용을 입력하세요." aria-label="q_content" rows="10"></textarea>
 					</div>
 					<div class="input-group mb-3">
-						<input type="file" name="q_image" value="/images/qna/${qnaInfo.q_image }" class="form-control" id="q_image" aria-describedby="q_image" aria-label="q_image">
+						<input type="file" name="q_image" value="/images/qna/${qnaInfo.q_image }" class="form-control" id="q_image" aria-describedby="q_image" aria-label="q_image" maxlength="100">
 						<label></label>
 					</div>
 					<div class="form-check">

@@ -95,8 +95,8 @@
 							<c:forEach var="qna" items="${qnaList }">
 								<tr>
 									<th scope="row">${q_index}</th>
-									<td><a href="adminQnaView.admin?qna_id=${qna.qna_id}&page=${pageInfo.page}&isPrivate=${qna.isPrivate}">${qna.q_title }</a>
-										<c:if test="${qna.isPrivate eq true}">
+									<td><a href="adminQnaView.admin?qna_id=${qna.qna_id}&page=${pageInfo.page}&q_private=${qna.q_private}">${qna.q_title }</a>
+										<c:if test="${qna.q_private eq 'Y'}">
 											<i class="fas fa-lock ms-1"></i>
 										</c:if>
 									</td>

@@ -118,6 +118,8 @@ public class QnaDAO {
 					qna.setA_content(rs.getString("a_content"));
 					qna.setA_time(rs.getString("a_time"));
 					
+					System.out.println("[QnaDAO] add한 qna객체 : "+qna);
+					
 					qnaList.add(qna);
 				
 				}while(rs.next());
@@ -197,10 +199,12 @@ public class QnaDAO {
 				qna.setQ_title(rs.getString("q_title"));
 				qna.setQ_content(rs.getString("q_content"));
 				qna.setQ_private(rs.getString("q_private"));
-				qna.setQ_title(rs.getString("q_time"));
+				qna.setQ_time(rs.getString("q_time"));
 				
 				qna.setA_content(rs.getString("a_content"));
 				qna.setA_time(rs.getString("a_time"));
+				
+				System.out.println("[QnaDAO] selectQna 정상조회?" + qna);
 			}
 						
 		} catch(Exception e) {

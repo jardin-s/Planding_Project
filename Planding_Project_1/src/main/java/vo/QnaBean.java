@@ -123,6 +123,16 @@ public class QnaBean {
 	public void setA_time(String a_time) {
 		this.a_time = a_time;
 	}
+
+
+	@Override
+	public String toString() {
+		return "QnaBean [qna_id=" + qna_id + ", member_id=" + member_id + ", q_title=" + q_title + ", q_content="
+				+ q_content + ", q_image=" + q_image + ", q_private=" + q_private + ", q_time=" + q_time
+				+ ", a_content=" + a_content + ", a_time=" + a_time + "]";
+	}
+	
+	
 	
 	
 }

@@ -18,7 +18,6 @@ import action.admin.AdminLoginAction;
 import action.admin.AdminLogoutAction;
 import action.admin.AdminUpdateAction;
 import action.admin.AdminUpdateFormAction;
-import action.qna.QnaImageFileDownAction;
 import action.admin.qna.AdminDeleteQnaAction;
 import action.admin.qna.AdminInsertNewQnaAAction;
 import action.admin.qna.AdminInsertNewQnaAFormAction;
@@ -315,19 +314,7 @@ public class AdminFrontController extends HttpServlet {
 			
 		}
 		
-		/*-- '문의글 파일 다운로드' 요청 -> 처리 --------------------------------------*/
-		else if(command.equals("/qnaImageFileDown.adm")) {//'문의글 파일 다운로드' 요청
-			
-			
-			action = new QnaImageFileDownAction();
-
-			try {
-				forward = action.execute(request, response);
-			} catch(Exception e) {
-				e.printStackTrace();
-			}
-			
-		}
+		
 		
 		/*-- '답글 수정 폼 보기' 요청 -> 처리 --------------------------------------*/
 		else if(command.equals("/adminModifyQnaAForm.adm")) {//'답글 수정 폼 보기' 요청

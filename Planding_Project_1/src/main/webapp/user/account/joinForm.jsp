@@ -194,7 +194,7 @@ function idCheckOpen(){
 	                            <!-- 사용자 가상계좌 -->
 	                            <input type="hidden" class="form-control" name="account" id="account" value="0">
 	                            <!-- 관리자 여부 : N -->
-	                            <input type="hidden" class="form-control" name="isAdmin" id="isAdmin" value="N">								    
+	                            <input type="hidden" class="form-control" name="admin_status" id="admin_status" value="N">								    
 	                                                        
 	                            <div class="col-12 text-center my-4">
 	                                <button class="btn btn-primary py-2 px-4" type="submit" onclick="checkJoinForm(); return false;">가입하기</button>

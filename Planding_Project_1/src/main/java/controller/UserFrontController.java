@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import action.Action;
-import action.qna.QnaImageFileDownAction;
 import action.user.UserUploadProjectListAction;
 import action.user.notice.UserNoticeListAction;
 import action.user.qna.UserDeleteQnaAction;
@@ -365,20 +364,7 @@ public class UserFrontController extends HttpServlet {
 			
 		}
 		
-		/*-- '문의글 파일 다운로드' 요청 -> 처리 --------------------------------------*/
-		else if(command.equals("/qnaImageFileDown.usr")) {//'문의글 파일 다운로드' 요청
-			
-			
-			action = new QnaImageFileDownAction();
-
-			try {
-				forward = action.execute(request, response);
-			} catch(Exception e) {
-				e.printStackTrace();
-			}
-			
-		}
-		
+				
 		/*-- '문의글 수정 폼 보기' 요청 -> 처리 --------------------------------------*/
 		else if(command.equals("/userModifyQnaQForm.usr")) {//'문의글 수정 폼 보기' 요청
 			
