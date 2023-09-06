@@ -87,10 +87,10 @@ public class QnaDAO {
 		
 		String sql = "select qna_id, member_id,"
 				  + " q_title, q_content, q_image, q_private,"
-				  + " DATE_FORMAT(q_time,'%Y.%m.%d %H:%i') as q_time,"
-				  + " a_content, DATE_FORMAT(a_time,'%Y.%m.%d %H:%i') as a_time"
+				  + " DATE_FORMAT(q_time,'%Y.%m.%d') as q_time,"
+				  + " a_content, DATE_FORMAT(a_time,'%Y.%m.%d') as a_time"
 				  + " from qna_tbl"
-				  + " order by q_time desc"
+				  + " order by qna_id desc"
 				  + " limit ?, ?";
 		
 		try {
@@ -184,10 +184,12 @@ public class QnaDAO {
 				 + " DATE_FORMAT(q_time,'%Y.%m.%d %H:%i') as q_time,"
 				 + " a_content,"
 				 + " DATE_FORMAT(a_time,'%Y.%m.%d %H:%i') as a_time"
-				 + " from qna_tbl";
+				 + " from qna_tbl"
+				 + " where qna_id=?";
 		
 		try {
 			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, qna_id);
 			rs = pstmt.executeQuery();
 			
 			if(rs.next()) {

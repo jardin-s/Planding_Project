@@ -39,30 +39,34 @@
 
 function qnaFormCheck(){
 	
-	if(document.f.q_title == ''){
+	//제목 데이터 유효성 검사
+	if(document.f.q_title.value == ''){
 		alert("제목을 입력해주세요.");
 		document.f.q_title.focus();
 		return false;
 	}
 	
-	else
-		
-	if(document.f.q_content == ''){
+	//내용 데이터 유효성 검사
+	if(document.f.q_content.value == ''){
 		alert('내용을 입력해주세요.')
 		document.f.q_content.focus();
 		return false;
 	}
 	
-	//파일확장자 유효성 검사 (jpg, png, gif 이미지 파일만 가능)
-	if(document.f.q_image != ''){
-		let filepath = document.f.q_image.value;
-		let fileExtension = filepath.substr(filepath.length-3);
-		if(!(fileExtension == 'jpg' || fileExtension == 'png' || fileExtension == 'gif')){
-			alert('jpg, png, gif 형식의 이미지파일만 첨부할 수 있습니다.');
-			document.f.q_image.focus();
+	//파일확장자 유효성 검사 (jpg, png, gif, bmp 이미지 파일만 가능)
+	const regImageFile = /^[\S\s]+(\.(jpg|png|gif|bmp))$/i;
+	if(document.f.q_image.value != ''){
+		if(!regImageFile.test(document.f.q_image.value.trim())){
+			alert("jpg, png, gif, bmp 확장자의 이미지 파일만 첨부가능합니다.");
 			return false;
 		}
 	}
+		
+	//비밀글 값 가져오기
+	var check_value = document.f.checkbox.checked ? "Y" : "N";
+	alert("check_value = "+check_value);
+	document.f.q_private.value = check_value;
+	
 	
 	document.f.submit();
 	

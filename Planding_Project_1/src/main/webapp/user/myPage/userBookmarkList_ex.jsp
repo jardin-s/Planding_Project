@@ -45,6 +45,75 @@
     </style>
 </head>
 
+ <script type="text/javascript">
+function switchEditCancel(){
+	
+	//편집 버튼 클릭 시 -> 편집버튼을 취소버튼으로 변경하고, 선택삭제버튼 보이기
+	switchBtn();
+	
+	//form-check클래스 div태그 안에 체크박스 태그 삽입
+	const checkElements = document.getElementsByClassName('form-check');
+	for(let i=0; i<checkElements.length; i++){
+		
+		if(checkElements[i].classList.contains('d-none')){//숨김 상태면 보이기로 전환
+			checkElements[i].classList.remove('d-none');
+		}else{//보이기 상태면 숨김으로 전환
+			checkElements[i].classList.add('d-none');
+		}
+	}
+	
+}
+
+//편집을 취소로 변경. 삭제버튼 활성화
+function switchBtn(){
+	
+	//편집을 취소로 변경
+	//취소를 편집으로 변경
+	const editBtn = document.getElementById("editBtn");
+	const editBtnText = editBtn.innerText;
+	
+	if(editBtnText == "편집"){
+		editBtn.innerText = "취소";
+	}else if(editBtnText == "취소"){
+		editBtn.innerText = "편집";
+	}
+	
+	//삭제버튼 없으면 활성화
+	//삭제버튼 있으면 비활성화
+	const deleteBtn = document.getElementById("deleteBtn");
+	if(deleteBtn.classList.contains('d-none')){
+		deleteBtn.classList.remove('d-none');
+	}else{
+		deleteBtn.classList.add('d-none');
+	}
+	
+}
+
+function selectDelete(){
+	
+	const checkElements = document.getElementsByClassName('form-check-input');
+	
+	let isCheckboxChecked = false;
+	for(let i=0; i<checkElements.length; i++){
+		
+		//하나라도 체크된 것이 있으면 체크여부 true로 변경하고 반복문 끝
+		if(checkElements[i].checked == true){
+			isCheckboxChecked = true;
+			break;
+		}		
+	}
+	
+	if(!isCheckboxChecked){//체크된 것이 없으면
+		return alert('선택된 항목이 없어 삭제할 수 없습니다.');
+	
+	}else{//체크된 것이 있으면
+		document.f.submit();
+	}
+	
+	
+}
+</script>
+
 <body>
 		
 	<!-- Main Section -->
@@ -132,72 +201,7 @@
     </form>   
     <!-- List End -->
     
-    <script type="text/javascript">
-	function switchEditCancel(){
-		
-		//편집 버튼 클릭 시 -> 편집버튼을 취소버튼으로 변경하고, 선택삭제버튼 보이기
-		switchBtn();
-		
-		//form-check클래스 div태그 안에 체크박스 태그 삽입
-		const checkElements = document.getElementsByClassName('form-check');
-		for(int i=0; i<checkElements.length; i++){
-			
-			if(checkElements[i].classList.contains('d-none')){//숨김 상태면 보이기로 전환
-				checkElements[i].classList.remove('d-none');
-			}else{//보이기 상태면 숨김으로 전환
-				checkElements[i].classList.add('d-none');
-			}
-		}
-		
-	}
-	
-	function selectDelete(){
-		
-		const checkElements = document.getElementsByClassName('form-check-input');
-		
-		boolean isCheckboxChecked = false;
-		for(int i=0; i<checkElements.length; i++){
-			
-			//하나라도 체크된 것이 있으면 체크여부 true로 변경하고 반복문 끝
-			if(checkElements[i].checked == true){
-				isCheckboxChecked = true;
-				break;
-			}		
-		}
-		
-		if(!isCheckboxChecked){//체크된 것이 없으면
-			return alert('선택된 항목이 없어 삭제할 수 없습니다.');
-		
-		}else{//체크된 것이 있으면
-			document.f.submit();
-		}
-		
-		
-	}
-	
-	//편집을 취소로 변경. 삭제버튼 활성화
-	function switchBtn(){
-		
-		//편집을 취소로 변경
-		//취소를 편집으로 변경
-		const editBtn = document.getElementById("editBtn");
-		const editBtnText = editBtn.innerText;
-		
-		if(editBtnText == "편집"){
-			editBtnText = "취소";
-		}else if(editBtnText == "취소"){
-			editBtnText = "편집";
-		}
-		
-		//삭제버튼 없으면 활성화
-		//삭제버튼 있으면 비활성화
-		const deleteBtn = document.getElementById("deleteBtn");
-		if(deleteBtn.classList.contains('d-none')){
-			deleteBtn.classList.remove('d-none');
-		}
-		
-	}	
-	</script>
+   
 	
     <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>

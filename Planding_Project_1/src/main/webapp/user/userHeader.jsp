@@ -61,8 +61,8 @@ function userLogout(){
                     </c:if> 
                 </div>
             </div>
-            <div class="col-lg-5 px-5 text-end">
-                <div class="h-100 d-inline-flex align-items-center mx-n2">
+            <div class="col-lg-5 px-3 px-md-4 px-lg-5 text-end">
+                <div class="h-100 d-inline-flex align-items-center mx-n3">
                     <c:if test="${sessionScope.u_id eq null }">
                     	<a class="btn btn-link text-light" href="userLoginForm.usr">로그인하기</a>	
                     </c:if>

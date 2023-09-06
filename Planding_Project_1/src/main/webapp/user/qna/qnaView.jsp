@@ -87,9 +87,11 @@ function deleteConfirm(page, qna_id, member_id){
                 </c:if>
                 <hr class="mb-5">
                 <c:if test="${qnaInfo.a_content eq 'unanswered'}">
-                	<p>아직 등록된 답변이 없습니다.</p>
+                	<div class="pt-3 pb-5">
+                		<p>아직 등록된 답변이 없습니다.</p>
+                	</div>
                 </c:if>
-                <c:if test="${qnaInfo.a_content ne 'unanwsered'}">
+                <c:if test="${qnaInfo.a_content ne 'unanswered'}">
                 	<div class="mb-3">
                 		<span class="fw-bold fs-5">문의사항에 대한 답변입니다.</span> | <span>답변일시</span>
                 	</div>

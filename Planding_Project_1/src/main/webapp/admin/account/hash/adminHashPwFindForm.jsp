@@ -147,6 +147,9 @@ function pwCheck() { //비밀번호 정규화 체크
 							<li class="nav-item">
 								<a class="nav-link text-secondary" href="adminJoin.adm">관리자 등록</a>
 							</li>
+							<li class="nav-item">
+								<a class="nav-link text-secondary" href="userMain.usr">돌아가기</a>
+							</li>
 						</ul>
 						
 	                </div>

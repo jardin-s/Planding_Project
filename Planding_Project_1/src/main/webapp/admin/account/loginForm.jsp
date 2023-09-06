@@ -79,6 +79,9 @@
 						  <li class="nav-item">
 						    <a class="nav-link text-secondary" href="adminJoin.adm">관리자 등록</a>
 						  </li>
+						  <li class="nav-item">
+						    <a class="nav-link text-secondary" href="userMain.usr">돌아가기</a>
+						  </li>
 						</ul>
 	                </div>
 	            </div>

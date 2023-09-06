@@ -33,6 +33,7 @@ public class UserQnaViewAction implements Action {
 		HttpSession session =  request.getSession();
 		String u_id = (String) session.getAttribute("u_id");
 		
+		//qna_id로 해당 글의 정보를 얻어옴
 		QnaViewService qnaViewService = new QnaViewService();
 		QnaBean qna = qnaViewService.getQnaInfo(qna_id);
 		

@@ -54,11 +54,13 @@ function qnaFormCheck(){
 	
 	//파일확장자 유효성 검사 (jpg, png, gif, bmp 이미지 파일만 가능)
 	const regImageFile = /^[\S\s]+(\.(jpg|png|gif|bmp))$/i;
-	if(!regImageFile.test(document.f.q_image.value.trim())){
-		alert("jpg, png, gif, bmp 확장자의 이미지 파일만 첨부가능합니다.");
-		return false;
+	if(document.f.q_image.value != ''){
+		if(!regImageFile.test(document.f.q_image.value.trim())){
+			alert("jpg, png, gif, bmp 확장자의 이미지 파일만 첨부가능합니다.");
+			return false;
+		}
 	}
-	
+		
 	//비밀글 값 가져오기
 	var check_value = document.f.checkbox.checked ? "Y" : "N";
 	alert("check_value = "+check_value);

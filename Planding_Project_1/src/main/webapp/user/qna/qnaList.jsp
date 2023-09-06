@@ -90,16 +90,16 @@
 					<table class="table table-hover">
 						<thead>
 							<tr>
-								<th scope="col">번호</th>
-								<th scope="col">제목</th>
-								<th scope="col">작성자</th>
-								<th scope="col">날짜</th>
+								<th scope="col" class="col-1 text-center">#</th>
+								<th scope="col" class="col-7">제목</th>
+								<th scope="col" class="col-2">작성자</th>
+								<th scope="col" class="col-2">날짜</th>
 							</tr>
 						</thead>
 						<tbody class="table-group-divider">
 							<c:forEach var="qna" items="${qnaList}">
 								<tr>
-									<th scope="row">${q_index}</th>
+									<th scope="row" class="text-center">${q_index}</th>
 									<td><a href="userQnaView.usr?qna_id=${qna.qna_id}&page=${pageInfo.page}&q_private=${qna.q_private}">${qna.q_title }</a>
 										<c:if test="${qna.q_private eq 'Y'}">
 											<i class="fas fa-lock ms-1"></i>

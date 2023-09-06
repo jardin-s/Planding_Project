@@ -196,7 +196,7 @@ function idCheckOpen(){
 	                        </div>
 	                    </div>
 	                    
-	                    <ul class="nav justify-content-center mt-3">
+	                    <ul class="nav justify-content-center my-3">
 						  <li class="nav-item">
 						    <a class="nav-link text-secondary" href="adminLoginForm.adm">로그인 하기</a>
 						  </li>
@@ -205,6 +205,9 @@ function idCheckOpen(){
 						  </li>
 						  <li class="nav-item">
 						    <a class="nav-link text-secondary" href="adminHashPwFindForm.adm">비밀번호 찾기</a>
+						  </li>						  
+						  <li class="nav-item">
+						    <a class="nav-link text-secondary" href="userMain.usr">돌아가기</a>
 						  </li>						  
 						</ul>
 	                </div>
