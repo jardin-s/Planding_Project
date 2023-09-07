@@ -48,7 +48,7 @@ public class UserLoginAction implements Action {
 			PrintWriter out = response.getWriter();
 			out.println("<script>");
 			out.println("alert('아이디나 비밀번호가 일치하지 않습니다.');");//알림창을 띄우고 로그인폼보기 요청으로 돌아감
-			out.println("location.href='userLogin.usr'");		//(☆history.back()보다는 요청으로 할 것)
+			out.println("location.href='userLoginForm.usr'");		//(☆history.back()보다는 요청으로 할 것)
 			out.println("</script>");
 			
 		}else {//참 : 로그인 성공하면 (회원가입 + 아이디와 비밀번호가 일치 맞음)
@@ -83,8 +83,8 @@ public class UserLoginAction implements Action {
 			session.setAttribute("u_name", userInfo.getName());			
 			session.setAttribute("u_email", userInfo.getEmail());
 			
-			//isAdmin이 false이면 관리자페이지 접근제한
-			session.setAttribute("isAdmin", userInfo.isAdmin());
+			//isAdmin이 N이면 관리자페이지 접근제한
+			session.setAttribute("u_admin_status", userInfo.getAdmin_status());
 			
 			//세션 유지시간 (※세션은 해당 브라우저에서만 유효) (기본값 30분이 지나거나 창을 닫으면 세션영역이 사라짐) 
 			session.setMaxInactiveInterval(1*60*60);//초단위 1시간 = 3600초	

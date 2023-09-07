@@ -64,6 +64,19 @@
 	                            </div>
 	                        </div>
 	                    </div>
+	                    
+	                    <ul class="nav justify-content-center mt-3 animated fadeIn">
+                           	<li class="nav-item">
+								<a class="nav-link text-secondary" href="userLoginForm.usr">로그인 하기</a>
+							</li>
+                           	<li class="nav-item">
+								<a class="nav-link text-secondary" href="userHashPwFindForm.usr">비밀번호 찾기</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link text-secondary" href="userJoinForm.usr">회원가입</a>
+							</li>
+						</ul>	                    
+	                    
 	                </div>
 	            </div>
             </form>

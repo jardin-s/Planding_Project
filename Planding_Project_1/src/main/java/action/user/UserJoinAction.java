@@ -25,7 +25,7 @@ public class UserJoinAction implements Action {
 		String u_email = request.getParameter("email");
 		String u_phone = request.getParameter("phone");
 		int u_account = Integer.parseInt(request.getParameter("account"));
-		boolean isAdmin = Boolean.parseBoolean(request.getParameter("isAdmin"));
+		String u_admin = request.getParameter("admin_status");
 		
 		System.out.println("[UserJoinAction] 회원가입 폼에서 전송받은 값");
 		System.out.println("member_id="+u_id);
@@ -34,7 +34,7 @@ public class UserJoinAction implements Action {
 		System.out.println("email="+u_email);
 		System.out.println("phone="+u_phone);
 		System.out.println("account="+u_account);
-		System.out.println("isAdmin="+isAdmin);
+		System.out.println("admin_status="+u_admin);
 		
 		/*
 		MemberBean user = new MemberBean();
@@ -48,7 +48,7 @@ public class UserJoinAction implements Action {
 		*/
 		
 		//비밀번호 암호화 방법-2 (매개변수가 있는 생성자)
-		MemberBean user = new MemberBean(u_id, u_password, u_name, u_email, u_phone, u_account, isAdmin);
+		MemberBean user = new MemberBean(u_id, u_password, u_name, u_email, u_phone, u_account, u_admin);
 		
 		UserJoinService userJoinService = new UserJoinService();
 		boolean isUserJoinSuccess = userJoinService.userJoin(user);
@@ -75,7 +75,7 @@ public class UserJoinAction implements Action {
 			*/
 			
 			//방법-2 : 알림창을 띄우지 않음
-			forward = new ActionForward("userLogin.usr", true);
+			forward = new ActionForward("userLoginForm.usr", true);
 		}
 		
 		return forward;

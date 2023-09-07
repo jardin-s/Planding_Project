@@ -7,9 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import action.Action;
 import svc.admin.AdminJoinService;
-import util.SHA256;
 import vo.ActionForward;
-import vo.AddressBean;
 import vo.MemberBean;
 
 public class AdminJoinAction implements Action {
@@ -20,13 +18,12 @@ public class AdminJoinAction implements Action {
 		ActionForward forward = null;
 		
 		String a_id = request.getParameter("member_id");
-		String a_grade = request.getParameter("grade");
 		String a_password = request.getParameter("password");		
 		String a_name = request.getParameter("name");
 		String a_email = request.getParameter("email");
 		String a_phone = request.getParameter("phone");
 		int a_account = Integer.parseInt(request.getParameter("account"));
-		boolean isAdmin = Boolean.parseBoolean(request.getParameter("isAdmin"));
+		String a_admin_status = request.getParameter("admin_status");
 		
 		/*
 		MemberBean admin = new MemberBean();
@@ -40,7 +37,7 @@ public class AdminJoinAction implements Action {
 		*/
 		
 		//비밀번호 암호화 방법-2 (매개변수가 있는 생성자)
-		MemberBean admin = new MemberBean(a_id, a_password, a_name, a_email, a_phone, a_account, isAdmin);
+		MemberBean admin = new MemberBean(a_id, a_password, a_name, a_email, a_phone, a_account, a_admin_status);
 		
 		AdminJoinService adminJoinService = new AdminJoinService();
 		boolean isAdminJoinSuccess = adminJoinService.adminJoin(admin);
@@ -50,7 +47,7 @@ public class AdminJoinAction implements Action {
 			
 			PrintWriter out = response.getWriter();
 			out.println("<script>");
-			out.println("alert('회원가입에 실패했습니다.');");
+			out.println("alert('관리자 등록에 실패했습니다.');");
 			out.println("history.back();");
 			out.println("</script>");
 		}else { //회원가입 성공
@@ -67,7 +64,7 @@ public class AdminJoinAction implements Action {
 			*/
 			
 			//방법-2 : 알림창을 띄우지 않음
-			forward = new ActionForward("adminLogin.adm", true);
+			forward = new ActionForward("adminLoginForm.adm", true);
 		}
 		
 		return forward;

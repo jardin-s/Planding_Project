@@ -17,7 +17,20 @@ import action.admin.AdminJoinAction;
 import action.admin.AdminLoginAction;
 import action.admin.AdminLogoutAction;
 import action.admin.AdminUpdateAction;
-import action.admin.AdminViewAction;
+import action.admin.AdminUpdateFormAction;
+import action.admin.notice.AdminDeleteNoticeAction;
+import action.admin.notice.AdminInsertNoticeAction;
+import action.admin.notice.AdminInsertNoticeFormAction;
+import action.admin.notice.AdminModifyNoticeFormAction;
+import action.admin.notice.AdminNoticeListAction;
+import action.admin.notice.AdminNoticeViewAction;
+import action.admin.qna.AdminDeleteQnaAction;
+import action.admin.qna.AdminInsertQnaAAction;
+import action.admin.qna.AdminInsertQnaAFormAction;
+import action.admin.qna.AdminModifyQnaAAction;
+import action.admin.qna.AdminModifyQnaAFormAction;
+import action.admin.qna.AdminQnaListAction;
+import action.admin.qna.AdminQnaViewAction;
 import vo.ActionForward;
 
 /**
@@ -81,15 +94,15 @@ public class AdminFrontController extends HttpServlet {
 		System.out.println("[Admin]command : "+command);//어떤 요청인지 확인하기 위해 콘솔에 출력
 		
 		if(command.equals("/adminMain.adm")) {//'index.jsp'에서 사용자모드 뷰페이지(adminMain.jsp) 보기 요청이면
-			forward = new ActionForward("adminMain.jsp", false);
-			//false(디스패치) 이유? 
+			request.setAttribute("showAdmin", "admin/adminMain.jsp");//어느 폼 보기인지 showAdmin이름 속성으로 저장
+			forward = new ActionForward("adminTemplate.jsp",false);
 		}
 		
 		/*-- '로그인 폼 보기' 요청 -> 처리 --------------------------------------*/
-		else if(command.equals("/adminLogin.adm")) {//'로그인 폼 보기' 요청이면
+		else if(command.equals("/adminLoginForm.adm")) {//'로그인 폼 보기' 요청이면
 			
-			request.setAttribute("showAdmin", "admin/loginForm.jsp");//어느 폼 보기인지 showAdmin이름 속성으로 저장
-			forward = new ActionForward("adminMain.jsp",false);//반드시 디스패치 (request를 공유)
+			request.setAttribute("showPage", "admin/account/loginForm.jsp");//어느 폼 보기인지 showAdmin이름 속성으로 저장
+			forward = new ActionForward("adminLoginTemplate.jsp",false);
 					
 		}
 		
@@ -122,8 +135,8 @@ public class AdminFrontController extends HttpServlet {
 		/*-- '회원가입 폼 보기' 요청 -> 처리 -------------------------------------*/
 		else if(command.equals("/adminJoin.adm")) {//'회원가입 폼 보기' 요청이면
 			
-			request.setAttribute("showAdmin", "admin/joinForm.jsp");//어느 폼 보기인지 showAdmin이름 속성으로 저장
-			forward = new ActionForward("adminMain.jsp",false);//반드시 디스패치 (request를 공유)
+			request.setAttribute("showPage", "admin/account/joinForm.jsp");//어느 폼 보기인지 showAdmin이름 속성으로 저장
+			forward = new ActionForward("adminLoginTemplate.jsp",false);//반드시 디스패치 (request를 공유)
 					
 		}
 		
@@ -140,7 +153,7 @@ public class AdminFrontController extends HttpServlet {
 					
 		}
 		
-		else if(command.equals("/adminIdCheckAction.adm")) {//'아이디 중복체크 처리' 요청이면
+		else if(command.equals("/admin/account/idCheck/adminIdCheckAction.adm")) {//'아이디 중복체크 처리' 요청이면
 			
 			//부모인터페이스 = 구현한 자식객체
 			action = new AdminIdCheckAction();//부모인터페이스인 Action으로 받음 
@@ -154,10 +167,10 @@ public class AdminFrontController extends HttpServlet {
 		}
 		
 		/*-- '회원정보가 세팅된 회원정보관리 폼 보기(수정 폼)' 요청 -> 수정 처리 -------------------------------------*/
-		else if(command.equals("/adminView.adm")) {//'회원정보관리 보기' 요청이면
+		else if(command.equals("/adminUpdateForm.adm")) {//'회원정보관리 보기' 요청이면
 
 			//부모인터페이스 = 구현한 자식객체
-			action = new AdminViewAction();//부모인터페이스인 Action으로 받음 
+			action = new AdminUpdateFormAction();//부모인터페이스인 Action으로 받음 
 			
 			try {
 				forward = action.execute(request, response);
@@ -194,8 +207,8 @@ public class AdminFrontController extends HttpServlet {
 		}
 		else if(command.equals("/adminIdFindForm.adm")) {//'아이디 찾기 폼 보기' 요청
 			
-			request.setAttribute("showAdmin", "admin/adminIdFindForm.jsp");//어느 폼 보기인지 showAdmin이름 속성으로 저장
-			forward = new ActionForward("adminMain.jsp",false);//반드시 디스패치 (request를 공유)
+			request.setAttribute("showPage", "admin/account/adminIdFindForm.jsp");//어느 폼 보기인지 showAdmin이름 속성으로 저장
+			forward = new ActionForward("adminLoginTemplate.jsp",false);//반드시 디스패치 (request를 공유)
 					
 		}
 		else if(command.equals("/adminIdFindAction.adm")) {//'아이디 찾기 처리' 요청
@@ -215,8 +228,8 @@ public class AdminFrontController extends HttpServlet {
 		/*------- '암호화된 비밀번호찾기 폼 보기' → 처리(임시비밀번호 받아서 메일로 보내기) -------------------------------*/
 		
 		else if(command.equals("/adminHashPwFindForm.adm")) {//'비밀번호찾기 폼 보기' 요청이면
-			request.setAttribute("showAdmin", "admin/hash/adminHashPwFindForm.jsp");
-			forward = new ActionForward("adminMain.jsp",false); //반드시 디스패치 방식으로 포워딩
+			request.setAttribute("showPage", "admin/account/hash/adminHashPwFindForm.jsp");
+			forward = new ActionForward("adminLoginTemplate.jsp",false); //반드시 디스패치 방식으로 포워딩
 		}
 		else if(command.equals("/adminHashPwFindAction.adm")) {//'비밀번호 찾기 처리'요청하면
 			//action:부모인터페이스 = AdminLoginAction:구현한자식객체;
@@ -232,7 +245,7 @@ public class AdminFrontController extends HttpServlet {
 		/*------- '암호화된 비밀번호 변경 폼 보기' → 처리 -------------------------------*/
 		else if(command.equals("/adminHashPwChangeForm.adm")) {//'비밀번호 변경 폼 보기' 요청이면
 			request.setAttribute("showAdmin", "admin/hash/adminHashPwChangeForm.jsp");
-			forward = new ActionForward("adminMain.jsp",false); //반드시 디스패치 방식으로 포워딩
+			forward = new ActionForward("adminTemplate.jsp",false); //반드시 디스패치 방식으로 포워딩
 		}
 		else if(command.equals("/adminHashPwChangeAction.adm")) {//'비밀번호 변경 처리'요청하면
 			//action:부모인터페이스 = AdminHashPwChangeAction:구현한자식객체;
@@ -244,6 +257,191 @@ public class AdminFrontController extends HttpServlet {
 				e.printStackTrace();
 			}
 		}
+		
+		/*------- '관리자 마이페이지 보기' -------------------------------*/
+		else if(command.equals("/adminMyPage.adm")) {//'비밀번호 변경 폼 보기' 요청이면
+			request.setAttribute("showAdmin", "admin/myPage/adminMyPage.jsp");
+			forward = new ActionForward("adminTemplate.jsp",false); //반드시 디스패치 방식으로 포워딩
+		}
+		
+		
+		/***************************************************************************************
+		 * 문의사항 게시판
+		 ***************************************************************************************/
+		
+		/*-- '문의글 목록 보기' 요청 --------------------------------------*/
+		if(command.equals("/adminQnaList.adm")) {//
+
+			//부모인터페이스 = 구현한 자식객체
+			action = new AdminQnaListAction();//부모인터페이스인 Action으로 받음 
+			
+			try {
+				forward = action.execute(request, response);
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+ 
+		}
+		
+
+		/*-- '문의글 상세보기' 요청 -> 처리 --------------------------------------*/
+		else if(command.equals("/adminQnaView.adm")) {//'문의글 상세보기' 요청
+			
+			action = new AdminQnaViewAction();
+
+			try {
+				forward = action.execute(request, response);
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+			
+		}
+				
+		/*-- '답변 쓰기 폼 보기' 요청 -> 처리 --------------------------------------*/
+		else if(command.equals("/adminInsertQnaAForm.adm")) {//'답변 쓰기 폼 보기' 요청
+			
+			action = new AdminInsertQnaAFormAction();
+
+			try {
+				forward = action.execute(request, response);
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+			
+		}
+		else if(command.equals("/adminInsertQnaAAction.adm")) {//'답변 등록' 요청
+			
+			action = new AdminInsertQnaAAction();
+
+			try {
+				forward = action.execute(request, response);
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+			
+		}
+		
+		
+		/*-- '답글 수정 폼 보기' 요청 -> 처리 --------------------------------------*/
+		else if(command.equals("/adminModifyQnaAForm.adm")) {//'답글 수정 폼 보기' 요청
+			
+			action = new AdminModifyQnaAFormAction();
+
+			try {
+				forward = action.execute(request, response);
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+			
+		}
+		else if(command.equals("/adminModifyQnaAAction.adm")) {//'답글 수정하기' 요청
+			
+			action = new AdminModifyQnaAAction();
+
+			try {
+				forward = action.execute(request, response);
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+			
+		}
+		
+		/*-- '문의글 삭제하기' 요청 -> 처리 --------------------------------------*/
+		else if(command.equals("/adminDeleteQnaAction.adm")) {//문의글 삭제하기 요청
+			
+			action = new AdminDeleteAction();
+
+			try {
+				forward = action.execute(request, response);
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+			
+		}
+		
+		/***************************************************************************************
+		 * 공지사항 게시판
+		 ***************************************************************************************/
+		
+		/*-- '공지글 목록 보기' 요청 -> 처리 --------------------------------------*/
+		else if(command.equals("/adminNoticeList.adm")) {//공지글 목록 보기 요청
+			
+			action = new AdminNoticeListAction();
+
+			try {
+				forward = action.execute(request, response);
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+			
+		}
+		
+		/*-- '공지글 작성 폼 보기' 요청 -> 처리 --------------------------------------*/
+		else if(command.equals("/adminInsertNoticeForm.adm")) {//공지글 작성 폼 보기 요청
+			
+			action = new AdminInsertNoticeFormAction();
+			
+			try {
+				forward = action.execute(request, response);
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+			
+		}
+		
+		/*-- '공지글 작성하기' 요청 -> 처리 --------------------------------------*/
+		else if(command.equals("/adminInsertNoticeAction.adm")) {//공지글 작성하기 요청
+			
+			action = new AdminInsertNoticeAction();
+			
+			try {
+				forward = action.execute(request, response);
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+			
+		}
+		
+		/*-- '공지글 상세보기' 요청 -> 처리 --------------------------------------*/
+		else if(command.equals("/adminNoticeView.adm")) {//공지글 상세보기 요청
+			
+			action = new AdminNoticeViewAction();
+			
+			try {
+				forward = action.execute(request, response);
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+			
+		}
+		
+		/*-- '공지글 수정 폼 보기' 요청 -> 처리 --------------------------------------*/
+		else if(command.equals("/adminModifyNoticeForm.adm")) {//공지글 수정 폼 보기 요청
+			
+			action = new AdminModifyNoticeFormAction();
+			
+			try {
+				forward = action.execute(request, response);
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+			
+		}
+		
+		/*-- '공지글 삭제하기' 요청 -> 처리 --------------------------------------*/
+		else if(command.equals("/adminDeleteNoticeAction.adm")) {//공지글 삭제하기 요청
+			
+			action = new AdminDeleteNoticeAction();
+			
+			try {
+				forward = action.execute(request, response);
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+			
+		}
+
+
 		
 		/***********************************************************
 		 * 3. 포워딩

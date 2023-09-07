@@ -37,7 +37,7 @@
 
 <script>
 function adminLogout(){
-	if(confirm('로그아웃하시겠습니까?')){
+	if(confirm('로그아웃 시 사용자페이지로 돌아갑니다. 로그아웃 하시겠습니까?')){
 		location.href="adminLogout.adm";	
 	}
 }
@@ -69,7 +69,6 @@ function adminLogout(){
                     <c:if test="${sessionScope.a_id ne null }">
                     	<a class="btn btn-link text-light" href="#" onclick="adminLogout();">로그아웃하기</a>
                     	<a class="btn btn-link text-light" href="adminMyPage.adm"><i class="fas fa-user"></i></a>
-                    	<a class="btn btn-link text-light" href=""><i class="far fa-heart"></i></a>
                     </c:if>                    
                     <a class="btn btn-link text-light" href=""><i class="fas fa-search"></i></a>
                 </div>
@@ -81,7 +80,7 @@ function adminLogout(){
 
     <!-- Navbar Start -->
     <nav class="navbar navbar-expand-lg bg-white navbar-light sticky-top p-0">
-        <a href="index.jsp" class="navbar-brand d-flex align-items-center px-4 px-lg-5">
+        <a href="adminMain.adm" class="navbar-brand d-flex align-items-center px-4 px-lg-5">
             <h1 class="m-0">PlanDing</h1>
         </a>
         <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
@@ -102,9 +101,9 @@ function adminLogout(){
                 <div class="nav-item dropdown">
                     <a href="#" class="nav-link fs-6 dropdown-toggle" data-bs-toggle="dropdown">고객센터</a>
                     <div class="dropdown-menu bg-light m-0">
-                        <a href="about.html" class="dropdown-item fs-6">사이트소개</a>
-                        <a href="feature.html" class="dropdown-item fs-6">공지사항</a>
-                        <a href="quote.html" class="dropdown-item fs-6">문의사항</a>
+                        <a href="adminAbout.adm" class="dropdown-item fs-6">사이트소개</a>
+                        <a href="adminNoticeList.adm" class="dropdown-item fs-6">공지사항</a>
+                        <a href="adminQnaList.adm" class="dropdown-item fs-6">문의사항</a>
                     </div>
                 </div>
             </div>

@@ -44,8 +44,8 @@
     <!-- Page Header End -->
 	
 	<%
-	String u_id = (String) request.getAttribute("u_id");
-	u_id = u_id.substring(0, u_id.length()-4)+"****"; //뒤 4자리 숨기기
+	String a_id = (String) request.getAttribute("a_id");
+	a_id = a_id.substring(0, a_id.length()-4)+"****"; //뒤 4자리 숨기기
 	%>
 
     <!-- Form Start -->
@@ -59,7 +59,7 @@
                     <div class="bg-light rounded p-4 p-sm-5 wow fadeInUp" data-wow-delay="0.1s">                        
                         <div class="row g-3">
                             <div class="col-12 text-center">
-                            	<span>회원님의 아이디는 <b><%=u_id %></b>입니다.</span>
+                            	<span>회원님의 아이디는 <b><%=a_id %></b>입니다.</span>
                             </div>
                             <div class="col-12 text-center">
                             	<a class="btn btn-primary my-3 py-2 px-3" href="adminHashPwFindForm.adm">비밀번호 찾기</a>

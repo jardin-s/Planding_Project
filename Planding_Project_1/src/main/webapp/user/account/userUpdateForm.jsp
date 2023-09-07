@@ -138,13 +138,13 @@ function checkUpateForm(){
 	                            <div class="mb-3 row gx-3 justify-content-center">
 								    <label for="email" class="col-3 col-form-label text-center">이메일</label>
 								    <div class="col-9">
-								      <input type="text" class="form-control" name="email" id="email" value="${user.name }" placeholder="example@example.com">
+								      <input type="text" class="form-control" name="email" id="email" value="${user.email }" placeholder="example@example.com">
 								    </div>
 	                            </div>
 	                            <div class="mb-3 row gx-3 justify-content-center">
 								    <label for="phone" class="col-3 col-form-label text-center">전화번호</label>
 								    <div class="col-9">
-								      <input type="text" class="form-control" name="phone" id="phone" value="${user.name }" maxlength="11" placeholder="(-)없이 숫자만 입력">
+								      <input type="text" class="form-control" name="phone" id="phone" value="${user.phone }" maxlength="11" placeholder="(-)없이 숫자만 입력">
 								    </div>
 	                            </div>
 	                            <!-- 사용자 가상계좌 -->

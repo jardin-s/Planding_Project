@@ -8,11 +8,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import action.Action;
-import action.qna.QnaImageFileDownAction;
 import action.user.UserUploadProjectListAction;
+import action.user.notice.UserNoticeListAction;
 import action.user.qna.UserDeleteQnaAction;
-import action.user.qna.UserInsertNewQnaQAction;
-import action.user.qna.UserInsertNewQnaQFormAction;
+import action.user.qna.UserInsertQnaQAction;
+import action.user.qna.UserInsertQnaQFormAction;
 import action.user.qna.UserModifyQnaQAction;
 import action.user.qna.UserModifyQnaQFormAction;
 import action.user.qna.UserQnaListAction;
@@ -98,7 +98,7 @@ public class UserFrontController extends HttpServlet {
 		}
 		
 		/*-- '로그인 폼 보기' 요청 -> 처리 --------------------------------------*/
-		else if(command.equals("/userLogin.usr")) {//'로그인 폼 보기' 요청이면
+		else if(command.equals("/userLoginForm.usr")) {//'로그인 폼 보기' 요청이면
 			
 			request.setAttribute("showPage", "user/account/loginForm.jsp");//어느 폼 보기인지 showPage이름 속성으로 저장
 			forward = new ActionForward("userTemplate.jsp",false);//반드시 디스패치 (request를 공유)
@@ -132,7 +132,7 @@ public class UserFrontController extends HttpServlet {
 		}
 					
 		/*-- '회원가입 폼 보기' 요청 -> 처리 -------------------------------------*/
-		else if(command.equals("/userJoin.usr")) {//'회원가입 폼 보기' 요청이면
+		else if(command.equals("/userJoinForm.usr")) {//'회원가입 폼 보기' 요청이면
 			
 			request.setAttribute("showPage", "user/account/joinForm.jsp");//어느 폼 보기인지 showPage이름 속성으로 저장
 			forward = new ActionForward("userTemplate.jsp",false);//반드시 디스패치 (request를 공유)
@@ -328,9 +328,9 @@ public class UserFrontController extends HttpServlet {
 		}
 				
 		/*-- '문의글 쓰기 폼 보기' 요청 -> 처리 --------------------------------------*/
-		else if(command.equals("/userInsertNewQnaQForm.usr")) {//'문의글 쓰기 폼 보기' 요청
+		else if(command.equals("/userInsertQnaQForm.usr")) {//'문의글 쓰기 폼 보기' 요청
 			
-			action = new UserInsertNewQnaQFormAction();
+			action = new UserInsertQnaQFormAction();
 
 			try {
 				forward = action.execute(request, response);
@@ -339,9 +339,9 @@ public class UserFrontController extends HttpServlet {
 			}
 			
 		}
-		else if(command.equals("/userInsertNewQnaQAction.usr")) {//'문의글 등록' 요청
+		else if(command.equals("/userInsertQnaQAction.usr")) {//'문의글 등록' 요청
 			
-			action = new UserInsertNewQnaQAction();
+			action = new UserInsertQnaQAction();
 
 			try {
 				forward = action.execute(request, response);
@@ -364,20 +364,7 @@ public class UserFrontController extends HttpServlet {
 			
 		}
 		
-		/*-- '문의글 파일 다운로드' 요청 -> 처리 --------------------------------------*/
-		else if(command.equals("/qnaImageFileDown.usr")) {//'문의글 파일 다운로드' 요청
-			
-			
-			action = new QnaImageFileDownAction();
-
-			try {
-				forward = action.execute(request, response);
-			} catch(Exception e) {
-				e.printStackTrace();
-			}
-			
-		}
-		
+				
 		/*-- '문의글 수정 폼 보기' 요청 -> 처리 --------------------------------------*/
 		else if(command.equals("/userModifyQnaQForm.usr")) {//'문의글 수정 폼 보기' 요청
 			
@@ -415,6 +402,22 @@ public class UserFrontController extends HttpServlet {
 			
 		}
 		
+		/***************************************************************************************
+		 * 공지사항 게시판
+		 ***************************************************************************************/
+		/*-- [사용자모드] '공지사항 글 목록 보기' 요청 --------------------------------------*/
+		else if(command.equals("/userNoticeList.usr")) {//'공지사항 글 목록 보기' 요청
+			
+			action = new UserNoticeListAction();
+
+			try {
+				forward = action.execute(request, response);
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+			
+		}
+
 		
 		
 		/***********************************************************

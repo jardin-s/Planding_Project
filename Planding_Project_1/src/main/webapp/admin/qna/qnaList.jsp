@@ -12,7 +12,7 @@
     <meta content="" name="description">
 
     <!-- Favicon -->
-    <link href="../resources/img/favicon.ico" rel="icon">
+    <link href="../../resources/img/favicon.ico" rel="icon">
 
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -24,40 +24,31 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
 
     <!-- Libraries Stylesheet -->
-    <link href="../resources/lib/animate/animate.min.css" rel="stylesheet">
-    <link href="../resources/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
-    <link href="../resources/lib/lightbox/css/lightbox.min.css" rel="stylesheet">
+    <link href="../../resources/lib/animate/animate.min.css" rel="stylesheet">
+    <link href="../../resources/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="../../resources/lib/lightbox/css/lightbox.min.css" rel="stylesheet">
 
     <!-- Customized Bootstrap Stylesheet -->
-    <link href="../resources/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../../resources/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Template Stylesheet -->
-    <link href="../resources/css/style.css" rel="stylesheet">
+    <link href="../../resources/css/style.css" rel="stylesheet">
 </head>
 <body>
 	
 	<!-- Main Section -->
 	<!-- Page Header Start -->
-    <div class="container-fluid page-header py-5 mb-5 wow fadeIn" data-wow-delay="0.1s">
+    <div class="container-fluid py-5 mb-5 wow fadeIn" data-wow-delay="0.1s" style="background-color:#86B381">
         <div class="container text-center py-5">
-            <h3 class="display-6 text-white mb-5 animated slideInDown">문의사항</h3>
-            <nav aria-label="breadcrumb animated slideInDown">
-                <ol class="breadcrumb justify-content-center mb-0">
-                    <li class="breadcrumb-item"><a href="#">메인</a></li>
-                    <li class="breadcrumb-item"><a href="#">고객센터</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">문의사항</li>
-                </ol>
-            </nav>
+            <h3 class="display-6 text-white mb-4 animated slideInDown">문의사항</h3>
         </div>
     </div>
     <!-- Page Header End -->
     
     <c:if test="${pageInfo.listCount == 0 }">
     	<div class="container-xxl py-5">
-    		<div class="container col-lg-8">
-    				<p class="text-center">작성된 문의글이 없습니다.</p>
-	    			<button class="btn btn-outline-primary float-right py-1" type="button" onclick="location.href='insertNewQnaQForm.qna'">문의글 작성</button>
-    			</div>
+    		<div class="container col-lg-8 mb-5">
+   				<p class="text-center">작성된 문의글이 없습니다.</p>
     		</div>
     	</div>
     </c:if>
@@ -87,23 +78,23 @@
 					<table class="table table-hover">
 						<thead>
 							<tr>
-								<th scope="col">번호</th>
-								<th scope="col">제목</th>
-								<th scope="col">작성자</th>
-								<th scope="col">날짜</th>
+								<th scope="col" class="col-l text-center">#</th>
+								<th scope="col" class="col-7">제목</th>
+								<th scope="col" class="col-2 text-center">작성자</th>
+								<th scope="col" class="col-2 text-center">날짜</th>
 							</tr>
 						</thead>
 						<tbody class="table-group-divider">
 							<c:forEach var="qna" items="${qnaList }">
 								<tr>
-									<th scope="row">${q_index}</th>
-									<td><a href="userQnaView.usr?qna_id=${qna.qna_id}&page=${pageInfo.page}&isPrivate=${qna.isPrivate}">${qna.q_title }</a>
-										<c:if test="${qna.isPrivate eq true}">
+									<th scope="row" class="text-center">${q_index}</th>
+									<td><a href="adminQnaView.adm?qna_id=${qna.qna_id}&page=${pageInfo.page}">${qna.q_title }</a>
+										<c:if test="${qna.q_private eq 'Y'}">
 											<i class="fas fa-lock ms-1"></i>
 										</c:if>
 									</td>
-									<td>${qna.member_id }</td>
-									<td>${qna.q_time }</td>
+									<td class="text-center">${qna.member_id }</td>
+									<td class="text-center">${qna.q_time }</td>
 								</tr>
 								<c:set var="q_index" value="${q_index -1 }"/>
 							</c:forEach>
@@ -114,21 +105,18 @@
 	    </div>
 	    <%-- Table End --%>
 	    
-	    <div class="container-fluid mt-0 pt-0 pb-5">
-	    	<div class="container col-lg-8 px-0">
-	    		<div class="d-flex justify-content-end">
-	    			<button class="btn btn-outline-primary float-right py-1" type="button" onclick="location.href='userInsertNewQnaQForm.usr'">문의글 작성</button>
-	    		</div>
-	    	</div>
-	   	</div>
-	    
-	    
+	    	    
 	    <%-- Pagination Start --%>
 	    <div class="container-fluid mt-0 pt-0 pb-5">
 	    	<div class="container col-lg-4">
 		    	<div class="row">
 					<ul class="pagination justify-content-center">
 						<li class="page-item">
+							<c:if test="${pageInfo.page eq null }">
+								<a class="page-link" aria-label="Previous">
+									<span aria-hidden="true">&laquo;</span>
+								</a>
+							</c:if>
 							<c:if test="${pageInfo.page <= 1}">
 								<a class="page-link" aria-label="Previous">
 									<span aria-hidden="true">&laquo;</span>
@@ -141,22 +129,29 @@
 							</c:if>								
 						</li>
 						
-						<c:forEach var="pNum" begin="${pageInfo.startPage }" end="${pageInfo.endPage}" step="1">
+						<c:if test="${pageInfo.page eq null}">
 							<c:if test="${pNum eq pageInfo.page }">
-								<li class="page-item active" aria-current="page"><a class="page-link">${pNum}</a></li>
+								<li class="page-item active" aria-current="page"><a class="page-link">1</a></li>
 							</c:if>
-							<c:if test="${pNum ne pageInfo.page }">
-								<li class="page-item"><a class="page-link" href="userQnaList.usr?page=${pNum}">${pNum}</a></li>
-							</c:if>
-						</c:forEach>
+						</c:if>
+						<c:if test="${pageInfo.page ne null }">
+							<c:forEach var="pNum" begin="${pageInfo.startPage }" end="${pageInfo.endPage}" step="1">
+								<c:if test="${pNum eq pageInfo.page }">
+									<li class="page-item active" aria-current="page"><a class="page-link">${pNum}</a></li>
+								</c:if>
+								<c:if test="${pNum ne pageInfo.page }">
+									<li class="page-item"><a class="page-link" href="userQnaList.usr?page=${pNum}">${pNum}</a></li>
+								</c:if>
+							</c:forEach>
+						</c:if>
 						
 						<li class="page-item">
-							<c:if test="${pageInfo.page >= maxPage }">
+							<c:if test="${pageInfo.page >= pageInfo.maxPage }">
 								<a class="page-link" aria-label="Next">
 									<span aria-hidden="true">&raquo;</span>
 								</a>
 							</c:if>
-							<c:if test="${pageInfo.page < maxPage }">
+							<c:if test="${pageInfo.page < pageInfo.maxPage }">
 								<a class="page-link" href="userQnaList.usr?page=${pageInfo.page +1 }" aria-label="Next">
 									<span aria-hidden="true">&raquo;</span>
 								</a>
@@ -176,16 +171,16 @@
     <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="../resources/lib/wow/wow.min.js"></script>
-    <script src="../resources/lib/easing/easing.min.js"></script>
-    <script src="../resources/lib/waypoints/waypoints.min.js"></script>
-    <script src="../resources/lib/owlcarousel/owl.carousel.min.js"></script>
-    <script src="../resources/lib/counterup/counterup.min.js"></script>
-    <script src="../resources/lib/parallax/parallax.min.js"></script>
-    <script src="../resources/lib/isotope/isotope.pkgd.min.js"></script>
-    <script src="../resources/lib/lightbox/js/lightbox.min.js"></script>
+    <script src="../../resources/lib/wow/wow.min.js"></script>
+    <script src="../../resources/lib/easing/easing.min.js"></script>
+    <script src="../../resources/lib/waypoints/waypoints.min.js"></script>
+    <script src="../../resources/lib/owlcarousel/owl.carousel.min.js"></script>
+    <script src="../../resources/lib/counterup/counterup.min.js"></script>
+    <script src="../../resources/lib/parallax/parallax.min.js"></script>
+    <script src="../../resources/lib/isotope/isotope.pkgd.min.js"></script>
+    <script src="../../resources/lib/lightbox/js/lightbox.min.js"></script>
 
     <!-- Template Javascript -->
-    <script src="../resources/js/main.js"></script>
+    <script src="../../resources/js/main.js"></script>
 </body>
 </html>

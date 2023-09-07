@@ -53,94 +53,12 @@ public class AdminDAO {
 		this.con = con;
 	}
 
-	//1. 모든 개 상품정보를 조회하여 ArrayList<Dog> 객체 반환
-//	public ArrayList<Dog> selectDogList(String id) {
-//		
-//		ArrayList<Dog> dogList = null;
-//		//ArrayList<Dog> dogList = new ArrayList<>();//기본값(null)으로 채워짐
-//		
-//		//sql
-//		String sql = "select * from dog";
-//		
-//		try {
-//			
-//			pstmt = con.prepareStatement(sql);
-//			rs = pstmt.executeQuery();
-//			
-//			//[방법-1] 위에서 dogList 객체 생성 후
-//			/*
-//			while(rs.next()) {
-//				Dog dog = new Dog();//기본값으로 채워진 Dog객체를
-//				
-//				//조회된 dog의 정보로 채움
-//				dog.setId(rs.getInt("id"));
-//				dog.setKind(rs.getString("kind"));
-//				dog.setCountry(rs.getString("country"));
-//				dog.setPrice(rs.getInt("price"));
-//				dog.setHeight(rs.getInt("height"));
-//				dog.setWeight(rs.getInt("weight"));
-//				dog.setContent(rs.getString("content"));
-//				dog.setImage(rs.getString("image"));
-//				dog.setReadcount(rs.getInt("readcount"));
-//				
-//				dogList.add(dog);
-//			}
-//			*/
-//			
-//			//[방법-2] 위에서 dogList 선언만 함
-//			if(rs.next()) {
-//				
-//				dogList = new ArrayList<>();//기본값으로 채워짐
-//				
-//				do {
-//					/*
-//					Dog dog = new Dog();
-//					
-//					dog.setId(rs.getInt("id"));
-//					dog.setKind(rs.getString("kind"));
-//					dog.setCountry(rs.getString("country"));
-//					dog.setPrice(rs.getInt("price"));
-//					dog.setHeight(rs.getInt("height"));
-//					dog.setWeight(rs.getInt("weight"));
-//					dog.setContent(rs.getString("content"));
-//					dog.setImage(rs.getString("image"));
-//					dog.setReadcount(rs.getInt("readcount"));
-//					
-//					dogList.add(dog);				
-//					*/
-//					
-//					dogList.add(new Dog(rs.getInt("id"),
-//										rs.getString("kind"),
-//										rs.getString("country"),
-//										rs.getInt("price"),
-//										rs.getInt("height"),
-//										rs.getInt("weight"),
-//										rs.getString("content"),
-//										rs.getString("image"),
-//										rs.getInt("readcount")
-//										)
-//								);
-//				}while(rs.next());
-//				
-//			}
-//			
-//			
-//		} catch(Exception e) {
-//			System.out.println("DogDAO클래스 : selectDogList() 에러 "+e);//예외객체종류 + 예외메시지
-//		} finally {
-//			close(pstmt); //JdbcUtil.생략가능
-//			close(rs); //JdbcUtil.생략가능
-//			//connection 객체에 대한 해제는 DogListService에서 이루어짐
-//		}
-//		
-//		return dogList;
-//	}
 	
 	//1. 로그인 폼에서 전달받은 id와 pw로 회원여부 조회한 후, 그 id를 다시 반환 (boolean으로 반환해도 됨)
-	public String selectLoginId(MemberBean admin) {
-		String loginId = null;
+	public MemberBean selectLoginAdmin(MemberBean admin) {
+		MemberBean loginAdmin = null;
 		
-		String sql = "select member_id, password from member_tbl where member_id=? and password=?";
+		String sql = "select member_id, password, admin_status from member_tbl where member_id=? and password=?";
 		
 		System.out.println("[AdminDAO] selectLoginId() - 매개변수의 id : "+admin.getMember_id());
 		System.out.println("[AdminDAO] selectLoginId() - 매개변수의 password : "+admin.getPassword());
@@ -156,7 +74,9 @@ public class AdminDAO {
 			
 			//결과 처리
 			if(rs.next()) {
-				loginId = rs.getString("member_id"); 
+				loginAdmin = new MemberBean();
+				loginAdmin.setMember_id(rs.getString("member_id"));
+				loginAdmin.setAdmin_status(rs.getString("admin_status"));
 			}
 			
 		} catch(Exception e) {
@@ -167,7 +87,7 @@ public class AdminDAO {
 			//connection 객체에 대한 해제는 DogListService에서 이루어짐
 		}
 		
-		return loginId;
+		return loginAdmin;
 	}
 
 	public MemberBean selectAdminInfo(String a_id) {
@@ -191,7 +111,7 @@ public class AdminDAO {
 				adminInfo.setEmail(rs.getString("email"));
 				adminInfo.setPhone(rs.getString("phone"));
 				adminInfo.setAccount(rs.getInt("account"));
-				adminInfo.setAdmin(rs.getBoolean("isAdmin"));
+				adminInfo.setAdmin_status(rs.getString("admin_status"));
 			}
 			
 			
@@ -241,7 +161,7 @@ public class AdminDAO {
 		int insertAdminCount = 0;
 		
 		//joindate timestamp default now() -> joindate 생략
-		String sql = "insert into member_tbl(member_id, password, name, email, phone, account, isAdmin) "
+		String sql = "insert into member_tbl(member_id, password, name, email, phone, account, admin_status) "
 					+ "values(?,?,?,?,?,?,?)";
 		
 		//joindate timestamp (디폴트값 없음) -> insert into member_tbl values(?,?,?,?,?,?,now());
@@ -260,7 +180,7 @@ public class AdminDAO {
 			pstmt.setString(4, admin.getEmail());
 			pstmt.setString(5, admin.getPhone());
 			pstmt.setInt(6, admin.getAccount());
-			pstmt.setBoolean(7, admin.isAdmin());
+			pstmt.setString(7, admin.getAdmin_status());
 			
 			insertAdminCount = pstmt.executeUpdate();
 			
@@ -405,17 +325,21 @@ public class AdminDAO {
 	}
 
 	//회원탈퇴 시 회원정보 삭제
-	public int deleteAdmin(String id) {
-		int deleteeAddrCount = 0;
+	public int updateDeleteAdmin(String id) {
+		int udpateDeleteAdminCount = 0;
 		
-		String sql = "delete from member_tbl where member_id=?";
+		String sql = "update member_tbl"
+			   	  + " set password='delete', name='delete', email='delete', phone='delete',"
+			   	  + " delete_status='Y',"
+			   	  + " deletedate=current_timestamp"
+			   	  + " where member_id=?";
 		
 		try {
 			
 			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, id);
 						
-			deleteeAddrCount = pstmt.executeUpdate();
+			udpateDeleteAdminCount = pstmt.executeUpdate();
 			
 		} catch(Exception e) {
 			System.out.println("[AdminDAO] deleteAdmin() 에러 : "+e);//예외객체종류 + 예외메시지
@@ -425,7 +349,7 @@ public class AdminDAO {
 			//connection 객체에 대한 해제는 DogListService에서 이루어짐
 		}
 		
-		return deleteeAddrCount;
+		return udpateDeleteAdminCount;
 	}
 
 	//회원탈퇴 시 회원의 주소 삭제
@@ -580,5 +504,6 @@ public class AdminDAO {
 		
 		return changeHashPwCount;
 	}
+
 	
 }

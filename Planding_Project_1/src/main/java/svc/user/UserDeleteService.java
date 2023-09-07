@@ -16,7 +16,7 @@ public class UserDeleteService {
 	
 	//메서드
 	//1. 본인 인증
-	public MemberBean checkUserSelf(MemberBean user) {
+	public String checkUserSelf(MemberBean user) {
 		//1. 커넥션 풀에서 Connection객체를 얻어와
 		Connection con = getConnection(); //JdbcUtil. 생략(이유?import static 하여)
 		
@@ -29,14 +29,14 @@ public class UserDeleteService {
 		
 		
 		/*-------DAO의 해당 메서드를 호출하여 처리----------------------------------------------------*/
-		MemberBean member = userDAO.selectUserToDelete(user);
+		String u_id = userDAO.selectLoginId(user);
 		
 		/*-------(insert, update, delete) 성공하면 commit(), 실패하면 rollback() 호출
 		 * 		 단, select는 이런 작업을 제외 ------------------*/
 		
 		//4. 해제
 		close(con); //JdbcUtil. 생략(이유?import static 하여)
-		return member;
+		return u_id;
 	}
 	
 	//2. 회원삭제
@@ -55,13 +55,14 @@ public class UserDeleteService {
 		
 		/*-------DAO의 해당 메서드를 호출하여 처리----------------------------------------------------*/
 		
-		int insertFormerUserCount = userDAO.insertFormerUser(user);	
-		int deleteUserCount = userDAO.deleteUser(user.getMember_id());
+		//회원 개인정보를 삭제하고 탈퇴여부와 탈퇴일자 업데이트
+		int updateDeleteUserCount = userDAO.updateDeleteUser(user.getMember_id());
+		int deleteAddrCount = userDAO.deleteAddr(user.getMember_id());
 		
 		boolean isUserDeleteResult = false;	
 		/*-------(insert, update, delete) 성공하면 commit(), 실패하면 rollback() 호출
 		 * 		 단, select는 이런 작업을 제외 ------------------*/
-		if(insertFormerUserCount > 0 && deleteUserCount > 0) {
+		if(updateDeleteUserCount > 0 && deleteAddrCount > 0) {
 			isUserDeleteResult = true;
 			commit(con);
 		}else {

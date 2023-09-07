@@ -33,16 +33,20 @@
 
     <!-- Template Stylesheet -->
     <link href="resources/css/style.css" rel="stylesheet">
+    
+    <!-- Customized Stylesheet -->
+    <link href="resources/css/customStyle.css" rel="stylesheet">
 </head>
 <body>
+
 	<div>
 		<jsp:include page="/admin/adminHeader.jsp" />
 	</div>
-		
-	<c:if test="${requestScope.showPage ne null }">
+
+	<c:if test="${requestScope.showAdmin ne null }">
 		<section>
 			<div>
-				<jsp:include page="${showPage}"/>
+				<jsp:include page="${showAdmin}"/>
 			</div>
 		</section>
 	</c:if>

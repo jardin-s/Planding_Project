@@ -1,4 +1,4 @@
-package action.user.qna;
+package action.admin.notice;
 
 import java.io.PrintWriter;
 
@@ -9,28 +9,28 @@ import javax.servlet.http.HttpSession;
 import action.Action;
 import vo.ActionForward;
 
-public class UserInsertNewQnaQFormAction implements Action {
+public class AdminInsertNoticeFormAction implements Action {
 
 	@Override
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ActionForward forward = null;
 		
 		HttpSession session = request.getSession();
-		String u_id = (String) session.getAttribute("u_id");
+		String a_id = (String) session.getAttribute("a_id");
 		
-		if(u_id == null) {//만약 로그인 안 된 상태라면
+		if(a_id == null) {//로그인이 풀린 상태라면
 			response.setContentType("text/html; charset=utf-8");
+			
 			PrintWriter out = response.getWriter();
 			out.println("<script>");			
-			out.println("alert('해당 서비스는 로그인이 필요합니다.');");
-			out.println("history.back();");			
-			out.println("</script>");			
+			out.println("alert('관리자 로그인이 필요합니다.');");
+			out.println("location.href='adminLoginForm.adm';");			
+			out.println("</script>");	
 		
-		}else {//로그인 된 상태면 글쓰기 폼으로 이동
-		
-			request.setAttribute("showPage", "qna/insertNewQForm.jsp");
-			forward = new ActionForward("userTemplate.jsp", false);
+		}else {//로그인 된 상태라면 공지글 작성 폼으로 이동
 			
+			request.setAttribute("showAdmin", "admin/notice/insertNoticeForm.jsp");
+			forward = new ActionForward("adminTemplate.jsp", false);
 		}
 		
 		

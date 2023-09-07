@@ -27,7 +27,9 @@ public class AdminLogoutAction implements Action {
 		session.removeAttribute("a_name");			
 		session.removeAttribute("a_email");
 		
-		forward = new ActionForward("adminMain.jsp", true);
+		//관리자 페이지 로그아웃시 기존 사용자모드 홈페이지로 이동
+		request.setAttribute("showPage", "user/userMain.jsp");
+		forward = new ActionForward("userTemplate.jsp", false);
 		return forward;
 		
 	}

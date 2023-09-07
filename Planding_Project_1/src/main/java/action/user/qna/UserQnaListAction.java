@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import action.Action;
-import svc.user.qna.QnaListService;
+import svc.qna.QnaListService;
 import vo.ActionForward;
 import vo.PageInfo;
 import vo.QnaBean;
@@ -17,9 +17,6 @@ public class UserQnaListAction implements Action {
 	@Override
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ActionForward forward = null;
-		
-		HttpSession session = request.getSession();
-		boolean isAdmin = (Boolean) session.getAttribute("isAdmin");
 		
 		//처음 요청할 경우 조회하는 페이지넘버 기본값 1
 		int page = 1;
@@ -35,6 +32,8 @@ public class UserQnaListAction implements Action {
 		QnaListService qnaListService = new QnaListService();
 		
 		int listCount = qnaListService.getListCount();//전체 글 개수를 얻어옴
+		System.out.println("[UserQnaListAction] qna_tbl의 전체 문의글 개수 = "+listCount);
+		
 		ArrayList<QnaBean> qnaList = qnaListService.getQnaList(page, limit);//원하는 페이지넘버의 원하는개수만큼 글을 가져옴
 		
 		
@@ -66,7 +65,8 @@ public class UserQnaListAction implements Action {
 		request.setAttribute("pageInfo", pageInfo);
 		request.setAttribute("qnaList", qnaList);
 		
-		forward = new ActionForward("qna/qnaList.jsp", false);//문의사항 페이지로 디스패치 포워딩
+		request.setAttribute("showPage", "user/qna/qnaList.jsp");
+		forward = new ActionForward("userTemplate.jsp", false);
 		
 		return forward;
 	}

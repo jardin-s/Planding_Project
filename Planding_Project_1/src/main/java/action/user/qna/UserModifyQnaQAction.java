@@ -2,7 +2,6 @@ package action.user.qna;
 
 import java.io.File;
 import java.io.PrintWriter;
-import java.util.Enumeration;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -12,9 +11,7 @@ import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
 import action.Action;
-import svc.user.qna.ModifyQnaQFormService;
 import svc.user.qna.ModifyQnaQService;
-import svc.user.qna.QnaViewService;
 import vo.ActionForward;
 import vo.QnaBean;
 
@@ -49,7 +46,7 @@ public class UserModifyQnaQAction implements Action {
 		String member_id = multi.getParameter("member_id");
 		String q_title = multi.getParameter("q_title");
 		String q_content = multi.getParameter("q_content");
-		boolean isPrivate = Boolean.parseBoolean(multi.getParameter("isPrivate"));
+		String q_private = multi.getParameter("q_private");
 		
 		String q_image = multi.getFilesystemName("q_image");
 		
@@ -58,18 +55,18 @@ public class UserModifyQnaQAction implements Action {
 		qna.setMember_id(member_id);
 		qna.setQ_title(q_title);
 		qna.setQ_content(q_content);
-		qna.setPrivate(isPrivate);
+		qna.setQ_private(q_private);
 		
 		ModifyQnaQService qnaEditService = new ModifyQnaQService();
-		boolean isQnaModifySuccess = false; 
+		boolean isQnaQModifySuccess = false; 
 		if(q_image.contains("/images/qna")) {//이미지 수정 X
-			isQnaModifySuccess = qnaEditService.updateQuestion(qna);
+			isQnaQModifySuccess = qnaEditService.updateQuestion(qna);
 		}else {//이미지 수정O
 			qna.setQ_image(q_image);
-			isQnaModifySuccess = qnaEditService.updateQuestionImg(qna);
+			isQnaQModifySuccess = qnaEditService.updateQuestionImg(qna);
 		}
 		
-		if(!isQnaModifySuccess) {
+		if(!isQnaQModifySuccess) {
 			response.setContentType("text/html; charset=utf-8");
 			
 			PrintWriter out = response.getWriter();
@@ -79,7 +76,7 @@ public class UserModifyQnaQAction implements Action {
 			out.println("</script>");
 		}else {
 			
-			forward = new ActionForward("qnaView.qna?page="+page+"&qna_id="+qna_id+"&isPrivate="+isPrivate, true);			
+			forward = new ActionForward("userQnaView.usr?page="+page+"&qna_id="+qna_id+"&q_private="+q_private, true);			
 			
 		}
 		

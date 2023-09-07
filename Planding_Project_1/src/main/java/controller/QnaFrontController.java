@@ -10,8 +10,8 @@ import javax.servlet.http.HttpServletResponse;
 import action.Action;
 import action.user.UserUploadProjectListAction;
 import action.user.qna.UserDeleteQnaAction;
-import action.user.qna.UserInsertNewQnaQAction;
-import action.user.qna.UserInsertNewQnaQFormAction;
+import action.user.qna.UserInsertQnaQAction;
+import action.user.qna.UserInsertQnaQFormAction;
 import action.user.qna.UserModifyQnaQAction;
 import action.user.qna.UserModifyQnaQFormAction;
 import action.user.qna.UserQnaListAction;
@@ -109,7 +109,7 @@ public class QnaFrontController extends HttpServlet {
 		/*-- '문의글 쓰기 폼 보기' 요청 -> 처리 --------------------------------------*/
 		else if(command.equals("/insertNewQnaQForm.qna")) {//문의글 쓰기 폼 보기 요청
 			
-			action = new UserInsertNewQnaQFormAction();
+			action = new UserInsertQnaQFormAction();
 
 			try {
 				forward = action.execute(request, response); //DogListAction의 execute()를 실행
@@ -120,7 +120,7 @@ public class QnaFrontController extends HttpServlet {
 		}
 		else if(command.equals("/insertNewQnaQAction.qna")) {//문의글 등록 요청
 			
-			action = new UserInsertNewQnaQAction();
+			action = new UserInsertQnaQAction();
 
 			try {
 				forward = action.execute(request, response); //DogListAction의 execute()를 실행

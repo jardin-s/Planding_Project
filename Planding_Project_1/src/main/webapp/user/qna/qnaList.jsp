@@ -43,8 +43,8 @@
             <h3 class="display-6 text-white mb-5 animated slideInDown">문의사항</h3>
             <nav aria-label="breadcrumb animated slideInDown">
                 <ol class="breadcrumb justify-content-center mb-0">
-                    <li class="breadcrumb-item"><a href="#">메인</a></li>
-                    <li class="breadcrumb-item"><a href="#">고객센터</a></li>
+                    <li class="breadcrumb-item">메인</li>
+                    <li class="breadcrumb-item">고객센터</li>
                     <li class="breadcrumb-item active" aria-current="page">문의사항</li>
                 </ol>
             </nav>
@@ -54,10 +54,13 @@
     
     <c:if test="${pageInfo.listCount == 0 }">
     	<div class="container-xxl py-5">
-    		<div class="container col-lg-8">
+    		<div class="container col-10 col-md-6 col-lg-4">
+    			<div class="col-12 mb-5">
     				<p class="text-center">작성된 문의글이 없습니다.</p>
-	    			<button class="btn btn-outline-primary float-right py-1" type="button" onclick="location.href='insertNewQnaQForm.qna'">문의글 작성</button>
     			</div>
+    			<div class="col-12 text-center mx-auto mb-5">
+					<button class="btn btn-outline-primary py-1" type="button" onclick="location.href='userInsertQnaQForm.usr'">문의글 작성</button>
+				</div>
     		</div>
     	</div>
     </c:if>
@@ -87,18 +90,18 @@
 					<table class="table table-hover">
 						<thead>
 							<tr>
-								<th scope="col">번호</th>
-								<th scope="col">제목</th>
-								<th scope="col">작성자</th>
-								<th scope="col">날짜</th>
+								<th scope="col" class="col-1 text-center">#</th>
+								<th scope="col" class="col-7">제목</th>
+								<th scope="col" class="col-2">작성자</th>
+								<th scope="col" class="col-2">날짜</th>
 							</tr>
 						</thead>
 						<tbody class="table-group-divider">
-							<c:forEach var="qna" items="${qnaList }">
+							<c:forEach var="qna" items="${qnaList}">
 								<tr>
-									<th scope="row">${q_index}</th>
-									<td><a href="userQnaView.usr?qna_id=${qna.qna_id}&page=${pageInfo.page}&isPrivate=${qna.isPrivate}">${qna.q_title }</a>
-										<c:if test="${qna.isPrivate eq true}">
+									<th scope="row" class="text-center">${q_index}</th>
+									<td><a href="userQnaView.usr?qna_id=${qna.qna_id}&page=${pageInfo.page}&q_private=${qna.q_private}">${qna.q_title }</a>
+										<c:if test="${qna.q_private eq 'Y'}">
 											<i class="fas fa-lock ms-1"></i>
 										</c:if>
 									</td>
@@ -114,10 +117,11 @@
 	    </div>
 	    <%-- Table End --%>
 	    
+	    <%-- Write Button --%>
 	    <div class="container-fluid mt-0 pt-0 pb-5">
 	    	<div class="container col-lg-8 px-0">
 	    		<div class="d-flex justify-content-end">
-	    			<button class="btn btn-outline-primary float-right py-1" type="button" onclick="location.href='userInsertNewQnaQForm.usr'">문의글 작성</button>
+	    			<button class="btn btn-outline-primary float-right py-1" type="button" onclick="location.href='userInsertQnaQForm.usr'">문의글 작성</button>
 	    		</div>
 	    	</div>
 	   	</div>
@@ -151,12 +155,12 @@
 						</c:forEach>
 						
 						<li class="page-item">
-							<c:if test="${pageInfo.page >= maxPage }">
+							<c:if test="${pageInfo.page >= pageInfo.maxPage }">
 								<a class="page-link" aria-label="Next">
 									<span aria-hidden="true">&raquo;</span>
 								</a>
 							</c:if>
-							<c:if test="${pageInfo.page < maxPage }">
+							<c:if test="${pageInfo.page < pageInfo.maxPage }">
 								<a class="page-link" href="userQnaList.usr?page=${pageInfo.page +1 }" aria-label="Next">
 									<span aria-hidden="true">&raquo;</span>
 								</a>

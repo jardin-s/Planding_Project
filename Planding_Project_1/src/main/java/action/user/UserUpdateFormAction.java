@@ -28,7 +28,7 @@ public class UserUpdateFormAction implements Action {
 			PrintWriter out = response.getWriter();
 			out.println("<script>");
 			out.println("alert('로그인이 필요한 서비스입니다.');");
-			out.println("location.href='userLogin.usr'"); //로그인 폼 보기 요청
+			out.println("location.href='userLoginForm.usr'"); //로그인 폼 보기 요청
 			out.println("</script>");
 			
 		}else {//로그인 상태

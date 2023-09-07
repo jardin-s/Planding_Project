@@ -3,7 +3,7 @@
 
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
-<html class="h-100">
+<html>
 <head>
 	<meta charset="utf-8">
     <title>PlanDing - Fund for Our Planet</title>
@@ -34,17 +34,17 @@
     <!-- Template Stylesheet -->
     <link href="../../resources/css/style.css" rel="stylesheet">
 </head>
-<body class="d-flex align-items-center h-100">
+<body>
 	
-	<div class="container-fluid pt-4 pb-5">
+	<div class="container-fluid pt-4 pb-5 animated fadeIn" data-wow-delay="0.1s">
         <div class="container">
-            <form action="adminLoginAction.adm" method="post">
+            <form action="adminLoginAction.adm" method="post" name="f">
 	            <div class="row justify-content-center">
 	                <div class="col-8 col-md-6 col-lg-5 col-xl-4">
 	                	
 	                	<h4 class="text-primary mb-4 text-center">관리자 로그인</h4>
 	                	 
-	                    <div class="bg-light rounded p-4" data-wow-delay="0.1s">                  
+	                    <div class="bg-light rounded p-4">                  
 	                        <div class="row g-3">
 	                            <div class="col-12">
 	                                <div class="form-floating">
@@ -79,6 +79,9 @@
 						  <li class="nav-item">
 						    <a class="nav-link text-secondary" href="adminJoin.adm">관리자 등록</a>
 						  </li>
+						  <li class="nav-item">
+						    <a class="nav-link text-secondary" href="userMain.usr">돌아가기</a>
+						  </li>
 						</ul>
 	                </div>
 	            </div>
@@ -100,7 +103,7 @@
 
     <!-- Template Javascript -->
     <script src="../../resources/js/main.js"></script>
-	
+
   </form>
 </body>
 </html>

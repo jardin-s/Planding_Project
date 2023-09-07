@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServletResponse;
 import action.Action;
 import svc.admin.AdminUpdateService;
 import vo.ActionForward;
-import vo.AddressBean;
 import vo.MemberBean;
 
 public class AdminUpdateAction implements Action {
@@ -17,15 +16,15 @@ public class AdminUpdateAction implements Action {
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ActionForward forward = null;
 		
-		String a_id = request.getParameter("id");	
+		String a_id = request.getParameter("member_id");	
 		String a_password = request.getParameter("password");
 		String a_name = request.getParameter("name");
 		String a_email = request.getParameter("email");
 		String a_phone = request.getParameter("phone");
 		int a_account = Integer.parseInt(request.getParameter("account"));
-		Boolean isAdmin = Boolean.parseBoolean(request.getParameter("isAdmin"));
+		String a_admin_status = request.getParameter("admin_status");
 				
-		MemberBean adminInfo = new MemberBean(a_id, a_password, a_name, a_email, a_phone, a_account, isAdmin);
+		MemberBean adminInfo = new MemberBean(a_id, a_password, a_name, a_email, a_phone, a_account, a_admin_status);
 		
 		AdminUpdateService adminUpdateService = new AdminUpdateService();
 		
@@ -42,7 +41,7 @@ public class AdminUpdateAction implements Action {
 			out.println("history.back();");
 			out.println("</script>");
 		}else {
-			forward = new ActionForward("adminView.adm", true);
+			forward = new ActionForward("adminUpdateForm.adm", true);
 		}
 		
 		return forward;

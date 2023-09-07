@@ -39,7 +39,6 @@
 <script type="text/javascript">
 function checkJoinForm(){
 	
-
 	//아이디와 비밀번호 값 데이터 정규화 공식
 	const regIdPass = /^[a-zA-Z0-9]{7,19}$/;
 	if(!document.f.member_id.value.trim()){
@@ -47,7 +46,8 @@ function checkJoinForm(){
 		document.f.member_id.focus();
 		return false;
 	}else if(!regIdPass.test(document.f.member_id.value.trim())){
-		alert("아이디를 8~20자 사이의 영문과 숫자로 입력해주세요.");		
+		alert("아이디를 8~20자 사이의 영문과 숫자로 입력해주세요.");
+		document.f.password.select();
 		return false;
 	}
 	
@@ -64,6 +64,7 @@ function checkJoinForm(){
 		return false;
 	}else if(!regIdPass.test(document.f.password.value.trim())){
 		alert("비밀번호를 8~20자 사이의 영문과 숫자로 입력해주세요.");
+		document.f.password.select();
 		return false;		
 	}	
 	if(document.f.password.value != document.f.confirm_password.value) {
@@ -81,6 +82,7 @@ function checkJoinForm(){
 		return false;
 	}else if(!regIdPass.test(document.f.password.value.trim())){
 		alert("이름을 한글 또는 영문으로만 입력해주세요.");
+		document.f.name.select();
 		return false;		
 	}
 
@@ -120,9 +122,9 @@ function checkJoinForm(){
 
 function idCheckOpen(){
 	if(document.f.member_id.value == ''){
-		window.open('user/idCheck/idCheck.jsp','아이디중복확인','top=10, left=10, width=500, height=300');
+		window.open('user/account/idCheck/idCheck.jsp','아이디중복확인','top=10, left=10, width=500, height=300');
 	}else{
-		window.open('user/idCheck/idCheck.jsp?member_id='+document.f.member_id.value,'아이디중복확인','top=10, left=10, width=500, height=300');
+		window.open('user/account/idCheck/idCheck.jsp?member_id='+document.f.member_id.value,'아이디중복확인','top=10, left=10, width=500, height=300');
 	}
 }
 </script>
@@ -191,14 +193,27 @@ function idCheckOpen(){
 	                            </div>
 	                            <!-- 사용자 가상계좌 -->
 	                            <input type="hidden" class="form-control" name="account" id="account" value="0">
-	                            <!-- 관리자 여부 : false -->
-	                            <input type="hidden" class="form-control" name="isAdmin" id="isAdmin" value="false">								    
+	                            <!-- 관리자 여부 : N -->
+	                            <input type="hidden" class="form-control" name="admin_status" id="admin_status" value="N">								    
 	                                                        
-	                            <div class="col-12 text-center">
+	                            <div class="col-12 text-center my-4">
 	                                <button class="btn btn-primary py-2 px-4" type="submit" onclick="checkJoinForm(); return false;">가입하기</button>
 	                            </div>
 	                        </div>
 	                    </div>
+	                    
+	                    <ul class="nav justify-content-center mt-3 animated fadeIn">
+                           	<li class="nav-item">
+								<a class="nav-link text-secondary" href="userLoginForm.usr">로그인 하기</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link text-secondary" href="userIdFindForm.usr">아이디 찾기</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link text-secondary" href="userHashPwFindForm.usr">비밀번호 찾기</a>
+							</li>
+						</ul>
+	                    
 	                </div>
 	            </div>
             </form>

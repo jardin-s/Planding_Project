@@ -119,7 +119,7 @@ function pwCheck() { //비밀번호 정규화 체크
     <!-- Form Start -->
     <div class="container-fluid pt-4 pb-5">
         <div class="container">
-            <form action="userHashPwFindAction.usr" method="post">
+            <form action="userHashPwChangeAction.usr" method="post">
 	            <div class="row justify-content-center">
 	                <div class="col-8 col-md-6 col-lg-4">
 	                    <div class="bg-light rounded p-4 px-sm-5 py-sm-3 animated fadeIn" data-wow-delay="0.1s">                        

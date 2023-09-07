@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,7 +12,7 @@
     <meta content="" name="description">
 
     <!-- Favicon -->
-    <link href="../resources/img/favicon.ico" rel="icon">
+    <link href="../../resources/img/favicon.ico" rel="icon">
 
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -22,18 +24,15 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
 
     <!-- Libraries Stylesheet -->
-    <link href="../resources/lib/animate/animate.min.css" rel="stylesheet">
-    <link href="../resources/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
-    <link href="../resources/lib/lightbox/css/lightbox.min.css" rel="stylesheet">
+    <link href="../../resources/lib/animate/animate.min.css" rel="stylesheet">
+    <link href="../../resources/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="../../resources/lib/lightbox/css/lightbox.min.css" rel="stylesheet">
 
     <!-- Customized Bootstrap Stylesheet -->
-    <link href="../resources/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../../resources/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Template Stylesheet -->
-    <link href="../resources/css/style.css" rel="stylesheet">
-    
-    <!-- Custom Stylesheet -->
-    <link href="../resources/css/customStyle.css" rel="stylesheet">
+    <link href="../../resources/css/style.css" rel="stylesheet">
 </head>
 
 <script type="text/javascript">
@@ -47,7 +46,8 @@ function checkJoinForm(){
 		document.f.member_id.focus();
 		return false;
 	}else if(!regIdPass.test(document.f.member_id.value.trim())){
-		alert("아이디를 8~20자 사이의 영문과 숫자로 입력해주세요.");		
+		alert("아이디를 8~20자 사이의 영문과 숫자로 입력해주세요.");
+		document.f.member_id.select();
 		return false;
 	}
 	
@@ -64,6 +64,7 @@ function checkJoinForm(){
 		return false;
 	}else if(!regIdPass.test(document.f.password.value.trim())){
 		alert("비밀번호를 8~20자 사이의 영문과 숫자로 입력해주세요.");
+		document.f.password.select();
 		return false;		
 	}	
 	if(document.f.password.value != document.f.confirm_password.value) {
@@ -81,6 +82,7 @@ function checkJoinForm(){
 		return false;
 	}else if(!regIdPass.test(document.f.password.value.trim())){
 		alert("이름을 한글 또는 영문으로만 입력해주세요.");
+		document.f.name.select();
 		return false;		
 	}
 
@@ -120,32 +122,24 @@ function checkJoinForm(){
 
 function idCheckOpen(){
 	if(document.f.member_id.value == ''){
-		window.open('admin/idCheck/idCheck.jsp','아이디중복확인','top=10, left=10, width=500, height=300');
+		window.open('admin/account/idCheck/idCheck.jsp','아이디중복확인','top=10, left=10, width=500, height=300');
 	}else{
-		window.open('admin/idCheck/idCheck.jsp?member_id='+document.f.member_id.value,'아이디중복확인','top=10, left=10, width=500, height=300');
+		window.open('admin/account/idCheck/idCheck.jsp?member_id='+document.f.member_id.value,'아이디중복확인','top=10, left=10, width=500, height=300');
 	}
 }
 </script>
 
 <body>
 	
-	<!-- Main Section -->
-	<!-- Page Header Start -->
-    <div class="container-fluid page-header pt-4 pb-5 mb-5 wow fadeIn" data-wow-delay="0.1s">
-        <div class="container text-center py-5">
-            <h3 class="display-6 text-white mb-4 animated slideInDown">회원가입</h3>
-        </div>
-    </div>
-    <!-- Page Header End -->
-
-
-    <!-- Form Start -->
-    <div class="container-fluid pt-4 pb-5">
+	<div class="container-fluid pt-4 pb-5 animated fadeIn" data-wow-delay="0.1s">
         <div class="container">
             <form action="adminJoinAction.adm" method="post" name="f">
 	            <div class="row justify-content-center">
 	                <div class="col-md-9 col-lg-7">
-	                    <div class="bg-light rounded p-4 px-sm-5 py-sm-3 animated fadeIn" data-wow-delay="0.1s">                        
+	                	
+	                	<h4 class="text-primary mb-4 text-center">관리자 등록</h4>
+	                	 
+	                    <div class="bg-light rounded p-4 px-sm-5 py-sm-3">                        
 	                        <div class="row g-5 pt-5">
 	                            
 	                            <div class="mb-3 row g-3 justify-content-center">
@@ -193,35 +187,50 @@ function idCheckOpen(){
 	                            <!-- 사용자 가상계좌 -->
 	                            <input type="hidden" class="form-control" name="account" id="account" value="0">
 	                            <!-- 관리자 여부 : false -->
-	                            <input type="hidden" class="form-control" name="isAdmin" id="isAdmin" value="true">								    
+	                            <input type="hidden" class="form-control" name="admin_status" id="admin_status" value="Y">								    
 	                                                        
-	                            <div class="col-12 text-center">
+	                            <div class="col-12 text-center my-4">
 	                                <button class="btn btn-primary py-2 px-4" type="submit" onclick="checkJoinForm(); return false;">등록하기</button>
 	                            </div>
 	                            
 	                        </div>
 	                    </div>
+	                    
+	                    <ul class="nav justify-content-center my-3">
+						  <li class="nav-item">
+						    <a class="nav-link text-secondary" href="adminLoginForm.adm">로그인 하기</a>
+						  </li>
+						  <li class="nav-item">
+						    <a class="nav-link text-secondary" href="adminIdFindForm.adm">아이디 찾기</a>
+						  </li>
+						  <li class="nav-item">
+						    <a class="nav-link text-secondary" href="adminHashPwFindForm.adm">비밀번호 찾기</a>
+						  </li>						  
+						  <li class="nav-item">
+						    <a class="nav-link text-secondary" href="userMain.usr">돌아가기</a>
+						  </li>						  
+						</ul>
 	                </div>
 	            </div>
             </form>
         </div>
     </div>
-    <!-- Form End -->
-    
 	
-    <!-- JavaScript Libraries -->
+	<!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="../resources/lib/wow/wow.min.js"></script>
-    <script src="../resources/lib/easing/easing.min.js"></script>
-    <script src="../resources/lib/waypoints/waypoints.min.js"></script>
-    <script src="../resources/lib/owlcarousel/owl.carousel.min.js"></script>
-    <script src="../resources/lib/counterup/counterup.min.js"></script>
-    <script src="../resources/lib/parallax/parallax.min.js"></script>
-    <script src="../resources/lib/isotope/isotope.pkgd.min.js"></script>
-    <script src="../resources/lib/lightbox/js/lightbox.min.js"></script>
+    <script src="../../resources/lib/wow/wow.min.js"></script>
+    <script src="../../resources/lib/easing/easing.min.js"></script>
+    <script src="../../resources/lib/waypoints/waypoints.min.js"></script>
+    <script src="../../resources/lib/owlcarousel/owl.carousel.min.js"></script>
+    <script src="../../resources/lib/counterup/counterup.min.js"></script>
+    <script src="../../resources/lib/parallax/parallax.min.js"></script>
+    <script src="../../resources/lib/isotope/isotope.pkgd.min.js"></script>
+    <script src="../../resources/lib/lightbox/js/lightbox.min.js"></script>
 
     <!-- Template Javascript -->
-    <script src="../resources/js/main.js"></script>
+    <script src="../../resources/js/main.js"></script>
+	
+  </form>
 </body>
 </html>

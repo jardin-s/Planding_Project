@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import action.Action;
-import svc.user.qna.DeleteQnaService;
+import svc.qna.DeleteQnaService;
 import vo.ActionForward;
 import vo.QnaBean;
 

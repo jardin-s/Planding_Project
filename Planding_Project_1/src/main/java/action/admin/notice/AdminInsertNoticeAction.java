@@ -1,8 +1,7 @@
-package action.user.qna;
+package action.admin.notice;
 
 import java.io.File;
 import java.io.PrintWriter;
-import java.util.Enumeration;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -12,11 +11,12 @@ import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
 import action.Action;
-import svc.user.qna.QnaNewQuestionService;
+import svc.admin.notice.AdminInsertNoticeService;
 import vo.ActionForward;
-import vo.QnaBean;
+import vo.NoticeBean;
 
-public class UserInsertNewQnaQAction implements Action {
+
+public class AdminInsertNoticeAction implements Action {
 
 	@Override
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -41,36 +41,40 @@ public class UserInsertNewQnaQAction implements Action {
 		
 		String member_id = multi.getParameter("member_id");
 		
-		String q_title = multi.getParameter("q_title");
-		String q_content = multi.getParameter("q_content");
-		boolean isPrivate = Boolean.parseBoolean(multi.getParameter("isPrivate"));
-					
-		String q_image = multi.getFilesystemName("q_image");
+		String n_title = multi.getParameter("n_title");
+		String n_content = multi.getParameter("n_content");
+		String importance = multi.getParameter("importance");
+		
+		String n_image = multi.getFilesystemName("n_image");
 			
-		System.out.println("[QnaNewQuestionAction] 파라미터값 이미지파일 업로드 성공");
+		System.out.println("[AdminInsertNoticeAction] 파라미터값 이미지파일 업로드 성공");
+		System.out.println("member_id = "+member_id);
+		System.out.println("n_title = "+n_title);
+		System.out.println("n_content = "+n_content);
+		System.out.println("n_image = "+n_image);
+		System.out.println("importance = "+importance);
 		
 		
-		QnaBean qna = new QnaBean();
-		qna.setMember_id(member_id);
-		qna.setQ_title(q_title);
-		qna.setQ_content(q_content);
-		qna.setQ_image(q_image);
-		qna.setPrivate(isPrivate);
+		NoticeBean notice = new NoticeBean();
+		notice.setMember_id(member_id);
+		notice.setN_title(n_title);
+		notice.setN_content(n_content);
+		notice.setN_image(n_image);
+		notice.setImportance(importance);
 		
-		QnaNewQuestionService qnaNewQuestionService = new QnaNewQuestionService();
-		boolean isWriteSuccess = qnaNewQuestionService.insertNewQuestion(qna);
+		AdminInsertNoticeService adminInsertNoticeService = new AdminInsertNoticeService();
+		boolean isWriteSuccess = adminInsertNoticeService.insertNotice(notice);
 		
 		if(!isWriteSuccess) {//글 등록 실패 시
 			response.setContentType("text/html; charset=utf-8");
 			PrintWriter out = response.getWriter();
 			out.println("<script>");
-			out.println("alert('문의글 등록이 실패했습니다.');");
+			out.println("alert('공지글 등록이 실패했습니다.');");
 			out.println("history.back();");
 			out.println("</script>");
 		}else {//글 등록 성공 시
 						
-			request.setAttribute("showPage", "qna/qnaList.jsp");
-			forward = new ActionForward("userTemplate.jsp", false);
+			forward = new ActionForward("adminNoticeList.adm", true);
 		}
 		
 		return forward;

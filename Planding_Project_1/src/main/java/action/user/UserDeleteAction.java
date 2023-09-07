@@ -32,9 +32,9 @@ public class UserDeleteAction implements Action {
 		user.setMember_id(u_id);
 		user.setSHA256Password(u_password);
 		
-		MemberBean userToDelete = userDeleteService.checkUserSelf(user);
+		String userIdToDelete = userDeleteService.checkUserSelf(user);
 		
-		if(userToDelete == null) { //본인인증 실패시
+		if(userIdToDelete == null) { //본인인증 실패시
 			response.setContentType("text/html; charset=utf-8");
 			PrintWriter out = response.getWriter();
 			out.println("<script>");
@@ -45,7 +45,7 @@ public class UserDeleteAction implements Action {
 		}else { //본인인증 성공시
 			
 			//2. 회원탈퇴 (탈퇴회원테이블에 회원 insert 후 회원테이블에서 회원삭제)
-			boolean isUserDeleteSuccess = userDeleteService.userDelete(userToDelete);
+			boolean isUserDeleteSuccess = userDeleteService.userDelete(user);
 			
 			if(isUserDeleteSuccess == false) { //회원탈퇴 실패 시
 				response.setContentType("text/html; charset=utf-8");
@@ -61,7 +61,7 @@ public class UserDeleteAction implements Action {
 				session.removeAttribute("u_password");
 				session.removeAttribute("u_name");
 				session.removeAttribute("u_email");
-				session.removeAttribute("isAdmin");
+				session.removeAttribute("u_admin_status");
 				
 				//+추가적으로 제거 (추후에 구현할 내용들)
 				//session.removeAttribute("cartList");

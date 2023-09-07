@@ -12,7 +12,7 @@
     <meta content="" name="description">
 
     <!-- Favicon -->
-    <link href="../../resources/img/favicon.ico" rel="icon">
+    <link href="../../../resources/img/favicon.ico" rel="icon">
 
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -24,18 +24,35 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
 
     <!-- Libraries Stylesheet -->
-    <link href="../../resources/lib/animate/animate.min.css" rel="stylesheet">
-    <link href="../../resources/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
-    <link href="../../resources/lib/lightbox/css/lightbox.min.css" rel="stylesheet">
+    <link href="../../../resources/lib/animate/animate.min.css" rel="stylesheet">
+    <link href="../../../resources/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="../../../resources/lib/lightbox/css/lightbox.min.css" rel="stylesheet">
 
     <!-- Customized Bootstrap Stylesheet -->
-    <link href="../../resources/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../../../resources/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Template Stylesheet -->
-    <link href="../../resources/css/style.css" rel="stylesheet">
+    <link href="../../../resources/css/style.css" rel="stylesheet">
 </head>
 
 <script>
+function checkIdForm(){
+	//아이디 값 데이터 정규화 공식
+	const regId = /^[a-zA-Z0-9]{7,19}$/;
+	
+	if(!document.chk.ckid.value.trim()){
+		alert("아이디를 입력해주세요.");
+		document.chk.ckid.focus();
+		return false;
+	}else if(!regId.test(document.chk.ckid.value.trim())){
+		alert("아이디를 8~20자 사이의 영문과 숫자로 입력해주세요.");
+		document.chk.ckid.select();
+		return false;
+	}
+	
+	document.chk.submit();
+}
+
 function useCheckId(){
 	opener.document.f.member_id.value = document.chk.ckid.value;
 	opener.document.f.idChecked.value = "checked";
@@ -72,7 +89,7 @@ function cancel(){
 				      		<input type="text" class="form-control-sm col-11" name="ckid" id="ckid" value="${setId}" max-length="20" placeholder="중복체크할 아이디 입력">
 					    </div>
 	                    <div class="col-2 text-center">
-	                        <button class="btn btn-sm btn-primary" type="submit">
+	                        <button class="btn btn-sm btn-primary" type="submit" onclick="checkIdForm(); return false;">
 	                        		<span style="font-size:1rem">확인</span>
 	                        </button>	                                
 	                    </div>
@@ -100,16 +117,16 @@ function cancel(){
     <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="../../resources/lib/wow/wow.min.js"></script>
-    <script src="../../resources/lib/easing/easing.min.js"></script>
-    <script src="../../resources/lib/waypoints/waypoints.min.js"></script>
-    <script src="../../resources/lib/owlcarousel/owl.carousel.min.js"></script>
-    <script src="../../resources/lib/counterup/counterup.min.js"></script>
-    <script src="../../resources/lib/parallax/parallax.min.js"></script>
-    <script src="../../resources/lib/isotope/isotope.pkgd.min.js"></script>
-    <script src="../../resources/lib/lightbox/js/lightbox.min.js"></script>
+    <script src="../../../resources/lib/wow/wow.min.js"></script>
+    <script src="../../../resources/lib/easing/easing.min.js"></script>
+    <script src="../../../resources/lib/waypoints/waypoints.min.js"></script>
+    <script src="../../../resources/lib/owlcarousel/owl.carousel.min.js"></script>
+    <script src="../../../resources/lib/counterup/counterup.min.js"></script>
+    <script src="../../../resources/lib/parallax/parallax.min.js"></script>
+    <script src="../../../resources/lib/isotope/isotope.pkgd.min.js"></script>
+    <script src="../../../resources/lib/lightbox/js/lightbox.min.js"></script>
 
     <!-- Template Javascript -->
-    <script src="../../resources/js/main.js"></script>
+    <script src="../../../resources/js/main.js"></script>
 </body>
 </html>

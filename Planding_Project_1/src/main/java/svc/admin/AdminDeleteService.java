@@ -30,7 +30,7 @@ public class AdminDeleteService {
 		
 		
 		/*-------DAO의 해당 메서드를 호출하여 처리----------------------------------------------------*/
-		int deleteAdminCount = adminDAO.deleteAdmin(id);
+		int deleteAdminCount = adminDAO.updateDeleteAdmin(id);
 		int deleteAddrCount = adminDAO.deleteAddr(id);
 		
 		boolean isAdminDeleteResult = false;	
