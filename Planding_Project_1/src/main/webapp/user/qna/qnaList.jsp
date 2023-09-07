@@ -58,7 +58,7 @@
     			<div class="col-12 mb-5">
     				<p class="text-center">작성된 문의글이 없습니다.</p>
     			</div>
-    			<div class="col-12 text-center mx-auto">
+    			<div class="col-12 text-center mx-auto mb-5">
 					<button class="btn btn-outline-primary py-1" type="button" onclick="location.href='userInsertQnaQForm.usr'">문의글 작성</button>
 				</div>
     		</div>

@@ -8,9 +8,7 @@ import javax.servlet.http.HttpSession;
 
 import action.Action;
 import svc.admin.AdminViewService;
-import svc.user.UserViewService;
 import vo.ActionForward;
-import vo.AddressBean;
 import vo.MemberBean;
 
 public class AdminUpdateFormAction implements Action {

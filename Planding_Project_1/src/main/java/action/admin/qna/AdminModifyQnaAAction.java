@@ -1,18 +1,12 @@
 package action.admin.qna;
 
-import java.io.File;
 import java.io.PrintWriter;
 
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.oreilly.servlet.MultipartRequest;
-import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
-
 import action.Action;
 import svc.admin.qna.AdminModifyQnaAService;
-import svc.user.qna.ModifyQnaQService;
 import vo.ActionForward;
 import vo.QnaBean;
 

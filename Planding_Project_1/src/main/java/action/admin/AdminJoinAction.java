@@ -7,9 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import action.Action;
 import svc.admin.AdminJoinService;
-import util.SHA256;
 import vo.ActionForward;
-import vo.AddressBean;
 import vo.MemberBean;
 
 public class AdminJoinAction implements Action {
@@ -20,7 +18,6 @@ public class AdminJoinAction implements Action {
 		ActionForward forward = null;
 		
 		String a_id = request.getParameter("member_id");
-		String a_grade = request.getParameter("grade");
 		String a_password = request.getParameter("password");		
 		String a_name = request.getParameter("name");
 		String a_email = request.getParameter("email");

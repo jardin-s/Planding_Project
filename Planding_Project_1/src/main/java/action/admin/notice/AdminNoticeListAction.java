@@ -35,7 +35,7 @@ public class AdminNoticeListAction implements Action {
 		
 		//중요공지사항 글의 개수를 알아냄
 		int importantCount = noticeListService.getImportantCount();
-		System.out.println("[UserNoticeListAction] notice_tbl의 중요 공지글 개수 = "+importantCount);
+		System.out.println("[AdminNoticeListAction] notice_tbl의 중요 공지글 개수 = "+importantCount);
 		
 		//중요공지글을 제외하고 한 페이지에 출력할 글의 개수 (10 - 중요글개수)
 		limit = limit - importantCount;
@@ -76,8 +76,8 @@ public class AdminNoticeListAction implements Action {
 		request.setAttribute("importantList", importantList);
 		request.setAttribute("noticeList", noticeList);
 		
-		request.setAttribute("showPage", "admin/notice/noticeList.jsp");
-		forward = new ActionForward("userTemplate.jsp", false);
+		request.setAttribute("showAdmin", "admin/notice/noticeList.jsp");
+		forward = new ActionForward("adminTemplate.jsp", false);
 		
 		return forward;
 	}

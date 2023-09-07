@@ -18,7 +18,12 @@ import action.admin.AdminLoginAction;
 import action.admin.AdminLogoutAction;
 import action.admin.AdminUpdateAction;
 import action.admin.AdminUpdateFormAction;
+import action.admin.notice.AdminDeleteNoticeAction;
+import action.admin.notice.AdminInsertNoticeAction;
+import action.admin.notice.AdminInsertNoticeFormAction;
+import action.admin.notice.AdminModifyNoticeFormAction;
 import action.admin.notice.AdminNoticeListAction;
+import action.admin.notice.AdminNoticeViewAction;
 import action.admin.qna.AdminDeleteQnaAction;
 import action.admin.qna.AdminInsertQnaAAction;
 import action.admin.qna.AdminInsertQnaAFormAction;
@@ -344,7 +349,7 @@ public class AdminFrontController extends HttpServlet {
 		/*-- '문의글 삭제하기' 요청 -> 처리 --------------------------------------*/
 		else if(command.equals("/adminDeleteQnaAction.adm")) {//문의글 삭제하기 요청
 			
-			action = new AdminDeleteQnaAction();
+			action = new AdminDeleteAction();
 
 			try {
 				forward = action.execute(request, response);
@@ -363,6 +368,71 @@ public class AdminFrontController extends HttpServlet {
 			
 			action = new AdminNoticeListAction();
 
+			try {
+				forward = action.execute(request, response);
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+			
+		}
+		
+		/*-- '공지글 작성 폼 보기' 요청 -> 처리 --------------------------------------*/
+		else if(command.equals("/adminInsertNoticeForm.adm")) {//공지글 작성 폼 보기 요청
+			
+			action = new AdminInsertNoticeFormAction();
+			
+			try {
+				forward = action.execute(request, response);
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+			
+		}
+		
+		/*-- '공지글 작성하기' 요청 -> 처리 --------------------------------------*/
+		else if(command.equals("/adminInsertNoticeAction.adm")) {//공지글 작성하기 요청
+			
+			action = new AdminInsertNoticeAction();
+			
+			try {
+				forward = action.execute(request, response);
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+			
+		}
+		
+		/*-- '공지글 상세보기' 요청 -> 처리 --------------------------------------*/
+		else if(command.equals("/adminNoticeView.adm")) {//공지글 상세보기 요청
+			
+			action = new AdminNoticeViewAction();
+			
+			try {
+				forward = action.execute(request, response);
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+			
+		}
+		
+		/*-- '공지글 수정 폼 보기' 요청 -> 처리 --------------------------------------*/
+		else if(command.equals("/adminModifyNoticeForm.adm")) {//공지글 수정 폼 보기 요청
+			
+			action = new AdminModifyNoticeFormAction();
+			
+			try {
+				forward = action.execute(request, response);
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+			
+		}
+		
+		/*-- '공지글 삭제하기' 요청 -> 처리 --------------------------------------*/
+		else if(command.equals("/adminDeleteNoticeAction.adm")) {//공지글 삭제하기 요청
+			
+			action = new AdminDeleteNoticeAction();
+			
 			try {
 				forward = action.execute(request, response);
 			} catch(Exception e) {

@@ -199,7 +199,7 @@ public class NoticeDAO {
 			}
 			
 		} catch(Exception e) {
-			System.out.println("[NoticeDAO] selectQnaList() 에러 : "+e);//예외객체종류 + 예외메시지
+			System.out.println("[NoticeDAO] selectNoticeList() 에러 : "+e);//예외객체종류 + 예외메시지
 		} finally {
 			close(pstmt); //JdbcUtil.생략가능
 			close(rs); //JdbcUtil.생략가능
@@ -207,6 +207,101 @@ public class NoticeDAO {
 		}
 		
 		return noticeList;
+	}
+
+	
+	//5. 공지사항 글 작성
+	public int insertNotice(NoticeBean notice) {
+		int insertNoticeCount = 0;
+		
+		String sql = "insert into notice_tbl(member_id, n_title, n_content, n_image, importance, viewcount) values(?,?,?,?,?,0)";
+		
+		try {
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, notice.getMember_id());
+			pstmt.setString(2, notice.getN_title());
+			pstmt.setString(3, notice.getN_content());
+			pstmt.setString(4, notice.getN_image());
+			pstmt.setString(5, notice.getImportance());
+			
+			insertNoticeCount = pstmt.executeUpdate();
+						
+		} catch(Exception e) {
+			System.out.println("[NoticeDAO] insertNotice() 에러 : "+e);//예외객체종류 + 예외메시지
+		} finally {
+			close(pstmt); //JdbcUtil.생략가능
+			//close(rs); //JdbcUtil.생략가능
+			//connection 객체에 대한 해제는 DogListService에서 이루어짐
+		}
+		
+		return insertNoticeCount;
+	}
+
+	//6. 특정 공지글 상세보기
+	public NoticeBean selectNotice(int notice_id) {
+		NoticeBean noticeInfo = null;
+		
+		String sql = "select notice_id, member_id,"
+				  + " n_title, n_content, n_image,"
+				  + " importance, viewcount,"
+				  + " DATE_FORMAT(writetime,'%Y.%m.%d %H:%i') as writetime"
+				  + " from notice_tbl where notice_id=?";
+		
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, notice_id);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				noticeInfo = new NoticeBean();
+				
+				noticeInfo.setNotice_id(rs.getInt("notice_id"));
+				noticeInfo.setMember_id(rs.getString("member_id"));
+				
+				noticeInfo.setN_title(rs.getString("n_title"));
+				noticeInfo.setN_content(rs.getString("n_content"));
+				noticeInfo.setN_image(rs.getString("n_image"));
+				
+				noticeInfo.setImportance(rs.getString("importance"));
+				noticeInfo.setViewcount(rs.getInt("viewcount"));
+				noticeInfo.setWritetime(rs.getString("writetime"));
+								
+				System.out.println("[NoticeDAO] selectNotice 정상조회?" + noticeInfo);
+			}
+						
+		} catch(Exception e) {
+			System.out.println("[NoticeDAO] selectNotice() 에러 : "+e);//예외객체종류 + 예외메시지
+		} finally {
+			close(pstmt); //JdbcUtil.생략가능
+			close(rs); //JdbcUtil.생략가능
+			//connection 객체에 대한 해제는 DogListService에서 이루어짐
+		}
+		
+		return noticeInfo;
+	}
+
+	public int deleteNotice(int notice_id) {
+		int deleteNoticeCount = 0;
+		
+		String sql = "delete from notice_tbl where notice_id=?";
+		
+		try {
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, notice_id);
+			
+			deleteNoticeCount = pstmt.executeUpdate();
+						
+		} catch(Exception e) {
+			System.out.println("[NoticeDAO] deleteNotice() 에러 : "+e);//예외객체종류 + 예외메시지
+		} finally {
+			close(pstmt); //JdbcUtil.생략가능
+			//close(rs); //JdbcUtil.생략가능
+			//connection 객체에 대한 해제는 DogListService에서 이루어짐
+		}
+		
+		return deleteNoticeCount;
 	}
 
 	

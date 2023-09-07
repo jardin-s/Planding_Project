@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServletResponse;
 import action.Action;
 import svc.admin.AdminUpdateService;
 import vo.ActionForward;
-import vo.AddressBean;
 import vo.MemberBean;
 
 public class AdminUpdateAction implements Action {

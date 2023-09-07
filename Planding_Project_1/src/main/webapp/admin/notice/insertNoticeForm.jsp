@@ -11,7 +11,7 @@
     <meta content="" name="description">
 
     <!-- Favicon -->
-    <link href="../resources/img/favicon.ico" rel="icon">
+    <link href="../../resources/img/favicon.ico" rel="icon">
 
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -23,39 +23,39 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
 
     <!-- Libraries Stylesheet -->
-    <link href="../resources/lib/animate/animate.min.css" rel="stylesheet">
-    <link href="../resources/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
-    <link href="../resources/lib/lightbox/css/lightbox.min.css" rel="stylesheet">
+    <link href="../../resources/lib/animate/animate.min.css" rel="stylesheet">
+    <link href="../../resources/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="../../resources/lib/lightbox/css/lightbox.min.css" rel="stylesheet">
 
     <!-- Customized Bootstrap Stylesheet -->
-    <link href="../resources/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../../resources/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Template Stylesheet -->
-    <link href="../resources/css/style.css" rel="stylesheet">
+    <link href="../../resources/css/style.css" rel="stylesheet">
 </head>
 
 <script type="text/javascript">
 
-function qnaFormCheck(){
+function noticeFormCheck(){
 	
 	//제목 데이터 유효성 검사
-	if(document.f.q_title.value == ''){
+	if(document.f.n_title.value == ''){
 		alert("제목을 입력해주세요.");
-		document.f.q_title.focus();
+		document.f.n_title.focus();
 		return false;
 	}
 	
 	//내용 데이터 유효성 검사
-	if(document.f.q_content.value == ''){
+	if(document.f.n_content.value == ''){
 		alert('내용을 입력해주세요.')
-		document.f.q_content.focus();
+		document.f.n_content.focus();
 		return false;
 	}
 	
 	//파일확장자 유효성 검사 (jpg, png, gif, bmp 이미지 파일만 가능)
 	const regImageFile = /^[\S\s]+(\.(jpg|png|gif|bmp))$/i;
-	if(document.f.q_image.value != ''){
-		if(!regImageFile.test(document.f.q_image.value.trim())){
+	if(document.f.n_image.value != ''){
+		if(!regImageFile.test(document.f.n_image.value.trim())){
 			alert("jpg, png, gif, bmp 확장자의 이미지 파일만 첨부가능합니다.");
 			return false;
 		}
@@ -64,7 +64,7 @@ function qnaFormCheck(){
 	//비밀글 값 가져오기
 	var check_value = document.f.checkbox.checked ? "Y" : "N";
 	alert("check_value = "+check_value);
-	document.f.q_private.value = check_value;
+	document.f.importance.value = check_value;
 	
 	
 	document.f.submit();
@@ -77,16 +77,9 @@ function qnaFormCheck(){
 	
 	<!-- Main Section -->
 	<!-- Page Header Start -->
-    <div class="container-fluid page-header py-5 mb-5 wow fadeIn" data-wow-delay="0.1s">
+    <div class="container-fluid py-5 mb-5 wow fadeIn" data-wow-delay="0.1s" style="background-color:#86B381">
         <div class="container text-center py-5">
-            <h3 class="display-6 text-white mb-5 animated slideInDown">문의사항</h3>
-            <nav aria-label="breadcrumb animated slideInDown">
-                <ol class="breadcrumb justify-content-center mb-0">
-                    <li class="breadcrumb-item"><a href="#">메인</a></li>
-                    <li class="breadcrumb-item"><a href="#">고객센터</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">문의사항</li>
-                </ol>
-            </nav>
+            <h3 class="display-6 text-white mb-3 animated slideInDown">공지사항</h3>
         </div>
     </div>
     <!-- Page Header End -->
@@ -94,28 +87,28 @@ function qnaFormCheck(){
 
     <!-- Table Start -->
     <div class="container-fluid pt-4 pb-4">
-        <div class="container col-md-8 col-lg-7">
+        <div class="container col-md-8 col-lg-7 col-xl-6 col-xxl-5">
             <div class="row justify-content-center">
-				<form action="userInsertQnaQAction.usr" method="post" name="f" enctype="multipart/form-data">
-					<input type="hidden" name="member_id" value="${sessionScope.u_id}">
+				<form action="adminInsertNoticeAction.adm" method="post" name="f" enctype="multipart/form-data">
+					<input type="hidden" name="member_id" value="${sessionScope.a_id}">
 					<div class="input-group mb-2">
-						<span class="input-group-text" id="q_title">제목</span>
-						<input type="text" name="q_title" class="form-control" placeholder="제목을 입력하세요." aria-label="q_title" aria-describedby="q_title">
+						<span class="input-group-text" id="n_title">제목</span>
+						<input type="text" name="n_title" class="form-control" placeholder="제목을 입력하세요." aria-label="n_title" aria-describedby="n_title">
 					</div>
 					<div class="input-group mb-2">
 						<span class="input-group-text">내용</span>
-						<textarea name="q_content" class="form-control" placeholder="내용을 입력하세요." aria-label="q_content" rows="10"></textarea>
+						<textarea name="n_content" class="form-control" placeholder="내용을 입력하세요." aria-label="n_content" rows="10"></textarea>
 					</div>
 					<div class="input-group mb-3">
-						<input type="file" name="q_image" class="form-control" id="q_image" accept="image/*" aria-describedby="q_image" aria-label="q_image" maxlength="100">
+						<input type="file" name="n_image" class="form-control" id="n_image" accept="image/*" aria-describedby="n_image" aria-label="n_image" maxlength="100">
 					</div>
 					<div class="form-check">
 						<input class="form-check-input" type="checkbox" name="checkbox" value="Y" id="checkbox">
-						<label class="form-check-label" for="checkbox">비밀글로 하기</label>
-						<input type="hidden" name="q_private"> 
+						<label class="form-check-label" for="checkbox">중요글 표시</label>
+						<input type="hidden" name="importance"> 
 					</div>
 					<div class="col-12 text-center">
-						<button type="submit" class="btn btn-primary" onclick="qnaFormCheck(); return false;">문의글 등록</button>
+						<button type="submit" class="btn btn-primary" onclick="noticeFormCheck(); return false;">공지글 등록</button>
 					</div>
 				</form>
 			</div>
@@ -127,16 +120,16 @@ function qnaFormCheck(){
     <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="../resources/lib/wow/wow.min.js"></script>
-    <script src="../resources/lib/easing/easing.min.js"></script>
-    <script src="../resources/lib/waypoints/waypoints.min.js"></script>
-    <script src="../resources/lib/owlcarousel/owl.carousel.min.js"></script>
-    <script src="../resources/lib/counterup/counterup.min.js"></script>
-    <script src="../resources/lib/parallax/parallax.min.js"></script>
-    <script src="../resources/lib/isotope/isotope.pkgd.min.js"></script>
-    <script src="../resources/lib/lightbox/js/lightbox.min.js"></script>
+    <script src="../../resources/lib/wow/wow.min.js"></script>
+    <script src="../../resources/lib/easing/easing.min.js"></script>
+    <script src="../../resources/lib/waypoints/waypoints.min.js"></script>
+    <script src="../../resources/lib/owlcarousel/owl.carousel.min.js"></script>
+    <script src="../../resources/lib/counterup/counterup.min.js"></script>
+    <script src="../../resources/lib/parallax/parallax.min.js"></script>
+    <script src="../../resources/lib/isotope/isotope.pkgd.min.js"></script>
+    <script src="../../resources/lib/lightbox/js/lightbox.min.js"></script>
 
     <!-- Template Javascript -->
-    <script src="../resources/js/main.js"></script>
+    <script src="../../resources/js/main.js"></script>
 </body>
 </html>

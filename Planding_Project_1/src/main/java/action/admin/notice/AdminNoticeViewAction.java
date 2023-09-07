@@ -1,4 +1,4 @@
-package action.admin.qna;
+package action.admin.notice;
 
 import java.io.PrintWriter;
 
@@ -6,27 +6,29 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import action.Action;
+import svc.notice.NoticeViewService;
 import svc.qna.QnaViewService;
 import vo.ActionForward;
+import vo.NoticeBean;
 import vo.QnaBean;
 
-public class AdminQnaViewAction implements Action {
+public class AdminNoticeViewAction implements Action {
 
 	@Override
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ActionForward forward = null;
 		
-		int qna_id = Integer.parseInt(request.getParameter("qna_id"));
+		int notice_id = Integer.parseInt(request.getParameter("notice_id"));
 		int page = Integer.parseInt(request.getParameter("page"));
 		
-		System.out.println("[QnaViewAction] 파라미터값");
-		System.out.println("qna_id = "+qna_id);
+		System.out.println("[AdminNoticeViewAction] 파라미터값");
+		System.out.println("notice_id = "+notice_id);
 		System.out.println("page = "+page);
 				
-		QnaViewService qnaViewService = new QnaViewService();
-		QnaBean qna = qnaViewService.getQnaInfo(qna_id);
+		NoticeViewService noticeViewService = new NoticeViewService();
+		NoticeBean notice = noticeViewService.getNoticeInfo(notice_id);
 		
-		if(qna == null) {//리스트에서 글 보고 있는 사이, 작성자가 해당 글을 삭제했을 경우
+		if(notice == null) {//리스트에서 글 보고 있는 사이, 작성자가 해당 글을 삭제했을 경우
 			response.setContentType("text/html; charset=utf-8");
 			PrintWriter out = response.getWriter();
 			out.println("<script>");
@@ -37,9 +39,9 @@ public class AdminQnaViewAction implements Action {
 		}else {
 			
 			request.setAttribute("page", page);
-			request.setAttribute("qnaInfo", qna);
+			request.setAttribute("noticeInfo", notice);
 			
-			request.setAttribute("showAdmin", "admin/qna/qnaView.jsp");
+			request.setAttribute("showAdmin", "admin/notice/noticeView.jsp");
 			forward = new ActionForward("adminTemplate.jsp", false);
 			
 		}

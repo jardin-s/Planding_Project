@@ -37,18 +37,10 @@
 <body>
 	
 	<!-- Main Section -->
-	<!-- Main Section -->
 	<!-- Page Header Start -->
-    <div class="container-fluid page-header py-5 mb-5 wow fadeIn" data-wow-delay="0.1s">
+    <div class="container-fluid py-5 mb-5 wow fadeIn" data-wow-delay="0.1s" style="background-color:#86B381">
         <div class="container text-center py-5">
-            <h3 class="display-6 text-white mb-5 animated slideInDown">공지사항</h3>
-            <nav aria-label="breadcrumb animated slideInDown">
-                <ol class="breadcrumb justify-content-center mb-0">
-                    <li class="breadcrumb-item">메인</li>
-                    <li class="breadcrumb-item">고객센터</li>
-                    <li class="breadcrumb-item active" aria-current="page">공지사항</li>
-                </ol>
-            </nav>
+            <h3 class="display-6 text-white mb-4 animated slideInDown">공지사항</h3>
         </div>
     </div>
     <!-- Page Header End -->
@@ -59,7 +51,7 @@
     			<div class="col-12 mb-5">
     				<p class="text-center">작성된 공지글이 없습니다.</p>
     			</div>
-    			<div class="col-12 text-center mx-auto">
+    			<div class="col-12 text-center mx-auto mb-5">
 					<button class="btn btn-outline-primary py-1" type="button" onclick="location.href='adminInsertNoticeForm.adm'">공지글 작성</button>
 				</div>
     		</div>
@@ -101,7 +93,7 @@
 							<c:forEach var="noticeImp" items="${importantList}">
 								<tr>
 									<th scope="row"><i class="fas fa-exclamation"></i></th>
-									<td><a href="userNoticeView.usr?notice_id=${noticeImp.notice_id}&page=${pageInfo.page}">${noticeImp.n_title }</a></td>
+									<td><a href="adminNoticeView.adm?notice_id=${noticeImp.notice_id}&page=${pageInfo.page}">${noticeImp.n_title }</a></td>
 									<td>${noticeImp.writetime }</td>
 									<td>${noticeImp.viewcount }</td>
 								</tr>
@@ -110,7 +102,7 @@
 							<c:forEach var="notice" items="${noticeList}">
 								<tr>
 									<th scope="row">${n_index}</th>
-									<td><a href="userNoticeView.usr?notice_id=${notice.notice_id}&page=${pageInfo.page}">${notice.n_title }</a></td>
+									<td><a href="adminNoticeView.adm?notice_id=${notice.notice_id}&page=${pageInfo.page}">${notice.n_title }</a></td>
 									<td>${notice.writetime }</td>
 									<td>${notice.viewcount }</td>
 								</tr>
@@ -127,7 +119,7 @@
 	    <div class="container-fluid mt-0 pt-0 pb-5">
 	    	<div class="container col-lg-8 px-0">
 	    		<div class="d-flex justify-content-end">
-	    			<button class="btn btn-outline-primary float-right py-1" type="button" onclick="location.href='adminInsertNoticeForm.adm'">문의글 작성</button>
+	    			<button class="btn btn-outline-primary float-right py-1" type="button" onclick="location.href='adminInsertNoticeForm.adm'">공지글 작성</button>
 	    		</div>
 	    	</div>
 	   	</div>

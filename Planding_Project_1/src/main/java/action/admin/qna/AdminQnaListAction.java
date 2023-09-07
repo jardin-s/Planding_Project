@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import action.Action;
 import svc.qna.QnaListService;
@@ -18,7 +17,6 @@ public class AdminQnaListAction implements Action {
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ActionForward forward = null;
 		
-		HttpSession session = request.getSession();
 		
 		//처음 요청할 경우 조회하는 페이지넘버 기본값 1
 		int page = 1;

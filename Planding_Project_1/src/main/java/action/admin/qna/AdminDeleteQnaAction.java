@@ -9,7 +9,6 @@ import javax.servlet.http.HttpSession;
 import action.Action;
 import svc.qna.DeleteQnaService;
 import vo.ActionForward;
-import vo.QnaBean;
 
 public class AdminDeleteQnaAction implements Action {
 

@@ -47,7 +47,7 @@
     
     <c:if test="${pageInfo.listCount == 0 }">
     	<div class="container-xxl py-5">
-    		<div class="container col-lg-8">
+    		<div class="container col-lg-8 mb-5">
    				<p class="text-center">작성된 문의글이 없습니다.</p>
     		</div>
     	</div>
