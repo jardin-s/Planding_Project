@@ -42,7 +42,7 @@ public class AdminUpdateAction implements Action {
 			out.println("history.back();");
 			out.println("</script>");
 		}else {
-			forward = new ActionForward("adminView.adm", true);
+			forward = new ActionForward("adminUpdateForm.adm", true);
 		}
 		
 		return forward;

@@ -28,8 +28,8 @@ public class AdminInsertNewQnaAFormAction implements Action {
 		
 		}else {//로그인 된 상태면 글쓰기 폼으로 이동
 		
-			request.setAttribute("showPage", "qna/insertNewQForm.jsp");
-			forward = new ActionForward("userTemplate.jsp", false);
+			request.setAttribute("showAdmin", "admin/qna/insertNewAForm.jsp");
+			forward = new ActionForward("adminTemplate.jsp", false);
 			
 		}
 		

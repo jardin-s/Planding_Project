@@ -76,7 +76,85 @@ public class NoticeDAO {
 		return qnaCount;
 	}
 	
-	//2. 원하는 페이지의 원하는 개수만큼 글 불러오기
+	
+	//2. 중요공지글의 개수를 알아냄
+	public int getImportantCount() {
+		
+		int importantCount = 0;
+		
+		String sql = "select count(*) from notice_tbl where importance='Y'";
+		
+		try {
+			
+			pstmt = con.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				importantCount = rs.getInt(1);
+			}
+			
+		} catch(Exception e) {
+			System.out.println("[NoticeDAO] getImportantCount() 에러 : "+e);//예외객체종류 + 예외메시지
+		} finally {
+			close(pstmt); //JdbcUtil.생략가능
+			close(rs); //JdbcUtil.생략가능
+			//connection 객체에 대한 해제는 DogListService에서 이루어짐
+		}
+		
+		return importantCount;
+		
+	}
+	
+	//3. 중요공지글 목록을 얻어옴
+	public ArrayList<NoticeBean> selectImportantNoticeList(){
+		ArrayList<NoticeBean> importantList = null;
+		
+		String sql = "select notice_id, member_id,"
+				  + " n_title, n_content, n_image, importance,"
+				  + " viewcount,"
+				  + " DATE_FORMAT(writetime,'%Y.%m.%d') as writetime"
+				  + " from notice_tbl"
+				  + " where importance = 'Y'"
+				  + " order by writetime desc";
+		
+		try {
+			
+			pstmt = con.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				importantList = new ArrayList<>();
+				
+				do {
+					importantList.add(new NoticeBean(rs.getInt("notice_id"),
+													 rs.getString("member_id"),
+													 rs.getString("n_title"),
+													 rs.getString("n_content"),
+													 rs.getString("importance"),
+													 rs.getString("n_image"),
+													 rs.getInt("viewcount"),
+													 rs.getString("writetime")
+													 )
+									 );
+					
+				}while(rs.next());
+				
+			}
+			
+			
+		} catch(Exception e) {
+			System.out.println("[NoticeDAO] getImportantCount() 에러 : "+e);//예외객체종류 + 예외메시지
+		} finally {
+			close(pstmt); //JdbcUtil.생략가능
+			close(rs); //JdbcUtil.생략가능
+			//connection 객체에 대한 해제는 DogListService에서 이루어짐
+		}
+		
+		return importantList;
+	}
+	
+	
+	//4. 원하는 페이지의 원하는 개수만큼 글 불러오기
 	public ArrayList<NoticeBean> selectNoticeList(int page, int limit){
 		ArrayList<NoticeBean> noticeList = null;
 			
@@ -88,7 +166,7 @@ public class NoticeDAO {
 		String sql = "select notice_id, member_id,"
 				  + " n_title, n_content, n_image, importance,"
 				  + " viewcount,"
-				  + " DATE_FORMAT(writetime,'%Y.%m.%d %H:%i') as writetime"
+				  + " DATE_FORMAT(writetime,'%Y.%m.%d') as writetime"
 				  + " from notice_tbl"
 				  + " order by writetime desc"
 				  + " limit ?, ?";
@@ -121,7 +199,7 @@ public class NoticeDAO {
 			}
 			
 		} catch(Exception e) {
-			System.out.println("[QnaDAO] selectQnaList() 에러 : "+e);//예외객체종류 + 예외메시지
+			System.out.println("[NoticeDAO] selectQnaList() 에러 : "+e);//예외객체종류 + 예외메시지
 		} finally {
 			close(pstmt); //JdbcUtil.생략가능
 			close(rs); //JdbcUtil.생략가능
@@ -130,5 +208,7 @@ public class NoticeDAO {
 		
 		return noticeList;
 	}
+
+	
 	
 }

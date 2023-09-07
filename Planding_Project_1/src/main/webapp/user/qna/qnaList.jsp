@@ -43,8 +43,8 @@
             <h3 class="display-6 text-white mb-5 animated slideInDown">문의사항</h3>
             <nav aria-label="breadcrumb animated slideInDown">
                 <ol class="breadcrumb justify-content-center mb-0">
-                    <li class="breadcrumb-item"><a href="#">메인</a></li>
-                    <li class="breadcrumb-item"><a href="#">고객센터</a></li>
+                    <li class="breadcrumb-item">메인</li>
+                    <li class="breadcrumb-item">고객센터</li>
                     <li class="breadcrumb-item active" aria-current="page">문의사항</li>
                 </ol>
             </nav>
@@ -117,6 +117,7 @@
 	    </div>
 	    <%-- Table End --%>
 	    
+	    <%-- Write Button --%>
 	    <div class="container-fluid mt-0 pt-0 pb-5">
 	    	<div class="container col-lg-8 px-0">
 	    		<div class="d-flex justify-content-end">

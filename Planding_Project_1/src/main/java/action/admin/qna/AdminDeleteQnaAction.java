@@ -28,9 +28,9 @@ public class AdminDeleteQnaAction implements Action {
 		System.out.println("member_id="+member_id);
 		
 		HttpSession session = request.getSession();
-		String u_id= (String) session.getAttribute("u_id");
+		String a_id= (String) session.getAttribute("a_id");
 		
-		if(!u_id.equals(member_id)) {
+		if(!a_id.equals(member_id)) {
 			response.setContentType("text/html; charset=utf-8");
 			
 			PrintWriter out = response.getWriter();

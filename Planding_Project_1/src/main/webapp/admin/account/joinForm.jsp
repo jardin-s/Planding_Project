@@ -122,9 +122,9 @@ function checkJoinForm(){
 
 function idCheckOpen(){
 	if(document.f.member_id.value == ''){
-		window.open('idCheck/idCheck.jsp','아이디중복확인','top=10, left=10, width=500, height=300');
+		window.open('admin/account/idCheck/idCheck.jsp','아이디중복확인','top=10, left=10, width=500, height=300');
 	}else{
-		window.open('idCheck/idCheck.jsp?member_id='+document.f.member_id.value,'아이디중복확인','top=10, left=10, width=500, height=300');
+		window.open('admin/account/idCheck/idCheck.jsp?member_id='+document.f.member_id.value,'아이디중복확인','top=10, left=10, width=500, height=300');
 	}
 }
 </script>

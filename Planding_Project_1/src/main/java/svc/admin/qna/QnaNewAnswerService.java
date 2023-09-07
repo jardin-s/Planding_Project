@@ -9,7 +9,7 @@ import vo.QnaBean;
 
 public class QnaNewAnswerService {
 
-	public boolean insertNewQuestion(QnaBean qna) {
+	public boolean insertNewAnswer(QnaBean qna) {
 		
 		//1. 커넥션 풀에서 Connection객체를 얻어와
 		Connection con = getConnection(); //JdbcUtil. 생략(이유?import static 하여)
@@ -21,13 +21,13 @@ public class QnaNewAnswerService {
 		qnaDAO.setConnection(con);
 				
 		/*-------DAO의 해당 메서드를 호출하여 처리----------------------------------------------------*/
-		int insertNewQuestionCount = qnaDAO.insertNewQuestion(qna);
+		int insertNewAnswerCount = qnaDAO.insertNewAnswer(qna);
 		
-		boolean isWriteSuccess = false;
+		boolean isWriteResult = false;
 		/*-------(insert, update, delete) 성공하면 commit(), 실패하면 rollback() 호출
 		 * 		 단, select는 이런 작업을 제외 ------------------*/
-		if(insertNewQuestionCount > 0) {
-			isWriteSuccess = true;
+		if(insertNewAnswerCount > 0) {
+			isWriteResult = true;
 			commit(con);
 		}else {
 			rollback(con);
@@ -36,7 +36,7 @@ public class QnaNewAnswerService {
 		//4. 해제
 		close(con); //JdbcUtil. 생략(이유?import static 하여)
 		
-		return isWriteSuccess;
+		return isWriteResult;
 	}
 	
 }

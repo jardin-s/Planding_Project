@@ -18,6 +18,7 @@ import action.admin.AdminLoginAction;
 import action.admin.AdminLogoutAction;
 import action.admin.AdminUpdateAction;
 import action.admin.AdminUpdateFormAction;
+import action.admin.notice.AdminNoticeListAction;
 import action.admin.qna.AdminDeleteQnaAction;
 import action.admin.qna.AdminInsertNewQnaAAction;
 import action.admin.qna.AdminInsertNewQnaAFormAction;
@@ -161,7 +162,7 @@ public class AdminFrontController extends HttpServlet {
 		}
 		
 		/*-- '회원정보가 세팅된 회원정보관리 폼 보기(수정 폼)' 요청 -> 수정 처리 -------------------------------------*/
-		else if(command.equals("/adminView.adm")) {//'회원정보관리 보기' 요청이면
+		else if(command.equals("/adminUpdateForm.adm")) {//'회원정보관리 보기' 요청이면
 
 			//부모인터페이스 = 구현한 자식객체
 			action = new AdminUpdateFormAction();//부모인터페이스인 Action으로 받음 
@@ -352,6 +353,25 @@ public class AdminFrontController extends HttpServlet {
 			}
 			
 		}
+		
+		/***************************************************************************************
+		 * 공지사항 게시판
+		 ***************************************************************************************/
+		
+		/*-- '공지글 목록 보기' 요청 -> 처리 --------------------------------------*/
+		else if(command.equals("/adminNoticeList.adm")) {//공지글 목록 보기 요청
+			
+			action = new AdminNoticeListAction();
+
+			try {
+				forward = action.execute(request, response);
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+			
+		}
+
+
 		
 		/***********************************************************
 		 * 3. 포워딩

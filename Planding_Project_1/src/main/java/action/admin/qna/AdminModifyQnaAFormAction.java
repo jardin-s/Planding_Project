@@ -36,7 +36,7 @@ public class AdminModifyQnaAFormAction implements Action {
 			QnaBean qnaInfo = qnaEditFormService.getQnaInfo(qna_id);
 			
 			request.setAttribute("qnaInfo", qnaInfo);
-			request.setAttribute("showPage", "qna/modifyQnaQForm.jsp");
+			request.setAttribute("showAdmin", "qna/modifyQnaAForm.jsp");
 			
 			forward = new ActionForward("userTemplate.jsp", false);
 		}

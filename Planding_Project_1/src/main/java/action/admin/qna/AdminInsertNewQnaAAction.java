@@ -12,7 +12,7 @@ import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
 import action.Action;
-import svc.user.qna.QnaNewQuestionService;
+import svc.admin.qna.QnaNewAnswerService;
 import vo.ActionForward;
 import vo.QnaBean;
 
@@ -57,8 +57,8 @@ public class AdminInsertNewQnaAAction implements Action {
 		qna.setQ_image(q_image);
 		qna.setQ_private(q_private);
 		
-		QnaNewQuestionService qnaNewQuestionService = new QnaNewQuestionService();
-		boolean isWriteSuccess = qnaNewQuestionService.insertNewQuestion(qna);
+		QnaNewAnswerService qnaNewAnswerService = new QnaNewAnswerService();
+		boolean isWriteSuccess = qnaNewAnswerService.insertNewAnswer(qna);
 		
 		if(!isWriteSuccess) {//글 등록 실패 시
 			response.setContentType("text/html; charset=utf-8");
@@ -70,7 +70,7 @@ public class AdminInsertNewQnaAAction implements Action {
 		}else {//글 등록 성공 시
 						
 			request.setAttribute("showPage", "qna/qnaList.jsp");
-			forward = new ActionForward("userTemplate.jsp", false);
+			forward = new ActionForward("adminTemplate.jsp", false);
 		}
 		
 		return forward;

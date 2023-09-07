@@ -34,6 +34,8 @@ public class AdminQnaListAction implements Action {
 		QnaListService qnaListService = new QnaListService();
 		
 		int listCount = qnaListService.getListCount();//전체 글 개수를 얻어옴
+		System.out.println("[AdminQnaListAction] qna_tbl 총 글 개수 = "+listCount);
+		
 		ArrayList<QnaBean> qnaList = qnaListService.getQnaList(page, limit);//원하는 페이지넘버의 원하는개수만큼 글을 가져옴
 		
 		

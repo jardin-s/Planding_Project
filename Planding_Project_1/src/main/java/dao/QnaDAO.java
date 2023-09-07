@@ -301,14 +301,35 @@ public class QnaDAO {
 		return deleteQnaCount;
 	}
 
-	
-
-	
+		
 	/* 관리자 모드 ---------------------------------------------------------------------------*/
 	
 	//1. 관리자가 문의사항 게시판 목록 조회
 	
 	//2. 관리자가 문의 글 답변 등록
+	public int insertNewAnswer(QnaBean qna) {
+		int insertNewAnswerCount = 0;
+		
+		//String sql = "udpate ";
+		
+		try {
+			
+			
+			
+		} catch(Exception e) {
+			System.out.println("[QnaDAO] deleteQna() 에러 : "+e);//예외객체종류 + 예외메시지
+		} finally {
+			close(pstmt); //JdbcUtil.생략가능
+			//close(rs); //JdbcUtil.생략가능
+			//connection 객체에 대한 해제는 DogListService에서 이루어짐
+		}
+		
+		return insertNewAnswerCount;
+	}
+	
+		
+	
+
 
 	//3. 관리자가 답변 수정
 	

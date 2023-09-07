@@ -44,8 +44,8 @@
             <h3 class="display-6 text-white mb-5 animated slideInDown">공지사항</h3>
             <nav aria-label="breadcrumb animated slideInDown">
                 <ol class="breadcrumb justify-content-center mb-0">
-                    <li class="breadcrumb-item"><a href="#">메인</a></li>
-                    <li class="breadcrumb-item"><a href="#">고객센터</a></li>
+                    <li class="breadcrumb-item">메인</li>
+                    <li class="breadcrumb-item">고객센터</li>
                     <li class="breadcrumb-item active" aria-current="page">공지사항</li>
                 </ol>
             </nav>
@@ -57,10 +57,10 @@
     	<div class="container-xxl py-5">
     		<div class="container col-10 col-md-6 col-lg-4">
     			<div class="col-12 mb-5">
-    				<p class="text-center">작성된 공지사항이 없습니다.</p>
+    				<p class="text-center">작성된 공지글이 없습니다.</p>
     			</div>
     			<div class="col-12 text-center mx-auto">
-					<button class="btn btn-outline-primary py-1" type="button" onclick="location.href='insertNoticeForm.adm'">공지글 작성</button>
+					<button class="btn btn-outline-primary py-1" type="button" onclick="location.href='adminInsertNoticeForm.adm'">공지글 작성</button>
 				</div>
     		</div>
     	</div>
@@ -91,17 +91,26 @@
 					<table class="table table-hover">
 						<thead>
 							<tr>
-								<th scope="col">번호</th>
-								<th scope="col">제목</th>
-								<th scope="col">날짜</th>
-								<th scope="col">조회수</th>
+								<th scope="col" class="col-1 text-center">#</th>
+								<th scope="col" class="col-8">제목</th>
+								<th scope="col" class="col-2">날짜</th>
+								<th scope="col" class="col-1">조회수</th>
 							</tr>
 						</thead>
 						<tbody class="table-group-divider">
+							<c:forEach var="noticeImp" items="${importantList}">
+								<tr>
+									<th scope="row"><i class="fas fa-exclamation"></i></th>
+									<td><a href="userNoticeView.usr?notice_id=${noticeImp.notice_id}&page=${pageInfo.page}">${noticeImp.n_title }</a></td>
+									<td>${noticeImp.writetime }</td>
+									<td>${noticeImp.viewcount }</td>
+								</tr>
+								<c:set var="n_index" value="${n_index -1 }"/>
+							</c:forEach>							
 							<c:forEach var="notice" items="${noticeList}">
 								<tr>
 									<th scope="row">${n_index}</th>
-									<td><a href="adminNoticeView.adm?notice_id=${notice.notice_id}&page=${pageInfo.page}">${notice.n_title }</a></td>
+									<td><a href="userNoticeView.usr?notice_id=${notice.notice_id}&page=${pageInfo.page}">${notice.n_title }</a></td>
 									<td>${notice.writetime }</td>
 									<td>${notice.viewcount }</td>
 								</tr>
@@ -114,15 +123,16 @@
 	    </div>
 	    <%-- Table End --%>
 	    
+	    <%-- Write Button --%>
 	    <div class="container-fluid mt-0 pt-0 pb-5">
 	    	<div class="container col-lg-8 px-0">
 	    		<div class="d-flex justify-content-end">
-	    			<button class="btn btn-outline-primary float-right py-1" type="button" onclick="location.href='insertNoticeForm.adm'">문의글 작성</button>
+	    			<button class="btn btn-outline-primary float-right py-1" type="button" onclick="location.href='adminInsertNoticeForm.adm'">문의글 작성</button>
 	    		</div>
 	    	</div>
 	   	</div>
 	    
-	    
+	    	    
 	    <%-- Pagination Start --%>
 	    <div class="container-fluid mt-0 pt-0 pb-5">
 	    	<div class="container col-lg-4">
@@ -135,7 +145,7 @@
 								</a>	
 							</c:if>
 							<c:if test="${pageInfo.page > 1}">
-								<a class="page-link" href="adminNoticeList.adm?page=${pageInfo.page -1 }" aria-label="Previous">
+								<a class="page-link" href="userNoticeList.usr?page=${pageInfo.page -1 }" aria-label="Previous">
 									<span aria-hidden="true">&laquo;</span>
 								</a>	
 							</c:if>								
@@ -146,7 +156,7 @@
 								<li class="page-item active" aria-current="page"><a class="page-link">${pNum}</a></li>
 							</c:if>
 							<c:if test="${pNum ne pageInfo.page }">
-								<li class="page-item"><a class="page-link" href="adminNoticeList.adm?page=${pNum}">${pNum}</a></li>
+								<li class="page-item"><a class="page-link" href="userNoticeList.usr?page=${pNum}">${pNum}</a></li>
 							</c:if>
 						</c:forEach>
 						
@@ -157,7 +167,7 @@
 								</a>
 							</c:if>
 							<c:if test="${pageInfo.page < pageInfo.maxPage }">
-								<a class="page-link" href="adminNoticeList.adm?page=${pageInfo.page +1 }" aria-label="Next">
+								<a class="page-link" href="userNoticeList.usr?page=${pageInfo.page +1 }" aria-label="Next">
 									<span aria-hidden="true">&raquo;</span>
 								</a>
 							</c:if>							

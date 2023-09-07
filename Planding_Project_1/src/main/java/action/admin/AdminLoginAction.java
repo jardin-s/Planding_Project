@@ -108,7 +108,7 @@ public class AdminLoginAction implements Action {
 				session.setMaxInactiveInterval(1*60*60);//초단위 1시간 = 3600초	
 				
 				request.setAttribute("showAdmin", "admin/adminMain.jsp");//관리자 메인으로 이동
-				forward = new ActionForward("adminMainTemplate.jsp", false);
+				forward = new ActionForward("adminTemplate.jsp", false);
 			}						
 			
 		}

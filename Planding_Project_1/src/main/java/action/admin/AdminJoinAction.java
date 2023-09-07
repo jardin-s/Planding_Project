@@ -67,7 +67,7 @@ public class AdminJoinAction implements Action {
 			*/
 			
 			//방법-2 : 알림창을 띄우지 않음
-			forward = new ActionForward("loginForm.jsp", true);
+			forward = new ActionForward("adminLoginForm.adm", true);
 		}
 		
 		return forward;

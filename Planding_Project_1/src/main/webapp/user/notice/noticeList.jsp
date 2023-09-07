@@ -44,8 +44,8 @@
             <h3 class="display-6 text-white mb-5 animated slideInDown">공지사항</h3>
             <nav aria-label="breadcrumb animated slideInDown">
                 <ol class="breadcrumb justify-content-center mb-0">
-                    <li class="breadcrumb-item"><a href="#">메인</a></li>
-                    <li class="breadcrumb-item"><a href="#">고객센터</a></li>
+                    <li class="breadcrumb-item">메인</li>
+                    <li class="breadcrumb-item">고객센터</li>
                     <li class="breadcrumb-item active" aria-current="page">공지사항</li>
                 </ol>
             </nav>
@@ -88,13 +88,22 @@
 					<table class="table table-hover">
 						<thead>
 							<tr>
-								<th scope="col">번호</th>
-								<th scope="col">제목</th>
-								<th scope="col">날짜</th>
-								<th scope="col">조회수</th>
+								<th scope="col" class="col-1 text-center">#</th>
+								<th scope="col" class="col-8">제목</th>
+								<th scope="col" class="col-2">날짜</th>
+								<th scope="col" class="col-1">조회수</th>
 							</tr>
 						</thead>
 						<tbody class="table-group-divider">
+							<c:forEach var="noticeImp" items="${importantList}">
+								<tr>
+									<th scope="row"><i class="fas fa-exclamation"></i></th>
+									<td><a href="userNoticeView.usr?notice_id=${noticeImp.notice_id}&page=${pageInfo.page}">${noticeImp.n_title }</a></td>
+									<td>${noticeImp.writetime }</td>
+									<td>${noticeImp.viewcount }</td>
+								</tr>
+								<c:set var="n_index" value="${n_index -1 }"/>
+							</c:forEach>							
 							<c:forEach var="notice" items="${noticeList}">
 								<tr>
 									<th scope="row">${n_index}</th>
