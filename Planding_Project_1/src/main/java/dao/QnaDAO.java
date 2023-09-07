@@ -135,47 +135,8 @@ public class QnaDAO {
 		
 		return qnaList;
 	}
-
 	
-	/* 사용자 모드 ---------------------------------------------------------------------------*/
-	
-	//1. 회원이 문의사항 게시판 목록 조회
-	
-	//2. 회원이 문의 글 등록
-	public int insertNewQuestion(QnaBean qna) {
-		
-		int insertNewQuestionCount = 0;
-		
-		String sql = "insert into qna_tbl(member_id, q_title, q_content, q_image, q_private) values(?,?,?,?,?)";
-		
-		try {
-			
-			pstmt = con.prepareStatement(sql);
-			pstmt.setString(1, qna.getMember_id());
-			pstmt.setString(2, qna.getQ_title());
-			pstmt.setString(3, qna.getQ_content());
-			pstmt.setString(4, qna.getQ_image());
-			pstmt.setString(5, qna.getQ_private());
-			
-			insertNewQuestionCount = pstmt.executeUpdate();
-						
-		} catch(Exception e) {
-			System.out.println("[QnaDAO] insertNewQuestion() 에러 : "+e);//예외객체종류 + 예외메시지
-		} finally {
-			close(pstmt); //JdbcUtil.생략가능
-			//close(rs); //JdbcUtil.생략가능
-			//connection 객체에 대한 해제는 DogListService에서 이루어짐
-		}
-		
-		return insertNewQuestionCount;
-		
-	}
-
-	//3. 회원이 문의 글 수정
-	
-	//4. 회원이 문의 글 삭제
-	
-	//5. 회원이 특정 문의 글 조회
+	//3. 특정 문의 글 조회
 	public QnaBean selectQna(int qna_id) {
 		QnaBean qna = null;
 		
@@ -220,6 +181,65 @@ public class QnaDAO {
 		return qna;
 	}
 
+	
+	//4. 문의글 삭제
+	public int deleteQna(int qna_id) {
+		
+		int deleteQnaCount = 0;
+		
+		String sql = "delete from qna_tbl where qna_id=?";
+		
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, qna_id);
+			
+			deleteQnaCount = pstmt.executeUpdate();			
+						
+		} catch(Exception e) {
+			System.out.println("[QnaDAO] deleteQna() 에러 : "+e);//예외객체종류 + 예외메시지
+		} finally {
+			close(pstmt); //JdbcUtil.생략가능
+			//close(rs); //JdbcUtil.생략가능
+			//connection 객체에 대한 해제는 DogListService에서 이루어짐
+		}
+		
+		return deleteQnaCount;
+	}
+	
+	
+	/* 사용자 모드 ---------------------------------------------------------------------------*/
+	
+	//1. 회원이 문의 글 등록
+	public int insertNewQuestion(QnaBean qna) {
+		
+		int insertNewQuestionCount = 0;
+		
+		String sql = "insert into qna_tbl(member_id, q_title, q_content, q_image, q_private) values(?,?,?,?,?)";
+		
+		try {
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, qna.getMember_id());
+			pstmt.setString(2, qna.getQ_title());
+			pstmt.setString(3, qna.getQ_content());
+			pstmt.setString(4, qna.getQ_image());
+			pstmt.setString(5, qna.getQ_private());
+			
+			insertNewQuestionCount = pstmt.executeUpdate();
+						
+		} catch(Exception e) {
+			System.out.println("[QnaDAO] insertNewQuestion() 에러 : "+e);//예외객체종류 + 예외메시지
+		} finally {
+			close(pstmt); //JdbcUtil.생략가능
+			//close(rs); //JdbcUtil.생략가능
+			//connection 객체에 대한 해제는 DogListService에서 이루어짐
+		}
+		
+		return insertNewQuestionCount;
+		
+	}
+
+	//2. 회원이 문의글 수정 (이미지 수정X)
 	public int updateQuestion(QnaBean qna) {
 		int updateQuestionCount = 0;
 		
@@ -248,6 +268,7 @@ public class QnaDAO {
 		return updateQuestionCount;
 	}
 
+	//3. 회원이 문의글 수정 (이미지 수정)
 	public int updateQuestionImg(QnaBean qna) {
 		
 		int updateQuestionImgCount = 0;
@@ -277,64 +298,63 @@ public class QnaDAO {
 		return updateQuestionImgCount;
 	}
 
-	//문의글 삭제
-	public int deleteQna(int qna_id) {
-		
-		int deleteQnaCount = 0;
-		
-		String sql = "delete from qna_tbl where qna_id=?";
-		
-		try {
-			pstmt = con.prepareStatement(sql);
-			pstmt.setInt(1, qna_id);
-			
-			deleteQnaCount = pstmt.executeUpdate();			
-						
-		} catch(Exception e) {
-			System.out.println("[QnaDAO] deleteQna() 에러 : "+e);//예외객체종류 + 예외메시지
-		} finally {
-			close(pstmt); //JdbcUtil.생략가능
-			//close(rs); //JdbcUtil.생략가능
-			//connection 객체에 대한 해제는 DogListService에서 이루어짐
-		}
-		
-		return deleteQnaCount;
-	}
+	
 
 		
 	/* 관리자 모드 ---------------------------------------------------------------------------*/
 	
-	//1. 관리자가 문의사항 게시판 목록 조회
-	
-	//2. 관리자가 문의 글 답변 등록
-	public int insertNewAnswer(QnaBean qna) {
-		int insertNewAnswerCount = 0;
+	//1. 관리자가 문의 글 답변 등록
+	public int updateNewAnswer(QnaBean qna) {
+		int udpateNewAnswerCount = 0;
 		
-		//String sql = "udpate ";
+		String sql = "update qna_tbl"
+				  + " set a_content=?, a_time=current_timestamp"
+				  + " where qna_id=?";
 		
 		try {
 			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, qna.getA_content());
+			pstmt.setInt(2, qna.getQna_id());			
 			
+			udpateNewAnswerCount = pstmt.executeUpdate();
 			
 		} catch(Exception e) {
-			System.out.println("[QnaDAO] deleteQna() 에러 : "+e);//예외객체종류 + 예외메시지
+			System.out.println("[QnaDAO] updateNewAnswer() 에러 : "+e);//예외객체종류 + 예외메시지
 		} finally {
 			close(pstmt); //JdbcUtil.생략가능
 			//close(rs); //JdbcUtil.생략가능
 			//connection 객체에 대한 해제는 DogListService에서 이루어짐
 		}
 		
-		return insertNewAnswerCount;
+		return udpateNewAnswerCount;
 	}
 	
+	//2. 관리자가 답변 수정
+	public int updateAnswer(QnaBean qna) {
+		int udpateAnswerCount = 0;
 		
-	
-
-
-	//3. 관리자가 답변 수정
-	
-	//4. 관리자가 답변 삭제
-	
-	//5. 관리자가 특정 문의 글 조회
+		String sql = "update qna_tbl"
+				  + " set a_content=?"
+				  + " where qna_id=?";
+		
+		try {
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, qna.getA_content());
+			pstmt.setInt(2, qna.getQna_id());			
+			
+			udpateAnswerCount = pstmt.executeUpdate();
+			
+		} catch(Exception e) {
+			System.out.println("[QnaDAO] updateAnswer() 에러 : "+e);//예외객체종류 + 예외메시지
+		} finally {
+			close(pstmt); //JdbcUtil.생략가능
+			//close(rs); //JdbcUtil.생략가능
+			//connection 객체에 대한 해제는 DogListService에서 이루어짐
+		}
+		
+		return udpateAnswerCount;
+	}
 	
 }

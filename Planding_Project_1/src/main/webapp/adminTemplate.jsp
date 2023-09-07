@@ -33,6 +33,9 @@
 
     <!-- Template Stylesheet -->
     <link href="resources/css/style.css" rel="stylesheet">
+    
+    <!-- Customized Stylesheet -->
+    <link href="resources/css/customStyle.css" rel="stylesheet">
 </head>
 <body>
 

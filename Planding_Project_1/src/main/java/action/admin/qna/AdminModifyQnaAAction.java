@@ -11,6 +11,7 @@ import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
 import action.Action;
+import svc.admin.qna.AdminModifyQnaAService;
 import svc.user.qna.ModifyQnaQService;
 import vo.ActionForward;
 import vo.QnaBean;
@@ -22,51 +23,18 @@ public class AdminModifyQnaAAction implements Action {
 		
 		ActionForward forward = null;
 		
-		//이미지 파일을 업로드할 위치
-		ServletContext context = request.getServletContext();
-		String uploadPath = context.getRealPath("/qna/images");
-		System.out.println("서버상의 실제 경로(절대경로) = "+uploadPath);
-		
-		//업로드할 절대경로로 파일객체를 얻음
-		File dir = new File(uploadPath);
-		if (!dir.exists()) {//해당 경로(upload)가 존재하지 않으면
-			dir.mkdirs();//해당 위치(경로)에 upload 폴더를 만들어줌
-		}
-		
-		//한번에 올릴 수 있는 최대 파일용량 10MB 제한
-		int size = 10 * 1024 * 1024;
-		
-					
-		MultipartRequest multi = new MultipartRequest(request, uploadPath, size, "UTF-8", new DefaultFileRenamePolicy());
-		//request객체, 업로드위치, 최대용량, 파일명인코딩, 파일명 중복방지
-		
-		String page = multi.getParameter("page");
-
-		int qna_id = Integer.parseInt(multi.getParameter("qna_id"));
-		String member_id = multi.getParameter("member_id");
-		String q_title = multi.getParameter("q_title");
-		String q_content = multi.getParameter("q_content");
-		String q_private = multi.getParameter("q_private");
-		
-		String q_image = multi.getFilesystemName("q_image");
+		int page = Integer.parseInt(request.getParameter("page"));
+		int qna_id = Integer.parseInt(request.getParameter("qna_id"));
+		String a_content = request.getParameter("a_content");
 		
 		QnaBean qna = new QnaBean();
 		qna.setQna_id(qna_id);
-		qna.setMember_id(member_id);
-		qna.setQ_title(q_title);
-		qna.setQ_content(q_content);
-		qna.setQ_private(q_private);
+		qna.setA_content(a_content);
 		
-		ModifyQnaQService qnaEditService = new ModifyQnaQService();
-		boolean isQnaModifySuccess = false; 
-		if(q_image.contains("/images/qna")) {//이미지 수정 X
-			isQnaModifySuccess = qnaEditService.updateQuestion(qna);
-		}else {//이미지 수정O
-			qna.setQ_image(q_image);
-			isQnaModifySuccess = qnaEditService.updateQuestionImg(qna);
-		}
+		AdminModifyQnaAService adminModifyQnaAService = new AdminModifyQnaAService();
+		boolean isQnaAModifySuccess = adminModifyQnaAService.updateAnswer(qna);
 		
-		if(!isQnaModifySuccess) {
+		if(!isQnaAModifySuccess) {
 			response.setContentType("text/html; charset=utf-8");
 			
 			PrintWriter out = response.getWriter();
@@ -76,7 +44,7 @@ public class AdminModifyQnaAAction implements Action {
 			out.println("</script>");
 		}else {
 			
-			forward = new ActionForward("qnaView.qna?page="+page+"&qna_id="+qna_id+"&q_private="+q_private, true);			
+			forward = new ActionForward("adminQnaView.adm?page="+page+"&qna_id="+qna_id, true);			
 			
 		}
 		

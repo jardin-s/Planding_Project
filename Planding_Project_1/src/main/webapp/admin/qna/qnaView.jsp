@@ -89,6 +89,7 @@ function deleteConfirm(page, qna_id){
                 	<p>${qnaInfo.a_content }</p>
                 	<hr class="mb-4">
                 	<div class="col-12 text-center mx-auto">
+                		<button class="btn btn-light" type="button" onclick="location.href='adminModifyQnaAForm.adm?page=${page}&qna_id=${qnaInfo.qna_id}'">답변 수정</button>
 						<button class="btn btn-light" type="button" onclick="deleteConfirm(${page},${qnaInfo.qna_id});">삭제</button>
                 		<button class="btn btn-light" onclick="location.href='adminQnaList.adm?page=${page}'">글 목록</button>
 					</div>
@@ -98,7 +99,7 @@ function deleteConfirm(page, qna_id){
 	    				<p class="text-center">아직 답변이 작성되지 않았습니다.</p>
 	    			</div>
 	    			<div class="col-12 text-center mx-auto">
-						<button class="btn btn-light" type="button" onclick="location.href='adminInsertQnaAForm.adm'">답변 작성</button>
+						<button class="btn btn-light" type="button" onclick="location.href='adminInsertQnaAForm.adm?page=${page}&qna_id=${qnaInfo.qna_id}'">답변 작성</button>
 						<button class="btn btn-light" type="button" onclick="deleteConfirm(${page},${qnaInfo.qna_id});">삭제</button>
                 		<button class="btn btn-light" onclick="location.href='adminQnaList.adm?page=${page}'">글 목록</button>
 					</div>

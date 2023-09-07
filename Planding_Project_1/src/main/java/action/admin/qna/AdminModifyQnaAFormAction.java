@@ -17,27 +17,29 @@ public class AdminModifyQnaAFormAction implements Action {
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ActionForward forward = null;
 		
+		int page = Integer.parseInt(request.getParameter("page"));
 		int qna_id = Integer.parseInt(request.getParameter("qna_id"));
-		String member_id = request.getParameter("member_id");
-		
+				
 		HttpSession session = request.getSession();
-		String u_id = (String) session.getAttribute("u_id");
+		String a_id = (String) session.getAttribute("a_id");
 		
-		if(!u_id.equals(member_id)) {
+		if(a_id == null) {//로그인이 풀린 상태라면
 			response.setContentType("text/html; charset=utf-8");
 			PrintWriter out = response.getWriter();
 			out.println("<script>");
-			out.println("alert('해당 글을 수정할 권한이 없습니다.');");
-			out.println("history.back();");
+			out.println("alert('해당 서비스는 로그인이 필요합니다.');");
+			out.println("location.href='adminLoginForm.adm';");
 			out.println("</script>");
 		}else {
 			
-			ModifyQnaQFormService qnaEditFormService = new ModifyQnaQFormService();
-			QnaBean qnaInfo = qnaEditFormService.getQnaInfo(qna_id);
+			//qna_id로 문의글 정보를 가져옴 (수정글에서 세팅을 위해)
+			ModifyQnaQFormService modifyQnaQFormService = new ModifyQnaQFormService();
+			QnaBean qnaInfo = modifyQnaQFormService.getQnaInfo(qna_id);
 			
+			request.setAttribute("page", page);
 			request.setAttribute("qnaInfo", qnaInfo);
-			request.setAttribute("showAdmin", "qna/modifyQnaAForm.jsp");
 			
+			request.setAttribute("showAdmin", "admin/qna/modifyQnaAForm.jsp");
 			forward = new ActionForward("userTemplate.jsp", false);
 		}
 		

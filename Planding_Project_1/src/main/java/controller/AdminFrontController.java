@@ -20,8 +20,8 @@ import action.admin.AdminUpdateAction;
 import action.admin.AdminUpdateFormAction;
 import action.admin.notice.AdminNoticeListAction;
 import action.admin.qna.AdminDeleteQnaAction;
-import action.admin.qna.AdminInsertNewQnaAAction;
-import action.admin.qna.AdminInsertNewQnaAFormAction;
+import action.admin.qna.AdminInsertQnaAAction;
+import action.admin.qna.AdminInsertQnaAFormAction;
 import action.admin.qna.AdminModifyQnaAAction;
 import action.admin.qna.AdminModifyQnaAFormAction;
 import action.admin.qna.AdminQnaListAction;
@@ -277,31 +277,8 @@ public class AdminFrontController extends HttpServlet {
 			}
  
 		}
-				
-		/*-- '문의글 쓰기 폼 보기' 요청 -> 처리 --------------------------------------*/
-		else if(command.equals("/adminInsertNewQnaAForm.adm")) {//'답변 쓰기 폼 보기' 요청
-			
-			action = new AdminInsertNewQnaAFormAction();
-
-			try {
-				forward = action.execute(request, response);
-			} catch(Exception e) {
-				e.printStackTrace();
-			}
-			
-		}
-		else if(command.equals("/adminInsertNewQnaAAction.adm")) {//'답변 등록' 요청
-			
-			action = new AdminInsertNewQnaAAction();
-
-			try {
-				forward = action.execute(request, response);
-			} catch(Exception e) {
-				e.printStackTrace();
-			}
-			
-		}
 		
+
 		/*-- '문의글 상세보기' 요청 -> 처리 --------------------------------------*/
 		else if(command.equals("/adminQnaView.adm")) {//'문의글 상세보기' 요청
 			
@@ -314,7 +291,30 @@ public class AdminFrontController extends HttpServlet {
 			}
 			
 		}
-		
+				
+		/*-- '답변 쓰기 폼 보기' 요청 -> 처리 --------------------------------------*/
+		else if(command.equals("/adminInsertNewQnaAForm.adm")) {//'답변 쓰기 폼 보기' 요청
+			
+			action = new AdminInsertQnaAFormAction();
+
+			try {
+				forward = action.execute(request, response);
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+			
+		}
+		else if(command.equals("/adminInsertQnaAAction.adm")) {//'답변 등록' 요청
+			
+			action = new AdminInsertQnaAAction();
+
+			try {
+				forward = action.execute(request, response);
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+			
+		}
 		
 		
 		/*-- '답글 수정 폼 보기' 요청 -> 처리 --------------------------------------*/

@@ -36,7 +36,7 @@ public class UserModifyQnaQFormAction implements Action {
 			QnaBean qnaInfo = qnaEditFormService.getQnaInfo(qna_id);
 			
 			request.setAttribute("qnaInfo", qnaInfo);
-			request.setAttribute("showPage", "qna/modifyQnaQForm.jsp");
+			request.setAttribute("showPage", "user/qna/modifyQnaQForm.jsp");
 			
 			forward = new ActionForward("userTemplate.jsp", false);
 		}

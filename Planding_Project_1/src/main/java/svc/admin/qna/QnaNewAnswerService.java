@@ -21,13 +21,13 @@ public class QnaNewAnswerService {
 		qnaDAO.setConnection(con);
 				
 		/*-------DAO의 해당 메서드를 호출하여 처리----------------------------------------------------*/
-		int insertNewAnswerCount = qnaDAO.insertNewAnswer(qna);
+		int updateNewAnswerCount = qnaDAO.updateNewAnswer(qna);
 		
-		boolean isWriteResult = false;
+		boolean isAnswerResult = false;
 		/*-------(insert, update, delete) 성공하면 commit(), 실패하면 rollback() 호출
 		 * 		 단, select는 이런 작업을 제외 ------------------*/
-		if(insertNewAnswerCount > 0) {
-			isWriteResult = true;
+		if(updateNewAnswerCount > 0) {
+			isAnswerResult = true;
 			commit(con);
 		}else {
 			rollback(con);
@@ -36,7 +36,7 @@ public class QnaNewAnswerService {
 		//4. 해제
 		close(con); //JdbcUtil. 생략(이유?import static 하여)
 		
-		return isWriteResult;
+		return isAnswerResult;
 	}
 	
 }

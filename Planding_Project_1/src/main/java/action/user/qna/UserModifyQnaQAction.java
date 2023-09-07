@@ -58,15 +58,15 @@ public class UserModifyQnaQAction implements Action {
 		qna.setQ_private(q_private);
 		
 		ModifyQnaQService qnaEditService = new ModifyQnaQService();
-		boolean isQnaModifySuccess = false; 
+		boolean isQnaQModifySuccess = false; 
 		if(q_image.contains("/images/qna")) {//이미지 수정 X
-			isQnaModifySuccess = qnaEditService.updateQuestion(qna);
+			isQnaQModifySuccess = qnaEditService.updateQuestion(qna);
 		}else {//이미지 수정O
 			qna.setQ_image(q_image);
-			isQnaModifySuccess = qnaEditService.updateQuestionImg(qna);
+			isQnaQModifySuccess = qnaEditService.updateQuestionImg(qna);
 		}
 		
-		if(!isQnaModifySuccess) {
+		if(!isQnaQModifySuccess) {
 			response.setContentType("text/html; charset=utf-8");
 			
 			PrintWriter out = response.getWriter();
@@ -76,7 +76,7 @@ public class UserModifyQnaQAction implements Action {
 			out.println("</script>");
 		}else {
 			
-			forward = new ActionForward("qnaView.qna?page="+page+"&qna_id="+qna_id+"&q_private="+q_private, true);			
+			forward = new ActionForward("userQnaView.usr?page="+page+"&qna_id="+qna_id+"&q_private="+q_private, true);			
 			
 		}
 		

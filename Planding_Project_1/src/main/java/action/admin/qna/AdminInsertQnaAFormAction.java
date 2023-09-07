@@ -7,27 +7,39 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import action.Action;
+import svc.qna.QnaViewService;
 import vo.ActionForward;
+import vo.QnaBean;
 
-public class AdminInsertNewQnaAFormAction implements Action {
+public class AdminInsertQnaAFormAction implements Action {
 
 	@Override
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ActionForward forward = null;
 		
 		HttpSession session = request.getSession();
-		String u_id = (String) session.getAttribute("u_id");
+		String a_id = (String) session.getAttribute("a_id");
 		
-		if(u_id == null) {//만약 로그인 안 된 상태라면
+		if(a_id == null) {//만약 로그인 안 된 상태라면
 			response.setContentType("text/html; charset=utf-8");
 			PrintWriter out = response.getWriter();
 			out.println("<script>");			
 			out.println("alert('해당 서비스는 로그인이 필요합니다.');");
-			out.println("history.back();");			
-			out.println("</script>");			
+			out.println("location.href='adminLoginForm.adm';");			
+			out.println("</script>");		
 		
-		}else {//로그인 된 상태면 글쓰기 폼으로 이동
+		}else {//로그인 된 상태면 답변쓰기 폼으로 이동
 		
+			int qna_id = Integer.parseInt(request.getParameter("qna_id"));
+			int page = Integer.parseInt(request.getParameter("page"));
+			
+			//qna_id로 문의글을 가져옴
+			QnaViewService qnaViewService = new QnaViewService();
+			QnaBean qnaInfo = qnaViewService.getQnaInfo(qna_id);
+			
+			request.setAttribute("qnaInfo", qnaInfo);
+			request.setAttribute("page", page);
+			
 			request.setAttribute("showAdmin", "admin/qna/insertNewAForm.jsp");
 			forward = new ActionForward("adminTemplate.jsp", false);
 			

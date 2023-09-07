@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-
-<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>    
+    
 <!DOCTYPE html>
 <html>
 <head>
@@ -38,10 +37,11 @@
 <script type="text/javascript">
 
 function qnaFormCheck(){
-		
-	if(document.f.q_content == ''){
-		alert('내용을 입력해주세요.')
-		document.f.q_content.focus();
+	
+	//내용 데이터 유효성 검사
+	if(document.f.a_content.value == ''){
+		alert('답변을 입력해주세요.')
+		document.f.a_content.focus();
 		return false;
 	}
 	
@@ -55,19 +55,14 @@ function qnaFormCheck(){
 	
 	<!-- Main Section -->
 	<!-- Page Header Start -->
-    <div class="container-fluid page-header py-5 mb-5 wow fadeIn" data-wow-delay="0.1s">
+    <div class="container-fluid py-5 mb-5 wow fadeIn" data-wow-delay="0.1s" style="background-color:#86B381">
         <div class="container text-center py-5">
-            <h3 class="display-6 text-white mb-5 animated slideInDown">문의사항</h3>
-            <nav aria-label="breadcrumb animated slideInDown">
-                <ol class="breadcrumb justify-content-center mb-0">
-                    <li class="breadcrumb-item"><a href="#">메인</a></li>
-                    <li class="breadcrumb-item"><a href="#">고객센터</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">문의사항</li>
-                </ol>
-            </nav>
+            <h3 class="display-6 text-white animated slideInDown">문의사항</h3>
+            <p class="mb-4">회원 문의사항에 답변 등록</p>
         </div>
     </div>
     <!-- Page Header End -->
+
 
     <!-- Table Start -->
     <div class="container-fluid py-4 mb-5">
@@ -92,20 +87,20 @@ function qnaFormCheck(){
                 </c:if>
                 <hr class="mb-5">
                 
-                <form action="adminModifyQnaAAction.adm" method="post" name="f" enctype="multipart/form-data">
-					<input type="hidden" name="page" value="${page}">
+                <form action="adminInsertQnaAAction.adm" method="post" name="f" enctype="multipart/form-data">
 					<input type="hidden" name="qna_id" value="${qnaInfo.qna_id}">
+					<input type="hidden" name="page" value="${page}">
 					<div class="input-group mb-2">
-						<textarea name="a_content" value="${qnaInfo.a_content }" class="form-control" placeholder="답변을 입력하세요." aria-label="a_content" rows="10"></textarea>
+						<textarea name="a_content" class="form-control" placeholder="답변을 입력하세요." aria-label="a_content" rows="10"></textarea>
 					</div>
 					<div class="col-12 text-center">
-						<button type="submit" class="btn btn-primary" onclick="qnaFormCheck(); return false;">답변 수정</button>
+						<button type="submit" class="btn btn-primary" onclick="qnaFormCheck(); return false;">답변 등록</button>
 					</div>
 				</form>
 			</div>
         </div>		
     </div>   
-    <!-- Table End -->    
+    <!-- Table End -->   
 		
 	    
     <!-- JavaScript Libraries -->
