@@ -92,11 +92,11 @@ function qnaFormCheck(){
                 </c:if>
                 <hr class="mb-5">
                 
-                <form action="adminModifyQnaAAction.adm" method="post" name="f" enctype="multipart/form-data">
+                <form action="adminModifyQnaAAction.adm" method="post" name="f">
 					<input type="hidden" name="page" value="${page}">
 					<input type="hidden" name="qna_id" value="${qnaInfo.qna_id}">
 					<div class="input-group mb-2">
-						<textarea name="a_content" value="${qnaInfo.a_content }" class="form-control" placeholder="답변을 입력하세요." aria-label="a_content" rows="10"></textarea>
+						<textarea name="a_content" class="form-control" aria-label="a_content" rows="10">${qnaInfo.a_content}</textarea>
 					</div>
 					<div class="col-12 text-center">
 						<button type="submit" class="btn btn-primary" onclick="qnaFormCheck(); return false;">답변 수정</button>

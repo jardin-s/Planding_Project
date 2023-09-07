@@ -51,9 +51,13 @@
 		                    <canvas id="myChart" width="100%" height="50px"></canvas>
 		                </div>
 		                <!-- 가입 회원수 -->
-		                <div class="col-6 text-center align-items-center">
-		                	<h1 class="display-4 text-white" data-toggle="counter-up">1234</h1>
-		                	<span class="fs-5 fw-semi-bold text-dark">가입 회원 수</span>
+		                <div class="col-6">
+		                	<div class="d-flex align-items-center">
+		                		<div class="row justify-content-center text-center">
+				                	<h1 class="display-4 text-white" data-toggle="counter-up">1234</h1>
+				                	<h5 class="fs-5 fw-semi-bold text-dark">가입 회원 수</h5>
+			                	</div>
+		                	</div>
 		                </div>
 	                </div>
                 </div>

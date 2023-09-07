@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -87,7 +88,7 @@ function qnaFormCheck(){
                 </c:if>
                 <hr class="mb-5">
                 
-                <form action="adminInsertQnaAAction.adm" method="post" name="f" enctype="multipart/form-data">
+                <form action="adminInsertQnaAAction.adm" method="post" name="f">
 					<input type="hidden" name="qna_id" value="${qnaInfo.qna_id}">
 					<input type="hidden" name="page" value="${page}">
 					<div class="input-group mb-2">

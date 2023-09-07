@@ -20,7 +20,7 @@ public class AdminInsertQnaAFormAction implements Action {
 		HttpSession session = request.getSession();
 		String a_id = (String) session.getAttribute("a_id");
 		
-		if(a_id == null) {//만약 로그인 안 된 상태라면
+		if(a_id == null) {//만약 로그인 풀린 상태라면
 			response.setContentType("text/html; charset=utf-8");
 			PrintWriter out = response.getWriter();
 			out.println("<script>");			
@@ -33,6 +33,10 @@ public class AdminInsertQnaAFormAction implements Action {
 			int qna_id = Integer.parseInt(request.getParameter("qna_id"));
 			int page = Integer.parseInt(request.getParameter("page"));
 			
+			System.out.println("[AdminInsertQnaAFormAction] 파라미터값");
+			System.out.println("qna_id = "+qna_id);
+			System.out.println("page = "+page);
+			
 			//qna_id로 문의글을 가져옴
 			QnaViewService qnaViewService = new QnaViewService();
 			QnaBean qnaInfo = qnaViewService.getQnaInfo(qna_id);
@@ -40,7 +44,7 @@ public class AdminInsertQnaAFormAction implements Action {
 			request.setAttribute("qnaInfo", qnaInfo);
 			request.setAttribute("page", page);
 			
-			request.setAttribute("showAdmin", "admin/qna/insertNewAForm.jsp");
+			request.setAttribute("showAdmin", "admin/qna/insertQnaAForm.jsp");
 			forward = new ActionForward("adminTemplate.jsp", false);
 			
 		}

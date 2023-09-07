@@ -40,7 +40,7 @@ public class AdminModifyQnaAFormAction implements Action {
 			request.setAttribute("qnaInfo", qnaInfo);
 			
 			request.setAttribute("showAdmin", "admin/qna/modifyQnaAForm.jsp");
-			forward = new ActionForward("userTemplate.jsp", false);
+			forward = new ActionForward("adminTemplate.jsp", false);
 		}
 		
 		return forward;

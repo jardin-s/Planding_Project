@@ -293,7 +293,7 @@ public class AdminFrontController extends HttpServlet {
 		}
 				
 		/*-- '답변 쓰기 폼 보기' 요청 -> 처리 --------------------------------------*/
-		else if(command.equals("/adminInsertNewQnaAForm.adm")) {//'답변 쓰기 폼 보기' 요청
+		else if(command.equals("/adminInsertQnaAForm.adm")) {//'답변 쓰기 폼 보기' 요청
 			
 			action = new AdminInsertQnaAFormAction();
 

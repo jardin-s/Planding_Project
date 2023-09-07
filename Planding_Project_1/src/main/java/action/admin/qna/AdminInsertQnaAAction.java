@@ -4,12 +4,8 @@ import java.io.File;
 import java.io.PrintWriter;
 import java.util.Enumeration;
 
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import com.oreilly.servlet.MultipartRequest;
-import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
 import action.Action;
 import svc.admin.qna.QnaNewAnswerService;
@@ -25,6 +21,11 @@ public class AdminInsertQnaAAction implements Action {
 		int page = Integer.parseInt(request.getParameter("page"));
 		int qna_id = Integer.parseInt(request.getParameter("qna_id"));
 		String a_content = request.getParameter("a_content");
+		
+		System.out.println("[AdminInsertQnaAAction] 파라미터값");
+		System.out.println("page = "+page);
+		System.out.println("qna_id = "+qna_id);
+		System.out.println("a_content = "+a_content);
 		
 		QnaBean qna = new QnaBean();
 		qna.setQna_id(qna_id);

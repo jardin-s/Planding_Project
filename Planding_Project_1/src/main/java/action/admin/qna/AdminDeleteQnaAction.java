@@ -20,26 +20,25 @@ public class AdminDeleteQnaAction implements Action {
 		//파라미터값
 		int page = Integer.parseInt(request.getParameter("page"));
 		int qna_id =  Integer.parseInt(request.getParameter("qna_id"));
-		String member_id =  request.getParameter("member_id");
 		
 		System.out.println("[DeleteQnaAction] 파라미터값");
 		System.out.println("page="+page);
 		System.out.println("qna_id="+qna_id);
-		System.out.println("member_id="+member_id);
 		
 		HttpSession session = request.getSession();
 		String a_id= (String) session.getAttribute("a_id");
 		
-		if(!a_id.equals(member_id)) {
+		if(a_id == null) {//관리자 로그인이 풀린 상태라면
 			response.setContentType("text/html; charset=utf-8");
 			
 			PrintWriter out = response.getWriter();
 			out.println("<script>");
-			out.println("alert('해당 글을 삭제할 권한이 없습니다.');");
-			out.println("history.back();");
+			out.println("alert('해당 서비스는 로그인이 필요합니다.');");
+			out.println("adminLoginForm.adm;");
 			out.println("</script>");
 		}else {
 			
+			//qna_id로 글 삭제
 			DeleteQnaService deleteQnaService = new DeleteQnaService();
 			boolean isDeleteQnaSuccess = deleteQnaService.deleteQna(qna_id);
 			
@@ -54,7 +53,7 @@ public class AdminDeleteQnaAction implements Action {
 				out.println("</script>");			
 			}else {
 				
-				forward = new ActionForward("qnaList.qna?page="+page, true);
+				forward = new ActionForward("adminQnaList.adm?page="+page, true);
 				
 			}
 		}
