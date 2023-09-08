@@ -15,7 +15,7 @@ public class AdminDeleteService {
 	//기본생성자
 	
 	//메서드
-	//1. 회원 가입
+	//1. 회원 탈퇴
 	public boolean adminDelete(String id){
 		
 		//1. 커넥션 풀에서 Connection객체를 얻어와

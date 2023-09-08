@@ -55,6 +55,21 @@ public class MemberBean {
 	}
 	
 
+	//회원목록 조회시 사용
+	public MemberBean(String member_id, String name, String email, String phone, int account,
+			String joindate, String delete_status, String deletedate) {
+		super();
+		this.member_id = member_id;
+		this.name = name;
+		this.email = email;
+		this.phone = phone;
+		this.account = account;
+		this.joindate = joindate;
+		this.delete_status = delete_status;
+		this.deletedate = deletedate;
+	}
+	
+
 	/* 
 	 * 매개변수가 있는 생성자 : 암호화방법-2
 	 * password 암호화O -> DAO에서 insert

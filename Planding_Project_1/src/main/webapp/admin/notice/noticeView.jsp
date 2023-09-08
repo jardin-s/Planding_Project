@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -61,20 +63,23 @@ function deleteConfirm(page, notice_id){
 				<table class="table">
 					<thead>
 						<tr>
-							<th colspan="3"><h3>공지사항 제목</h3></th>							
+							<th colspan="3"><h3>${noticeInfo.n_title }</h3></th>							
 						</tr>
 					</thead>
 					<tbody>
 						<tr>
-							<td class="col-7 col-lg-8 col-xl-9"></td>
-							<td class="col-3 col-lg-2 col-xl-2">작성시간</td>
-							<td class="col-2 col-lg-2 col-xl-1">조회수</td>
+							<td class="col-6 col-md-7 col-xl-8 col-xxl-9"></td>
+							<td colspan="2" class="col-6 col-md-5 col-xl-4 col-xxl-3 text-end">${noticeInfo.writetime } | 조회수 ${noticeInfo.viewcount }</td>
 						</tr>
+						<c:if test="${noticeInfo.n_image ne null }">
+							<tr>
+								<td colspan="3">
+									<img src="${pageContext.request.contextPath}/images/notice/${noticeInfo.n_image}">		
+								</td>
+							</tr>
+						</c:if>							
 						<tr>
-							<td colspan="3">공지사항 이미지</td>
-						</tr>
-						<tr>
-							<td colspan="3">공지사항 내용</td>
+							<td colspan="3">${noticeInfo.n_content }</td>
 						</tr>
 					</tbody>
 				</table>    
