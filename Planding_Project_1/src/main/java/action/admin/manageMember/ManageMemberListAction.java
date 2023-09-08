@@ -1,6 +1,9 @@
 package action.admin.manageMember;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -29,20 +32,60 @@ public class ManageMemberListAction implements Action {
 		}
 		
 		
-		/* member 테이블에서 글을 가져옴 */
-		ManageMemberListService manageMemberListService = new ManageMemberListService();
+		/* < 회원 조회하는 경우 >
+		 * 1. 아무 조건도 없이 조회하는 경우 (기본값 '최근 가입한 회원순')
+		 * 2. 정렬기준으로 조회하는 경우 (선택한 정렬기준 selectOrder로 넘어온 파라미터값으로 정렬)
+		 * 3. 검색하여 조회하는 경우 (입력한 id값으로 검색하여 정렬)
+		 */
 		
-		//member_tbl에서 관리자가 아닌 회원 수를 얻어옴
-		int listCount = manageMemberListService.getMemberCount();
+		//1. member 테이블에서 글을 가져옴 
+		ManageMemberListService manageMemberListService = new ManageMemberListService();
+				
+		String order = request.getParameter("selectOrder");//정렬기준 선택하여 조회할 경우
+		String search_id = request.getParameter("member_id");//아이디로 검색하여 조회할 경우
+		
+		int listCount = 0;
+		ArrayList<MemberBean> memberList = null;
+		if(order == null && search_id == null) {//정렬기준X,검색X (그냥 처음 조회)
+			//member_tbl에서 관리자가 아닌 회원 수를 얻어옴
+			listCount = manageMemberListService.getMemberCount();
+			
+			//회원목록을 얻어옴 (기본값 : 최근 가입순)
+			memberList = manageMemberListService.getMemberList(page, limit);
+		}else if(order != null && search_id == null) {//정렬기준 선택. 검색X
+			//member_tbl에서 관리자가 아닌 회원 수를 얻어옴
+			listCount = manageMemberListService.getMemberCount();
+			
+			//정렬기준에 따른 회원목록을 얻어옴
+			memberList = manageMemberListService.getOrderMemberList(order, page, limit);
+		}else if(order == null && search_id != null) {//정렬기준X. 검색O
+			//검색기준에 따른 회원 수를 얻어옴
+			listCount = manageMemberListService.getSearchMemberCount(search_id);
+			
+			//검색기준에 따른 회원목록을 얻어옴
+			memberList = manageMemberListService.getSearchMemberList(page, limit, search_id);
+		}
 		
 		System.out.println("[AdminManageMemberListAction] member_tbl 총 회원 수 = "+listCount);
-		
-		ArrayList<MemberBean> memberList = manageMemberListService.getMemberList(page, limit);//원하는 페이지넘버의 원하는개수만큼 글을 가져옴
 		
 		request.setAttribute("memberList", memberList);
 		
 		
-		/* 페이지네이션 */
+		//2. 정렬기준에 출력할 해쉬맵저장
+		HashMap<String, String> orderMap = new HashMap<>();
+		orderMap.put("member_id desc", "역가나다순");
+		orderMap.put("member_id asc", "가나다순");
+		orderMap.put("joindate asc", "오래된 가입순");
+		orderMap.put("joindate desc", "최근 가입순");
+		orderMap.put("none", "-- 정렬기준 --");
+		request.setAttribute("orderMap", orderMap);
+		
+		if(order != null) {
+			request.setAttribute("orderKeyword", order);
+		}
+		
+		
+		//3. 페이지네이션 설정
 		int maxPage = (int) ((double)listCount/limit + 0.95); //최대 페이지 수
 		//(0.95를 더해 올림 -> 나눗셈 결과가 0 또는 1이 아니면 무조건 올림효과 발생)
 		
@@ -70,7 +113,7 @@ public class ManageMemberListAction implements Action {
 		request.setAttribute("pageInfo", pageInfo);
 		
 		
-		request.setAttribute("showAdmin", "admin/manageMemeber/manageMemberList.jsp");
+		request.setAttribute("showAdmin", "admin/manageMember/manageMemberList.jsp");
 		forward = new ActionForward("adminTemplate.jsp", false);
 		
 		return forward;

@@ -69,7 +69,7 @@ ActionForward forward = null;
 		request.setAttribute("pageInfo", pageInfo);
 		
 		
-		request.setAttribute("showAdmin", "admin/manageMemeber/undeletedMemberList.jsp");
+		request.setAttribute("showAdmin", "admin/manageMember/undeletedMemberList.jsp");
 		forward = new ActionForward("adminTemplate.jsp", false);
 		
 		return forward;

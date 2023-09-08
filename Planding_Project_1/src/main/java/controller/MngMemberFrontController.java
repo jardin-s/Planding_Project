@@ -20,6 +20,7 @@ import action.admin.account.AdminUpdateAction;
 import action.admin.account.AdminUpdateFormAction;
 import action.admin.manageMember.DeletedMemberListAction;
 import action.admin.manageMember.ManageMemberListAction;
+import action.admin.manageMember.OrderMemberListAction;
 import action.admin.manageMember.SearchMemberListAction;
 import action.admin.manageMember.UndeletedMemberListAction;
 import action.admin.notice.AdminDeleteNoticeAction;
@@ -95,7 +96,7 @@ public class MngMemberFrontController extends HttpServlet {
 		Action action = null;
 		ActionForward forward = null;
 		
-		System.out.println("[Admin]command : "+command);//어떤 요청인지 확인하기 위해 콘솔에 출력
+		System.out.println("[MngMember]command : "+command);//어떤 요청인지 확인하기 위해 콘솔에 출력
 		
 		if(command.equals("/adminMain.adm")) {//'index.jsp'에서 사용자모드 뷰페이지(adminMain.jsp) 보기 요청이면
 			request.setAttribute("showAdmin", "admin/adminMain.jsp");//어느 폼 보기인지 showAdmin이름 속성으로 저장
@@ -108,7 +109,10 @@ public class MngMemberFrontController extends HttpServlet {
 		/***************************************************************************************
 		 * 회원관리
 		 ***************************************************************************************/
-		/*-- '회원관리 페이지 보기' 요청 --------------------------------------*/
+		
+		/*-- 회원목록보기 -------------------------------------------------------------------------*/
+		
+		/*-- '회원관리 페이지 보기 (전체회원 목록) ' 요청 --------------------------------------*/
 		else if(command.equals("/manageMemberList.mngm")) {//회원관리 페이지 보기 요청
 			
 			action = new ManageMemberListAction();
@@ -182,6 +186,21 @@ public class MngMemberFrontController extends HttpServlet {
 			
 		}
 		
+		
+		/*-- '정렬기준에 맞는 회원목록 보기' 요청 --------------------------------------*/
+		else if(command.equals("/orderMemberList.mngm")) {//미탈퇴회원목록 보기 요청
+			
+			action = new OrderMemberListAction();
+			
+			try {
+				forward = action.execute(request, response);
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+			
+		}
+		
+		/*-- '특정 회원 삭제' --*/
 
 		
 		/***********************************************************

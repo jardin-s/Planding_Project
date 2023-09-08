@@ -37,6 +37,16 @@
 
 <script type="text/javascript">
 
+function changeOrder() {
+	
+	let selectedValue = document.getElementById("selectOrder").value;
+	
+	if(selectedValue != ''){
+		document.forder.submit();
+	}
+	
+}
+
 function searchMemberList() {
 	
 	let search_id = document.getElementById("member_id").value;
@@ -61,8 +71,8 @@ function searchMemberList() {
             <div class="row justify-content-center">
 	            <ul class="col-12 col-lg-8 nav nav-pills justify-content-center mt-4 mb-0">
 					<li class="col-4 nav-item"><a class="nav-link active fw-bold" aria-current="page" href="#">전체 회원</a></li>
-					<li class="col-4 nav-item"><a class="nav-link text-white" href="undeletedMemberList.adm">미탈퇴 회원</a></li>
-					<li class="col-4 nav-item"><a class="nav-link text-white" href="deletedMemberList.adm">탈퇴 회원</a></li>
+					<li class="col-4 nav-item"><a class="nav-link text-white" href="undeletedMemberList.mngm">미탈퇴 회원</a></li>
+					<li class="col-4 nav-item"><a class="nav-link text-white" href="deletedMemberList.mngm">탈퇴 회원</a></li>
 	            </ul>
             </div>
         </div>
@@ -85,29 +95,30 @@ function searchMemberList() {
 	    <%-- Search Tab Start --%>
 	    <div class="container-fluid pt-4 pb-3">
 	    	<div class="container col-lg-8 px-0">
-				<div class="row">
-	    			<div class="col-4 col-md-3 col-xl-2">
-	    				<div class="d-flex justify-content-start">
-			    			<select class="form-select py-1" name="selectOrder" id="selectOrder" aria-label="selectOrder">
-								<option selected>-- 정렬조건 --</option>
-								<option value="joindate_desc">최근 회원순</option>
-								<option value="joindate_asc">오래된 회원순</option>
-								<option value="high_donation">높은 펀딩액 순</option>
-								<option value="row_donation">낮은 펀딩액 순</option>
-							</select>
-						</div>
-	    			</div>
-	    			
-	    			<form action="searchMemberList.adm" method="post" name="fsearch">
-		    			<div class="col auto">
-			    			<div class="d-flex justify-content-end">
+	    		<div class="row">
+					<div class="col-4 col-md-3 col-xl-2">
+						<div class="d-flex justify-content-start">
+							<form action="orderMemberList.mngm" method="post" name="forder">
+				    			<select class="form-select py-1" name="selectOrder" id="selectOrder" aria-label="selectOrder" onchange="changeOrder()">
+									<option value="none" selected>-- 정렬조건 --</option>
+									<option value="joindate desc">최근 회원순</option>
+									<option value="joindate asc">오래된 회원순</option>
+									<option value="member_id asc">A-Z</option>
+									<option value="member_id desc">Z-A</option>
+								</select>
+							</form>
+		    			</div>
+		    		</div>
+		    		<div class="col auto">
+			    		<div class="d-flex justify-content-end">
+			    			<form action="searchMemberList.mngm" method="post" name="fsearch">
 				    			<div class="btn btn-outline-light py-1 px-2 me-1">
-					    			<input type="text" name="member_id" id="member_id" class="border-0" placeholder="아이디로 검색">
+					    			<input type="text" name="member_id" value="${search_id}" id="member_id" class="border-0" placeholder="아이디로 검색">
 					    			<a href="javascript:searchMemberList();"><i class="fas fa-search"></i></a>
 				    			</div>
-			    			</div>
+			    			</form>
 		    			</div>
-	    			</form>
+	    			</div>
     			</div>
 	    	</div>
 	    </div>
@@ -131,17 +142,17 @@ function searchMemberList() {
 							<c:forEach var="member" items="${memberList}">
 								<tr class="text-center">
 									<th class="d-none">
-										<c:if test="${member.deleted_status eq 'Y' }">
+										<c:if test="${member.delete_status eq 'Y' }">
 											<input type="checkbox" name="remove" value="${member.member_id}">
 										</c:if>
-										<c:if test="${member.deleted_status ne 'Y' }">
+										<c:if test="${member.delete_status ne 'Y' }">
 											<input type="checkbox" name="remove" value="" disabled>
 										</c:if>										
 									</th>
 									<th scope="row">${m_index}</th>
 									<td><a href="memberView.adm?member_id=${member.member_id}&page=${pageInfo.page}">${member.member_id }</a></td>
 									<td>${member.joindate }</td>
-									<td>${member.deleted_status }</td>
+									<td>${member.delete_status }</td>
 								</tr>
 								<c:set var="m_index" value="${m_index -1 }"/>
 							</c:forEach>

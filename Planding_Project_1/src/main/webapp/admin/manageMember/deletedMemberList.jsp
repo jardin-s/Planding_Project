@@ -37,6 +37,16 @@
 
 <script type="text/javascript">
 
+function changeOrder() {
+	
+	let selectedValue = document.getElementById("selectOrder").value;
+	
+	if(selectedValue != ''){
+		document.forder.submit();
+	}
+	
+}
+
 function searchMemberList() {
 	
 	let search_id = document.getElementById("member_id").value;
@@ -60,8 +70,8 @@ function searchMemberList() {
             <h3 class="display-6 pb-3 text-white animated slideInDown">회원관리</h3>
             <div class="row justify-content-center">
 	            <ul class="col-12 col-lg-8 nav nav-pills justify-content-center mt-4 mb-0">
-					<li class="col-4 nav-item"><a class="nav-link text-white" href="manageMemberList.adm">전체 회원</a></li>
-					<li class="col-4 nav-item"><a class="nav-link text-white" href="undeletedMemberList.adm">미탈퇴 회원</a></li>
+					<li class="col-4 nav-item"><a class="nav-link text-white" href="manageMemberList.mngm">전체 회원</a></li>
+					<li class="col-4 nav-item"><a class="nav-link text-white" href="undeletedMemberList.mngm">미탈퇴 회원</a></li>
 					<li class="col-4 nav-item"><a class="nav-link active fw-bold"  aria-current="page" href="#">탈퇴 회원</a></li>
 	            </ul>
             </div>
@@ -73,7 +83,7 @@ function searchMemberList() {
     	<div class="container-xxl py-5">
     		<div class="container col-10 col-md-6 col-lg-4">
     			<div class="col-12 mb-5">
-    				<p class="text-center">가입한 회원이 없습니다.</p>
+    				<p class="text-center">탈퇴한 회원이 없습니다.</p>
     			</div>
     		</div>
     	</div>
@@ -85,28 +95,30 @@ function searchMemberList() {
 	    <%-- Search Tab Start --%>
 	    <div class="container-fluid pt-4 pb-3">
 	    	<div class="container col-lg-8 px-0">
-				<div class="row">
-	    			<div class="col-4 col-md-3 col-xl-2">
-	    				<div class="d-flex justify-content-start">
-			    			<select class="form-select py-1" name="selectOrder" id="selectOrder" aria-label="selectOrder">
-								<option selected>-- 정렬조건 --</option>
-								<option value="joindate_desc">최근 회원순</option>
-								<option value="joindate_asc">오래된 회원순</option>
-								<option value="high_donation">높은 펀딩액 순</option>
-								<option value="row_donation">낮은 펀딩액 순</option>
-							</select>
-						</div>
-	    			</div>
-	    			<form action="searchDeletedMemberList.adm" method="post" name="fsearch">
-		    			<div class="col auto">
-			    			<div class="d-flex justify-content-end">
+	    		<div class="row">
+					<div class="col-4 col-md-3 col-xl-2">
+						<div class="d-flex justify-content-start">
+							<form action="orderDeletedMemberList.mngm" method="post" name="forder">
+				    			<select class="form-select py-1" name="selectOrder" id="selectOrder" aria-label="selectOrder" onchange="changeOrder()">
+									<option selected>-- 정렬조건 --</option>
+									<option value="joindate_desc">최근 회원순</option>
+									<option value="joindate_asc">오래된 회원순</option>
+									<option value="high_donation">높은 펀딩액 순</option>
+									<option value="row_donation">낮은 펀딩액 순</option>
+								</select>
+							</form>
+		    			</div>
+		    		</div>
+		    		<div class="col auto">
+			    		<div class="d-flex justify-content-end">
+			    			<form action="searchDeletedMemberList.mngm" method="post" name="fsearch">
 				    			<div class="btn btn-outline-light py-1 px-2 me-1">
 					    			<input type="text" name="member_id" id="member_id" class="border-0" placeholder="아이디로 검색">
 					    			<a href="javascript:searchMemberList();"><i class="fas fa-search"></i></a>
 				    			</div>
-			    			</div>
+			    			</form>
 		    			</div>
-	    			</form>
+	    			</div>
     			</div>
 	    	</div>
 	    </div>

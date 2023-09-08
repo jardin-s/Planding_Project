@@ -6,13 +6,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import action.Action;
-import svc.admin.manageMember.DeletedMemberListService;
 import svc.admin.manageMember.ManageMemberListService;
 import vo.ActionForward;
 import vo.MemberBean;
 import vo.PageInfo;
 
-public class DeletedMemberListAction implements Action {
+public class OrderMemberListAction implements Action {
 
 	@Override
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -27,17 +26,24 @@ ActionForward forward = null;
 			page = Integer.parseInt(request.getParameter("page"));
 		}
 		
-		String member_id = request.getParameter("member_id");
-		
 		/* member 테이블에서 글을 가져옴 */
-		DeletedMemberListService deleteMemberListService = new DeletedMemberListService();
+		ManageMemberListService manageMemberListService = new ManageMemberListService();
 		
-		//member_tbl에서 관리자가 아닌 탈퇴 회원 수를 얻어옴
-		int listCount = deleteMemberListService.getDeletedMemberCount();
+		//member_tbl에서 관리자가 아닌 회원 수를 얻어옴
+		int listCount = manageMemberListService.getMemberCount();
 		
-		System.out.println("[DeletedMemberListAction] member_tbl 총 탈퇴회원 수 = "+listCount);
+		System.out.println("[AdminManageMemberListAction] member_tbl 총 회원 수 = "+listCount);
 		
-		ArrayList<MemberBean> memberList = deleteMemberListService.getDeletedMemberList(page, limit);//원하는 페이지넘버의 원하는개수만큼 글을 가져옴
+		ArrayList<MemberBean> memberList = null;
+		
+		//정렬조건이 선택되어 있다면
+		if(!request.getParameter("selectOrder").equals("")) {
+			String order = request.getParameter("selectOrder");
+			memberList = manageMemberListService.getOrderMemberList(order, page, limit);//원하는 페이지넘버의 원하는개수만큼 글을 가져옴
+		}else {
+			memberList = manageMemberListService.getMemberList(page, limit);//원하는 페이지넘버의 원하는개수만큼 글을 가져옴
+		}	
+		
 		
 		request.setAttribute("memberList", memberList);
 		
@@ -69,7 +75,8 @@ ActionForward forward = null;
 		//페이지네이션 정보와 해당 페이지 글목록을 request속성으로 저장
 		request.setAttribute("pageInfo", pageInfo);
 		
-		request.setAttribute("showAdmin", "admin/manageMember/deletedMemberList.jsp");
+		
+		request.setAttribute("showAdmin", "admin/manageMember/manageMemberList.jsp");
 		forward = new ActionForward("adminTemplate.jsp", false);
 		
 		return forward;

@@ -67,9 +67,10 @@ ActionForward forward = null;
 		
 		//페이지네이션 정보와 해당 페이지 글목록을 request속성으로 저장
 		request.setAttribute("pageInfo", pageInfo);
+		request.setAttribute("search_id", member_id);
 		
 		
-		request.setAttribute("showAdmin", "admin/manageMemeber/manageMemberList.jsp");
+		request.setAttribute("showAdmin", "admin/manageMember/manageMemberList.jsp");
 		forward = new ActionForward("adminTemplate.jsp", false);
 		
 		return forward;
