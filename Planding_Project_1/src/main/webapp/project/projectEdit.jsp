@@ -131,9 +131,6 @@
 	String otherBankName=request.getParameter("otherBankName");
 	String category=request.getParameter("category");
 	%>
-	<div>
-		<jsp:include page="../userHeader.jsp" />
-	</div>
 
 	<div class="m-5">
 		<form action="insert_project.pj" method="post">
@@ -243,9 +240,6 @@
 			</div>
 		</form>
 
-	</div>
-	<div>
-		<jsp:include page="../userFooter.jsp" />
 	</div>
 
 	<!-- JavaScript Libraries -->

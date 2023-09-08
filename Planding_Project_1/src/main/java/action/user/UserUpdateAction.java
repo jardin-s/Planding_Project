@@ -51,7 +51,7 @@ public class UserUpdateAction implements Action {
 			out.println("alert('회원 수정이 완료되었습니다.');");
 			out.println("</script>");
 			
-			forward = new ActionForward("userView.usr", true);
+			forward = new ActionForward("userUpdateAction.usr", true);
 		}
 		
 		return forward;
