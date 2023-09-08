@@ -18,6 +18,10 @@ import action.admin.account.AdminLoginAction;
 import action.admin.account.AdminLogoutAction;
 import action.admin.account.AdminUpdateAction;
 import action.admin.account.AdminUpdateFormAction;
+import action.admin.manageMember.DeletedMemberListAction;
+import action.admin.manageMember.ManageMemberListAction;
+import action.admin.manageMember.SearchMemberListAction;
+import action.admin.manageMember.UndeletedMemberListAction;
 import action.admin.notice.AdminDeleteNoticeAction;
 import action.admin.notice.AdminInsertNoticeAction;
 import action.admin.notice.AdminInsertNoticeFormAction;
@@ -97,6 +101,13 @@ public class AdminFrontController extends HttpServlet {
 			request.setAttribute("showAdmin", "admin/adminMain.jsp");//어느 폼 보기인지 showAdmin이름 속성으로 저장
 			forward = new ActionForward("adminTemplate.jsp",false);
 		}
+		
+		
+		
+
+		/***************************************************************************************
+		 * 회원가입/로그인/계정관리
+		 ***************************************************************************************/
 		
 		/*-- '로그인 폼 보기' 요청 -> 처리 --------------------------------------*/
 		else if(command.equals("/adminLoginForm.adm")) {//'로그인 폼 보기' 요청이면
@@ -440,7 +451,11 @@ public class AdminFrontController extends HttpServlet {
 			}
 			
 		}
+		
+		
 
+				
+		
 
 		
 		/***********************************************************

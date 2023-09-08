@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-
+    
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>  
 <!DOCTYPE html>
 <html>
@@ -12,7 +12,7 @@
     <meta content="" name="description">
 
     <!-- Favicon -->
-    <link href="../resources/img/favicon.ico" rel="icon">
+    <link href="../../resources/img/favicon.ico" rel="icon">
 
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -24,23 +24,47 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
 
     <!-- Libraries Stylesheet -->
-    <link href="../resources/lib/animate/animate.min.css" rel="stylesheet">
-    <link href="../resources/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
-    <link href="../resources/lib/lightbox/css/lightbox.min.css" rel="stylesheet">
+    <link href="../../resources/lib/animate/animate.min.css" rel="stylesheet">
+    <link href="../../resources/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="../../resources/lib/lightbox/css/lightbox.min.css" rel="stylesheet">
 
     <!-- Customized Bootstrap Stylesheet -->
-    <link href="../resources/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../../resources/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Template Stylesheet -->
-    <link href="../resources/css/style.css" rel="stylesheet">
+    <link href="../../resources/css/style.css" rel="stylesheet">
 </head>
-<body>
+
+<script type="text/javascript">
+
+function searchMemberList() {
 	
+	let search_id = document.getElementById("member_id").value;
+	
+	if(search_id == ''){
+		alert('검색어를 입력하세요.');
+		return false;
+	}
+	
+	document.fsearch.submit();
+	
+}
+
+</script>
+
+<body>
 	<!-- Main Section -->
 	<!-- Page Header Start -->
-    <div class="container-fluid py-5 mb-5 wow fadeIn" data-wow-delay="0.1s" style="background-color:#86B381">
-        <div class="container text-center py-5">
-            <h3 class="display-6 text-white mb-4 animated slideInDown">공지사항</h3>
+    <div class="container-fluid pt-4 mb-5 wow fadeIn" data-wow-delay="0.1s" style="background-color:#86B381">
+        <div class="container text-center pt-5">
+            <h3 class="display-6 pb-3 text-white animated slideInDown">회원관리</h3>
+            <div class="row justify-content-center">
+	            <ul class="col-12 col-lg-8 nav nav-pills justify-content-center mt-4 mb-0">
+					<li class="col-4 nav-item"><a class="nav-link text-white" href="manageMemberList.adm">전체 회원</a></li>
+					<li class="col-4 nav-item"><a class="nav-link text-white" href="undeletedMemberList.adm">미탈퇴 회원</a></li>
+					<li class="col-4 nav-item"><a class="nav-link active fw-bold"  aria-current="page" href="#">탈퇴 회원</a></li>
+	            </ul>
+            </div>
         </div>
     </div>
     <!-- Page Header End -->
@@ -49,29 +73,41 @@
     	<div class="container-xxl py-5">
     		<div class="container col-10 col-md-6 col-lg-4">
     			<div class="col-12 mb-5">
-    				<p class="text-center">작성된 공지글이 없습니다.</p>
+    				<p class="text-center">가입한 회원이 없습니다.</p>
     			</div>
-    			<div class="col-12 text-center mx-auto mb-5">
-					<button class="btn btn-outline-primary py-1" type="button" onclick="location.href='adminInsertNoticeForm.adm'">공지글 작성</button>
-				</div>
     		</div>
     	</div>
     </c:if>
     
     <c:if test="${pageInfo.listCount != 0 }">
-    	<c:set var="n_index" value="${pageInfo.listCount - (pageInfo.page-1)*10 }" />
+    	<c:set var="m_index" value="${pageInfo.listCount - (pageInfo.page-1)*10 }" />
 	    
 	    <%-- Search Tab Start --%>
 	    <div class="container-fluid pt-4 pb-3">
 	    	<div class="container col-lg-8 px-0">
-	    		<div class="d-flex justify-content-end">
-					<form>
-		    			<div class="btn btn-outline-light py-1 px-2 me-1">
-			    			<input type="text" name="n_title" id="n_title" class="border-0 me-2" placeholder="제목으로 검색">
-			    			<a href="javascript:searchNoticeList();"><i class="fas fa-search"></i></a>
+				<div class="row">
+	    			<div class="col-4 col-md-3 col-xl-2">
+	    				<div class="d-flex justify-content-start">
+			    			<select class="form-select py-1" name="selectOrder" id="selectOrder" aria-label="selectOrder">
+								<option selected>-- 정렬조건 --</option>
+								<option value="joindate_desc">최근 회원순</option>
+								<option value="joindate_asc">오래된 회원순</option>
+								<option value="high_donation">높은 펀딩액 순</option>
+								<option value="row_donation">낮은 펀딩액 순</option>
+							</select>
+						</div>
+	    			</div>
+	    			<form action="searchDeletedMemberList.adm" method="post" name="fsearch">
+		    			<div class="col auto">
+			    			<div class="d-flex justify-content-end">
+				    			<div class="btn btn-outline-light py-1 px-2 me-1">
+					    			<input type="text" name="member_id" id="member_id" class="border-0" placeholder="아이디로 검색">
+					    			<a href="javascript:searchMemberList();"><i class="fas fa-search"></i></a>
+				    			</div>
+			    			</div>
 		    			</div>
-		    		</form>
-	    		</div>
+	    			</form>
+    			</div>
 	    	</div>
 	    </div>
 	    <%-- Search Tab End --%>
@@ -82,47 +118,30 @@
 	            <div class="row justify-content-center">
 					<table class="table table-hover">
 						<thead>
-							<tr>
-								<th scope="col" class="col-1 text-center">#</th>
-								<th scope="col" class="col-7">제목</th>
-								<th scope="col" class="col-2 text-center">날짜</th>
-								<th scope="col" class="col-2 text-center">조회수</th>
+							<tr class="text-center">
+								<th scope="col" class="col-1">#</th>
+								<th scope="col" class="col-auto">아이디</th>
+								<th scope="col" class="col-3">가입일자</th>
+								<th scope="col" class="col-3">탈퇴여부</th>
 							</tr>
 						</thead>
-						<tbody class="table-group-divider">
-							<c:forEach var="noticeImp" items="${importantList}">
-								<tr>
-									<th scope="row" class="text-center"><i class="fas fa-exclamation"></i></th>
-									<td><a href="adminNoticeView.adm?notice_id=${noticeImp.notice_id}&page=${pageInfo.page}">${noticeImp.n_title }</a></td>
-									<td class="text-center">${noticeImp.writetime }</td>
-									<td class="text-center">${noticeImp.viewcount }</td>
+						<tbody class="table-group-divider">						
+							<c:forEach var="member" items="${memberList}">
+								<tr class="text-center">
+									<th scope="row">${m_index}</th>
+									<td><a href="memberView.adm?member_id=${member.member_id}&page=${pageInfo.page}">${member.member_id }</a></td>
+									<td>${member.joindate }</td>
+									<td>${member.deleted_status }</td>
 								</tr>
-								<c:set var="n_index" value="${n_index -1 }"/>
-							</c:forEach>							
-							<c:forEach var="notice" items="${noticeList}">
-								<tr>
-									<th scope="row" class="text-center">${n_index}</th>
-									<td><a href="adminNoticeView.adm?notice_id=${notice.notice_id}&page=${pageInfo.page}">${notice.n_title }</a></td>
-									<td class="text-center">${notice.writetime }</td>
-									<td class="text-center">${notice.viewcount }</td>
-								</tr>
-								<c:set var="n_index" value="${n_index -1 }"/>
+								<c:set var="m_index" value="${m_index -1 }"/>
 							</c:forEach>
 						</tbody>
 					</table>
+					<hr>
 				</div>
 	        </div>		
 	    </div>
 	    <%-- Table End --%>
-	    
-	    <%-- Write Button --%>
-	    <div class="container-fluid mt-0 pt-0 pb-5">
-	    	<div class="container col-lg-8 px-0">
-	    		<div class="d-flex justify-content-end">
-	    			<button class="btn btn-outline-primary float-right py-1" type="button" onclick="location.href='adminInsertNoticeForm.adm'">공지글 작성</button>
-	    		</div>
-	    	</div>
-	   	</div>
 	    
 	    	    
 	    <%-- Pagination Start --%>
@@ -173,19 +192,20 @@
     </c:if>
     
     
+    
     <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="../resources/lib/wow/wow.min.js"></script>
-    <script src="../resources/lib/easing/easing.min.js"></script>
-    <script src="../resources/lib/waypoints/waypoints.min.js"></script>
-    <script src="../resources/lib/owlcarousel/owl.carousel.min.js"></script>
-    <script src="../resources/lib/counterup/counterup.min.js"></script>
-    <script src="../resources/lib/parallax/parallax.min.js"></script>
-    <script src="../resources/lib/isotope/isotope.pkgd.min.js"></script>
-    <script src="../resources/lib/lightbox/js/lightbox.min.js"></script>
+    <script src="../../resources/lib/wow/wow.min.js"></script>
+    <script src="../../resources/lib/easing/easing.min.js"></script>
+    <script src="../../resources/lib/waypoints/waypoints.min.js"></script>
+    <script src="../../resources/lib/owlcarousel/owl.carousel.min.js"></script>
+    <script src="../../resources/lib/counterup/counterup.min.js"></script>
+    <script src="../../resources/lib/parallax/parallax.min.js"></script>
+    <script src="../../resources/lib/isotope/isotope.pkgd.min.js"></script>
+    <script src="../../resources/lib/lightbox/js/lightbox.min.js"></script>
 
     <!-- Template Javascript -->
-    <script src="../resources/js/main.js"></script>
+    <script src="../../resources/js/main.js"></script>
 </body>
 </html>
