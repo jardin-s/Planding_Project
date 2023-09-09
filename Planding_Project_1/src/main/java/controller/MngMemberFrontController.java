@@ -18,7 +18,7 @@ import action.admin.account.AdminLoginAction;
 import action.admin.account.AdminLogoutAction;
 import action.admin.account.AdminUpdateAction;
 import action.admin.account.AdminUpdateFormAction;
-import action.admin.manageMember.DeletedMemberListAction;
+import action.admin.manageMember.DeletedOrderMemberListAction;
 import action.admin.manageMember.ManageMemberListAction;
 import action.admin.manageMember.OrderMemberListAction;
 import action.admin.manageMember.SearchMemberListAction;
@@ -139,7 +139,7 @@ public class MngMemberFrontController extends HttpServlet {
 		/*-- '탈퇴회원 목록만 보기' 요청 --------------------------------------*/
 		else if(command.equals("/deletedMemberList.mngm")) {//미탈퇴회원목록 보기 요청
 			
-			action = new DeletedMemberListAction();
+			action = new DeletedOrderMemberListAction();
 			
 			try {
 				forward = action.execute(request, response);

@@ -1,4 +1,4 @@
-package action.user.notice;
+package action.admin.manageMember;
 
 import java.util.ArrayList;
 
@@ -6,12 +6,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import action.Action;
-import svc.notice.NoticeListService;
+import svc.admin.manageMember.DeletedMemberListService;
+import svc.admin.manageMember.ManageMemberListService;
 import vo.ActionForward;
-import vo.NoticeBean;
+import vo.MemberBean;
 import vo.PageInfo;
 
-public class UserNoticeListAction implements Action {
+public class DeletedOrderMemberListAction implements Action {
 
 	@Override
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -19,7 +20,7 @@ public class UserNoticeListAction implements Action {
 		
 		//처음 요청할 경우 조회하는 페이지넘버 기본값 1
 		int page = 1;
-		int limit = 10;//한 페이지 당 최대 글 개수 10개
+		int limit = 20;//한 페이지 당 최대 회원 20명
 		
 		//페이지 넘버 클릭하여 조회하는 경우
 		if(request.getParameter("page") != null) {
@@ -27,27 +28,35 @@ public class UserNoticeListAction implements Action {
 		}
 		
 		
-		/* notice 테이블에서 글을 가져옴 */
-		NoticeListService noticeListService = new NoticeListService();
+		/* < 회원 조회하는 경우 >
+		 * 1. 아무 조건도 없이 조회하는 경우 (기본값 '최근 가입한 회원순')
+		 * 2. "정렬기준"으로 조회하는 경우 (선택한 정렬기준 selectOrder로 넘어온 파라미터값으로 정렬)
+		 * 3. 검색하여 조회하는 경우 (입력한 id값으로 검색하여 정렬)
+		 */
 		
-		int listCount = noticeListService.getListCount();//전체 글 개수를 얻어옴
-		System.out.println("[AdminNoticeListAction] notice_tbl의 전체 공지글 개수 = "+listCount);
-		
-		//중요공지사항 글의 개수를 알아냄
-		int importantCount = noticeListService.getImportantCount();
-		System.out.println("[AdminNoticeListAction] notice_tbl의 중요 공지글 개수 = "+importantCount);
-		
-		//중요공지글을 제외하고 한 페이지에 출력할 글의 개수 (10 - 중요글개수)
-		limit = limit - importantCount;
+		//1. member 테이블에서 글을 가져옴 
+		DeletedMemberListService deletedMemberListService = new DeletedMemberListService();
 				
-		//중요공지글을 얻어옴
-		ArrayList<NoticeBean> importantList = noticeListService.getImportantList();
+		String order = request.getParameter("selectOrder");//정렬기준 선택하여 조회할 경우
+		//선택한 기준으로 목록에 세팅되도록
+		request.setAttribute("orderKeyword", order);
 		
-		//원하는 페이지의 넘버의 원하는 개수만큼 글을 얻어옴
-		ArrayList<NoticeBean> noticeList = noticeListService.getNoticeList(page, limit);
+		//member_tbl에서 관리자가 아닌 회원 수를 얻어옴
+		int listCount = deletedMemberListService.getDeletedMemberCount();
+		System.out.println("[OrderMemberListAction] member_tbl 총 회원 수 = "+listCount);
+		
+		//정렬기준에 따른 회원목록을 얻어옴
+		ArrayList<MemberBean> memberList = deletedMemberListService.getOrderDeletedMemberList(order, page, limit);
+		request.setAttribute("memberList", memberList);
+				
 		
 		
-		/* 페이지네이션 */
+		//2. 정렬기준에 출력할 리스트(배열)
+		String[] orderArr = new String[] {"new", "old", "az", "za"};
+		request.setAttribute("orderArr", orderArr);	
+		
+		
+		//3. 페이지네이션 설정
 		int maxPage = (int) ((double)listCount/limit + 0.95); //최대 페이지 수
 		//(0.95를 더해 올림 -> 나눗셈 결과가 0 또는 1이 아니면 무조건 올림효과 발생)
 		
@@ -73,11 +82,10 @@ public class UserNoticeListAction implements Action {
 		
 		//페이지네이션 정보와 해당 페이지 글목록을 request속성으로 저장
 		request.setAttribute("pageInfo", pageInfo);
-		request.setAttribute("importantList", importantList);
-		request.setAttribute("noticeList", noticeList);
 		
-		request.setAttribute("showPage", "user/notice/noticeList.jsp");
-		forward = new ActionForward("userTemplate.jsp", false);
+		
+		request.setAttribute("showAdmin", "admin/manageMember/deleteOrderMemberList.jsp");
+		forward = new ActionForward("adminTemplate.jsp", false);
 		
 		return forward;
 	}

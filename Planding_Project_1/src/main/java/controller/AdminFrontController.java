@@ -18,7 +18,7 @@ import action.admin.account.AdminLoginAction;
 import action.admin.account.AdminLogoutAction;
 import action.admin.account.AdminUpdateAction;
 import action.admin.account.AdminUpdateFormAction;
-import action.admin.manageMember.DeletedMemberListAction;
+import action.admin.manageMember.DeletedOrderMemberListAction;
 import action.admin.manageMember.ManageMemberListAction;
 import action.admin.manageMember.SearchMemberListAction;
 import action.admin.manageMember.UndeletedMemberListAction;

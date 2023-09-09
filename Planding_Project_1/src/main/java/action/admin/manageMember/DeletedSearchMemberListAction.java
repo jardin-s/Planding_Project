@@ -12,7 +12,7 @@ import vo.ActionForward;
 import vo.MemberBean;
 import vo.PageInfo;
 
-public class DeletedMemberListAction implements Action {
+public class DeletedSearchMemberListAction implements Action {
 
 	@Override
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -36,17 +36,26 @@ public class DeletedMemberListAction implements Action {
 		
 		//[순서-1] member 테이블에서 글을 가져옴 
 		DeletedMemberListService deletedMemberListService = new DeletedMemberListService();
+				
+		String search_id = request.getParameter("member_id");//아이디로 검색하여 조회할 경우
+		//검색창에 검색키워드가 세팅되도록
+		request.setAttribute("search_id", search_id);
 		
-		//member_tbl에서 탈퇴회원 수를 얻어옴
-		int	listCount = deletedMemberListService.getDeletedMemberCount();
-		System.out.println("[DeletedMemberListAction] member_tbl 총 회원 수 = "+listCount);
+		//검색기준에 따른 회원 수를 얻어옴
+		int listCount = deletedMemberListService.getSearchDeletedMemberCount(search_id);
+		System.out.println("[DeletedSearchMemberListAction] member_tbl 총 회원 수 = "+listCount);
 		
-		//회원목록을 얻어옴 (기본값 : 최근 가입순)
-		ArrayList<MemberBean> memberList = deletedMemberListService.getDeletedMemberList(page, limit);
+		//검색기준에 따른 회원목록을 얻어옴
+		ArrayList<MemberBean> memberList = deletedMemberListService.getSearchDeletedMemberList(search_id, page, limit);
 		request.setAttribute("memberList", memberList);
 		
 		
-		//[순서-2] 페이지네이션 설정
+		//[순서-2] 정렬기준에 출력할 리스트(배열)
+		String[] orderArr = new String[] {"new", "old", "az", "za"};
+		request.setAttribute("orderArr", orderArr);	
+		
+		
+		//[순서-3] 페이지네이션 설정
 		int maxPage = (int) ((double)listCount/limit + 0.95); //최대 페이지 수
 		//(0.95를 더해 올림 -> 나눗셈 결과가 0 또는 1이 아니면 무조건 올림효과 발생)
 		

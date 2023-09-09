@@ -129,8 +129,13 @@ public class ManageMemberListService {
 		
 		
 		/*-------DAO의 해당 메서드를 호출하여 처리----------------------------------------------------*/
-		ArrayList<MemberBean> searchMemberList = manageMemberDAO.orderMemberList(order, page, limit);
+		ArrayList<MemberBean> searchMemberList = null;
 		
+		if(order.equals("new")) { searchMemberList = manageMemberDAO.orderNewMemberList(page, limit); }
+		if(order.equals("old")) { searchMemberList = manageMemberDAO.orderOldMemberList(page, limit); }
+		if(order.equals("az")) { searchMemberList = manageMemberDAO.orderAZMemberList(page, limit); }
+		if(order.equals("za")) { searchMemberList = manageMemberDAO.orderZAMemberList(page, limit); }
+				
 		/*-------(insert, update, delete) 성공하면 commit(), 실패하면 rollback() 호출
 		 * 		 단, select는 이런 작업을 제외 ------------------*/
 				

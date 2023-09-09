@@ -83,7 +83,7 @@ public class ManageMemberDAO {
 	public int searchMemberCount(String member_id) {
 		int searchMemberCount = 0;
 		
-		String sql = "select count(*) from member_tbl where admin_status = 'N' and member_id LIKE '%?%'";
+		String sql = "select count(*) from member_tbl where admin_status = 'N' and member_id regexp ?";
 		
 		try {
 			
@@ -243,7 +243,7 @@ public class ManageMemberDAO {
 				+ " DATE_FORMAT(deletedate,'%Y.%m.%d') as deletedate"
 				+ " from member_tbl"
 				+ " where admin_status = 'N'"
-				+ " and member_id LIKE '%?%'"
+				+ " and member_id regexp ?"
 				+ " order by joindate desc"
 				+ " limit ?, ?";
 		
@@ -411,7 +411,8 @@ public class ManageMemberDAO {
 
 	
 	//5. 선택한 기준에 따라 정렬된 전체 회원 목록 가져오기
-	public ArrayList<MemberBean> orderMemberList(String order, int page, int limit) {
+	//5-1. 최근가입일순
+	public ArrayList<MemberBean> orderNewMemberList(int page, int limit) {
 		ArrayList<MemberBean> memberList = null;
 		
 		int startrow = (page-1)*10;
@@ -427,13 +428,248 @@ public class ManageMemberDAO {
 				+ " DATE_FORMAT(deletedate,'%Y.%m.%d') as deletedate"
 				+ " from member_tbl"
 				+ " where admin_status = 'N'"
-				+ " order by ?"
+				+ " order by joindate desc"
 				+ " limit ?, ?";
 		
 		try {
 			
 			pstmt = con.prepareStatement(sql);
-			pstmt.setString(1, order);
+			pstmt.setInt(1, startrow);
+			pstmt.setInt(2, limit);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				
+				memberList = new ArrayList<>();
+				
+				do {
+					
+					memberList.add(new MemberBean(rs.getString("member_id"),
+												  rs.getString("name"),
+												  rs.getString("email"),
+												  rs.getString("phone"),
+												  rs.getInt("account"),
+												  rs.getString("joindate_F"),
+												  rs.getString("delete_status"),
+												  rs.getString("deletedate")
+												  )
+								  );
+					
+				}while(rs.next());
+				
+			}
+			
+		} catch(Exception e) {
+			System.out.println("[ManageMemberDAO] orderNewMemberList() 에러 : "+e);//예외객체종류 + 예외메시지
+		} finally {
+			close(pstmt); //JdbcUtil.생략가능
+			close(rs); //JdbcUtil.생략가능
+			//connection 객체에 대한 해제는 DogListService에서 이루어짐
+		}
+		
+		return memberList;
+	}
+	//5-2. 오래된 가입일순
+	public ArrayList<MemberBean> orderOldMemberList(int page, int limit) {
+		ArrayList<MemberBean> memberList = null;
+		
+		int startrow = (page-1)*10;
+		//1페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 0부터
+		//2페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 10부터
+		//3페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 20부터
+		
+		//(탈퇴회원도 포함) (관리자 제외)
+		String sql = "select member_id, name, email,"
+				+ " phone, account, admin_status,"
+				+ " DATE_FORMAT(joindate,'%Y.%m.%d') as joindate_F,"
+				+ " delete_status,"
+				+ " DATE_FORMAT(deletedate,'%Y.%m.%d') as deletedate"
+				+ " from member_tbl"
+				+ " where admin_status = 'N'"
+				+ " order by joindate asc"
+				+ " limit ?, ?";
+		
+		try {
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, startrow);
+			pstmt.setInt(2, limit);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				
+				memberList = new ArrayList<>();
+				
+				do {
+					
+					memberList.add(new MemberBean(rs.getString("member_id"),
+							rs.getString("name"),
+							rs.getString("email"),
+							rs.getString("phone"),
+							rs.getInt("account"),
+							rs.getString("joindate_F"),
+							rs.getString("delete_status"),
+							rs.getString("deletedate")
+							)
+							);
+					
+				}while(rs.next());
+				
+			}
+			
+		} catch(Exception e) {
+			System.out.println("[ManageMemberDAO] orderOldMemberList() 에러 : "+e);//예외객체종류 + 예외메시지
+		} finally {
+			close(pstmt); //JdbcUtil.생략가능
+			close(rs); //JdbcUtil.생략가능
+			//connection 객체에 대한 해제는 DogListService에서 이루어짐
+		}
+		
+		return memberList;
+	}
+	//5-3. 가나다순
+	public ArrayList<MemberBean> orderAZMemberList(int page, int limit) {
+		ArrayList<MemberBean> memberList = null;
+		
+		int startrow = (page-1)*10;
+		//1페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 0부터
+		//2페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 10부터
+		//3페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 20부터
+		
+		//(탈퇴회원도 포함) (관리자 제외)
+		String sql = "select member_id, name, email,"
+				+ " phone, account, admin_status,"
+				+ " DATE_FORMAT(joindate,'%Y.%m.%d') as joindate_F,"
+				+ " delete_status,"
+				+ " DATE_FORMAT(deletedate,'%Y.%m.%d') as deletedate"
+				+ " from member_tbl"
+				+ " where admin_status = 'N'"
+				+ " order by member_id asc"
+				+ " limit ?, ?";
+		
+		try {
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, startrow);
+			pstmt.setInt(2, limit);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				
+				memberList = new ArrayList<>();
+				
+				do {
+					
+					memberList.add(new MemberBean(rs.getString("member_id"),
+							rs.getString("name"),
+							rs.getString("email"),
+							rs.getString("phone"),
+							rs.getInt("account"),
+							rs.getString("joindate_F"),
+							rs.getString("delete_status"),
+							rs.getString("deletedate")
+							)
+							);
+					
+				}while(rs.next());
+				
+			}
+			
+		} catch(Exception e) {
+			System.out.println("[ManageMemberDAO] orderAZMemberList() 에러 : "+e);//예외객체종류 + 예외메시지
+		} finally {
+			close(pstmt); //JdbcUtil.생략가능
+			close(rs); //JdbcUtil.생략가능
+			//connection 객체에 대한 해제는 DogListService에서 이루어짐
+		}
+		
+		return memberList;
+	}
+	//5-4. 역가나다순
+	public ArrayList<MemberBean> orderZAMemberList(int page, int limit) {
+		ArrayList<MemberBean> memberList = null;
+		
+		int startrow = (page-1)*10;
+		//1페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 0부터
+		//2페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 10부터
+		//3페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 20부터
+		
+		//(탈퇴회원도 포함) (관리자 제외)
+		String sql = "select member_id, name, email,"
+				+ " phone, account, admin_status,"
+				+ " DATE_FORMAT(joindate,'%Y.%m.%d') as joindate_F,"
+				+ " delete_status,"
+				+ " DATE_FORMAT(deletedate,'%Y.%m.%d') as deletedate"
+				+ " from member_tbl"
+				+ " where admin_status = 'N'"
+				+ " order by member_id desc"
+				+ " limit ?, ?";
+		
+		try {
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, startrow);
+			pstmt.setInt(2, limit);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				
+				memberList = new ArrayList<>();
+				
+				do {
+					
+					memberList.add(new MemberBean(rs.getString("member_id"),
+							rs.getString("name"),
+							rs.getString("email"),
+							rs.getString("phone"),
+							rs.getInt("account"),
+							rs.getString("joindate_F"),
+							rs.getString("delete_status"),
+							rs.getString("deletedate")
+							)
+							);
+					
+				}while(rs.next());
+				
+			}
+			
+		} catch(Exception e) {
+			System.out.println("[ManageMemberDAO] orderZAMemberList() 에러 : "+e);//예외객체종류 + 예외메시지
+		} finally {
+			close(pstmt); //JdbcUtil.생략가능
+			close(rs); //JdbcUtil.생략가능
+			//connection 객체에 대한 해제는 DogListService에서 이루어짐
+		}
+		
+		return memberList;
+	}
+	
+	
+	//6. 선택한 기준에 따라 정렬된 탈퇴/미탈퇴 회원 목록 가져오기
+	//6-1. 최근가입일순
+	public ArrayList<MemberBean> orderNewDeleteUndeleteMemberList(String delete_status, int page, int limit) {
+		ArrayList<MemberBean> memberList = null;
+		
+		int startrow = (page-1)*10;
+		//1페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 0부터
+		//2페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 10부터
+		//3페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 20부터
+		
+		//(탈퇴회원도 포함) (관리자 제외)
+		String sql = "select member_id, name, email,"
+				+ " phone, account, admin_status,"
+				+ " DATE_FORMAT(joindate,'%Y.%m.%d') as joindate_F,"
+				+ " delete_status,"
+				+ " DATE_FORMAT(deletedate,'%Y.%m.%d') as deletedate"
+				+ " from member_tbl"
+				+ " where admin_status = 'N' and delete_status = ?"
+				+ " order by joindate desc"
+				+ " limit ?, ?";
+		
+		try {
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, delete_status);
 			pstmt.setInt(2, startrow);
 			pstmt.setInt(3, limit);
 			rs = pstmt.executeQuery();
@@ -460,7 +696,7 @@ public class ManageMemberDAO {
 			}
 			
 		} catch(Exception e) {
-			System.out.println("[ManageMemberDAO] orderMemberList() 에러 : "+e);//예외객체종류 + 예외메시지
+			System.out.println("[ManageMemberDAO] orderNewDeleteUndeleteMemberList() 에러 : "+e);//예외객체종류 + 예외메시지
 		} finally {
 			close(pstmt); //JdbcUtil.생략가능
 			close(rs); //JdbcUtil.생략가능
@@ -469,9 +705,8 @@ public class ManageMemberDAO {
 		
 		return memberList;
 	}
-	
-	//6. 선택한 기준에 따라 정렬된 탈퇴/미탈퇴 회원 목록 가져오기
-	public ArrayList<MemberBean> orderDeleteUndeletedMemberList(String delete_status, String order, int page, int limit) {
+	//6-2. 오래된 가입일순
+	public ArrayList<MemberBean> orderOldDeleteUndeleteMemberList(String delete_status, int page, int limit) {
 		ArrayList<MemberBean> memberList = null;
 		
 		int startrow = (page-1)*10;
@@ -486,17 +721,16 @@ public class ManageMemberDAO {
 				+ " delete_status,"
 				+ " DATE_FORMAT(deletedate,'%Y.%m.%d') as deletedate"
 				+ " from member_tbl"
-				+ " where admin_status = 'N' and delete_status=?"
-				+ " order by ?"
+				+ " where admin_status = 'N' and delete_status = ?"
+				+ " order by joindate asc"
 				+ " limit ?, ?";
 		
 		try {
 			
 			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, delete_status);
-			pstmt.setString(2, order);
-			pstmt.setInt(3, startrow);
-			pstmt.setInt(4, limit);
+			pstmt.setInt(2, startrow);
+			pstmt.setInt(3, limit);
 			rs = pstmt.executeQuery();
 			
 			if(rs.next()) {
@@ -521,7 +755,7 @@ public class ManageMemberDAO {
 			}
 			
 		} catch(Exception e) {
-			System.out.println("[ManageMemberDAO] orderDeleteUndeletedMemberList() 에러 : "+e);//예외객체종류 + 예외메시지
+			System.out.println("[ManageMemberDAO] orderOldDeleteUndeleteMemberList() 에러 : "+e);//예외객체종류 + 예외메시지
 		} finally {
 			close(pstmt); //JdbcUtil.생략가능
 			close(rs); //JdbcUtil.생략가능
@@ -530,5 +764,125 @@ public class ManageMemberDAO {
 		
 		return memberList;
 	}
+	//6-3. 가나다순
+	public ArrayList<MemberBean> orderAZDeleteUndeleteMemberList(String delete_status, int page, int limit) {
+		ArrayList<MemberBean> memberList = null;
+		
+		int startrow = (page-1)*10;
+		//1페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 0부터
+		//2페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 10부터
+		//3페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 20부터
+		
+		//(탈퇴회원도 포함) (관리자 제외)
+		String sql = "select member_id, name, email,"
+				+ " phone, account, admin_status,"
+				+ " DATE_FORMAT(joindate,'%Y.%m.%d') as joindate_F,"
+				+ " delete_status,"
+				+ " DATE_FORMAT(deletedate,'%Y.%m.%d') as deletedate"
+				+ " from member_tbl"
+				+ " where admin_status = 'N' and delete_status = ?"
+				+ " order by member_id asc"
+				+ " limit ?, ?";
+		
+		try {
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, delete_status);
+			pstmt.setInt(2, startrow);
+			pstmt.setInt(3, limit);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				
+				memberList = new ArrayList<>();
+				
+				do {
+					
+					memberList.add(new MemberBean(rs.getString("member_id"),
+							rs.getString("name"),
+							rs.getString("email"),
+							rs.getString("phone"),
+							rs.getInt("account"),
+							rs.getString("joindate_F"),
+							rs.getString("delete_status"),
+							rs.getString("deletedate")
+							)
+							);
+					
+				}while(rs.next());
+				
+			}
+			
+		} catch(Exception e) {
+			System.out.println("[ManageMemberDAO] orderAZDeleteUndeleteMemberList() 에러 : "+e);//예외객체종류 + 예외메시지
+		} finally {
+			close(pstmt); //JdbcUtil.생략가능
+			close(rs); //JdbcUtil.생략가능
+			//connection 객체에 대한 해제는 DogListService에서 이루어짐
+		}
+		
+		return memberList;
+	}
+	//6-4. 역가나다순
+	public ArrayList<MemberBean> orderZADeleteUndeleteMemberList(String delete_status, int page, int limit) {
+		ArrayList<MemberBean> memberList = null;
+		
+		int startrow = (page-1)*10;
+		//1페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 0부터
+		//2페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 10부터
+		//3페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 20부터
+		
+		//(탈퇴회원도 포함) (관리자 제외)
+		String sql = "select member_id, name, email,"
+				+ " phone, account, admin_status,"
+				+ " DATE_FORMAT(joindate,'%Y.%m.%d') as joindate_F,"
+				+ " delete_status,"
+				+ " DATE_FORMAT(deletedate,'%Y.%m.%d') as deletedate"
+				+ " from member_tbl"
+				+ " where admin_status = 'N' and delete_status = ?"
+				+ " order by member_id desc"
+				+ " limit ?, ?";
+		
+		try {
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, delete_status);
+			pstmt.setInt(2, startrow);
+			pstmt.setInt(3, limit);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				
+				memberList = new ArrayList<>();
+				
+				do {
+					
+					memberList.add(new MemberBean(rs.getString("member_id"),
+							rs.getString("name"),
+							rs.getString("email"),
+							rs.getString("phone"),
+							rs.getInt("account"),
+							rs.getString("joindate_F"),
+							rs.getString("delete_status"),
+							rs.getString("deletedate")
+							)
+							);
+					
+				}while(rs.next());
+				
+			}
+			
+		} catch(Exception e) {
+			System.out.println("[ManageMemberDAO] orderZADeleteUndeleteMemberList() 에러 : "+e);//예외객체종류 + 예외메시지
+		} finally {
+			close(pstmt); //JdbcUtil.생략가능
+			close(rs); //JdbcUtil.생략가능
+			//connection 객체에 대한 해제는 DogListService에서 이루어짐
+		}
+		
+		return memberList;
+	}
+
+	
 	
 }

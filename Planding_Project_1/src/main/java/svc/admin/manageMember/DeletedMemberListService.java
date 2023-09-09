@@ -40,7 +40,7 @@ public class DeletedMemberListService {
 	}
 	
 	//2. 조건에 맞는 탈퇴 회원 수 얻어오기
-	public int getDeletedMemberCount(String member_id) {
+	public int getSearchDeletedMemberCount(String member_id) {
 		//1. 커넥션 풀에서 Connection객체를 얻어와
 		Connection con = getConnection(); //JdbcUtil. 생략(이유?import static 하여)
 		
@@ -104,6 +104,35 @@ public class DeletedMemberListService {
 		
 		/*-------DAO의 해당 메서드를 호출하여 처리----------------------------------------------------*/
 		ArrayList<MemberBean> searchMemberList = manageMemberDAO.searchDeleteUndeletedMemberList("Y", member_id, page, limit);
+		
+		/*-------(insert, update, delete) 성공하면 commit(), 실패하면 rollback() 호출
+		 * 		 단, select는 이런 작업을 제외 ------------------*/
+		
+		//4. 해제
+		close(con); //JdbcUtil. 생략(이유?import static 하여)
+		
+		return searchMemberList;
+	}
+	
+	//3. 정렬기준에 맞는 탈퇴 회원 목록 가져오기
+	public ArrayList<MemberBean> getOrderDeletedMemberList(String order, int page, int limit) {
+		//1. 커넥션 풀에서 Connection객체를 얻어와
+		Connection con = getConnection(); //JdbcUtil. 생략(이유?import static 하여)
+		
+		//2. 싱글톤 패턴 : ManageMemberDAO 객체 생성 (DogDAO 객체를 하나만 만들어서 계속 사용)
+		ManageMemberDAO manageMemberDAO = ManageMemberDAO.getInstance();
+		
+		//3. DB작업에 사용될 Connection객체를 DogDAO에 전달하여 DB연결하여 DAO에서 작업하도록 "서비스"해줌
+		manageMemberDAO.setConnection(con);
+		
+		
+		/*-------DAO의 해당 메서드를 호출하여 처리----------------------------------------------------*/
+		ArrayList<MemberBean> searchMemberList = null;
+		
+		if(order.equals("new")) { searchMemberList = manageMemberDAO.orderNewDeleteUndeleteMemberList("Y", page, limit); }
+		if(order.equals("old")) { searchMemberList = manageMemberDAO.orderOldDeleteUndeleteMemberList("Y", page, limit); }
+		if(order.equals("az")) { searchMemberList = manageMemberDAO.orderAZDeleteUndeleteMemberList("Y", page, limit); }
+		if(order.equals("za")) { searchMemberList = manageMemberDAO.orderZADeleteUndeleteMemberList("Y", page, limit); }
 		
 		/*-------(insert, update, delete) 성공하면 commit(), 실패하면 rollback() 호출
 		 * 		 단, select는 이런 작업을 제외 ------------------*/

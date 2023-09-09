@@ -15,7 +15,7 @@ public class OrderMemberListAction implements Action {
 
 	@Override
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
-ActionForward forward = null;
+		ActionForward forward = null;
 		
 		//처음 요청할 경우 조회하는 페이지넘버 기본값 1
 		int page = 1;
@@ -26,29 +26,36 @@ ActionForward forward = null;
 			page = Integer.parseInt(request.getParameter("page"));
 		}
 		
-		/* member 테이블에서 글을 가져옴 */
+		
+		/* < 회원 조회하는 경우 >
+		 * 1. 아무 조건도 없이 조회하는 경우 (기본값 '최근 가입한 회원순')
+		 * 2. 정렬기준으로 조회하는 경우 (선택한 정렬기준 selectOrder로 넘어온 파라미터값으로 정렬)
+		 * 3. 검색하여 조회하는 경우 (입력한 id값으로 검색하여 정렬)
+		 */
+		
+		//1. member 테이블에서 글을 가져옴 
 		ManageMemberListService manageMemberListService = new ManageMemberListService();
+				
+		String order = request.getParameter("selectOrder");//정렬기준 선택하여 조회할 경우
+		//선택한 기준으로 목록에 세팅되도록
+		request.setAttribute("orderKeyword", order);
 		
 		//member_tbl에서 관리자가 아닌 회원 수를 얻어옴
 		int listCount = manageMemberListService.getMemberCount();
+		System.out.println("[OrderMemberListAction] member_tbl 총 회원 수 = "+listCount);
 		
-		System.out.println("[AdminManageMemberListAction] member_tbl 총 회원 수 = "+listCount);
-		
-		ArrayList<MemberBean> memberList = null;
-		
-		//정렬조건이 선택되어 있다면
-		if(!request.getParameter("selectOrder").equals("")) {
-			String order = request.getParameter("selectOrder");
-			memberList = manageMemberListService.getOrderMemberList(order, page, limit);//원하는 페이지넘버의 원하는개수만큼 글을 가져옴
-		}else {
-			memberList = manageMemberListService.getMemberList(page, limit);//원하는 페이지넘버의 원하는개수만큼 글을 가져옴
-		}	
-		
-		
+		//정렬기준에 따른 회원목록을 얻어옴
+		ArrayList<MemberBean> memberList = manageMemberListService.getOrderMemberList(order, page, limit);
 		request.setAttribute("memberList", memberList);
+				
 		
 		
-		/* 페이지네이션 */
+		//2. 정렬기준에 출력할 리스트(배열)
+		String[] orderArr = new String[] {"new", "old", "az", "za"};
+		request.setAttribute("orderArr", orderArr);	
+		
+		
+		//3. 페이지네이션 설정
 		int maxPage = (int) ((double)listCount/limit + 0.95); //최대 페이지 수
 		//(0.95를 더해 올림 -> 나눗셈 결과가 0 또는 1이 아니면 무조건 올림효과 발생)
 		
@@ -76,7 +83,7 @@ ActionForward forward = null;
 		request.setAttribute("pageInfo", pageInfo);
 		
 		
-		request.setAttribute("showAdmin", "admin/manageMember/manageMemberList.jsp");
+		request.setAttribute("showAdmin", "admin/manageMember/manageOrderMemberList.jsp");
 		forward = new ActionForward("adminTemplate.jsp", false);
 		
 		return forward;

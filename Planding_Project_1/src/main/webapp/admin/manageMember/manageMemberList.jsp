@@ -41,7 +41,7 @@ function changeOrder() {
 	
 	let selectedValue = document.getElementById("selectOrder").value;
 	
-	if(selectedValue != ''){
+	if(selectedValue != 'default'){
 		document.forder.submit();
 	}
 	
@@ -80,10 +80,15 @@ function searchMemberList() {
     <!-- Page Header End -->
     
     <c:if test="${pageInfo.listCount == 0 }">
-    	<div class="container-xxl py-5">
+    	<div class="container-xxl mb-5 py-5">
     		<div class="container col-10 col-md-6 col-lg-4">
     			<div class="col-12 mb-5">
-    				<p class="text-center">가입한 회원이 없습니다.</p>
+    				<c:if test="${search_id ne null }">
+    					<p class="text-center">${search_id }이(가) 포함된 회원 아이디가 없습니다.</p>
+    				</c:if>
+    				<c:if test="${search_id eq null }">
+    					<p class="text-center">가입한 회원이 없습니다.</p>
+    				</c:if>
     			</div>
     		</div>
     	</div>
@@ -96,19 +101,23 @@ function searchMemberList() {
 	    <div class="container-fluid pt-4 pb-3">
 	    	<div class="container col-lg-8 px-0">
 	    		<div class="row">
-					<div class="col-4 col-md-3 col-xl-2">
+					
+					<%-- Order --%>
+					<div class="col-4 col-md-3">
 						<div class="d-flex justify-content-start">
 							<form action="orderMemberList.mngm" method="post" name="forder">
 				    			<select class="form-select py-1" name="selectOrder" id="selectOrder" aria-label="selectOrder" onchange="changeOrder()">
-									<option value="none" selected>-- 정렬조건 --</option>
-									<option value="joindate desc">최근 회원순</option>
-									<option value="joindate asc">오래된 회원순</option>
-									<option value="member_id asc">A-Z</option>
-									<option value="member_id desc">Z-A</option>
+									<option value="default" selected>-- 정렬조건 --</option>
+									<option value="new">최근 가입순</option>
+									<option value="old">오래된 가입순</option>
+									<option value="az">가나다순</option>
+									<option value="za">역가나다순</option>
 								</select>
 							</form>
 		    			</div>
 		    		</div>
+		    		
+		    		<%-- Search --%>
 		    		<div class="col auto">
 			    		<div class="d-flex justify-content-end">
 			    			<form action="searchMemberList.mngm" method="post" name="fsearch">
@@ -175,7 +184,7 @@ function searchMemberList() {
 	    
 	    	    
 	    <%-- Pagination Start --%>
-	    <div class="container-fluid mt-0 pt-0 pb-5">
+	    <div class="container-fluid mb-5 mt-0 pt-0 pb-5">
 	    	<div class="container col-lg-4">
 		    	<div class="row">
 					<ul class="pagination justify-content-center">
