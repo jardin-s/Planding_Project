@@ -29,7 +29,7 @@ public class OrderMemberListAction implements Action {
 		
 		/* < 회원 조회하는 경우 >
 		 * 1. 아무 조건도 없이 조회하는 경우 (기본값 '최근 가입한 회원순')
-		 * 2. 정렬기준으로 조회하는 경우 (선택한 정렬기준 selectOrder로 넘어온 파라미터값으로 정렬)
+		 * 2. "정렬기준"으로 조회하는 경우 (선택한 정렬기준 selectOrder로 넘어온 파라미터값으로 정렬)
 		 * 3. 검색하여 조회하는 경우 (입력한 id값으로 검색하여 정렬)
 		 */
 		

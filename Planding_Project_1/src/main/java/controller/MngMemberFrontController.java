@@ -18,11 +18,16 @@ import action.admin.account.AdminLoginAction;
 import action.admin.account.AdminLogoutAction;
 import action.admin.account.AdminUpdateAction;
 import action.admin.account.AdminUpdateFormAction;
+import action.admin.manageMember.DeleteMemberAction;
+import action.admin.manageMember.DeletedMemberListAction;
 import action.admin.manageMember.DeletedOrderMemberListAction;
+import action.admin.manageMember.DeletedSearchMemberListAction;
 import action.admin.manageMember.ManageMemberListAction;
 import action.admin.manageMember.OrderMemberListAction;
 import action.admin.manageMember.SearchMemberListAction;
 import action.admin.manageMember.UndeletedMemberListAction;
+import action.admin.manageMember.UndeletedOrderMemberListAction;
+import action.admin.manageMember.UndeletedSearchMemberListAction;
 import action.admin.notice.AdminDeleteNoticeAction;
 import action.admin.notice.AdminInsertNoticeAction;
 import action.admin.notice.AdminInsertNoticeFormAction;
@@ -139,7 +144,7 @@ public class MngMemberFrontController extends HttpServlet {
 		/*-- '탈퇴회원 목록만 보기' 요청 --------------------------------------*/
 		else if(command.equals("/deletedMemberList.mngm")) {//미탈퇴회원목록 보기 요청
 			
-			action = new DeletedOrderMemberListAction();
+			action = new DeletedMemberListAction();
 			
 			try {
 				forward = action.execute(request, response);
@@ -164,7 +169,7 @@ public class MngMemberFrontController extends HttpServlet {
 		/*-- '검색어에 맞는 미탈퇴회원 목록만 보기' 요청 --------------------------------------*/
 		else if(command.equals("/searchUndeletedMemberList.mngm")) {//미탈퇴회원목록 보기 요청
 			
-			action = new SearchMemberListAction();
+			action = new UndeletedSearchMemberListAction();
 			
 			try {
 				forward = action.execute(request, response);
@@ -176,7 +181,7 @@ public class MngMemberFrontController extends HttpServlet {
 		/*-- '검색어에 맞는 탈퇴회원 목록만 보기' 요청 --------------------------------------*/
 		else if(command.equals("/searchDeletedMemberList.mngm")) {//미탈퇴회원목록 보기 요청
 			
-			action = new SearchMemberListAction();
+			action = new DeletedSearchMemberListAction();
 			
 			try {
 				forward = action.execute(request, response);
@@ -199,9 +204,43 @@ public class MngMemberFrontController extends HttpServlet {
 			}
 			
 		}
+		/*-- '정렬기준에 맞는 미탈퇴회원목록 보기' 요청 --------------------------------------*/
+		else if(command.equals("/orderUndeletedMemberList.mngm")) {//미탈퇴회원목록 보기 요청
+			
+			action = new UndeletedOrderMemberListAction();
+			
+			try {
+				forward = action.execute(request, response);
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+			
+		}
+		/*-- '정렬기준에 맞는 탈퇴회원목록 보기' 요청 --------------------------------------*/
+		else if(command.equals("/orderDeletedMemberList.mngm")) {//미탈퇴회원목록 보기 요청
+			
+			action = new DeletedOrderMemberListAction();
+			
+			try {
+				forward = action.execute(request, response);
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+			
+		}
 		
-		/*-- '특정 회원 삭제' --*/
-
+		/*-- 특정 회원 삭제 -------------------------------------------------------------------------*/
+		else if(command.equals("/deleteMember.mngm")) {//특정회원삭제
+			
+			action = new DeleteMemberAction();
+			
+			try {
+				forward = action.execute(request, response);
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+			
+		}
 		
 		/***********************************************************
 		 * 3. 포워딩

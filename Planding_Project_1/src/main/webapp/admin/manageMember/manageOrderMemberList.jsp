@@ -37,6 +37,7 @@
 
 <script type="text/javascript">
 
+//정렬 요청
 function changeOrder() {
 	
 	let selectedValue = document.getElementById("selectOrder").value;
@@ -47,6 +48,7 @@ function changeOrder() {
 	
 }
 
+//검색어 유효성 검사 및 검색요청
 function searchMemberList() {
 	
 	let search_id = document.getElementById("member_id").value;
@@ -57,6 +59,96 @@ function searchMemberList() {
 	}
 	
 	document.fsearch.submit();
+	
+}
+
+//편집을 취소버튼으로 변경하고 삭제버튼 보이기
+function switchEditCancel(){
+	
+	//편집 버튼 클릭 시 -> 편집버튼을 취소버튼으로 변경하고, 선택삭제버튼 보이기
+	switchBtn();
+	
+	//form-check클래스 div태그 안에 체크박스 태그 삽입
+	const checkElements = document.getElementsByClassName('remove-th');
+	for(let i=0; i<checkElements.length; i++){
+		
+		if(checkElements[i].classList.contains('d-none')){//숨김 상태면 보이기로 전환
+			checkElements[i].classList.remove('d-none');
+		}else{//보이기 상태면 숨김으로 전환
+			checkElements[i].classList.add('d-none');
+		}
+	}
+	
+}
+
+//편집을 취소로 변경. 삭제버튼 활성화
+function switchBtn(){
+	
+	//편집을 취소로 변경
+	//취소를 편집으로 변경
+	const editBtn = document.getElementById("editBtn");
+	const editBtnText = editBtn.innerText;
+	
+	if(editBtnText == "회원편집"){
+		editBtn.innerText = "취소";
+	}else if(editBtnText == "취소"){
+		editBtn.innerText = "회원편집";
+	}
+	
+	//삭제버튼 없으면 활성화
+	//삭제버튼 있으면 비활성화
+	const deleteBtn = document.getElementById("deleteBtn");
+	if(deleteBtn.classList.contains('d-none')){
+		deleteBtn.classList.remove('d-none');
+	}else{
+		deleteBtn.classList.add('d-none');
+	}
+	
+}
+
+//전체선택
+function checkAll(theForm){
+	
+	if(theForm.remove.length == undefined){//폼의 remove(체크박스)배열의 길이가 정의되어 있지 않다면 == 항목이 1개만 있다면
+		
+		theForm.remove.checked = theForm.allCheck.checked; //전체선택 체크하면, 모든 항목이 체크됨
+	
+	}else{//항목이 2개 이상 있다면 -> 배열로 생성(같은이름(remove)의 checkbox)
+	
+		for(var i=0; i<theForm.remove.length; i++){
+			theForm.remove[i].checked = theForm.allCheck.checked; //remove배열의 각 값 checked
+		}
+	}
+	
+}
+
+function selectDelete(){
+	
+	const checkElements = document.getElementsByClassName('form-check-input');
+	
+	let isCheckboxChecked = false;
+	for(let i=0; i<checkElements.length; i++){
+		
+		//하나라도 체크된 것이 있으면 체크여부 true로 변경하고 반복문 끝
+		if(checkElements[i].checked == true){
+			isCheckboxChecked = true;
+			break;
+		}		
+	}
+	
+	if(!isCheckboxChecked){//체크된 것이 없으면
+		return alert('선택된 항목이 없어 삭제할 수 없습니다.');
+	
+	}else{//체크된 것이 있으면
+		
+		if(confirm('회원을 삭제하면 회원 아이디를 제외한 모든 개인정보가 삭제됩니다. 정말로 삭제하시겠습니까?')){
+			document.dlt.submit();
+		}else{
+			alert('회원 삭제를 취소합니다.');
+			return false;
+		}		
+	}
+	
 	
 }
 
@@ -80,7 +172,7 @@ function searchMemberList() {
     <!-- Page Header End -->
     
     <c:if test="${pageInfo.listCount == 0 }">
-    	<div class="container-xxl py-5">
+    	<div class="container-xxl mb-5 py-5" style="height:30vh">
     		<div class="container col-10 col-md-6 col-lg-4">
     			<div class="col-12 mb-5">
     				<c:if test="${search_id ne null }">
@@ -95,7 +187,7 @@ function searchMemberList() {
     </c:if>
     
     <c:if test="${pageInfo.listCount != 0 }">
-    	<c:set var="m_index" value="${pageInfo.listCount - (pageInfo.page-1)*10 }" />
+    	<c:set var="m_index" value="${(pageInfo.page-1)*10 +1}" />
 	    
 	    <%-- Search Tab Start --%>
 	    <div class="container-fluid pt-4 pb-3">
@@ -141,7 +233,7 @@ function searchMemberList() {
 			    		<div class="d-flex justify-content-end">
 			    			<form action="searchMemberList.mngm" method="post" name="fsearch">
 				    			<div class="btn btn-outline-light py-1 px-2 me-1">
-					    			<input type="text" name="member_id" value="${search_id}" id="member_id" class="border-0" placeholder="아이디로 검색">
+					    			<input type="text" name="member_id" id="member_id" class="border-0" placeholder="아이디로 검색">
 					    			<a href="javascript:searchMemberList();"><i class="fas fa-search"></i></a>
 				    			</div>
 			    			</form>
@@ -153,13 +245,14 @@ function searchMemberList() {
 	    <%-- Search Tab End --%>
 	
 	    <%-- Table Start --%>
+	    <form action="deleteMember.mngm" method="post" name="dlt">
 	    <div class="container-fluid pt-0 pb-2">
 	        <div class="container col-lg-8">
 	            <div class="row justify-content-center">
 					<table class="table table-hover">
 						<thead>
 							<tr class="text-center">
-								<th scope="col" class="col-1 d-none"><input type="checkbox" name="removeAll"></th>
+								<th scope="col" class="remove-th col-1 d-none"><input class="form-check-input" type="checkbox" name="allCheck" onclick="checkAll(this.form);"></th>
 								<th scope="col" class="col-1">#</th>
 								<th scope="col" class="col-auto">아이디</th>
 								<th scope="col" class="col-3">가입일자</th>
@@ -169,12 +262,12 @@ function searchMemberList() {
 						<tbody class="table-group-divider">						
 							<c:forEach var="member" items="${memberList}">
 								<tr class="text-center">
-									<th class="d-none">
-										<c:if test="${member.delete_status eq 'Y' }">
-											<input type="checkbox" name="remove" value="${member.member_id}">
-										</c:if>
+									<th class="remove-th d-none">
 										<c:if test="${member.delete_status ne 'Y' }">
-											<input type="checkbox" name="remove" value="" disabled>
+											<input class="form-check-input" type="checkbox" name="remove" value="${member.member_id}">
+										</c:if>
+										<c:if test="${member.delete_status eq 'Y' }"><%-- 탈퇴회원은 삭제불가 --%>
+											<input class="form-check-input"  type="checkbox" name="noremove" value="" disabled>
 										</c:if>										
 									</th>
 									<th scope="row">${m_index}</th>
@@ -182,7 +275,7 @@ function searchMemberList() {
 									<td>${member.joindate }</td>
 									<td>${member.delete_status }</td>
 								</tr>
-								<c:set var="m_index" value="${m_index -1 }"/>
+								<c:set var="m_index" value="${m_index +1 }"/>
 							</c:forEach>
 						</tbody>
 					</table>
@@ -196,10 +289,12 @@ function searchMemberList() {
 	    <div class="container-fluid mt-0 pt-0 pb-5">
 	    	<div class="container col-lg-8 px-0">
 	    		<div class="d-flex justify-content-end">
-	    			<button class="btn btn-outline-primary float-right py-1" type="submit" onclick="">선택회원 추방</button>
+	    			<button class="btn btn-outline-primary float-right me-2 py-1 d-none" type="submit" id="deleteBtn" onclick="selectDelete(); return false;">선택추방</button>
+	    			<button class="btn btn-outline-primary float-right py-1" type="button" id="editBtn" onclick="switchEditCancel();">회원편집</button>	    			
 	    		</div>
 	    	</div>
 	   	</div>
+	   	</form>
 	    
 	    	    
 	    <%-- Pagination Start --%>

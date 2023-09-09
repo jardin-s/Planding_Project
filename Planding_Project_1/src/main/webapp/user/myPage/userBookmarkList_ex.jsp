@@ -45,7 +45,7 @@
     </style>
 </head>
 
- <script type="text/javascript">
+<script type="text/javascript">
 function switchEditCancel(){
 	
 	//편집 버튼 클릭 시 -> 편집버튼을 취소버튼으로 변경하고, 선택삭제버튼 보이기

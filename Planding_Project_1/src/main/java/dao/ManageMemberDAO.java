@@ -883,6 +883,36 @@ public class ManageMemberDAO {
 		return memberList;
 	}
 
+	public int updateDeleteUser(String id) {
+		int updateDeleteUserCount = 0;
+		
+		//비밀번호, 이름, 이메일, 전화번호의 개인정보 삭제(계좌잔액, 관리자여부 제외)
+		//탈퇴여부 Y, 탈퇴일시 현재시간으로 업데이트
+		String sql = "update member_tbl"
+				 + " password='delete', name='delete',"
+				 + " email='delete', phone='delete',"
+				 + " delete_status='Y',"
+				 + " deletedate=current_timestamp"
+				 + " where member_id=?";
+		
+		try {
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, id);
+						
+			updateDeleteUserCount = pstmt.executeUpdate();
+			
+		} catch(Exception e) {
+			System.out.println("[UserDAO] updateDeleteUser() 에러 : "+e);//예외객체종류 + 예외메시지
+		} finally {
+			close(pstmt); //JdbcUtil.생략가능
+			//close(rs); //JdbcUtil.생략가능
+			//connection 객체에 대한 해제는 DogListService에서 이루어짐
+		}
+		
+		return updateDeleteUserCount;
+	}
+
 	
 	
 }

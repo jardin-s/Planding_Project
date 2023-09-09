@@ -31,7 +31,7 @@ public class UndeletedSearchMemberListAction implements Action {
 		/* < 회원 조회하는 경우 >
 		 * 1. 아무 조건도 없이 조회하는 경우 (기본값 '최근 가입한 회원순')
 		 * 2. 정렬기준으로 조회하는 경우 (선택한 정렬기준 selectOrder로 넘어온 파라미터값으로 정렬)
-		 * 3. 검색하여 조회하는 경우 (입력한 id값으로 검색하여 정렬)
+		 * 3. "검색"하여 조회하는 경우 (입력한 id값으로 검색하여 정렬)
 		 */
 		
 		//[순서-1] member 테이블에서 글을 가져옴 
@@ -83,7 +83,7 @@ public class UndeletedSearchMemberListAction implements Action {
 		request.setAttribute("pageInfo", pageInfo);
 		
 		
-		request.setAttribute("showAdmin", "admin/manageMember/undeleteMemberList.jsp");
+		request.setAttribute("showAdmin", "admin/manageMember/undeleteSearchMemberList.jsp");
 		forward = new ActionForward("adminTemplate.jsp", false);
 		
 		return forward;

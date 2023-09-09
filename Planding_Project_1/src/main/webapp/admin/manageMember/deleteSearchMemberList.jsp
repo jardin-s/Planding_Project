@@ -83,14 +83,19 @@ function searchMemberList() {
     	<div class="container-xxl mb-5 py-5" style="height:30vh">
     		<div class="container col-10 col-md-6 col-lg-4">
     			<div class="col-12 mb-5">
-    				<p class="text-center">탈퇴한 회원이 없습니다.</p>
+    				<c:if test="${search_id ne null }">
+    					<p class="text-center">${search_id }이(가) 포함된 탈퇴 회원 아이디가 없습니다.</p>
+    				</c:if>
+    				<c:if test="${search_id eq null }">
+    					<p class="text-center">탈퇴한 회원이 없습니다.</p>
+    				</c:if>
     			</div>
     		</div>
     	</div>
     </c:if>
     
     <c:if test="${pageInfo.listCount != 0 }">
-    	<c:set var="m_index" value="${pageInfo.listCount - (pageInfo.page-1)*10 }" />
+    	<c:set var="m_index" value="${(pageInfo.page-1)*10 +1 }" />
 	    
 	    <%-- Search Tab Start --%>
 	    <div class="container-fluid pt-4 pb-3">
@@ -117,7 +122,7 @@ function searchMemberList() {
 			    		<div class="d-flex justify-content-end">
 			    			<form action="searchDeletedMemberList.mngm" method="post" name="fsearch">
 				    			<div class="btn btn-outline-light py-1 px-2 me-1">
-					    			<input type="text" name="member_id" id="member_id" class="border-0" placeholder="아이디로 검색">
+					    			<input type="text" name="member_id" value="${search_id}" id="member_id" class="border-0" placeholder="아이디로 검색">
 					    			<a href="javascript:searchMemberList();"><i class="fas fa-search"></i></a>
 				    			</div>
 			    			</form>
@@ -149,7 +154,7 @@ function searchMemberList() {
 									<td>${member.joindate }</td>
 									<td>${member.delete_status }</td>
 								</tr>
-								<c:set var="m_index" value="${m_index -1 }"/>
+								<c:set var="m_index" value="${m_index +1 }"/>
 							</c:forEach>
 						</tbody>
 					</table>

@@ -80,22 +80,17 @@ function searchMemberList() {
     <!-- Page Header End -->
     
     <c:if test="${pageInfo.listCount == 0 }">
-    	<div class="container-xxl py-5">
+    	<div class="container-xxl mb-5 py-5" style="height:30vh">
     		<div class="container col-10 col-md-6 col-lg-4">
     			<div class="col-12 mb-5">
-    				<c:if test="${search_id ne null }">
-    					<p class="text-center">${search_id }이(가) 포함된 회원 아이디가 없습니다.</p>
-    				</c:if>
-    				<c:if test="${search_id eq null }">
-    					<p class="text-center">가입한 회원이 없습니다.</p>
-    				</c:if>
+    				<p class="text-center">탈퇴한 회원이 없습니다.</p>
     			</div>
     		</div>
     	</div>
     </c:if>
     
     <c:if test="${pageInfo.listCount != 0 }">
-    	<c:set var="m_index" value="${pageInfo.listCount - (pageInfo.page-1)*10 }" />
+    	<c:set var="m_index" value="${(pageInfo.page-1)*10 +1}" />
 	    
 	    <%-- Search Tab Start --%>
 	    <div class="container-fluid pt-4 pb-3">
@@ -105,7 +100,7 @@ function searchMemberList() {
 					<%-- Order --%>
 					<div class="col-4 col-md-3">
 						<div class="d-flex justify-content-start">
-							<form action="orderMemberList.mngm" method="post" name="forder">
+							<form action="orderDeletedMemberList.mngm" method="post" name="forder">
 				    			<select class="form-select py-1" name="selectOrder" id="selectOrder" aria-label="selectOrder" onchange="changeOrder()">
 									<option value="default">-- 정렬조건 --</option>
 									<c:forEach var="order" items="${orderArr}">
@@ -139,9 +134,9 @@ function searchMemberList() {
 		    		<%-- Search --%>
 		    		<div class="col auto">
 			    		<div class="d-flex justify-content-end">
-			    			<form action="searchMemberList.mngm" method="post" name="fsearch">
+			    			<form action="searchDeletedMemberList.mngm" method="post" name="fsearch">
 				    			<div class="btn btn-outline-light py-1 px-2 me-1">
-					    			<input type="text" name="member_id" value="${search_id}" id="member_id" class="border-0" placeholder="아이디로 검색">
+					    			<input type="text" name="member_id" id="member_id" class="border-0" placeholder="아이디로 검색">
 					    			<a href="javascript:searchMemberList();"><i class="fas fa-search"></i></a>
 				    			</div>
 			    			</form>
@@ -159,7 +154,6 @@ function searchMemberList() {
 					<table class="table table-hover">
 						<thead>
 							<tr class="text-center">
-								<th scope="col" class="col-1 d-none"><input type="checkbox" name="removeAll"></th>
 								<th scope="col" class="col-1">#</th>
 								<th scope="col" class="col-auto">아이디</th>
 								<th scope="col" class="col-3">가입일자</th>
@@ -169,20 +163,12 @@ function searchMemberList() {
 						<tbody class="table-group-divider">						
 							<c:forEach var="member" items="${memberList}">
 								<tr class="text-center">
-									<th class="d-none">
-										<c:if test="${member.delete_status eq 'Y' }">
-											<input type="checkbox" name="remove" value="${member.member_id}">
-										</c:if>
-										<c:if test="${member.delete_status ne 'Y' }">
-											<input type="checkbox" name="remove" value="" disabled>
-										</c:if>										
-									</th>
 									<th scope="row">${m_index}</th>
 									<td><a href="memberView.adm?member_id=${member.member_id}&page=${pageInfo.page}">${member.member_id }</a></td>
 									<td>${member.joindate }</td>
 									<td>${member.delete_status }</td>
 								</tr>
-								<c:set var="m_index" value="${m_index -1 }"/>
+								<c:set var="m_index" value="${m_index +1 }"/>
 							</c:forEach>
 						</tbody>
 					</table>
@@ -191,15 +177,6 @@ function searchMemberList() {
 	        </div>		
 	    </div>
 	    <%-- Table End --%>
-	    
-	    <%-- Delete Button --%>
-	    <div class="container-fluid mt-0 pt-0 pb-5">
-	    	<div class="container col-lg-8 px-0">
-	    		<div class="d-flex justify-content-end">
-	    			<button class="btn btn-outline-primary float-right py-1" type="submit" onclick="">선택회원 추방</button>
-	    		</div>
-	    	</div>
-	   	</div>
 	    
 	    	    
 	    <%-- Pagination Start --%>

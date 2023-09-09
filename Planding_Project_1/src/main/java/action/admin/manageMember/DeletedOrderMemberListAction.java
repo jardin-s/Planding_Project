@@ -43,7 +43,7 @@ public class DeletedOrderMemberListAction implements Action {
 		
 		//member_tbl에서 관리자가 아닌 회원 수를 얻어옴
 		int listCount = deletedMemberListService.getDeletedMemberCount();
-		System.out.println("[OrderMemberListAction] member_tbl 총 회원 수 = "+listCount);
+		System.out.println("[DeletedOrderMemberListAction] member_tbl 총 회원 수 = "+listCount);
 		
 		//정렬기준에 따른 회원목록을 얻어옴
 		ArrayList<MemberBean> memberList = deletedMemberListService.getOrderDeletedMemberList(order, page, limit);

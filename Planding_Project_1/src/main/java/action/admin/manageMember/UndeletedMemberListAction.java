@@ -39,7 +39,7 @@ public class UndeletedMemberListAction implements Action {
 		
 		//member_tbl에서 관리자가 아닌 회원 수를 얻어옴
 		int	listCount = undeletedMemberListService.getUndeletedMemberCount();
-		System.out.println("[ManageMemberListAction] member_tbl 총 회원 수 = "+listCount);
+		System.out.println("[UndeletedMemberListAction] member_tbl 총 회원 수 = "+listCount);
 		
 		//회원목록을 얻어옴 (기본값 : 최근 가입순)
 		ArrayList<MemberBean> memberList = undeletedMemberListService.getUndeletedMemberList(page, limit);
@@ -74,7 +74,7 @@ public class UndeletedMemberListAction implements Action {
 		request.setAttribute("pageInfo", pageInfo);
 		
 		
-		request.setAttribute("showAdmin", "admin/manageMember/manageMemberList.jsp");
+		request.setAttribute("showAdmin", "admin/manageMember/undeleteMemberList.jsp");
 		forward = new ActionForward("adminTemplate.jsp", false);
 		
 		return forward;
