@@ -51,6 +51,13 @@
                         <li class="mx-2" data-filter=".animal">동물</li>
                         <li class="mx-2" data-filter=".human">사람</li>
                         <li class="mx-2" data-filter=".finished">완료된 프로젝트</li>
+프로젝트 상태
+
+공개예정 : ready
+진행중 : ongoing
+종료 : done
+성공 : success
+
                     </ul>
                 </div>
             </div>
