@@ -18,15 +18,18 @@ public class AdminInsertQnaAAction implements Action {
 		
 		int page = Integer.parseInt(request.getParameter("page"));
 		int qna_id = Integer.parseInt(request.getParameter("qna_id"));
+		String a_writer = request.getParameter("a_writer");
 		String a_content = request.getParameter("a_content");
 		
 		System.out.println("[AdminInsertQnaAAction] 파라미터값");
 		System.out.println("page = "+page);
 		System.out.println("qna_id = "+qna_id);
+		System.out.println("a_writer = "+a_writer);
 		System.out.println("a_content = "+a_content);
 		
 		QnaBean qna = new QnaBean();
 		qna.setQna_id(qna_id);
+		qna.setA_writer(a_writer);
 		qna.setA_content(a_content);
 		
 		QnaNewAnswerService qnaNewAnswerService = new QnaNewAnswerService();

@@ -93,7 +93,7 @@
 											<i class="fas fa-lock ms-1"></i>
 										</c:if>
 									</td>
-									<td class="text-center">${qna.member_id }</td>
+									<td class="text-center">${qna.q_writer }</td>
 									<td class="text-center">${qna.q_time }</td>
 								</tr>
 								<c:set var="q_index" value="${q_index -1 }"/>

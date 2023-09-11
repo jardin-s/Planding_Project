@@ -55,16 +55,25 @@ public class ProjectDAO {
 	}
 
 	//1. 프로젝트 ID로 프로젝트 정보를 얻어옴
-	public ProjectBean getProjectInfo(int p_id) {
+	public ProjectBean selectProject(int project_id) {
 		ProjectBean projectInfo = null;
 		
-		String sql = "select * from project_tbl where project_id=?";
-		   	
+		String sql = "select project_id, kind, title,"
+				  + " summary, thumbnail, content, image,"
+				  + " DATE_FORMAT(startdate,'%Y.%m.%d %H:%i') as startdate,"
+				  + " DATE_FORMAT(enddate,'%Y.%m.%d %H:%i') as enddate,"
+				  + " goal_amount, curr_amount, status, likes,"
+				  + " DATE_FORMAT(regdate,'%Y.%m.%d %H:%i') as regdate"
+				  + " from project_tbl"
+				  + " where project_id=?";
+		
 		try {
 			
 			pstmt = con.prepareStatement(sql);
-			pstmt.setInt(1, p_id);
-						
+			pstmt.setInt(1, project_id);
+			
+			rs = pstmt.executeQuery();
+			
 			if(rs.next()) {
 				projectInfo = new ProjectBean(rs.getInt("project_id"),
 											  rs.getString("kind"),
@@ -77,15 +86,14 @@ public class ProjectDAO {
 											  rs.getString("enddate"),
 											  rs.getInt("goal_amount"),
 											  rs.getInt("curr_amount"),
-											  rs.getString("category"),
 											  rs.getString("status"),
-											  rs.getInt("likes")
+											  rs.getInt("likes"),
+											  rs.getString("regdate")
 											  );
 			}
 			
-			
 		} catch(Exception e) {
-			System.out.println("[ProjectDAO] getProjectInfo() 에러 : "+e);//예외객체종류 + 예외메시지
+			System.out.println("[ProjectDAO] selectProject() 에러 : "+e);//예외객체종류 + 예외메시지
 		} finally {
 			close(pstmt); //JdbcUtil.생략가능
 			close(rs); //JdbcUtil.생략가능

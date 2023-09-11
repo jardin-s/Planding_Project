@@ -90,6 +90,7 @@ function qnaFormCheck(){
                 
                 <form action="adminInsertQnaAAction.adm" method="post" name="f">
 					<input type="hidden" name="qna_id" value="${qnaInfo.qna_id}">
+					<input type="hidden" name="a_writer" value="${sessionScope.a_id}">
 					<input type="hidden" name="page" value="${page}">
 					<div class="input-group mb-2">
 						<textarea name="a_content" class="form-control" placeholder="답변을 입력하세요." aria-label="a_content" rows="10"></textarea>

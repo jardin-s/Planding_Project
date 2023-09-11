@@ -51,10 +51,6 @@ public class DeletedOrderMemberListAction implements Action {
 				
 		
 		
-		//2. 정렬기준에 출력할 리스트(배열)
-		String[] orderArr = new String[] {"new", "old", "az", "za"};
-		request.setAttribute("orderArr", orderArr);	
-		
 		
 		//3. 페이지네이션 설정
 		int maxPage = (int) ((double)listCount/limit + 0.95); //최대 페이지 수

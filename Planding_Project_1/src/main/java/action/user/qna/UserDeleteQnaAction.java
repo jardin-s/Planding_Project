@@ -20,17 +20,17 @@ public class UserDeleteQnaAction implements Action {
 		//파라미터값
 		int page = Integer.parseInt(request.getParameter("page"));
 		int qna_id =  Integer.parseInt(request.getParameter("qna_id"));
-		String member_id =  request.getParameter("member_id");
+		String q_writer =  request.getParameter("q_writer");
 		
 		System.out.println("[DeleteQnaAction] 파라미터값");
 		System.out.println("page="+page);
 		System.out.println("qna_id="+qna_id);
-		System.out.println("member_id="+member_id);
+		System.out.println("q_writer="+q_writer);
 		
 		HttpSession session = request.getSession();
 		String u_id= (String) session.getAttribute("u_id");
 		
-		if(!u_id.equals(member_id)) {
+		if(!u_id.equals(q_writer)) {
 			response.setContentType("text/html; charset=utf-8");
 			
 			PrintWriter out = response.getWriter();

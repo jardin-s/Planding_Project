@@ -41,7 +41,7 @@ function deleteConfirm(page, qna_id, member_id){
 	if(!confirm('문의글을 삭제하시겠습니까?')){
 		return false;
 	}else{
-		location.href="userDeleteQnaAction.qna?page="+page+"&qna_id="+qna_id+"&member_id="+member_id;
+		location.href="userDeleteQnaAction.qna?page="+page+"&qna_id="+qna_id+"&q_writer="+q_writer;
 	}
 }
 </script>
@@ -72,7 +72,7 @@ function deleteConfirm(page, qna_id, member_id){
 				<h4 class="mb-3">${qnaInfo.q_title}</h4>
 				<hr>
 				<div class="mb-3">
-					<span>${qnaInfo.member_id}</span> | <span>${qnaInfo.q_time}</span>
+					<span>${qnaInfo.q_writer}</span> | <span>${qnaInfo.q_time}</span>
 				</div>
 				<hr>
                 <p class="mb-3">
@@ -102,8 +102,8 @@ function deleteConfirm(page, qna_id, member_id){
                 
                 <div class="col-12 text-center">
                 	<c:if test="${sessionScope.u_id eq qna.member_id }">
-						<button class="btn btn-light" type="button" onclick="location.href='userModifyQnaQForm.usr?qna_id=${qnaInfo.qna_id}&member_id=${qnaInfo.member_id }&page=${page}'">수정</button>
-                		<button class="btn btn-light" type="button" onclick="deleteConfirm(${page},${qnaInfo.qna_id},'${qnaInfo.member_id }');">삭제</button>
+						<button class="btn btn-light" type="button" onclick="location.href='userModifyQnaQForm.usr?qna_id=${qnaInfo.qna_id}&q_writer=${qnaInfo.q_writer}&page=${page}'">수정</button>
+                		<button class="btn btn-light" type="button" onclick="deleteConfirm(${page},${qnaInfo.qna_id},'${qnaInfo.q_writer}');">삭제</button>
                 	</c:if>
                 	<button class="btn btn-light" onclick="location.href='userQnaList.usr?page=${page}'">글 목록</button>
                 </div>

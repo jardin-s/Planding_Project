@@ -93,9 +93,8 @@ function adminLogout(){
                 <div class="nav-item dropdown">
                     <a href="#" class="nav-link fs-6 dropdown-toggle" data-bs-toggle="dropdown">프로젝트 관리</a>
                     <div class="dropdown-menu bg-light m-0">
-                        <a href="feature.html" class="dropdown-item fs-6">신규 프로젝트</a>
-                        <a href="quote.html" class="dropdown-item fs-6">마감임박 프로젝트</a>
-                        <a href="team.html" class="dropdown-item fs-6">공개예정 프로젝트</a>
+                        <a href="manageDonateProjectList.mngp" class="dropdown-item fs-6">기부 프로젝트</a>
+                        <a href="manageFundProjectList.mngp" class="dropdown-item fs-6">펀딩 프로젝트</a>
                     </div>
                 </div>
                 <div class="nav-item dropdown">

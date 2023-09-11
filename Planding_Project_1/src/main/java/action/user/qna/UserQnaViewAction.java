@@ -22,11 +22,13 @@ public class UserQnaViewAction implements Action {
 		int qna_id = Integer.parseInt(request.getParameter("qna_id"));
 		int page = Integer.parseInt(request.getParameter("page"));
 		String q_private = request.getParameter("q_private");
+		String q_writer = request.getParameter("q_writer");
 		
 		System.out.println("[QnaViewAction] 파라미터값");
 		System.out.println("qna_id = "+qna_id);
 		System.out.println("page = "+page);
 		System.out.println("q_private = "+q_private);
+		System.out.println("q_writer = "+q_writer);
 		
 		
 		//비밀글인 경우, 현재 회원이 작성자가 아니면 제한해야하므로
@@ -45,7 +47,7 @@ public class UserQnaViewAction implements Action {
 			out.println("history.back();");
 			out.println("</script>");
 			
-		}else if(q_private.equalsIgnoreCase("Y") && !u_id.equals(qna.getMember_id())) {//비밀글이고, 현재 회원이 작성자가 아니라면
+		}else if(q_private.equalsIgnoreCase("Y") && !u_id.equals(q_writer)) {//비밀글이고, 현재 회원이 작성자가 아니라면
 			response.setContentType("text/html; charset=utf-8");
 			
 			PrintWriter out = response.getWriter();
@@ -54,7 +56,7 @@ public class UserQnaViewAction implements Action {
 			out.println("history.back();");
 			out.println("</script>");
 			
-		}else if((q_private.equalsIgnoreCase("Y") && u_id.equals(qna.getMember_id()))//비밀글의 작성자이거나 비밀글이 아니면
+		}else if((q_private.equalsIgnoreCase("Y") && u_id.equals(q_writer))//비밀글의 작성자이거나 비밀글이 아니면
 				|| q_private.equalsIgnoreCase("N")) {
 			
 			request.setAttribute("page", page);

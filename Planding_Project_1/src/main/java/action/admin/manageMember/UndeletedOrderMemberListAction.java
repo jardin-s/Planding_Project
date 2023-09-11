@@ -52,11 +52,6 @@ public class UndeletedOrderMemberListAction implements Action {
 				
 		
 		
-		//2. 정렬기준에 출력할 리스트(배열)
-		String[] orderArr = new String[] {"new", "old", "az", "za"};
-		request.setAttribute("orderArr", orderArr);	
-		
-		
 		//3. 페이지네이션 설정
 		int maxPage = (int) ((double)listCount/limit + 0.95); //최대 페이지 수
 		//(0.95를 더해 올림 -> 나눗셈 결과가 0 또는 1이 아니면 무조건 올림효과 발생)

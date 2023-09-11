@@ -85,7 +85,7 @@ public class UserBookmarkListService {
 		for(int i=0; i<bookmarkIdList.size(); i++) {
 			
 			int p_id = bookmarkIdList.get(i);
-			projectInfo = projectDAO.getProjectInfo(p_id);
+			projectInfo = projectDAO.selectProject(p_id);
 			
 			//해당 아이디의 프로젝트가 없으면 반복문 종료
 			if(projectInfo == null) break; 

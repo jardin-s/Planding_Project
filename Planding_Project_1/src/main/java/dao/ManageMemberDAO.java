@@ -7,7 +7,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
+import vo.AddressBean;
+import vo.DonationBean;
 import vo.MemberBean;
+import vo.QnaBean;
+import vo.RewardBean;
 
 public class ManageMemberDAO {
 
@@ -139,8 +143,8 @@ public class ManageMemberDAO {
 		int searchMemberCount = 0;
 		
 		String sql = "select count(*) from member_tbl"
-			   	  + " where admin_status = 'N' and delete_status='?'"
-			   	  + " and member_id LIKE '%?%'";
+			   	  + " where admin_status = 'N' and delete_status=?"
+			   	  + " and member_id regexp ?";
 		
 		try {
 			
@@ -171,10 +175,10 @@ public class ManageMemberDAO {
 	public ArrayList<MemberBean> selectMemberList(int page, int limit) {
 		ArrayList<MemberBean> memberList = null;
 		
-		int startrow = (page-1)*10;
+		int startrow = (page-1)*20;
 		//1페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 0부터
-		//2페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 10부터
-		//3페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 20부터
+		//2페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 20부터
+		//3페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 40부터
 		
 		//최근 가입한 회원순(탈퇴회원도 포함) (관리자 제외)
 		String sql = "select member_id, name, email,"
@@ -226,25 +230,24 @@ public class ManageMemberDAO {
 		return memberList;
 	}
 	
-	//2. 원하는 페이지의 원하는 개수만큼 조건에 맞는 회원 목록을 가져옴 (전체 회원, 최근가입순)
+	//2. 원하는 페이지의 원하는 개수만큼 조건에 맞는 회원 목록을 가져옴 (전체 회원)
 	public ArrayList<MemberBean> searchMemberList(String member_id, int page, int limit) {
 		ArrayList<MemberBean> memberList = null;
 		
-		int startrow = (page-1)*10;
+		int startrow = (page-1)*20;
 		//1페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 0부터
-		//2페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 10부터
-		//3페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 20부터
+		//2페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 20부터
+		//3페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 40부터
 		
 		//최근 가입한 회원순(탈퇴회원도 포함) (관리자 제외)
 		String sql = "select member_id, name, email,"
 				+ " phone, account, admin_status,"
-				+ " DATE_FORMAT(joindate,'%Y.%m.%d') as joindate_F,"
+				+ " DATE_FORMAT(joindate,'%Y.%m.%d') as joindate,"
 				+ " delete_status,"
 				+ " DATE_FORMAT(deletedate,'%Y.%m.%d') as deletedate"
 				+ " from member_tbl"
 				+ " where admin_status = 'N'"
 				+ " and member_id regexp ?"
-				+ " order by joindate desc"
 				+ " limit ?, ?";
 		
 		try {
@@ -266,7 +269,7 @@ public class ManageMemberDAO {
 							rs.getString("email"),
 							rs.getString("phone"),
 							rs.getInt("account"),
-							rs.getString("joindate_F"),
+							rs.getString("joindate"),
 							rs.getString("delete_status"),
 							rs.getString("deletedate")
 							)
@@ -291,10 +294,10 @@ public class ManageMemberDAO {
 	public ArrayList<MemberBean> selectDeleteUndeletedMemberList(String delete_status, int page, int limit) {
 		ArrayList<MemberBean> memberList = null;
 		
-		int startrow = (page-1)*10;
+		int startrow = (page-1)*20;
 		//1페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 0부터
-		//2페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 10부터
-		//3페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 20부터
+		//2페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 20부터
+		//3페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 40부터
 		
 		//최근 가입한 회원순(탈퇴회원도 포함) (관리자 제외)
 		String sql = "select member_id, name, email,"
@@ -351,10 +354,10 @@ public class ManageMemberDAO {
 	public ArrayList<MemberBean> searchDeleteUndeletedMemberList(String delete_status, String member_id, int page, int limit) {
 		ArrayList<MemberBean> memberList = null;
 		
-		int startrow = (page-1)*10;
+		int startrow = (page-1)*20;
 		//1페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 0부터
-		//2페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 10부터
-		//3페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 20부터
+		//2페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 20부터
+		//3페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 40부터
 		
 		//최근 가입한 회원순(탈퇴회원도 포함) (관리자 제외)
 		String sql = "select member_id, name, email,"
@@ -415,10 +418,10 @@ public class ManageMemberDAO {
 	public ArrayList<MemberBean> orderNewMemberList(int page, int limit) {
 		ArrayList<MemberBean> memberList = null;
 		
-		int startrow = (page-1)*10;
+		int startrow = (page-1)*20;
 		//1페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 0부터
-		//2페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 10부터
-		//3페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 20부터
+		//2페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 20부터
+		//3페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 40부터
 		
 		//(탈퇴회원도 포함) (관리자 제외)
 		String sql = "select member_id, name, email,"
@@ -473,10 +476,10 @@ public class ManageMemberDAO {
 	public ArrayList<MemberBean> orderOldMemberList(int page, int limit) {
 		ArrayList<MemberBean> memberList = null;
 		
-		int startrow = (page-1)*10;
+		int startrow = (page-1)*20;
 		//1페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 0부터
-		//2페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 10부터
-		//3페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 20부터
+		//2페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 20부터
+		//3페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 40부터
 		
 		//(탈퇴회원도 포함) (관리자 제외)
 		String sql = "select member_id, name, email,"
@@ -531,10 +534,10 @@ public class ManageMemberDAO {
 	public ArrayList<MemberBean> orderAZMemberList(int page, int limit) {
 		ArrayList<MemberBean> memberList = null;
 		
-		int startrow = (page-1)*10;
+		int startrow = (page-1)*20;
 		//1페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 0부터
-		//2페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 10부터
-		//3페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 20부터
+		//2페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 20부터
+		//3페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 40부터
 		
 		//(탈퇴회원도 포함) (관리자 제외)
 		String sql = "select member_id, name, email,"
@@ -589,10 +592,10 @@ public class ManageMemberDAO {
 	public ArrayList<MemberBean> orderZAMemberList(int page, int limit) {
 		ArrayList<MemberBean> memberList = null;
 		
-		int startrow = (page-1)*10;
+		int startrow = (page-1)*20;
 		//1페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 0부터
-		//2페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 10부터
-		//3페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 20부터
+		//2페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 20부터
+		//3페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 40부터
 		
 		//(탈퇴회원도 포함) (관리자 제외)
 		String sql = "select member_id, name, email,"
@@ -650,10 +653,10 @@ public class ManageMemberDAO {
 	public ArrayList<MemberBean> orderNewDeleteUndeleteMemberList(String delete_status, int page, int limit) {
 		ArrayList<MemberBean> memberList = null;
 		
-		int startrow = (page-1)*10;
+		int startrow = (page-1)*20;
 		//1페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 0부터
-		//2페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 10부터
-		//3페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 20부터
+		//2페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 20부터
+		//3페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 40부터
 		
 		//(탈퇴회원도 포함) (관리자 제외)
 		String sql = "select member_id, name, email,"
@@ -709,10 +712,10 @@ public class ManageMemberDAO {
 	public ArrayList<MemberBean> orderOldDeleteUndeleteMemberList(String delete_status, int page, int limit) {
 		ArrayList<MemberBean> memberList = null;
 		
-		int startrow = (page-1)*10;
+		int startrow = (page-1)*20;
 		//1페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 0부터
-		//2페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 10부터
-		//3페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 20부터
+		//2페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 20부터
+		//3페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 40부터
 		
 		//(탈퇴회원도 포함) (관리자 제외)
 		String sql = "select member_id, name, email,"
@@ -768,10 +771,10 @@ public class ManageMemberDAO {
 	public ArrayList<MemberBean> orderAZDeleteUndeleteMemberList(String delete_status, int page, int limit) {
 		ArrayList<MemberBean> memberList = null;
 		
-		int startrow = (page-1)*10;
+		int startrow = (page-1)*20;
 		//1페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 0부터
-		//2페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 10부터
-		//3페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 20부터
+		//2페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 20부터
+		//3페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 40부터
 		
 		//(탈퇴회원도 포함) (관리자 제외)
 		String sql = "select member_id, name, email,"
@@ -827,10 +830,10 @@ public class ManageMemberDAO {
 	public ArrayList<MemberBean> orderZADeleteUndeleteMemberList(String delete_status, int page, int limit) {
 		ArrayList<MemberBean> memberList = null;
 		
-		int startrow = (page-1)*10;
+		int startrow = (page-1)*20;
 		//1페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 0부터
-		//2페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 10부터
-		//3페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 20부터
+		//2페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 20부터
+		//3페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 40부터
 		
 		//(탈퇴회원도 포함) (관리자 제외)
 		String sql = "select member_id, name, email,"
@@ -883,13 +886,14 @@ public class ManageMemberDAO {
 		return memberList;
 	}
 
+	//회원탈퇴 시 회원정보 삭제
 	public int updateDeleteUser(String id) {
 		int updateDeleteUserCount = 0;
 		
 		//비밀번호, 이름, 이메일, 전화번호의 개인정보 삭제(계좌잔액, 관리자여부 제외)
 		//탈퇴여부 Y, 탈퇴일시 현재시간으로 업데이트
 		String sql = "update member_tbl"
-				 + " password='delete', name='delete',"
+				 + " set password='delete', name='delete',"
 				 + " email='delete', phone='delete',"
 				 + " delete_status='Y',"
 				 + " deletedate=current_timestamp"
@@ -903,7 +907,7 @@ public class ManageMemberDAO {
 			updateDeleteUserCount = pstmt.executeUpdate();
 			
 		} catch(Exception e) {
-			System.out.println("[UserDAO] updateDeleteUser() 에러 : "+e);//예외객체종류 + 예외메시지
+			System.out.println("[ManageMemberDAO] updateDeleteUser() 에러 : "+e);//예외객체종류 + 예외메시지
 		} finally {
 			close(pstmt); //JdbcUtil.생략가능
 			//close(rs); //JdbcUtil.생략가능
@@ -913,6 +917,170 @@ public class ManageMemberDAO {
 		return updateDeleteUserCount;
 	}
 
-	
+	//회원 상세보기 - 회원정보를 얻어옴
+	public MemberBean selectMember(String member_id) {
+		MemberBean memberInfo = null;
+		
+		String sql = "select member_id, name, email,"
+				+ " phone, account, admin_status,"
+				+ " DATE_FORMAT(joindate,'%Y.%m.%d') as joindate,"
+				+ " delete_status,"
+				+ " DATE_FORMAT(deletedate,'%Y.%m.%d') as deletedate"
+				+ " from member_tbl"
+				+ " where member_id = ?";
+		
+		try {
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, member_id);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				memberInfo = new MemberBean();
+				memberInfo.setMember_id(member_id);
+				memberInfo.setEmail(rs.getString("email"));
+				memberInfo.setPhone(rs.getString("phone"));
+				memberInfo.setJoindate(rs.getString("joindate"));
+				memberInfo.setDelete_status("delete_status");
+				memberInfo.setDelete_status(rs.getString("deletedate"));
+			}
+			
+		} catch(Exception e) {
+			System.out.println("[ManageMemberDAO] getMemberInfo() 에러 : "+e);//예외객체종류 + 예외메시지
+		} finally {
+			close(pstmt); //JdbcUtil.생략가능
+			close(rs); //JdbcUtil.생략가능
+			//connection 객체에 대한 해제는 DogListService에서 이루어짐
+		}
+		
+		return memberInfo;
+	}
+
+	//회원 상세보기 - 회원 주소정보를 얻어옴
+	public ArrayList<AddressBean> selectMemberAddressList(String member_id) {
+		ArrayList<AddressBean> addressList = null;
+		
+		String sql = "select address_id, member_id, postcode, address1, address2"
+				  + " from address_tbl"
+				  + " where member_id=?";
+		
+		try {
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, member_id);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				addressList = new ArrayList<>();
+				
+				do{
+					addressList.add(new AddressBean(rs.getInt("address_id"),
+													rs.getString("member_id"),
+													rs.getInt("postcode"),
+													rs.getString("address1"),
+													rs.getString("address2")
+													)
+									);
+					
+				}while(rs.next());
+			}
+			
+		} catch(Exception e) {
+			System.out.println("[ManageMemberDAO] selectMemberAddressList() 에러 : "+e);//예외객체종류 + 예외메시지
+		} finally {
+			close(pstmt); //JdbcUtil.생략가능
+			close(rs); //JdbcUtil.생략가능
+			//connection 객체에 대한 해제는 DogListService에서 이루어짐
+		}
+		
+		return addressList;
+	}
+
+	//회원 상세보기 - 회원 후원기록를 얻어옴
+	public ArrayList<DonationBean> selectMemberDonationList(String member_id) {
+		
+		ArrayList<DonationBean> donationList = null;
+		
+		String sql = "select donation_id, project_id, member_id, reward_id,"
+				  + " r_price, nvl(add_donation,0) as add_donation,"
+				  + " DATE_FORMAT(donatedate,'%Y.%m.%d') as donatedate"
+				  + " from donation_tbl"
+				  + " where member_id=?";
+		
+		try {
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, member_id);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				donationList = new ArrayList<>();
+				
+				do {
+					DonationBean donation = new DonationBean();
+					donation.setDonation_id(rs.getInt("donation_id"));
+					donation.setProject_id(rs.getInt("project_id"));
+					donation.setMember_id(rs.getString("member_id"));
+					donation.setReward_id(rs.getInt("reward_id"));
+					donation.setR_price(rs.getInt("r_price"));
+					donation.setAdd_donation(rs.getInt("add_donation"));
+					donation.setTotalDonation(rs.getInt("r_price") + rs.getInt("add_donation"));
+					donation.setDonatedate(rs.getString("donatedate"));
+					
+				}while(rs.next());
+			}
+			
+		} catch(Exception e) {
+			System.out.println("[ManageMemberDAO] selectMemberDonationList() 에러 : "+e);//예외객체종류 + 예외메시지
+		} finally {
+			close(pstmt); //JdbcUtil.생략가능
+			close(rs); //JdbcUtil.생략가능
+			//connection 객체에 대한 해제는 DogListService에서 이루어짐
+		}
+		
+		return donationList;
+	}
+
+	//회원 상세보기 - 회원 문의글 리스트를 얻어옴
+	public ArrayList<QnaBean> selectMemberQnaList(String member_id) {
+		ArrayList<QnaBean> qnaList = null;
+		
+		String sql = "select qna_id, q_writer, q_title, q_content,"
+				  + " DATE_FORMAT(q_time,'%Y.%m.%d') as q_time,"
+				  + " a_writer"
+				  + " from qna_tbl"
+				  + " where q_writer=?";
+		
+		try {
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, member_id);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				
+				qnaList = new ArrayList<>();
+				
+				qnaList.add(new QnaBean(rs.getInt("qna_id"),
+										rs.getString("q_writer"),
+										rs.getString("q_title"),
+										rs.getString("q_time"),
+										rs.getString("a_writer")
+										)
+						   );
+			}
+			
+			
+		} catch(Exception e) {
+			System.out.println("[ManageMemberDAO] selectMemberQnaList() 에러 : "+e);//예외객체종류 + 예외메시지
+		} finally {
+			close(pstmt); //JdbcUtil.생략가능
+			close(rs); //JdbcUtil.생략가능
+			//connection 객체에 대한 해제는 DogListService에서 이루어짐
+		}
+		
+		return qnaList;
+	}
+
 	
 }

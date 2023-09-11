@@ -43,7 +43,7 @@ public class UserModifyQnaQAction implements Action {
 		String page = multi.getParameter("page");
 
 		int qna_id = Integer.parseInt(multi.getParameter("qna_id"));
-		String member_id = multi.getParameter("member_id");
+		String q_writer = multi.getParameter("q_writer");
 		String q_title = multi.getParameter("q_title");
 		String q_content = multi.getParameter("q_content");
 		String q_private = multi.getParameter("q_private");
@@ -52,7 +52,7 @@ public class UserModifyQnaQAction implements Action {
 		
 		QnaBean qna = new QnaBean();
 		qna.setQna_id(qna_id);
-		qna.setMember_id(member_id);
+		qna.setQ_writer(q_writer);
 		qna.setQ_title(q_title);
 		qna.setQ_content(q_content);
 		qna.setQ_private(q_private);
@@ -76,7 +76,7 @@ public class UserModifyQnaQAction implements Action {
 			out.println("</script>");
 		}else {
 			
-			forward = new ActionForward("userQnaView.usr?page="+page+"&qna_id="+qna_id+"&q_private="+q_private, true);			
+			forward = new ActionForward("userQnaView.usr?page="+page+"&qna_id="+qna_id+"&q_private="+q_private+"&q_writer="+q_writer, true);			
 			
 		}
 		

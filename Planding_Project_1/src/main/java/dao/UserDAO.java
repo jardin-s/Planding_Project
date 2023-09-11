@@ -331,7 +331,7 @@ public class UserDAO {
 		//비밀번호, 이름, 이메일, 전화번호의 개인정보 삭제(계좌잔액, 관리자여부 제외)
 		//탈퇴여부 Y, 탈퇴일시 현재시간으로 업데이트
 		String sql = "update member_tbl"
-				 + " password='delete', name='delete',"
+				 + " set password='delete', name='delete',"
 				 + " email='delete', phone='delete',"
 				 + " delete_status='Y',"
 				 + " deletedate=current_timestamp"

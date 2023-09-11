@@ -97,7 +97,7 @@ function qnaFormCheck(){
         <div class="container col-md-8 col-lg-7">
             <div class="row justify-content-center">
 				<form action="userInsertQnaQAction.usr" method="post" name="f" enctype="multipart/form-data">
-					<input type="hidden" name="member_id" value="${sessionScope.u_id}">
+					<input type="hidden" name="q_writer" value="${sessionScope.u_id}">
 					<div class="input-group mb-2">
 						<span class="input-group-text" id="q_title">제목</span>
 						<input type="text" name="q_title" class="form-control" placeholder="제목을 입력하세요." aria-label="q_title" aria-describedby="q_title">

@@ -100,12 +100,12 @@
 							<c:forEach var="qna" items="${qnaList}">
 								<tr>
 									<th scope="row" class="text-center">${q_index}</th>
-									<td><a href="userQnaView.usr?qna_id=${qna.qna_id}&page=${pageInfo.page}&q_private=${qna.q_private}">${qna.q_title }</a>
+									<td><a href="userQnaView.usr?qna_id=${qna.qna_id}&page=${pageInfo.page}&q_private=${qna.q_private}&q_writer=${qna.q_writer}">${qna.q_title }</a>
 										<c:if test="${qna.q_private eq 'Y'}">
 											<i class="fas fa-lock ms-1"></i>
 										</c:if>
 									</td>
-									<td>${qna.member_id }</td>
+									<td>${qna.q_writer}</td>
 									<td>${qna.q_time }</td>
 								</tr>
 								<c:set var="q_index" value="${q_index -1 }"/>

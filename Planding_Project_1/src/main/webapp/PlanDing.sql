@@ -76,6 +76,13 @@ ENGINE = InnoDB;
 
 select * from member_tbl;
 
+update member_tbl
+set password='delete', name='delete',
+email='delete', phone='delete',
+delete_status='Y',
+deletedate=current_timestamp
+where member_id='testuser0009';
+
 
 
 -- -----------------------------------------------------

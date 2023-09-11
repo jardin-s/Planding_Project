@@ -40,8 +40,10 @@
 function changeOrder() {
 	
 	let selectedValue = document.getElementById("selectOrder").value;
+	let orderKey = document.getElementById("orderKey").value;
 	
-	if(selectedValue != 'default'){
+	//'--정렬기준--' 또는 기존에 선택된 값이 아닐때만 submit 
+	if(selectedValue != 'default' && selectedValue != orderKey){
 		document.forder.submit();
 	}
 	
@@ -101,31 +103,17 @@ function searchMemberList() {
 					<div class="col-4 col-md-3">
 						<div class="d-flex justify-content-start">
 							<form action="orderDeletedMemberList.mngm" method="post" name="forder">
+				    			<input type="hidden" name="orderKey" id="orderKey" value=${orderKeyword }/>
 				    			<select class="form-select py-1" name="selectOrder" id="selectOrder" aria-label="selectOrder" onchange="changeOrder()">
 									<option value="default">-- 정렬조건 --</option>
-									<c:forEach var="order" items="${orderArr}">
-										<c:if test="${orderKeyword eq order}">
-											<option value="${order}" selected>
-												<c:choose>
-													<c:when test="${order eq 'new'}">최근 가입순</c:when>
-													<c:when test="${order eq 'old'}">오래된 가입순</c:when>
-													<c:when test="${order eq 'az'}">가나다순</c:when>
-													<c:when test="${order eq 'za'}">역가나다순</c:when>
-												</c:choose>
-											</option>
-										</c:if>
-										<c:if test="${orderKeyword ne order }">
-											<option value="${order}">
-												<c:choose>
-													<c:when test="${order eq 'new'}">최근 가입순</c:when>
-													<c:when test="${order eq 'old'}">오래된 가입순</c:when>
-													<c:when test="${order eq 'az'}">가나다순</c:when>
-													<c:when test="${order eq 'za'}">역가나다순</c:when>
-												</c:choose>
-											</option>
-										</c:if>
-										
-									</c:forEach>								
+									<c:if test="${orderKeyword eq 'new' }"><option value="new" selected>최근 가입순</option></c:if>
+									<c:if test="${orderKeyword ne 'new' }"><option value="new">최근 가입순</option></c:if>
+									<c:if test="${orderKeyword eq 'old' }"><option value="old" selected>오래된 가입순</option></c:if>
+									<c:if test="${orderKeyword ne 'old' }"><option value="old">오래된 가입순</option></c:if>
+									<c:if test="${orderKeyword eq 'az' }"><option value="az" selected>가나다순</option></c:if>
+									<c:if test="${orderKeyword ne 'az' }"><option value="az">가나다순</option></c:if>
+									<c:if test="${orderKeyword eq 'za' }"><option value="za" selected>역가나다순</option></c:if>
+									<c:if test="${orderKeyword ne 'za' }"><option value="za">역가나다순</option></c:if>								
 								</select>
 							</form>
 		    			</div>

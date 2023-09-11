@@ -23,6 +23,7 @@ import action.admin.manageMember.DeletedMemberListAction;
 import action.admin.manageMember.DeletedOrderMemberListAction;
 import action.admin.manageMember.DeletedSearchMemberListAction;
 import action.admin.manageMember.ManageMemberListAction;
+import action.admin.manageMember.MemberViewAction;
 import action.admin.manageMember.OrderMemberListAction;
 import action.admin.manageMember.SearchMemberListAction;
 import action.admin.manageMember.UndeletedMemberListAction;
@@ -103,14 +104,7 @@ public class MngMemberFrontController extends HttpServlet {
 		
 		System.out.println("[MngMember]command : "+command);//어떤 요청인지 확인하기 위해 콘솔에 출력
 		
-		if(command.equals("/adminMain.adm")) {//'index.jsp'에서 사용자모드 뷰페이지(adminMain.jsp) 보기 요청이면
-			request.setAttribute("showAdmin", "admin/adminMain.jsp");//어느 폼 보기인지 showAdmin이름 속성으로 저장
-			forward = new ActionForward("adminTemplate.jsp",false);
-		}
 		
-		
-		
-
 		/***************************************************************************************
 		 * 회원관리
 		 ***************************************************************************************/
@@ -118,7 +112,7 @@ public class MngMemberFrontController extends HttpServlet {
 		/*-- 회원목록보기 -------------------------------------------------------------------------*/
 		
 		/*-- '회원관리 페이지 보기 (전체회원 목록) ' 요청 --------------------------------------*/
-		else if(command.equals("/manageMemberList.mngm")) {//회원관리 페이지 보기 요청
+		if(command.equals("/manageMemberList.mngm")) {//회원관리 페이지 보기 요청
 			
 			action = new ManageMemberListAction();
 			
@@ -233,6 +227,21 @@ public class MngMemberFrontController extends HttpServlet {
 		else if(command.equals("/deleteMember.mngm")) {//특정회원삭제
 			
 			action = new DeleteMemberAction();
+			
+			try {
+				forward = action.execute(request, response);
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+			
+		}
+		
+		
+		
+		/*-- 회원상세보기 요청 -------------------------------------------------------------------------*/
+		else if(command.equals("/memberView.mngm")) {//특정 회원 상세보기
+			
+			action = new MemberViewAction();
 			
 			try {
 				forward = action.execute(request, response);

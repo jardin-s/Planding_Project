@@ -14,12 +14,23 @@ public class AddressBean {
 		
 	public AddressBean () {}
 
+	//주소 등록 시
 	public AddressBean(String member_id, String receiver_name, String phone, int postcode, String address1,
 			String address2) {
 		super();
 		this.member_id = member_id;
 		this.receiver_name = receiver_name;
 		this.phone = phone;
+		this.postcode = postcode;
+		this.address1 = address1;
+		this.address2 = address2;
+	}
+	
+	//관리자모드 - 회원상세정보 보기 시, 주소 가져오기
+	public AddressBean(int address_id, String member_id, int postcode, String address1,	String address2) {
+		super();
+		this.address_id = address_id;
+		this.member_id = member_id;
 		this.postcode = postcode;
 		this.address1 = address1;
 		this.address2 = address2;

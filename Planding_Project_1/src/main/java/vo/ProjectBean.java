@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class ProjectBean {
 	
-	private int project_id;
+	private int project_id;//SQL 자동 1씩 증가
 	
 	private String kind;
 	private String title;
@@ -20,36 +20,65 @@ public class ProjectBean {
 	private int goal_amount;
 	private int curr_amount;
 	
-	private String category;
-	private String status;
-	private int likes;
+	private String status;//처음은 항상 unauthorized(미승인)
+	private int likes;//0부터 시작
+	
+	private String regdate;//등록일자 (SQL 자동 현재시간 세팅)
 	
 	
 	public ProjectBean() {}
 	
+	//프로젝트 모든 정보
 	public ProjectBean(int project_id, String kind, String title, String summary, String thumbnail, String content,
-			String image, String startdate, String enddate, int goal_amount, int curr_amount, String category, String status, int likes) {
+			String image, String startdate, String enddate, int goal_amount, int curr_amount, String status, int likes,
+			String regdate) {
 		super();
 		this.project_id = project_id;
-		
 		this.kind = kind;
 		this.title = title;
 		this.summary = summary;
 		this.thumbnail = thumbnail;
-		
 		this.content = content;
 		this.image = image;
-		
 		this.startdate = startdate;
 		this.enddate = enddate;
-		
 		this.goal_amount = goal_amount;
 		this.curr_amount = curr_amount;
-		
-		this.category = category;
 		this.status = status;
 		this.likes = likes;
+		this.regdate = regdate;
 	}
+
+	//프로젝트 등록 시
+	public ProjectBean(String kind, String title, String summary, String thumbnail, String content,
+			String image, String startdate, String enddate, int goal_amount, int curr_amount) {
+		super();
+		//this.project_id = project_id; //SQL 자동1씩 증가
+		this.kind = kind;
+		this.title = title;
+		this.summary = summary;
+		this.thumbnail = thumbnail;
+		this.content = content;
+		this.image = image;
+		this.startdate = startdate;
+		this.enddate = enddate;
+		this.goal_amount = goal_amount;
+		this.curr_amount = curr_amount;
+		//this.status = status; //등록시 항상 처음은 unauthorized(미승인)
+		//this.likes = likes; //등록시 항상 처음은 0으로 시작
+		//this.regdate = regdate; //SQL에서 현재시간으로 자동세팅
+	}
+	
+	//관리자모드 - 프로젝트 목록 조회 시
+	public ProjectBean(int project_id, String kind, String title, String status, String regdate) {
+		super();
+		this.project_id = project_id;
+		this.kind = kind;
+		this.title = title;
+		this.status = status; //등록시 항상 처음은 unauthorized(미승인)
+		this.regdate = regdate; //SQL에서 현재시간으로 자동세팅
+	}
+
 
 	public int getProject_id() {
 		return project_id;
@@ -139,14 +168,6 @@ public class ProjectBean {
 		this.curr_amount = curr_amount;
 	}
 
-	public String getCategory() {
-		return category;
-	}
-
-	public void setCategory(String category) {
-		this.category = category;
-	}
-
 	public String getStatus() {
 		return status;
 	}
@@ -161,6 +182,14 @@ public class ProjectBean {
 
 	public void setLikes(int likes) {
 		this.likes = likes;
-	}		
+	}
+	
+	public String getRegdate() {
+		return regdate;
+	}
+	
+	public void setRegdate(String regdate) {
+		this.regdate = regdate;
+	}
 
 }
