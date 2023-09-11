@@ -28,7 +28,7 @@ public class UnauthDonateProjectListService {
 		
 		
 		/*-------DAO의 해당 메서드를 호출하여 처리----------------------------------------------------*/
-		int donateProjectCount = manageProjectDAO.selectStatusDonateCount("unauthorized");
+		int donateProjectCount = manageProjectDAO.selectStatusProjectCount("donate", "unauthorized");
 		
 		/*-------(insert, update, delete) 성공하면 commit(), 실패하면 rollback() 호출
 		 * 		 단, select는 이런 작업을 제외 ------------------*/
@@ -53,7 +53,7 @@ public class UnauthDonateProjectListService {
 		
 		
 		/*-------DAO의 해당 메서드를 호출하여 처리----------------------------------------------------*/
-		int searchDonateCount = manageProjectDAO.searchStatusDonateCount("unauthorized", project_title);
+		int searchDonateCount = manageProjectDAO.searchStatusProjectCount("donate", "unauthorized", project_title);
 		
 		/*-------(insert, update, delete) 성공하면 commit(), 실패하면 rollback() 호출
 		 * 		 단, select는 이런 작업을 제외 ------------------*/
@@ -80,7 +80,7 @@ public class UnauthDonateProjectListService {
 		
 		
 		/*-------DAO의 해당 메서드를 호출하여 처리----------------------------------------------------*/
-		ArrayList<ProjectBean> donateList = manageProjectDAO.selectStatusDonateProjectList("unauthorized", page, limit);
+		ArrayList<ProjectBean> donateList = manageProjectDAO.selectStatusProjectList("donate", "unauthorized", page, limit);
 		
 		/*-------(insert, update, delete) 성공하면 commit(), 실패하면 rollback() 호출
 		 * 		 단, select는 이런 작업을 제외 ------------------*/
@@ -105,7 +105,7 @@ public class UnauthDonateProjectListService {
 		
 		
 		/*-------DAO의 해당 메서드를 호출하여 처리----------------------------------------------------*/
-		ArrayList<ProjectBean> searchDonateList = manageProjectDAO.searchStatusDonateProjectList("unauthorized", project_title, page, limit);
+		ArrayList<ProjectBean> searchDonateList = manageProjectDAO.searchStatusProjectList("donate", "unauthorized", project_title, page, limit);
 		
 		/*-------(insert, update, delete) 성공하면 commit(), 실패하면 rollback() 호출
 		 * 		 단, select는 이런 작업을 제외 ------------------*/
@@ -131,10 +131,10 @@ public class UnauthDonateProjectListService {
 		/*-------DAO의 해당 메서드를 호출하여 처리----------------------------------------------------*/
 		ArrayList<ProjectBean> orderDonateList = null;
 		
-		if(order.equals("new")) { orderDonateList = manageProjectDAO.orderNewStatusDonateList("unauthorized", page, limit); }
-		if(order.equals("old")) { orderDonateList = manageProjectDAO.orderOldStatusDonateList("unauthorized", page, limit); }
-		if(order.equals("az")) { orderDonateList = manageProjectDAO.orderAZStatusDonateList("unauthorized", page, limit); }
-		if(order.equals("za")) { orderDonateList = manageProjectDAO.orderZAStatusDonateList("unauthorized", page, limit); }
+		if(order.equals("new")) { orderDonateList = manageProjectDAO.orderNewStatusProjectList("donate", "unauthorized", page, limit); }
+		if(order.equals("old")) { orderDonateList = manageProjectDAO.orderOldStatusProjectList("donate", "unauthorized", page, limit); }
+		if(order.equals("az")) { orderDonateList = manageProjectDAO.orderAZStatusProjectList("donate", "unauthorized", page, limit); }
+		if(order.equals("za")) { orderDonateList = manageProjectDAO.orderZAStatusProjectList("donate", "unauthorized", page, limit); }
 				
 		/*-------(insert, update, delete) 성공하면 commit(), 실패하면 rollback() 호출
 		 * 		 단, select는 이런 작업을 제외 ------------------*/

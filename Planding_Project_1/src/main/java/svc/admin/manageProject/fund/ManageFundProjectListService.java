@@ -27,7 +27,7 @@ public class ManageFundProjectListService {
 		
 		
 		/*-------DAO의 해당 메서드를 호출하여 처리----------------------------------------------------*/
-		int donateProjectCount = manageProjectDAO.selectFundProjectCount();
+		int fundProjectCount = manageProjectDAO.selectProjectCount("fund");
 		
 		/*-------(insert, update, delete) 성공하면 commit(), 실패하면 rollback() 호출
 		 * 		 단, select는 이런 작업을 제외 ------------------*/
@@ -35,7 +35,7 @@ public class ManageFundProjectListService {
 		//4. 해제
 		close(con); //JdbcUtil. 생략(이유?import static 하여)
 		
-		return donateProjectCount;
+		return fundProjectCount;
 	}
 	
 
@@ -52,7 +52,7 @@ public class ManageFundProjectListService {
 		
 		
 		/*-------DAO의 해당 메서드를 호출하여 처리----------------------------------------------------*/
-		int searchFundCount = manageProjectDAO.searchFundProjectCount(project_title);
+		int searchFundCount = manageProjectDAO.searchProjectCount("fund", project_title);
 		
 		/*-------(insert, update, delete) 성공하면 commit(), 실패하면 rollback() 호출
 		 * 		 단, select는 이런 작업을 제외 ------------------*/
@@ -79,7 +79,7 @@ public class ManageFundProjectListService {
 		
 		
 		/*-------DAO의 해당 메서드를 호출하여 처리----------------------------------------------------*/
-		ArrayList<ProjectBean> donateList = manageProjectDAO.selectFundProjectList(page, limit);
+		ArrayList<ProjectBean> fundList = manageProjectDAO.selectProjectList("fund", page, limit);
 		
 		/*-------(insert, update, delete) 성공하면 commit(), 실패하면 rollback() 호출
 		 * 		 단, select는 이런 작업을 제외 ------------------*/
@@ -87,12 +87,12 @@ public class ManageFundProjectListService {
 		//4. 해제
 		close(con); //JdbcUtil. 생략(이유?import static 하여)
 		
-		return donateList;
+		return fundList;
 	}
 
 
 	//2. 전체 기부프로젝트 중 조건에 맞는 목록 가져오기 
-	public ArrayList<ProjectBean> getSearchFundList(int page, int limit, String member_id) {
+	public ArrayList<ProjectBean> getSearchFundList(int page, int limit, String project_title) {
 		//1. 커넥션 풀에서 Connection객체를 얻어와
 		Connection con = getConnection(); //JdbcUtil. 생략(이유?import static 하여)
 		
@@ -104,7 +104,7 @@ public class ManageFundProjectListService {
 		
 		
 		/*-------DAO의 해당 메서드를 호출하여 처리----------------------------------------------------*/
-		ArrayList<ProjectBean> searchFundList = manageProjectDAO.searchFundProjectList(member_id, page, limit);
+		ArrayList<ProjectBean> searchFundList = manageProjectDAO.searchProjectList("fund", project_title , page, limit);
 		
 		/*-------(insert, update, delete) 성공하면 commit(), 실패하면 rollback() 호출
 		 * 		 단, select는 이런 작업을 제외 ------------------*/
@@ -130,10 +130,10 @@ public class ManageFundProjectListService {
 		/*-------DAO의 해당 메서드를 호출하여 처리----------------------------------------------------*/
 		ArrayList<ProjectBean> orderFundList = null;
 		
-		if(order.equals("new")) { orderFundList = manageProjectDAO.orderNewFundList(page, limit); }
-		if(order.equals("old")) { orderFundList = manageProjectDAO.orderOldFundList(page, limit); }
-		if(order.equals("az")) { orderFundList = manageProjectDAO.orderAZFundList(page, limit); }
-		if(order.equals("za")) { orderFundList = manageProjectDAO.orderZAFundList(page, limit); }
+		if(order.equals("new")) { orderFundList = manageProjectDAO.orderNewProjectList("fund", page, limit); }
+		if(order.equals("old")) { orderFundList = manageProjectDAO.orderOldProjectList("fund", page, limit); }
+		if(order.equals("az")) { orderFundList = manageProjectDAO.orderAZProjectList("fund", page, limit); }
+		if(order.equals("za")) { orderFundList = manageProjectDAO.orderZAProjectList("fund", page, limit); }
 				
 		/*-------(insert, update, delete) 성공하면 commit(), 실패하면 rollback() 호출
 		 * 		 단, select는 이런 작업을 제외 ------------------*/

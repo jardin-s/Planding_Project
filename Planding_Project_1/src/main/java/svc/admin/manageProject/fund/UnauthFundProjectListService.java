@@ -16,7 +16,7 @@ public class UnauthFundProjectListService {
 	
 	//메서드
 	//1. 미승인 프로젝트 수 얻어오기
-	public int getUnauthDonateCount() {
+	public int getUnauthFundCount() {
 		//1. 커넥션 풀에서 Connection객체를 얻어와
 		Connection con = getConnection(); //JdbcUtil. 생략(이유?import static 하여)
 		
@@ -28,7 +28,7 @@ public class UnauthFundProjectListService {
 		
 		
 		/*-------DAO의 해당 메서드를 호출하여 처리----------------------------------------------------*/
-		int donateProjectCount = manageProjectDAO.selectStatusDonateCount("unauthorized");
+		int fundProjectCount = manageProjectDAO.selectStatusProjectCount("fund", "unauthorized");
 		
 		/*-------(insert, update, delete) 성공하면 commit(), 실패하면 rollback() 호출
 		 * 		 단, select는 이런 작업을 제외 ------------------*/
@@ -36,12 +36,12 @@ public class UnauthFundProjectListService {
 		//4. 해제
 		close(con); //JdbcUtil. 생략(이유?import static 하여)
 		
-		return donateProjectCount;
+		return fundProjectCount;
 	}
 	
 
 	//2. 조건에 맞는 미승인 프로젝트 수를 가져옴
-	public int getSearchUnauthDonateCount(String project_title) {
+	public int getSearchUnauthFundCount(String project_title) {
 		//1. 커넥션 풀에서 Connection객체를 얻어와
 		Connection con = getConnection(); //JdbcUtil. 생략(이유?import static 하여)
 		
@@ -53,7 +53,7 @@ public class UnauthFundProjectListService {
 		
 		
 		/*-------DAO의 해당 메서드를 호출하여 처리----------------------------------------------------*/
-		int searchDonateCount = manageProjectDAO.searchStatusDonateCount("unauthorized", project_title);
+		int searchFundCount = manageProjectDAO.searchStatusProjectCount("fund", "unauthorized", project_title);
 		
 		/*-------(insert, update, delete) 성공하면 commit(), 실패하면 rollback() 호출
 		 * 		 단, select는 이런 작업을 제외 ------------------*/
@@ -61,14 +61,14 @@ public class UnauthFundProjectListService {
 		//4. 해제
 		close(con); //JdbcUtil. 생략(이유?import static 하여)
 		
-		return searchDonateCount;
+		return searchFundCount;
 	}
 	
 	
 	/*---------------------------------------------------------------------------------------------------*/
 	
 	//1. 전체 미승인 기부프로젝트 목록 가져오기 (최근가입순) [기본값]
-	public ArrayList<ProjectBean> getUnauthDonateList(int page, int limit) {
+	public ArrayList<ProjectBean> getUnauthFundList(int page, int limit) {
 		//1. 커넥션 풀에서 Connection객체를 얻어와
 		Connection con = getConnection(); //JdbcUtil. 생략(이유?import static 하여)
 		
@@ -80,7 +80,7 @@ public class UnauthFundProjectListService {
 		
 		
 		/*-------DAO의 해당 메서드를 호출하여 처리----------------------------------------------------*/
-		ArrayList<ProjectBean> donateList = manageProjectDAO.selectStatusDonateProjectList("unauthorized", page, limit);
+		ArrayList<ProjectBean> fundList = manageProjectDAO.selectStatusProjectList("fund", "unauthorized", page, limit);
 		
 		/*-------(insert, update, delete) 성공하면 commit(), 실패하면 rollback() 호출
 		 * 		 단, select는 이런 작업을 제외 ------------------*/
@@ -88,12 +88,12 @@ public class UnauthFundProjectListService {
 		//4. 해제
 		close(con); //JdbcUtil. 생략(이유?import static 하여)
 		
-		return donateList;
+		return fundList;
 	}
 
 
 	//2. 미승인 기부프로젝트 중 조건에 맞는 목록 가져오기 
-	public ArrayList<ProjectBean> getSearchUnauthDonateList(int page, int limit, String project_title) {
+	public ArrayList<ProjectBean> getSearchUnauthFundList(int page, int limit, String project_title) {
 		//1. 커넥션 풀에서 Connection객체를 얻어와
 		Connection con = getConnection(); //JdbcUtil. 생략(이유?import static 하여)
 		
@@ -105,7 +105,7 @@ public class UnauthFundProjectListService {
 		
 		
 		/*-------DAO의 해당 메서드를 호출하여 처리----------------------------------------------------*/
-		ArrayList<ProjectBean> searchDonateList = manageProjectDAO.searchStatusDonateProjectList("unauthorized", project_title, page, limit);
+		ArrayList<ProjectBean> searchFundList = manageProjectDAO.searchStatusProjectList("fund", "unauthorized", project_title, page, limit);
 		
 		/*-------(insert, update, delete) 성공하면 commit(), 실패하면 rollback() 호출
 		 * 		 단, select는 이런 작업을 제외 ------------------*/
@@ -113,11 +113,11 @@ public class UnauthFundProjectListService {
 		//4. 해제
 		close(con); //JdbcUtil. 생략(이유?import static 하여)
 		
-		return searchDonateList;
+		return searchFundList;
 	}
 
 	//3. 선택한 정렬기준에 따라 정렬된 미승인 기부 프로젝트 목록 가져오기
-	public ArrayList<ProjectBean> getOrderUnauthDonateList(String order, int page, int limit) {
+	public ArrayList<ProjectBean> getOrderUnauthFundList(String order, int page, int limit) {
 		//1. 커넥션 풀에서 Connection객체를 얻어와
 		Connection con = getConnection(); //JdbcUtil. 생략(이유?import static 하여)
 		
@@ -129,12 +129,12 @@ public class UnauthFundProjectListService {
 		
 		
 		/*-------DAO의 해당 메서드를 호출하여 처리----------------------------------------------------*/
-		ArrayList<ProjectBean> orderDonateList = null;
+		ArrayList<ProjectBean> orderFundList = null;
 		
-		if(order.equals("new")) { orderDonateList = manageProjectDAO.orderNewStatusDonateList("unauthorized", page, limit); }
-		if(order.equals("old")) { orderDonateList = manageProjectDAO.orderOldStatusDonateList("unauthorized", page, limit); }
-		if(order.equals("az")) { orderDonateList = manageProjectDAO.orderAZStatusDonateList("unauthorized", page, limit); }
-		if(order.equals("za")) { orderDonateList = manageProjectDAO.orderZAStatusDonateList("unauthorized", page, limit); }
+		if(order.equals("new")) { orderFundList = manageProjectDAO.orderNewStatusProjectList("fund", "unauthorized", page, limit); }
+		if(order.equals("old")) { orderFundList = manageProjectDAO.orderOldStatusProjectList("fund", "unauthorized", page, limit); }
+		if(order.equals("az")) { orderFundList = manageProjectDAO.orderAZStatusProjectList("fund", "unauthorized", page, limit); }
+		if(order.equals("za")) { orderFundList = manageProjectDAO.orderZAStatusProjectList("fund", "unauthorized", page, limit); }
 				
 		/*-------(insert, update, delete) 성공하면 commit(), 실패하면 rollback() 호출
 		 * 		 단, select는 이런 작업을 제외 ------------------*/
@@ -142,6 +142,6 @@ public class UnauthFundProjectListService {
 		//4. 해제
 		close(con); //JdbcUtil. 생략(이유?import static 하여)
 		
-		return orderDonateList;
+		return orderFundList;
 	}
 }

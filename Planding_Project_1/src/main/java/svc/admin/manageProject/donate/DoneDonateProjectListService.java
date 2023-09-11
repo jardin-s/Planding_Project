@@ -28,7 +28,7 @@ public class DoneDonateProjectListService {
 		
 		
 		/*-------DAO의 해당 메서드를 호출하여 처리----------------------------------------------------*/
-		int donateProjectCount = manageProjectDAO.selectDoneDonateCount();
+		int donateProjectCount = manageProjectDAO.selectDoneProjectCount("donate");
 		
 		/*-------(insert, update, delete) 성공하면 commit(), 실패하면 rollback() 호출
 		 * 		 단, select는 이런 작업을 제외 ------------------*/
@@ -53,7 +53,7 @@ public class DoneDonateProjectListService {
 		
 		
 		/*-------DAO의 해당 메서드를 호출하여 처리----------------------------------------------------*/
-		int searchDonateCount = manageProjectDAO.searchDoneDonateCount(project_title);
+		int searchDonateCount = manageProjectDAO.searchDoneProjectCount("donate", project_title);
 		
 		/*-------(insert, update, delete) 성공하면 commit(), 실패하면 rollback() 호출
 		 * 		 단, select는 이런 작업을 제외 ------------------*/
@@ -80,7 +80,7 @@ public class DoneDonateProjectListService {
 		
 		
 		/*-------DAO의 해당 메서드를 호출하여 처리----------------------------------------------------*/
-		ArrayList<ProjectBean> donateList = manageProjectDAO.selectDoneDonateProjectList(page, limit);
+		ArrayList<ProjectBean> donateList = manageProjectDAO.selectDoneProjectList("donate", page, limit);
 		
 		/*-------(insert, update, delete) 성공하면 commit(), 실패하면 rollback() 호출
 		 * 		 단, select는 이런 작업을 제외 ------------------*/
@@ -105,7 +105,7 @@ public class DoneDonateProjectListService {
 		
 		
 		/*-------DAO의 해당 메서드를 호출하여 처리----------------------------------------------------*/
-		ArrayList<ProjectBean> searchDonateList = manageProjectDAO.searchDoneDonateProjectList(project_title, page, limit);
+		ArrayList<ProjectBean> searchDonateList = manageProjectDAO.searchDoneProjectList("donate", project_title, page, limit);
 		
 		/*-------(insert, update, delete) 성공하면 commit(), 실패하면 rollback() 호출
 		 * 		 단, select는 이런 작업을 제외 ------------------*/
@@ -131,10 +131,10 @@ public class DoneDonateProjectListService {
 		/*-------DAO의 해당 메서드를 호출하여 처리----------------------------------------------------*/
 		ArrayList<ProjectBean> orderDonateList = null;
 		
-		if(order.equals("new")) { orderDonateList = manageProjectDAO.orderNewDoneDonateList(page, limit); }
-		if(order.equals("old")) { orderDonateList = manageProjectDAO.orderOldDoneDonateList(page, limit); }
-		if(order.equals("az")) { orderDonateList = manageProjectDAO.orderAZDoneDonateList(page, limit); }
-		if(order.equals("za")) { orderDonateList = manageProjectDAO.orderZADoneDonateList(page, limit); }
+		if(order.equals("new")) { orderDonateList = manageProjectDAO.orderNewDoneProjectList("donate", page, limit); }
+		if(order.equals("old")) { orderDonateList = manageProjectDAO.orderOldDoneProjectList("donate", page, limit); }
+		if(order.equals("az")) { orderDonateList = manageProjectDAO.orderAZDoneProjectList("donate", page, limit); }
+		if(order.equals("za")) { orderDonateList = manageProjectDAO.orderZADoneProjectList("donate", page, limit); }
 				
 		/*-------(insert, update, delete) 성공하면 commit(), 실패하면 rollback() 호출
 		 * 		 단, select는 이런 작업을 제외 ------------------*/

@@ -28,7 +28,7 @@ public class AuthDonateProjectListService {
 		
 		
 		/*-------DAO의 해당 메서드를 호출하여 처리----------------------------------------------------*/
-		int donateProjectCount = manageProjectDAO.selectStatusDonateCount("ready");
+		int donateProjectCount = manageProjectDAO.selectStatusProjectCount("donate", "ready");
 		
 		/*-------(insert, update, delete) 성공하면 commit(), 실패하면 rollback() 호출
 		 * 		 단, select는 이런 작업을 제외 ------------------*/
@@ -53,7 +53,7 @@ public class AuthDonateProjectListService {
 		
 		
 		/*-------DAO의 해당 메서드를 호출하여 처리----------------------------------------------------*/
-		int searchDonateCount = manageProjectDAO.searchStatusDonateCount("ready", project_title);
+		int searchDonateCount = manageProjectDAO.searchStatusProjectCount("donate", "ready", project_title);
 		
 		/*-------(insert, update, delete) 성공하면 commit(), 실패하면 rollback() 호출
 		 * 		 단, select는 이런 작업을 제외 ------------------*/
@@ -80,7 +80,7 @@ public class AuthDonateProjectListService {
 		
 		
 		/*-------DAO의 해당 메서드를 호출하여 처리----------------------------------------------------*/
-		ArrayList<ProjectBean> donateList = manageProjectDAO.selectStatusDonateProjectList("ready", page, limit);
+		ArrayList<ProjectBean> donateList = manageProjectDAO.selectStatusProjectList("donate", "ready", page, limit);
 		
 		/*-------(insert, update, delete) 성공하면 commit(), 실패하면 rollback() 호출
 		 * 		 단, select는 이런 작업을 제외 ------------------*/
@@ -105,7 +105,7 @@ public class AuthDonateProjectListService {
 		
 		
 		/*-------DAO의 해당 메서드를 호출하여 처리----------------------------------------------------*/
-		ArrayList<ProjectBean> searchDonateList = manageProjectDAO.searchStatusDonateProjectList("ready", project_title, page, limit);
+		ArrayList<ProjectBean> searchDonateList = manageProjectDAO.searchStatusProjectList("donate", "ready", project_title, page, limit);
 		
 		/*-------(insert, update, delete) 성공하면 commit(), 실패하면 rollback() 호출
 		 * 		 단, select는 이런 작업을 제외 ------------------*/
@@ -131,10 +131,10 @@ public class AuthDonateProjectListService {
 		/*-------DAO의 해당 메서드를 호출하여 처리----------------------------------------------------*/
 		ArrayList<ProjectBean> orderDonateList = null;
 		
-		if(order.equals("new")) { orderDonateList = manageProjectDAO.orderNewStatusDonateList("ready", page, limit); }
-		if(order.equals("old")) { orderDonateList = manageProjectDAO.orderOldStatusDonateList("ready", page, limit); }
-		if(order.equals("az")) { orderDonateList = manageProjectDAO.orderAZStatusDonateList("ready", page, limit); }
-		if(order.equals("za")) { orderDonateList = manageProjectDAO.orderZAStatusDonateList("ready", page, limit); }
+		if(order.equals("new")) { orderDonateList = manageProjectDAO.orderNewStatusProjectList("donate", "ready", page, limit); }
+		if(order.equals("old")) { orderDonateList = manageProjectDAO.orderOldStatusProjectList("donate", "ready", page, limit); }
+		if(order.equals("az")) { orderDonateList = manageProjectDAO.orderAZStatusProjectList("donate", "ready", page, limit); }
+		if(order.equals("za")) { orderDonateList = manageProjectDAO.orderZAStatusProjectList("donate", "ready", page, limit); }
 				
 		/*-------(insert, update, delete) 성공하면 commit(), 실패하면 rollback() 호출
 		 * 		 단, select는 이런 작업을 제외 ------------------*/

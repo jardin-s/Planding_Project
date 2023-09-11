@@ -8,18 +8,30 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import action.Action;
-import action.admin.manageProject.donateProject.AuthDonateProjectListAction;
-import action.admin.manageProject.donateProject.DoneDonateProjectListAction;
-import action.admin.manageProject.donateProject.ManageDonateProjectListAction;
-import action.admin.manageProject.donateProject.OrderAuthDonateProjectListAction;
-import action.admin.manageProject.donateProject.OrderDonateProjectListAction;
-import action.admin.manageProject.donateProject.OrderDoneDonateProjectListAction;
-import action.admin.manageProject.donateProject.OrderUnauthDonateProjectListAction;
-import action.admin.manageProject.donateProject.SearchAuthDonateProjectListAction;
-import action.admin.manageProject.donateProject.SearchDonateProjectListAction;
-import action.admin.manageProject.donateProject.SearchDoneDonateProjectListAction;
-import action.admin.manageProject.donateProject.SearchUnauthDonateProjectListAction;
-import action.admin.manageProject.donateProject.UnauthDonateProjectListAction;
+import action.admin.manageProject.donate.AuthDonateProjectListAction;
+import action.admin.manageProject.donate.DoneDonateProjectListAction;
+import action.admin.manageProject.donate.ManageDonateProjectListAction;
+import action.admin.manageProject.donate.OrderAuthDonateProjectListAction;
+import action.admin.manageProject.donate.OrderDonateProjectListAction;
+import action.admin.manageProject.donate.OrderDoneDonateProjectListAction;
+import action.admin.manageProject.donate.OrderUnauthDonateProjectListAction;
+import action.admin.manageProject.donate.SearchAuthDonateProjectListAction;
+import action.admin.manageProject.donate.SearchDonateProjectListAction;
+import action.admin.manageProject.donate.SearchDoneDonateProjectListAction;
+import action.admin.manageProject.donate.SearchUnauthDonateProjectListAction;
+import action.admin.manageProject.donate.UnauthDonateProjectListAction;
+import action.admin.manageProject.fund.AuthFundProjectListAction;
+import action.admin.manageProject.fund.DoneFundProjectListAction;
+import action.admin.manageProject.fund.ManageFundProjectListAction;
+import action.admin.manageProject.fund.OrderAuthFundProjectListAction;
+import action.admin.manageProject.fund.OrderDoneFundProjectListAction;
+import action.admin.manageProject.fund.OrderFundProjectListAction;
+import action.admin.manageProject.fund.OrderUnauthFundProjectListAction;
+import action.admin.manageProject.fund.SearchAuthFundProjectListAction;
+import action.admin.manageProject.fund.SearchDoneFundProjectListAction;
+import action.admin.manageProject.fund.SearchFundProjectListAction;
+import action.admin.manageProject.fund.SearchUnauthFundProjectListAction;
+import action.admin.manageProject.fund.UnauthFundProjectListAction;
 import vo.ActionForward;
 
 /**
@@ -82,12 +94,10 @@ public class MngProjectFrontController extends HttpServlet {
 		
 		System.out.println("[MngProject]command : "+command);//어떤 요청인지 확인하기 위해 콘솔에 출력
 			
-
-		/***************************************************************************************
-		 * 회원관리
-		 ***************************************************************************************/
 		
-		/*-- 전체 기부 프로젝트 목록 -------------------------------------------------------------------------*/
+		/*******************************************************************************************
+		   기부 프로젝트 목록
+		 ******************************************************************************************/
 		
 		/*-- '기부 프로젝트 관리 페이지 보기 (전체 기부프로젝트 목록) ' 요청 --------------------------------------*/
 		if(command.equals("/manageDonateProjectList.mngp")) {
@@ -236,6 +246,167 @@ public class MngProjectFrontController extends HttpServlet {
 		if(command.equals("/searchDoneDonateProjectList.mngp")) {
 			
 			action = new SearchDoneDonateProjectListAction();
+			
+			try {
+				forward = action.execute(request, response);
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+			
+		}
+		
+		
+		/*******************************************************************************************
+		   펀딩 프로젝트 목록
+		 *******************************************************************************************/
+		
+		/*-- '펀딩 프로젝트 관리 페이지 보기 (전체 펀딩프로젝트 목록) ' 요청 --------------------------------------*/
+		if(command.equals("/manageFundProjectList.mngp")) {
+			
+			action = new ManageFundProjectListAction();
+			
+			try {
+				forward = action.execute(request, response);
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+			
+		}		
+		/*-- '정렬기준으로 정렬된 펀딩 프로젝트 관리 페이지 보기 (전체 펀딩프로젝트 목록) ' 요청 --------------------------------------*/
+		if(command.equals("/orderFundProjectList.mngp")) {
+			
+			action = new OrderFundProjectListAction();
+			
+			try {
+				forward = action.execute(request, response);
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+			
+		}		
+		/*-- '검색조건에 따른 펀딩 프로젝트 관리 페이지 보기 (전체 펀딩프로젝트 목록) ' 요청 --------------------------------------*/
+		if(command.equals("/searchFundProjectList.mngp")) {
+			
+			action = new SearchFundProjectListAction();
+			
+			try {
+				forward = action.execute(request, response);
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+			
+		}
+		
+		/*-- 미승인 펀딩 프로젝트 목록 -------------------------------------------------------------------------*/
+		
+		/*-- '미승인 펀딩 프로젝트 관리 페이지 보기 (미승인 펀딩프로젝트 목록) ' 요청 --------------------------------------*/
+		if(command.equals("/unauthFundProjectList.mngp")) {
+			
+			action = new UnauthFundProjectListAction();
+			
+			try {
+				forward = action.execute(request, response);
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+			
+		}		
+		/*-- '정렬기준으로 정렬된 미승인 기부 프로젝트 관리 페이지 보기 (미승인 펀딩프로젝트 목록) ' 요청 --------------------------------------*/
+		if(command.equals("/orderUnauthFundProjectList.mngp")) {
+			
+			action = new OrderUnauthFundProjectListAction();
+			
+			try {
+				forward = action.execute(request, response);
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+			
+		}		
+		/*-- '검색조건에 따른 미승인 기부 프로젝트 관리 페이지 보기 (미승인 펀딩프로젝트 목록) ' 요청 --------------------------------------*/
+		if(command.equals("/searchUnauthFundProjectList.mngp")) {
+			
+			action = new SearchUnauthFundProjectListAction();
+			
+			try {
+				forward = action.execute(request, response);
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+			
+		}
+		
+		
+		/*-- 승인된 펀딩 프로젝트 목록 (진행중) -------------------------------------------------------------------------*/
+		
+		/*-- '승인된 펀딩 프로젝트 관리 페이지 보기 (승인된 펀딩프로젝트 목록) ' 요청 --------------------------------------*/
+		if(command.equals("/authFundProjectList.mngp")) {
+			
+			action = new AuthFundProjectListAction();
+			
+			try {
+				forward = action.execute(request, response);
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+			
+		}		
+		/*-- '정렬기준으로 정렬된 승인된 펀딩 프로젝트 관리 페이지 보기 (승인된 펀딩프로젝트 목록) ' 요청 --------------------------------------*/
+		if(command.equals("/orderAuthFundProjectList.mngp")) {
+			
+			action = new OrderAuthFundProjectListAction();
+			
+			try {
+				forward = action.execute(request, response);
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+			
+		}		
+		/*-- '검색조건에 따른 승인된 펀딩 프로젝트 관리 페이지 보기 (승인된 펀딩프로젝트 목록) ' 요청 --------------------------------------*/
+		if(command.equals("/searchAuthFundProjectList.mngp")) {
+			
+			action = new SearchAuthFundProjectListAction();
+			
+			try {
+				forward = action.execute(request, response);
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+			
+		}
+		
+		
+		/*-- 종료된 펀딩 프로젝트 목록 (종료/성공) -------------------------------------------------------------------------*/
+		
+		/*-- '종료된 펀딩 프로젝트 관리 페이지 보기 (종료된 펀딩프로젝트 목록) ' 요청 --------------------------------------*/
+		if(command.equals("/doneFundProjectList.mngp")) {
+			
+			action = new DoneFundProjectListAction();
+			
+			try {
+				forward = action.execute(request, response);
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+			
+		}		
+		/*-- '정렬기준으로 정렬된 종료된 펀딩 프로젝트 관리 페이지 보기 (종료된 펀딩프로젝트 목록) ' 요청 --------------------------------------*/
+		if(command.equals("/orderDoneFundProjectList.mngp")) {
+			
+			action = new OrderDoneFundProjectListAction();
+			
+			try {
+				forward = action.execute(request, response);
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+			
+		}		
+		/*-- '검색조건에 따른 종료된 펀딩 프로젝트 관리 페이지 보기 (종료된 펀딩프로젝트 목록) ' 요청 --------------------------------------*/
+		if(command.equals("/searchDoneFundProjectList.mngp")) {
+			
+			action = new SearchDoneFundProjectListAction();
 			
 			try {
 				forward = action.execute(request, response);

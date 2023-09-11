@@ -27,7 +27,7 @@ public class ManageDonateProjectListService {
 		
 		
 		/*-------DAO의 해당 메서드를 호출하여 처리----------------------------------------------------*/
-		int donateProjectCount = manageProjectDAO.selectDonateProjectCount();
+		int donateProjectCount = manageProjectDAO.selectProjectCount("donate");
 		
 		/*-------(insert, update, delete) 성공하면 commit(), 실패하면 rollback() 호출
 		 * 		 단, select는 이런 작업을 제외 ------------------*/
@@ -52,7 +52,7 @@ public class ManageDonateProjectListService {
 		
 		
 		/*-------DAO의 해당 메서드를 호출하여 처리----------------------------------------------------*/
-		int searchDonateCount = manageProjectDAO.searchDonateProjectCount(project_title);
+		int searchDonateCount = manageProjectDAO.searchProjectCount("donate", project_title);
 		
 		/*-------(insert, update, delete) 성공하면 commit(), 실패하면 rollback() 호출
 		 * 		 단, select는 이런 작업을 제외 ------------------*/
@@ -79,7 +79,7 @@ public class ManageDonateProjectListService {
 		
 		
 		/*-------DAO의 해당 메서드를 호출하여 처리----------------------------------------------------*/
-		ArrayList<ProjectBean> donateList = manageProjectDAO.selectDonateProjectList(page, limit);
+		ArrayList<ProjectBean> donateList = manageProjectDAO.selectProjectList("donate", page, limit);
 		
 		/*-------(insert, update, delete) 성공하면 commit(), 실패하면 rollback() 호출
 		 * 		 단, select는 이런 작업을 제외 ------------------*/
@@ -92,7 +92,7 @@ public class ManageDonateProjectListService {
 
 
 	//2. 전체 기부프로젝트 중 조건에 맞는 목록 가져오기 
-	public ArrayList<ProjectBean> getSearchDonateList(int page, int limit, String member_id) {
+	public ArrayList<ProjectBean> getSearchDonateList(int page, int limit, String project_title) {
 		//1. 커넥션 풀에서 Connection객체를 얻어와
 		Connection con = getConnection(); //JdbcUtil. 생략(이유?import static 하여)
 		
@@ -104,7 +104,7 @@ public class ManageDonateProjectListService {
 		
 		
 		/*-------DAO의 해당 메서드를 호출하여 처리----------------------------------------------------*/
-		ArrayList<ProjectBean> searchDonateList = manageProjectDAO.searchDonateProjectList(member_id, page, limit);
+		ArrayList<ProjectBean> searchDonateList = manageProjectDAO.searchProjectList("donate", project_title , page, limit);
 		
 		/*-------(insert, update, delete) 성공하면 commit(), 실패하면 rollback() 호출
 		 * 		 단, select는 이런 작업을 제외 ------------------*/
@@ -130,10 +130,10 @@ public class ManageDonateProjectListService {
 		/*-------DAO의 해당 메서드를 호출하여 처리----------------------------------------------------*/
 		ArrayList<ProjectBean> orderDonateList = null;
 		
-		if(order.equals("new")) { orderDonateList = manageProjectDAO.orderNewDonateList(page, limit); }
-		if(order.equals("old")) { orderDonateList = manageProjectDAO.orderOldDonateList(page, limit); }
-		if(order.equals("az")) { orderDonateList = manageProjectDAO.orderAZDonateList(page, limit); }
-		if(order.equals("za")) { orderDonateList = manageProjectDAO.orderZADonateList(page, limit); }
+		if(order.equals("new")) { orderDonateList = manageProjectDAO.orderNewProjectList("donate", page, limit); }
+		if(order.equals("old")) { orderDonateList = manageProjectDAO.orderOldProjectList("donate", page, limit); }
+		if(order.equals("az")) { orderDonateList = manageProjectDAO.orderAZProjectList("donate", page, limit); }
+		if(order.equals("za")) { orderDonateList = manageProjectDAO.orderZAProjectList("donate", page, limit); }
 				
 		/*-------(insert, update, delete) 성공하면 commit(), 실패하면 rollback() 호출
 		 * 		 단, select는 이런 작업을 제외 ------------------*/
