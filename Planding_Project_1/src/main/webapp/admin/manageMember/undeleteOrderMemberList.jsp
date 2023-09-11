@@ -287,7 +287,7 @@ function selectDelete(){
 								</a>	
 							</c:if>
 							<c:if test="${pageInfo.page > 1}">
-								<a class="page-link" href="userNoticeList.usr?page=${pageInfo.page -1 }" aria-label="Previous">
+								<a class="page-link" href="orderUndeletedMemberList.mngm?page=${pageInfo.page -1 }&selectOrder=${orderKeyword}" aria-label="Previous">
 									<span aria-hidden="true">&laquo;</span>
 								</a>	
 							</c:if>								
@@ -298,7 +298,7 @@ function selectDelete(){
 								<li class="page-item active" aria-current="page"><a class="page-link">${pNum}</a></li>
 							</c:if>
 							<c:if test="${pNum ne pageInfo.page }">
-								<li class="page-item"><a class="page-link" href="userNoticeList.usr?page=${pNum}">${pNum}</a></li>
+								<li class="page-item"><a class="page-link" href="orderUndeletedMemberList.mngm?page=${pNum}&selectOrder=${orderKeyword}">${pNum}</a></li>
 							</c:if>
 						</c:forEach>
 						
@@ -309,7 +309,7 @@ function selectDelete(){
 								</a>
 							</c:if>
 							<c:if test="${pageInfo.page < pageInfo.maxPage }">
-								<a class="page-link" href="userNoticeList.usr?page=${pageInfo.page +1 }" aria-label="Next">
+								<a class="page-link" href="orderUndeletedMemberList.mngm?page=${pageInfo.page +1 }&selectOrder=${orderKeyword}" aria-label="Next">
 									<span aria-hidden="true">&raquo;</span>
 								</a>
 							</c:if>							

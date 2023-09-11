@@ -172,7 +172,7 @@ function searchMemberList() {
 								</a>	
 							</c:if>
 							<c:if test="${pageInfo.page > 1}">
-								<a class="page-link" href="userNoticeList.usr?page=${pageInfo.page -1 }" aria-label="Previous">
+								<a class="page-link" href="deletedMemberList.mngm?page=${pageInfo.page -1 }" aria-label="Previous">
 									<span aria-hidden="true">&laquo;</span>
 								</a>	
 							</c:if>								
@@ -183,7 +183,7 @@ function searchMemberList() {
 								<li class="page-item active" aria-current="page"><a class="page-link">${pNum}</a></li>
 							</c:if>
 							<c:if test="${pNum ne pageInfo.page }">
-								<li class="page-item"><a class="page-link" href="userNoticeList.usr?page=${pNum}">${pNum}</a></li>
+								<li class="page-item"><a class="page-link" href="deletedMemberList.mngm?page=${pNum}">${pNum}</a></li>
 							</c:if>
 						</c:forEach>
 						
@@ -194,7 +194,7 @@ function searchMemberList() {
 								</a>
 							</c:if>
 							<c:if test="${pageInfo.page < pageInfo.maxPage }">
-								<a class="page-link" href="userNoticeList.usr?page=${pageInfo.page +1 }" aria-label="Next">
+								<a class="page-link" href="deletedMemberList.mngm?page=${pageInfo.page +1 }" aria-label="Next">
 									<span aria-hidden="true">&raquo;</span>
 								</a>
 							</c:if>							
