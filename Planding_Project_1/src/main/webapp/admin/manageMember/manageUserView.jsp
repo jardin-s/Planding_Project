@@ -165,7 +165,7 @@ function selectDelete(){
     <!-- Page Header End -->
     
     
-    <div class="container-xxl mb-5 py-5" style="height:30vh">
+    <div class="container-xxl mb-5 py-5">
    		<div class="container col-10 col-md-6">
    			<div class="col-12 mb-5">
    				<h4 class="text-center mb-4">testuser0001의 상세정보</h4>
@@ -237,6 +237,11 @@ function selectDelete(){
 			    		<td>2023.08.15</td>
 			    	</tr>
 			    </table>
+			    
+			    <div class="col-12 text-center mt-5 mx-auto">
+			    	<button class="btn btn-light" onclick="location.href='manageMemberList.mngm'">회원 목록</button>
+			    	<button class="btn btn-light" onclick="location.href='deleteMember.mngm?member_id=${memberInfo.member_id}'">회원 삭제</button>			    	
+			    </div>
    			</div>
    		</div>
    	</div>

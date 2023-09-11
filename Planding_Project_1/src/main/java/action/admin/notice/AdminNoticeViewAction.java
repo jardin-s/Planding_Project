@@ -40,7 +40,7 @@ public class AdminNoticeViewAction implements Action {
 			
 			request.setAttribute("page", page);
 			request.setAttribute("noticeInfo", notice);
-			
+						
 			request.setAttribute("showAdmin", "admin/notice/noticeView.jsp");
 			forward = new ActionForward("adminTemplate.jsp", false);
 			

@@ -48,7 +48,6 @@ CREATE TABLE IF NOT EXISTS `project`.`project_tbl` (
   `enddate` DATETIME NOT NULL COMMENT '종료일',
   `goal_amount` INT NOT NULL COMMENT '목표 모금액',
   `curr_amount` INT NOT NULL COMMENT '현재 모금액',
-  `category` VARCHAR(30) NOT NULL COMMENT '카테고리 - 환경/동물/사람',
   `status` VARCHAR(30) NOT NULL COMMENT '상태',
   `likes` INT NOT NULL COMMENT '관심 수',
   `regdate` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
