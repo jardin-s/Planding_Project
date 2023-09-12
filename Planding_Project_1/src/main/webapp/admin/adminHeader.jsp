@@ -89,7 +89,7 @@ function adminLogout(){
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <div class="navbar-nav ms-auto p-4 p-lg-0">
                 <a href="manageMemberList.mngm" class="nav-item nav-link fs-6">회원관리</a>
-                <a href="project.html" class="nav-item nav-link fs-6">매출관리</a>
+                <a href="manageIncome.mngi" class="nav-item nav-link fs-6">매출관리</a>
                 <div class="nav-item dropdown">
                     <a href="#" class="nav-link fs-6 dropdown-toggle" data-bs-toggle="dropdown">프로젝트 관리</a>
                     <div class="dropdown-menu bg-light m-0">
