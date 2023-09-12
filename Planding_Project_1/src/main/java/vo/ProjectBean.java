@@ -25,6 +25,9 @@ public class ProjectBean {
 	
 	private String regdate;//등록일자 (SQL 자동 현재시간 세팅)
 	
+	private double progress;//달성률 (DB에 없음. 조회시, 현재모금액/목표모금액 계산하여 세팅)
+	
+	
 	
 	public ProjectBean() {}
 	

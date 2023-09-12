@@ -152,23 +152,6 @@ function selectDelete(){
 	
 }
 
-
-function authorizeProject(project_id){
-	if(confirm('이 프로젝트를 승인하시겠습니까?')){
-		location.href='authorizeProject.mngp?project_id='+project_id;
-	}else{
-		alert('승인 취소되었습니다.');
-	}
-}
-
-function cancelProject(project_id){
-	if(confirm('이 프로젝트의 진행을 취소하시겠습니까?')){
-		location.href='cancelProjectForm.mngp?project_id='+project_id;
-	}else{
-		alert('프로젝트를 계속 진행합니다.');
-	}
-}
-
 </script>
 
 <body>
@@ -185,87 +168,74 @@ function cancelProject(project_id){
     <div class="container-xxl mb-5 py-5">
    		<div class="container col-10 col-md-8">
    			<div class="col-12 mb-5">
-   				<h4 class="text-center mb-5">${projectInfo.title }</h4>
+   				<h4 class="text-center mb-5">환경을 위한 기부 프로젝트의 제목입니다.</h4>
    				<table class="table table-bordered mb-5">
 			    	<tr>
 			    		<th colspan="2" class="text-center">
-			    			<img src="${pageContext.request.contextPath}/images/project/${projectInfo.thumbnail}">
+			    		프로젝트 썸네일
 			    		</th>
 			    	</tr>
 			    	<tr>
 			    		<th class="text-center col-4">프로젝트 ID</th>
-			    		<td>${projectInfo.project_id }</td>
+			    		<td>0001</td>
 			    	</tr>
 			    	<tr>
 			    		<th class="text-center">프로젝트 제목</th>
-			    		<td>${projectInfo.title }</td>
+			    		<td>환경을 위한 기부 프로젝트의 제목입니다.</td>
 			    	</tr>
 			    	<tr>
 			    		<th class="text-center">프로젝트 구분</th>
-			    		<td>
-			    			<c:if test="${projectInfo.kind eq 'donate'}">기부</c:if>
-			    			<c:if test="${projectInfo.kind eq 'fund'}">펀딩</c:if>
-			    		</td>
+			    		<td>기부</td>
 			    	</tr>
 			    	<tr>
 			    		<th class="text-center">프로젝트 상태</th>
-			    		<td>
-			    			<c:if test="${projectInfo.status eq 'unauthorized'}">미승인</c:if>
-			    			<c:if test="${projectInfo.status eq 'ready'}">공개예정</c:if>
-			    			<c:if test="${projectInfo.status eq 'ongoing'}">진행중</c:if>
-			    			<c:if test="${projectInfo.status eq 'done'}">종료</c:if>
-			    			<c:if test="${projectInfo.status eq 'success'}">성공</c:if>
-			    		</td>
+			    		<td>미승인</td>
 			    	</tr>
 			    	<tr>
 			    		<th class="text-center">등록일자</th>
-			    		<td>${projectInfo.regdate}</td>
+			    		<td>2023.09.11</td>
 			    	</tr>
 			    	<tr>
 			    		<th class="text-center">시작일</th>
-			    		<td>${projectInfo.startdate}</td>
+			    		<td>2023.09.11</td>
 			    	</tr>
 			    	<tr>
 			    		<th class="text-center">종료일</th>
-			    		<td>${projectInfo.enddate}</td>
+			    		<td>2023.09.11</td>
 			    	</tr>
 			    	<tr>
 			    		<th class="text-center">목표 모금액</th>
-			    		<td>${projectInfo.goal_amount}원</td>
+			    		<td>20230911원</td>
 			    	</tr>
 			    	<tr>
 			    		<th class="text-center">현재 모금액</th>
-			    		<td>${projectInfo.curr_amount}원</td>
+			    		<td>20230911원</td>
 			    	</tr>
 			    	<tr>
 			    		<th class="text-center">달성률</th>
-			    		<td>${projectInfo.progress}%</td>
+			    		<td>100%</td>
 			    	</tr>
 			    	<tr>
 			    		<th class="text-center">관심등록 수</th>
-			    		<td>${projectInfo.likes}</td>
+			    		<td>10345</td>
 			    	</tr>
 			    	<tr>
 			    		<th colspan="2" class="text-center">요약글</th>
 			    	</tr>
 			    	<tr>
-			    		<td colspan="2" class="text-center">${projectInfo.summary}</td>
+			    		<td colspan="2" class="text-center">프로젝트 요약글입니다.</td>
 			    	</tr>
 			    	<tr>
 			    		<th colspan="2" class="text-center">내용</th>
 			    	</tr>
 			    	<tr>
-			    		<td colspan="2" class="text-center">${projectInfo.content}</td>
+			    		<td colspan="2" class="text-center">프로젝트 내용입니다.</td>
 			    	</tr>
 			    	<tr>
 			    		<th colspan="2" class="text-center">첨부 이미지</th>
 			    	</tr>
 			    	<tr>
-			    		<td colspan="2" class="text-center">
-			    			<c:forEach var="p_image" items="projectImgList">
-			    				<img src="${pageContext.request.contextPath}/images/project/${p_image}">
-			    			</c:forEach>
-			    		</td>
+			    		<td colspan="2" class="text-center">프로젝트 첨부 이미지</td>
 			    	</tr>
 			    </table>
 			    
@@ -273,21 +243,21 @@ function cancelProject(project_id){
    				<table class="table table-bordered mb-5">
 			    	<tr class="text-center">
 			    		<th>기획자 ID</th>
-			    		<td>${plannerInfo.planner_id}</td>
+			    		<td>testuser0001</td>
 			    		<th>기획자 이름</th>
-			    		<td>${plannerInfo.planner_name}</td>
+			    		<td>기획바다</td>
 			    	</tr>
 			    	<tr class="text-center">
 			    		<th>계좌 은행</th>
-			    		<td>${plannerInfo.bank }</td>
+			    		<td>국민은행</td>
 			    		<th>계좌번호</th>
-			    		<td>${plannerInfo.account }</td>
+			    		<td>0123456789</td>
 			    	</tr>
 			    	<tr class="text-center">
 			    		<th colspan="4">소개글</th>
 			    	</tr>
 			    	<tr class="text-center">
-			    		<td colspan="4">${plannerInfo.introduce }</td>
+			    		<td colspan="4">기획자 소개글입니다.</td>
 			    	</tr>
 			    </table>
 			    
@@ -299,24 +269,16 @@ function cancelProject(project_id){
 			    		<th>리워드 내용</th>
 			    		<th>리워드 가격</th>
 			    	</tr>
-			    	<c:forEach var="reward" items="rewardList">
-			    	</c:forEach>
 			    	<tr class="text-center">
-			    		<td>${reward.reward_id }</td>
-			    		<td>${reward.r_name }</td>
-			    		<td>${reward.r_content }</td>
-			    		<td>${reward.r_price}원</td>
+			    		<td>12303215</td>
+			    		<td>(A세트) 문구와 지우개</td>
+			    		<td>문구와 지우개 세트입니다.</td>
+			    		<td>25000원</td>
 			    	</tr>
 			    </table>
 			    
-			   
+			    
 			    <div class="col-12 text-center mx-auto">
-			    	<c:if test="${projectInfo.status eq 'unauthorized'}">
-	    				<button class="btn btn-outline-primary py-1" type="button" id="authBtn" onclick="authorizeProject(${projectInfo.project_id});">프로젝트 승인</button>
-	    			</c:if>
-			    	<c:if test="${projectInfo.status eq 'ready' or projectInfo.status eq 'ongoing'}">
-	    				<button class="btn btn-outline-primary py-1" type="button" id="cancelBtn" onclick="cancelProject(${projectInfo.project_id});">프로젝트 취소</button>
-	    			</c:if>
 			    	<c:if test="${projectInfo.kind eq 'donate' }">
 			    		<button class="btn btn-light" onclick="location.href='manageDonateProjectList.mngp'">프로젝트 목록</button>
 			    	</c:if>
