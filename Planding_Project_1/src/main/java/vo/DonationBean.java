@@ -8,6 +8,8 @@ public class DonationBean {
 	private int reward_id;
 	private int r_price;//해당 리워드 금액
 	private int add_donation;//추가 후원금액
+	
+	private String address_id;//리워드 배송받을 경우 (펀딩프로젝트)
 	private String donatedate;
 	
 	private int totalDonation;//리워드금액 + 추가후원금액 = 총 후원금액 (sql에는 없음)
@@ -26,9 +28,22 @@ public class DonationBean {
 		//this.donatedate = donatedate; //sql 자동세팅
 	}
 	
+	//후원할 시
+	public DonationBean(int project_id, String member_id, int reward_id, int r_price, int add_donation, String address_id) {
+		super();
+		//this.donation_id = donation_id; //sql 자동1증가
+		this.project_id = project_id;
+		this.member_id = member_id;
+		this.reward_id = reward_id;
+		this.r_price = r_price;
+		this.add_donation = add_donation;
+		this.address_id = address_id;
+		//this.donatedate = donatedate; //sql 자동세팅
+	}
+	
 	//후원기록 조회시
 	public DonationBean(int donation_id, int project_id, String member_id, int reward_id, int r_price, int add_donation,
-			String donatedate) {
+			String address_id, String donatedate) {
 		super();
 		this.donation_id = donation_id;
 		this.project_id = project_id;
@@ -36,12 +51,13 @@ public class DonationBean {
 		this.reward_id = reward_id;
 		this.r_price = r_price;
 		this.add_donation = add_donation;
+		this.address_id = address_id;
 		this.donatedate = donatedate;
 	}
 	
 	//후원기록 조회시
 	public DonationBean(int donation_id, int project_id, String member_id, int reward_id, int r_price, int add_donation,
-			int totalDonation, String donatedate) {
+			int totalDonation, String address_id, String donatedate) {
 		super();
 		this.donation_id = donation_id;
 		this.project_id = project_id;
@@ -50,6 +66,7 @@ public class DonationBean {
 		this.r_price = r_price;
 		this.totalDonation = totalDonation;
 		this.add_donation = add_donation;
+		this.address_id = address_id;
 		this.donatedate = donatedate;
 	}
 
@@ -107,6 +124,14 @@ public class DonationBean {
 
 	public void setTotalDonation(int totalDonation) {
 		this.totalDonation = totalDonation;
+	}
+	
+	public String getAddress_id() {
+		return address_id;
+	}
+	
+	public void setAddress_id(String address_id) {
+		this.address_id = address_id;
 	}
 
 	public String getDonatedate() {

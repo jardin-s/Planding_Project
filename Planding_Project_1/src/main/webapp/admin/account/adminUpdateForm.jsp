@@ -36,7 +36,32 @@
     <link href="../resources/css/customStyle.css" rel="stylesheet">
 </head>
 
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script type="text/javascript">
+function findAddr(){
+	//카카오 지도 발생 -> 주소 입력 후 [검색] -> 찾는 주소 [선택] -> 우편번호와 주소 세팅
+	//postcode 객체 생성하여 바로 open
+	new daum.Postcode({
+		oncomplete : function(data) {//[선택] 시 입력값 세팅 (검색결과 중 선택한 주소)
+			console.log(data);
+			//alert(data);//테스트를 위해 값이 뜨도록 함
+			
+			document.getElementById("postcode").value = data.zonecode; //우편번호를 가져와 postcode에 넣음
+			
+			let roadAddr = data.roadAddress;//도로명 주소
+			let jibunAddr = data.jibunAddress;//지번 주소
+			
+			if(roadAddr != ''){//도로명 주소가 있으면 도로명 주소를 등록 ('': 자바스크립트 널)
+				document.getElementById("address1").value = roadAddr;	
+			}else if(jibunAddr != ''){//도로명 주소가 없고 지번 주소만 있으면 지번주소를 등록
+				document.getElementById("address1").value = jibunAddr;
+			}
+			
+			document.getElementById("address2").focus();//상세주소 입력창에 커서를 깜빡거리게 함
+			
+		}
+	}).open();
+}
 function checkUpateForm(){
 	
 	//아이디와 비밀번호 값 데이터 정규화 공식
@@ -92,6 +117,22 @@ function checkUpateForm(){
 		return false;
 	}
 	
+	if(!document.f.postcode.value.trim()){
+		alert("우편번호를 입력해주세요.");
+		document.f.postcode.focus();
+		return false;
+	}
+	if(!document.f.address1.value.trim()){
+		alert("주소를 입력해주세요.");
+		document.f.address1.focus();
+		return false;
+	}
+	if(!document.f.address2.value.trim()){
+		alert("상세주소를 입력해주세요.");
+		document.f.address2.focus();
+		return false;
+	}
+	
 	
 	document.f.submit();
 		
@@ -109,7 +150,7 @@ function checkUpateForm(){
 	<!-- Page Header Start -->
     <div class="container-fluid page-header pt-4 pb-5 mb-5 wow fadeIn" data-wow-delay="0.1s">
         <div class="container text-center py-5">
-            <h3 class="display-6 text-white mb-4 animated slideInDown">회원정보 수정</h3>
+            <h3 class="display-6 text-white mb-4 animated slideInDown">관리자 정보 수정</h3>
         </div>
     </div>
     <!-- Page Header End -->
@@ -138,15 +179,39 @@ function checkUpateForm(){
 	                            <div class="mb-3 row gx-3 justify-content-center">
 								    <label for="email" class="col-3 col-form-label text-center">이메일</label>
 								    <div class="col-9">
-								      <input type="text" class="form-control" name="email" id="email" value="${admin.name }" placeholder="example@example.com">
+								      <input type="text" class="form-control" name="email" id="email" value="${admin.email }" placeholder="example@example.com">
 								    </div>
 	                            </div>
 	                            <div class="mb-3 row gx-3 justify-content-center">
 								    <label for="phone" class="col-3 col-form-label text-center">전화번호</label>
 								    <div class="col-9">
-								      <input type="text" class="form-control" name="phone" id="phone" value="${admin.name }" maxlength="11" placeholder="(-)없이 숫자만 입력">
+								      <input type="text" class="form-control" name="phone" id="phone" value="${admin.phone }" maxlength="11" placeholder="(-)없이 숫자만 입력">
 								    </div>
 	                            </div>
+	                            
+	                            <div class="mb-3 row g-3 justify-content-center">
+								    <label for="postcode" class="col-3 col-form-label text-center">우편번호</label>
+								    <div class="col-6 me-0 pe-0">
+								      <input type="text" class="form-control" name="postcode" id="postcode" value="${addr.postcode}" max-length="20" placeholder="우편번호만 입력" required>
+								    </div>
+		                            <div class="col-3 text-end">
+		                                <input type="button" class="btn btn-primary" type="button" name="addck" id="addck" value="번호검색" onclick="findAddr();" required>                                
+		                            </div>
+	                            </div>
+	                            <div class="mb-3 row gx-3 justify-content-center">
+								    <label for="address1" class="col-3 col-form-label text-center">주소</label>
+								    <div class="col-9">
+								      <input type="text" class="form-control" name="address1" id="address1" value="${addr.address1}" maxlength="11" placeholder="주소">
+								    </div>
+	                            </div>
+	                            <div class="mb-3 row gx-3 justify-content-center">
+								    <label for="address2" class="col-3 col-form-label text-center">상세주소</label>
+								    <div class="col-9">
+								      <input type="text" class="form-control" name="address2" id="address2" value="${addr.address2}" maxlength="11" placeholder="직접 입력">
+								    </div>
+	                            </div>
+	                            <!-- 주소 ID -->
+	                            <input type="hidden" class="form-control" name="address_id" id="address_id" value="${addr.address_id}">
 	                            <!-- 사용자 가상계좌 -->
 	                            <div class="mb-3 row gx-3 justify-content-center">
 								    <label for="account" class="col-3 col-form-label text-center">잔여금액</label>
@@ -166,20 +231,5 @@ function checkUpateForm(){
     </div>
     <!-- Form End -->
     
-	
-    <!-- JavaScript Libraries -->
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="../resources/lib/wow/wow.min.js"></script>
-    <script src="../resources/lib/easing/easing.min.js"></script>
-    <script src="../resources/lib/waypoints/waypoints.min.js"></script>
-    <script src="../resources/lib/owlcarousel/owl.carousel.min.js"></script>
-    <script src="../resources/lib/counterup/counterup.min.js"></script>
-    <script src="../resources/lib/parallax/parallax.min.js"></script>
-    <script src="../resources/lib/isotope/isotope.pkgd.min.js"></script>
-    <script src="../resources/lib/lightbox/js/lightbox.min.js"></script>
-
-    <!-- Template Javascript -->
-    <script src="../resources/js/main.js"></script>
 </body>
 </html>

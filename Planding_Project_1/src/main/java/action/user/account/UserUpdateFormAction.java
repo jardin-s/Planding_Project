@@ -1,6 +1,8 @@
 package action.user.account;
 
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -35,10 +37,12 @@ public class UserUpdateFormAction implements Action {
 			UserViewService userViewService = new UserViewService();
 			
 			MemberBean userInfo = userViewService.getUserInfo(viewId);
-			//AddressBean userAddrInfo = userViewService.getUserAddrInfo(viewId);
+			AddressBean userAddrInfo = userViewService.getUserAddrInfo(viewId);
 						
 			request.setAttribute("user", userInfo);
-			//request.setAttribute("addr", userAddrInfo);
+			request.setAttribute("addr", userAddrInfo);
+			
+			
 			
 			request.setAttribute("showPage", "user/account/userUpdateForm.jsp");//어느 폼 보기인지 showPage이름 속성으로 저장
 			

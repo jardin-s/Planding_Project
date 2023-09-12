@@ -104,9 +104,10 @@ CREATE TABLE IF NOT EXISTS `project`.`donation_tbl` (
   `project_id` INT NOT NULL COMMENT '프로젝트 ID',
   `member_id` VARCHAR(20) NOT NULL COMMENT '회원 ID',
   `reward_id` INT NOT NULL COMMENT '리워드 ID',
+  `r_price` INT NOT NULL,
   `add_donation` INT NULL COMMENT '추가 후원금액',
+  `address_id` VARCHAR(100) NULL,
   `donatedate` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP COMMENT '후원일자',
-  `comment` NVARCHAR(100) NULL COMMENT '응원글',
   PRIMARY KEY (`donate_id`),
   INDEX `fk_donation_tbl_project_tbl_idx` (`project_id` ASC) VISIBLE,
   INDEX `fk_donation_tbl_member_tbl1_idx` (`member_id` ASC) VISIBLE,
@@ -195,18 +196,25 @@ drop table qna_tbl;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `project`.`qna_tbl` (
   `qna_id` INT NOT NULL AUTO_INCREMENT COMMENT '문의사항 ID',
-  `member_id` VARCHAR(20) NOT NULL COMMENT '작성자 ID',
+  `q_writer` VARCHAR(20) NOT NULL COMMENT '작성자 ID',
   `q_title` VARCHAR(256) NOT NULL COMMENT '질문 제목',
   `q_content` NVARCHAR(500) NOT NULL COMMENT '질문 내용',
   `q_image` VARCHAR(100) NULL COMMENT '문의사항 이미지',
   `q_private` VARCHAR(1) NOT NULL COMMENT '비밀글 여부 YN',
   `q_time` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP COMMENT '질문시간',
+  `a_writer` VARCHAR(20) NULL,
   `a_content` NVARCHAR(300) NULL DEFAULT 'unanswered' COMMENT '답변 내용',
   `a_time` TIMESTAMP NULL COMMENT '답변 시간',
   PRIMARY KEY (`qna_id`),
-  INDEX `fk_qna_tbl_member_tbl1_idx` (`member_id` ASC) VISIBLE,
+  INDEX `fk_qna_tbl_member_tbl1_idx` (`q_writer` ASC) VISIBLE,
+  INDEX `fk_qna_tbl_member_tbl2_idx` (`a_writer` ASC) VISIBLE,
   CONSTRAINT `fk_qna_tbl_member_tbl1`
-    FOREIGN KEY (`member_id`)
+    FOREIGN KEY (`q_writer`)
+    REFERENCES `project`.`member_tbl` (`member_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_qna_tbl_member_tbl2`
+    FOREIGN KEY (`a_writer`)
     REFERENCES `project`.`member_tbl` (`member_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
@@ -226,6 +234,8 @@ DATE_FORMAT(q_time,'%Y.%m.%d %H:%i') as q_time,
 a_content,
 DATE_FORMAT(a_time,'%Y.%m.%d %H:%i') as a_time
 from qna_tbl;
+
+select count(*) from qna_tbl where q_title regexp '제목';
 
 -- -----------------------------------------------------
 -- Table `project`.`project_planner_tbl`
@@ -296,13 +306,14 @@ ENGINE = InnoDB;
 -- Table `project`.`address_tbl`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `project`.`address_tbl` (
-  `address_id` INT NOT NULL AUTO_INCREMENT,
-  `member_id` VARCHAR(45) NOT NULL,
+  `address_id` VARCHAR(100) NOT NULL,
+  `member_id` VARCHAR(20) NOT NULL,
   `receiver_name` NVARCHAR(20) NOT NULL,
-  `phone` VARCHAR(11) NOT NULL,
+  `receiver_phone` VARCHAR(11) NOT NULL,
   `postcode` INT NOT NULL,
   `address1` NVARCHAR(60) NOT NULL,
   `address2` NVARCHAR(60) NOT NULL,
+  `basic_status` VARCHAR(1) NOT NULL COMMENT '기본주소 여부 YN',
   PRIMARY KEY (`address_id`),
   INDEX `fk_address_tbl_member_tbl1_idx` (`member_id` ASC) VISIBLE,
   UNIQUE INDEX `member_id_UNIQUE` (`member_id` ASC) VISIBLE,
@@ -313,6 +324,7 @@ CREATE TABLE IF NOT EXISTS `project`.`address_tbl` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
+select * from address_tbl;
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;

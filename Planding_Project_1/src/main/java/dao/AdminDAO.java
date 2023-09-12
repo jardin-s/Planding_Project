@@ -198,18 +198,20 @@ public class AdminDAO {
 	public int insertAddr(AddressBean addr) {
 		int insertAddrCount = 0;
 		
-		String sql = "insert into address_tbl(member_id, receiver_name, phone, postcode, address1, address2) values(?,?,?,?,?,?)";
+		String sql = "insert into address_tbl values(?,?,?,?,?,?,?,?)";
 		
 		try {
 			
 			pstmt = con.prepareStatement(sql);
 			
-			pstmt.setString(1, addr.getMember_id());
-			pstmt.setString(2, addr.getReceiver_name());
-			pstmt.setString(3, addr.getPhone());
-			pstmt.setInt(4, addr.getPostcode());
-			pstmt.setString(5, addr.getAddress1());
-			pstmt.setString(6, addr.getAddress2());
+			pstmt.setString(1, addr.getAddress_id());
+			pstmt.setString(2, addr.getMember_id());
+			pstmt.setString(3, addr.getReceiver_name());
+			pstmt.setString(4, addr.getReceiver_phone());
+			pstmt.setInt(5, addr.getPostcode());
+			pstmt.setString(6, addr.getAddress1());
+			pstmt.setString(7, addr.getAddress2());
+			pstmt.setString(8, addr.getBasic_status());
 			
 			insertAddrCount = pstmt.executeUpdate();
 			
@@ -224,10 +226,11 @@ public class AdminDAO {
 		return insertAddrCount;
 	}
 
-	public AddressBean selectAddrInfo(String a_id) {
+	//회원정보 수정 시 주소 세팅
+	public AddressBean selectBasicAddrInfo(String a_id) {
 		AddressBean addrInfo = null;
 		
-		String sql = "select * from address_tbl where member_id=?";
+		String sql = "select * from address_tbl where member_id=? and basic_status='Y'";
 		
 		try {
 			
@@ -239,16 +242,18 @@ public class AdminDAO {
 			if(rs.next()) {
 				addrInfo = new AddressBean();
 				
+				addrInfo.setAddress_id(rs.getString("address_id"));
 				addrInfo.setMember_id(rs.getString("member_id"));
 				addrInfo.setReceiver_name(rs.getString("receiver_name"));
-				addrInfo.setPhone(rs.getString("phone"));
+				addrInfo.setReceiver_phone(rs.getString("phone"));
 				addrInfo.setPostcode(rs.getInt("postcode"));
 				addrInfo.setAddress1(rs.getString("address1"));
 				addrInfo.setAddress2(rs.getString("address2"));
+				addrInfo.setBasic_status(rs.getString("basic_status"));
 			}
 			
 		} catch(Exception e) {
-			System.out.println("[AdminDAO] selectAddrInfo() 에러 : "+e);//예외객체종류 + 예외메시지
+			System.out.println("[AdminDAO] selectBasicAddrInfo() 에러 : "+e);//예외객체종류 + 예외메시지
 		} finally {
 			close(pstmt); //JdbcUtil.생략가능
 			close(rs); //JdbcUtil.생략가능
@@ -296,20 +301,20 @@ public class AdminDAO {
 		int updateAddrCount = 0;
 		
 		String sql = "update address_tbl"
-					+ " set receiver_name=?, phone=?, postcode=?, address1=?, address2=?"
-			   		+ " where member_id=?";
+					+ " set receiver_name=?, receiver_phone=?, postcode=?, address1=?, address2=?"
+			   		+ " where address_id=?";
 		
 		try {
 			
 			pstmt = con.prepareStatement(sql);
 			
 			pstmt.setString(1, addr.getReceiver_name());
-			pstmt.setString(2, addr.getPhone());
+			pstmt.setString(2, addr.getReceiver_phone());
 			pstmt.setInt(3, addr.getPostcode());
 			pstmt.setString(4, addr.getAddress1());
 			pstmt.setString(5, addr.getAddress2());
 			
-			pstmt.setString(6, addr.getMember_id());
+			pstmt.setString(6, addr.getAddress_id());
 			
 			updateAddrCount = pstmt.executeUpdate();
 			

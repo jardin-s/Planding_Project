@@ -40,24 +40,43 @@
 <body>
 	
 	<!-- Facts Start -->
-    <div class="container-fluid mb-5 py-5">
+    <div class="container-fluid mb-2 mb-md-5 py-2 py-md-5">
         <div class="container">
             <div class="row justify-content-center">
             	<div class="bg-light rounded p-4 p-sm-5 animated fadeIn" data-wow-delay="0.1s">
 	            	<div class="row g-3 justify-content-center">
 	            		<!-- 수익 차트 -->
-		            	<div class="col-6 text-center">
+		            	<div class="col-12 col-md-6 text-center">
 		            		<h4 class="text-center text-primary pb-3">최근 6개월 간 수익</h4>
 		                    <canvas id="myChart" width="100%" height="50px"></canvas>
 		                </div>
 		                <!-- 가입 회원수 -->
-		                <div class="col-6 p-5">
+		                <div class="col-4 col-md-6 p-5 d-none d-md-block">
 		                	<div class="d-flex align-items-center">
-		                		<div class="row justify-content-center text-center">
-				                	<h1 class="display-4 text-white" data-toggle="counter-up">1234</h1>
+		                		<div class="col-12">
+				                	<h3 class="text-primary text-center">Users</h3>
+				                	<h1 class="display-4 text-dark text-center">1234</h1>
 			                	</div>
 		                	</div>
 		                </div>
+	                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Facts End -->
+    <!-- Facts Start -->
+    <div class="container-fluid mb-4 py-3 d-block d-md-none">
+        <div class="container">
+            <div class="row justify-content-center">
+            	<div class="bg-dark rounded p-4 p-sm-5">
+	            	<div class="row g-3 justify-content-center">
+	                	<div class="d-flex align-items-center">
+	                		<div class="col-12">
+			                	<h3 class="text-white text-center">회원 수</h3>
+			                	<h1 class="display-4 text-white text-center">1234</h1>
+		                	</div>
+	                	</div>
 	                </div>
                 </div>
             </div>
@@ -202,7 +221,8 @@
 			datasets: [{//각 라벨의 데이터세팅
 				data: monthData,//데이터값 : monthData 배열의 값들
 				borderColor:'rgba(54, 124, 72, 1)',
-				borderWidth: 3
+				borderWidth: 3,
+				lineTension: 0.5
 			}]
 		},
 
@@ -223,19 +243,5 @@
 	</script>
     
     
-    <!-- JavaScript Libraries -->
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="../resources/lib/wow/wow.min.js"></script>
-    <script src="../resources/lib/easing/easing.min.js"></script>
-    <script src="../resources/lib/waypoints/waypoints.min.js"></script>
-    <script src="../resources/lib/owlcarousel/owl.carousel.min.js"></script>
-    <script src="../resources/lib/counterup/counterup.min.js"></script>
-    <script src="../resources/lib/parallax/parallax.min.js"></script>
-    <script src="../resources/lib/isotope/isotope.pkgd.min.js"></script>
-    <script src="../resources/lib/lightbox/js/lightbox.min.js"></script>
-
-    <!-- Template Javascript -->
-    <script src="../resources/js/main.js"></script>
 </body>
 </html>

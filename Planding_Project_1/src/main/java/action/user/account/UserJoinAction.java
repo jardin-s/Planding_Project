@@ -1,6 +1,8 @@
 package action.user.account;
 
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -27,6 +29,11 @@ public class UserJoinAction implements Action {
 		int u_account = Integer.parseInt(request.getParameter("account"));
 		String u_admin = request.getParameter("admin_status");
 		
+		int postcode = Integer.parseInt(request.getParameter("postcode"));
+		String address1 = request.getParameter("address1");
+		String address2 = request.getParameter("address2");
+		String basic_status = request.getParameter("basic_status");
+		
 		System.out.println("[UserJoinAction] 회원가입 폼에서 전송받은 값");
 		System.out.println("member_id="+u_id);
 		System.out.println("password="+u_password);
@@ -35,6 +42,10 @@ public class UserJoinAction implements Action {
 		System.out.println("phone="+u_phone);
 		System.out.println("account="+u_account);
 		System.out.println("admin_status="+u_admin);
+		System.out.println("postcode="+postcode);
+		System.out.println("address1="+address1);
+		System.out.println("address2="+address2);
+		System.out.println("basic_status="+basic_status);
 		
 		/*
 		MemberBean user = new MemberBean();
@@ -50,8 +61,17 @@ public class UserJoinAction implements Action {
 		//비밀번호 암호화 방법-2 (매개변수가 있는 생성자)
 		MemberBean user = new MemberBean(u_id, u_password, u_name, u_email, u_phone, u_account, u_admin);
 		
+		//주소ID 생성
+		Date now = new Date();
+		SimpleDateFormat format = new SimpleDateFormat("yyMMddHHmmssZ");
+		String address_id = format.format(now);
+		address_id = u_id+address_id;
+		System.out.println("생성된 address_id = "+address_id);
+		//주소 객체 생성
+		AddressBean addr = new AddressBean(address_id, u_id, u_name, u_phone, postcode, address1, address2, basic_status);
+		
 		UserJoinService userJoinService = new UserJoinService();
-		boolean isUserJoinSuccess = userJoinService.userJoin(user);
+		boolean isUserJoinSuccess = userJoinService.userJoin(user, addr);
 		
 		if(!isUserJoinSuccess) { //회원가입 실패
 			response.setContentType("text/html; charset=UTF-8");

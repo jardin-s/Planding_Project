@@ -44,8 +44,9 @@ public class UserDeleteAction implements Action {
 			
 		}else { //본인인증 성공시
 			
-			//2. 회원탈퇴 (탈퇴회원테이블에 회원 insert 후 회원테이블에서 회원삭제)
+			//2. 회원탈퇴 (회원 아이디, 관리자여부만 남기고 모든 회원개인정보 삭제)
 			boolean isUserDeleteSuccess = userDeleteService.userDelete(user);
+			//주소는 이벤트스케줄러 -> 회원탈퇴일 6개월 이후 삭제 (프로젝트 배송시 필요할 수 있으므로)
 			
 			if(isUserDeleteSuccess == false) { //회원탈퇴 실패 시
 				response.setContentType("text/html; charset=utf-8");

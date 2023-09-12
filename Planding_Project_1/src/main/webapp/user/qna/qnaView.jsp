@@ -86,17 +86,17 @@ function deleteConfirm(page, qna_id, member_id){
 	                <hr>
                 </c:if>
                 <hr class="mb-5">
-                <c:if test="${qnaInfo.a_content eq 'unanswered'}">
+                <c:if test="${qnaInfo.a_writer eq null}">
                 	<div class="pt-3 pb-5">
                 		<p>아직 등록된 답변이 없습니다.</p>
                 	</div>
                 </c:if>
-                <c:if test="${qnaInfo.a_content ne 'unanswered'}">
+                <c:if test="${qnaInfo.a_writer ne null}">
                 	<div class="mb-3">
-                		<span class="fw-bold fs-5">문의사항에 대한 답변입니다.</span> | <span>답변일시</span>
+                		<span class="fw-bold fs-5">문의사항에 대한 답변입니다.</span> | <span>${qnaInfo.a_time }</span>
                 	</div>
                 	<hr>
-                	<p>답변 내용</p>
+                	<p>${qnaInfo.a_content}</p>
                 	<hr class="mb-4">
                 </c:if>
                 
@@ -113,20 +113,5 @@ function deleteConfirm(page, qna_id, member_id){
     </div>   
     <!-- Table End -->   
 		
-	    
-    <!-- JavaScript Libraries -->
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="../resources/lib/wow/wow.min.js"></script>
-    <script src="../resources/lib/easing/easing.min.js"></script>
-    <script src="../resources/lib/waypoints/waypoints.min.js"></script>
-    <script src="../resources/lib/owlcarousel/owl.carousel.min.js"></script>
-    <script src="../resources/lib/counterup/counterup.min.js"></script>
-    <script src="../resources/lib/parallax/parallax.min.js"></script>
-    <script src="../resources/lib/isotope/isotope.pkgd.min.js"></script>
-    <script src="../resources/lib/lightbox/js/lightbox.min.js"></script>
-
-    <!-- Template Javascript -->
-    <script src="../resources/js/main.js"></script>
 </body>
 </html>

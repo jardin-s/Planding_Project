@@ -7,7 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
-import util.SHA256;
+
 import vo.QnaBean;
 
 public class QnaDAO {
@@ -310,7 +310,7 @@ public class QnaDAO {
 		int udpateNewAnswerCount = 0;
 		
 		String sql = "update qna_tbl"
-				  + " set a_writer, a_content=?, a_time=current_timestamp"
+				  + " set a_writer=?, a_content=?, a_time=current_timestamp"
 				  + " where qna_id=?";
 		
 		try {
@@ -358,6 +358,91 @@ public class QnaDAO {
 		}
 		
 		return udpateAnswerCount;
+	}
+
+	
+	//검색조건에 맞는 문의글 개수를 얻어옴
+	public int searchQnaCount(String search_title) {
+		int searchQnaCount = 0;
+		
+		String sql = "select count(*)"
+				  + " from qna_tbl"
+				  + " where q_title regexp ?";
+		
+		try {
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, search_title);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				searchQnaCount = rs.getInt(1);
+			}
+			
+		} catch(Exception e) {
+			System.out.println("[QnaDAO] searchQnaCount() 에러 : "+e);//예외객체종류 + 예외메시지
+		} finally {
+			close(pstmt); //JdbcUtil.생략가능
+			close(rs); //JdbcUtil.생략가능
+			//connection 객체에 대한 해제는 DogListService에서 이루어짐
+		}
+		
+		return searchQnaCount;
+	}
+	
+	//검색조건에 맞는 문의글 목록을 얻어옴
+	public ArrayList<QnaBean> searchQnaList(String search_title, int page, int limit) {
+		ArrayList<QnaBean> qnaList = null;
+		
+		int startrow = (page-1)*10;
+		
+		String sql = "select qna_id, q_writer,"
+				  + " q_title, q_content, q_image, q_private,"
+				  + " DATE_FORMAT(q_time,'%Y.%m.%d') as q_time,"
+				  + " a_writer, a_content, DATE_FORMAT(a_time,'%Y.%m.%d') as a_time"
+				  + " from qna_tbl"
+				  + " where q_title regexp ?"
+				  + " limit ?, ?";
+		
+		try {
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, search_title);
+			pstmt.setInt(2, startrow);
+			pstmt.setInt(3, limit);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				qnaList = new ArrayList<>();
+				
+				do {
+					qnaList.add(new QnaBean(rs.getInt("qna_id"),
+											rs.getString("q_writer"),
+											rs.getString("q_title"),
+											rs.getString("q_content"),
+											rs.getString("q_image"),
+											rs.getString("q_private"),
+											rs.getString("q_time"),
+											rs.getString("a_writer"),
+											rs.getString("a_content"),
+											rs.getString("a_time")
+											)
+								);
+				}while(rs.next());
+				
+			}
+			
+			
+		} catch(Exception e) {
+			System.out.println("[QnaDAO] searchQnaList() 에러 : "+e);//예외객체종류 + 예외메시지
+		} finally {
+			close(pstmt); //JdbcUtil.생략가능
+			close(rs); //JdbcUtil.생략가능
+			//connection 객체에 대한 해제는 DogListService에서 이루어짐
+		}
+		
+		return qnaList;
 	}
 	
 }

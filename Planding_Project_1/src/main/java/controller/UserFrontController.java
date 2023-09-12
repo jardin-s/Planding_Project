@@ -20,6 +20,7 @@ import action.user.account.UserLogoutAction;
 import action.user.account.UserUpdateAction;
 import action.user.account.UserUpdateFormAction;
 import action.user.notice.UserNoticeListAction;
+import action.user.qna.SearchQnaListAction;
 import action.user.qna.UserDeleteQnaAction;
 import action.user.qna.UserInsertQnaQAction;
 import action.user.qna.UserInsertQnaQFormAction;
@@ -325,6 +326,19 @@ public class UserFrontController extends HttpServlet {
 				e.printStackTrace();
 			}
  
+		}
+		/*-- '검색 문의글 목록 보기' 요청 --------------------------------------*/
+		if(command.equals("/searchQnaList.usr")) {//
+			
+			//부모인터페이스 = 구현한 자식객체
+			action = new SearchQnaListAction();//부모인터페이스인 Action으로 받음 
+			
+			try {
+				forward = action.execute(request, response);
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+			
 		}
 				
 		/*-- '문의글 쓰기 폼 보기' 요청 -> 처리 --------------------------------------*/

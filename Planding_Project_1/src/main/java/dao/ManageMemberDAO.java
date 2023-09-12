@@ -938,6 +938,7 @@ public class ManageMemberDAO {
 			if(rs.next()) {
 				memberInfo = new MemberBean();
 				memberInfo.setMember_id(member_id);
+				memberInfo.setName(rs.getString("name"));
 				memberInfo.setEmail(rs.getString("email"));
 				memberInfo.setPhone(rs.getString("phone"));
 				memberInfo.setJoindate(rs.getString("joindate"));
@@ -960,7 +961,10 @@ public class ManageMemberDAO {
 	public ArrayList<AddressBean> selectMemberAddressList(String member_id) {
 		ArrayList<AddressBean> addressList = null;
 		
-		String sql = "select address_id, member_id, postcode, address1, address2"
+		String sql = "select address_id, member_id,"
+				  + " receiver_name, receiver_phone,"
+				  + " postcode, address1, address2,"
+				  + " basic_status"
 				  + " from address_tbl"
 				  + " where member_id=?";
 		
@@ -974,11 +978,14 @@ public class ManageMemberDAO {
 				addressList = new ArrayList<>();
 				
 				do{
-					addressList.add(new AddressBean(rs.getInt("address_id"),
+					addressList.add(new AddressBean(rs.getString("address_id"),
 													rs.getString("member_id"),
+													rs.getString("receiver_name"),
+													rs.getString("receiver_phone"),
 													rs.getInt("postcode"),
 													rs.getString("address1"),
-													rs.getString("address2")
+													rs.getString("address2"),
+													rs.getString("basic_status")
 													)
 									);
 					
@@ -1001,7 +1008,7 @@ public class ManageMemberDAO {
 		
 		ArrayList<DonationBean> donationList = null;
 		
-		String sql = "select donation_id, project_id, member_id, reward_id,"
+		String sql = "select donation_id, project_id, member_id, reward_id, address_id"
 				  + " r_price, nvl(add_donation,0) as add_donation,"
 				  + " DATE_FORMAT(donatedate,'%Y.%m.%d') as donatedate"
 				  + " from donation_tbl"
@@ -1021,6 +1028,7 @@ public class ManageMemberDAO {
 					donation.setDonation_id(rs.getInt("donation_id"));
 					donation.setProject_id(rs.getInt("project_id"));
 					donation.setMember_id(rs.getString("member_id"));
+					donation.setAddress_id(rs.getString("address_id"));
 					donation.setReward_id(rs.getInt("reward_id"));
 					donation.setR_price(rs.getInt("r_price"));
 					donation.setAdd_donation(rs.getInt("add_donation"));

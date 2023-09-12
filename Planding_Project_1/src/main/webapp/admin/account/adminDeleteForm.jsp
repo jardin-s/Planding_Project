@@ -68,7 +68,7 @@ function checkDeleteForm(){
 	<!-- Page Header Start -->
     <div class="container-fluid page-header pt-4 pb-5 mb-5 wow fadeIn" data-wow-delay="0.1s">
         <div class="container text-center py-5">
-            <h3 class="display-6 text-white mb-4 animated slideInDown">회원탈퇴</h3>
+            <h3 class="display-6 text-white mb-4 animated slideInDown">관리자 계정 삭제</h3>
         </div>
     </div>
     <!-- Page Header End -->
@@ -83,22 +83,6 @@ function checkDeleteForm(){
 	                    <div class="bg-light rounded p-4 animated fadeIn" data-wow-delay="0.1s">                        
 	                        <div class="row g-3">
 	                            <div class="col-12">
-	                                <div class="bg-white rounded">
-	                                    <p class="p-3">
-	                                    	<span class="fw-bold">&nbsp;서비스를 이용하는 데 불편함이 있었나요?</span><br><br>	                                    	
-	                                    	&nbsp;다음 중 탈퇴 사유를 골라 사이트를 개선하는 데 도움을 주세요.
-						                    <div class="col-12 col-lg-8 px-4 pb-3 pt-0">
-							                    <select class="form-select" name="reason">
-													<option value="" selected>--- 탈퇴 사유를 골라주세요. ---</option>
-													<option value="1">원하는 프로젝트를 찾을 수 없음</option>
-													<option value="2">프로젝트 등록 절차가 복잡함</option>
-													<option value="3">프로젝트 후원 절차가 복잡함</option>
-													<option value="4">개인정보를 삭제하고 싶음</option>
-													<option value="5">직접입력</option>
-												</select>
-											</div>               	
-										</p>
-	                                </div>
 	                                <div class="bg-white rounded">
 	                                    <p class="p-3">
 	                                    	<span class="fw-bold">&nbsp;탈퇴 전 유의사항을 확인해주세요.</span><br><br>	                                    	
@@ -147,20 +131,5 @@ function checkDeleteForm(){
     </div>
     <!-- Form End -->
 		
-	    
-    <!-- JavaScript Libraries -->
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="../resources/lib/wow/wow.min.js"></script>
-    <script src="../resources/lib/easing/easing.min.js"></script>
-    <script src="../resources/lib/waypoints/waypoints.min.js"></script>
-    <script src="../resources/lib/owlcarousel/owl.carousel.min.js"></script>
-    <script src="../resources/lib/counterup/counterup.min.js"></script>
-    <script src="../resources/lib/parallax/parallax.min.js"></script>
-    <script src="../resources/lib/isotope/isotope.pkgd.min.js"></script>
-    <script src="../resources/lib/lightbox/js/lightbox.min.js"></script>
-
-    <!-- Template Javascript -->
-    <script src="../resources/js/main.js"></script>
 </body>
 </html>

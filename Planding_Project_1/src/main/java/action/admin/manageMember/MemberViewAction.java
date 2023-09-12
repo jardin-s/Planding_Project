@@ -43,7 +43,8 @@ public class MemberViewAction implements Action {
 		ArrayList<QnaBean> qnaList = memberViewService.getMemberQnaList(member_id);
 		request.setAttribute("qnaList", qnaList);
 		
-		forward = new ActionForward("admin/manageMember/manageUserView.jsp", false);
+		request.setAttribute("showAdmin", "admin/manageMember/manageUserView.jsp");
+		forward = new ActionForward("adminTemplate.jsp", false);
 		
 		return forward;
 	}

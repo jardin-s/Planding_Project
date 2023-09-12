@@ -158,7 +158,7 @@ function selectDelete(){
 	<!-- Main Section -->
 	<!-- Page Header Start -->
     <div class="container-fluid py-4 mb-5 wow fadeIn" data-wow-delay="0.1s" style="background-color:#86B381">
-        <div class="container text-center py-5">
+        <div class="container text-center pt-5">
             <h3 class="display-6 py-3 text-white animated slideInDown">회원상세</h3>
         </div>
     </div>
@@ -166,44 +166,48 @@ function selectDelete(){
     
     
     <div class="container-xxl mb-5 py-5">
-   		<div class="container col-10 col-md-6">
+   		<div class="container col-12 col-md-8 col-lg-6">
    			<div class="col-12 mb-5">
-   				<h4 class="text-center mb-4">testuser0001의 상세정보</h4>
+   				<h4 class="text-center mb-4">${memberInfo.member_id }의 상세정보</h4>
    				<table class="table table-bordered mb-5">
 			    	<tr>
 			    		<th class="text-center">아이디</th>
-			    		<td>testuser0001</td>
+			    		<td>${memberInfo.member_id }</td>
 			    		<th class="text-center">이름</th>
-			    		<td>유저일</td>
+			    		<td>${memberInfo.name }</td>
 			    	</tr>
 			    	<tr>
 			    		<th class="text-center">이메일</th>
-			    		<td>testuser0001@test.com</td>
+			    		<td>${memberInfo.email }</td>
 			    		<th class="text-center">전화번호</th>
-			    		<td>01012340001</td>
+			    		<td>${memberInfo.phone }</td>
 			    	</tr>
 			    	<tr>
 			    		<th class="text-center">가입일</th>
-			    		<td>2023.09.11</td>
+			    		<td>${memberInfo.joindate }</td>
 			    		<th class="text-center">계좌잔액</th>
-			    		<td>1300원</td>
+			    		<td>${memberInfo.account }원</td>
 			    	</tr>
 			    </table>
 			    
 			    <h4 class="text-center mb-4">등록된 배송지</h4>
    				<table class="table table-bordered mb-5">
 			    	<tr class="text-center">
-			    		<th>주소 ID</th>
 			    		<th>우편번호</th>
 			    		<th>주소</th>
 			    		<th>상세주소</th>
+			    		<th>수령인</th>
+			    		<th>전화번호</th>
 			    	</tr>
-			    	<tr class="text-center">
-			    		<td>12303215</td>
-			    		<td>232151</td>
-			    		<td>달서구 이곡로 36길</td>
-			    		<td>1층</td>
-			    	</tr>
+			    	<c:forEach var="address" items="${addressList }">
+			    		<tr class="text-center">
+				    		<td>${address.postcode }</td>
+				    		<td>${address.address1}</td>
+				    		<td>${address.address2}</td>
+				    		<td>${address.receiver_name}</td>
+				    		<td>${address.receiver_phone}</td>
+				    	</tr>
+			    	</c:forEach>
 			    </table>
 			    
 			    <h4 class="text-center mb-4">후원기록</h4>
@@ -214,12 +218,14 @@ function selectDelete(){
 			    		<th>총 후원금액</th>
 			    		<th>후원일자</th>
 			    	</tr>
-			    	<tr class="text-center">
-			    		<td>12303215</td>
-			    		<td>232151</td>
-			    		<td>15000원</td>
-			    		<td>2023.08.15</td>
-			    	</tr>
+			    	<c:forEach var="donation" items="${donationList }">
+			    		<tr class="text-center">
+				    		<td>${donation.project_id}</td>
+				    		<td>${donation.reward_id }</td>
+				    		<td>${donation.totalDonation}원</td>
+				    		<td>${donation.donatedate}</td>
+				    	</tr>
+			    	</c:forEach>
 			    </table>
 			    
 			    <h4 class="text-center mb-4">작성한 문의글</h4>
@@ -230,12 +236,19 @@ function selectDelete(){
 			    		<th>답변등록 여부</th>
 			    		<th>작성일자</th>
 			    	</tr>
-			    	<tr class="text-center">
-			    		<td>12303215</td>
-			    		<td>계좌충전이 안 돼요.</td>
-			    		<td>미등록</td>
-			    		<td>2023.08.15</td>
-			    	</tr>
+			    	<c:forEach var="qna" items="${qnaList }">
+			    		<tr class="text-center">
+				    		<td>${qna.qna_id}</td>
+				    		<td>${qna.q_title }</td>
+				    		<td>
+				    			<c:if test="${qna.a_writer ne null }">답변완료</c:if>
+				    			<c:if test="${qna.a_writer eq null }">
+				    				<button class="btn btn-outline-primary py-0" type="button" id="answerBtn" onclick="location.href='adminInsertQnaAForm.adm?qna_id=${qna.qna_id}&page=1'">답변하기</button>
+				    			</c:if>
+				    		</td>
+				    		<td>${qna.q_time}</td>
+				    	</tr>
+			    	</c:forEach>
 			    </table>
 			    
 			    <div class="col-12 text-center mt-5 mx-auto">
@@ -249,21 +262,5 @@ function selectDelete(){
 	    
 	    
     
-    
-    
-    <!-- JavaScript Libraries -->
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="../../resources/lib/wow/wow.min.js"></script>
-    <script src="../../resources/lib/easing/easing.min.js"></script>
-    <script src="../../resources/lib/waypoints/waypoints.min.js"></script>
-    <script src="../../resources/lib/owlcarousel/owl.carousel.min.js"></script>
-    <script src="../../resources/lib/counterup/counterup.min.js"></script>
-    <script src="../../resources/lib/parallax/parallax.min.js"></script>
-    <script src="../../resources/lib/isotope/isotope.pkgd.min.js"></script>
-    <script src="../../resources/lib/lightbox/js/lightbox.min.js"></script>
-
-    <!-- Template Javascript -->
-    <script src="../../resources/js/main.js"></script>
 </body>
 </html>
