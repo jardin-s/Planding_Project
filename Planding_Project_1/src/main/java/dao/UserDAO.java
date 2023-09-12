@@ -13,6 +13,7 @@ import vo.AddressBean;
 import vo.BookmarkBean;
 import vo.MemberBean;
 import vo.MemberPwChangeBean;
+import vo.ProjectBean;
 
 public class UserDAO {
 	
@@ -786,5 +787,7 @@ public class UserDAO {
 		
 		return insertFormerUserCount;
 	}
+
+	
 	
 }
