@@ -33,10 +33,13 @@
 
     <!-- Template Stylesheet -->
     <link href="resources/css/style.css" rel="stylesheet">
+    
+    <!-- Customized Stylesheet -->
+    <link href="resources/css/customStyle.css" rel="stylesheet">
 </head>
 <body>
 	<div>
-		<jsp:include page="user/userHeader.jsp" />
+		<jsp:include page="/user/userHeader.jsp" />
 	</div>
 		
 	<c:if test="${requestScope.showPage ne null }">
@@ -48,7 +51,7 @@
 	</c:if>
 	
 	<div>
-		<jsp:include page="user/userFooter.jsp" />
+		<jsp:include page="/user/userFooter.jsp" />
 	</div>
 	
 	<!-- JavaScript Libraries -->

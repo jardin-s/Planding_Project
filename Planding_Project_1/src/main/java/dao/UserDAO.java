@@ -13,7 +13,6 @@ import vo.AddressBean;
 import vo.BookmarkBean;
 import vo.MemberBean;
 import vo.MemberPwChangeBean;
-import vo.ProjectBean;
 
 public class UserDAO {
 	
@@ -55,88 +54,6 @@ public class UserDAO {
 		this.con = con;
 	}
 
-	//1. 모든 개 상품정보를 조회하여 ArrayList<Dog> 객체 반환
-//	public ArrayList<Dog> selectDogList(String id) {
-//		
-//		ArrayList<Dog> dogList = null;
-//		//ArrayList<Dog> dogList = new ArrayList<>();//기본값(null)으로 채워짐
-//		
-//		//sql
-//		String sql = "select * from dog";
-//		
-//		try {
-//			
-//			pstmt = con.prepareStatement(sql);
-//			rs = pstmt.executeQuery();
-//			
-//			//[방법-1] 위에서 dogList 객체 생성 후
-//			/*
-//			while(rs.next()) {
-//				Dog dog = new Dog();//기본값으로 채워진 Dog객체를
-//				
-//				//조회된 dog의 정보로 채움
-//				dog.setId(rs.getInt("id"));
-//				dog.setKind(rs.getString("kind"));
-//				dog.setCountry(rs.getString("country"));
-//				dog.setPrice(rs.getInt("price"));
-//				dog.setHeight(rs.getInt("height"));
-//				dog.setWeight(rs.getInt("weight"));
-//				dog.setContent(rs.getString("content"));
-//				dog.setImage(rs.getString("image"));
-//				dog.setReadcount(rs.getInt("readcount"));
-//				
-//				dogList.add(dog);
-//			}
-//			*/
-//			
-//			//[방법-2] 위에서 dogList 선언만 함
-//			if(rs.next()) {
-//				
-//				dogList = new ArrayList<>();//기본값으로 채워짐
-//				
-//				do {
-//					/*
-//					Dog dog = new Dog();
-//					
-//					dog.setId(rs.getInt("id"));
-//					dog.setKind(rs.getString("kind"));
-//					dog.setCountry(rs.getString("country"));
-//					dog.setPrice(rs.getInt("price"));
-//					dog.setHeight(rs.getInt("height"));
-//					dog.setWeight(rs.getInt("weight"));
-//					dog.setContent(rs.getString("content"));
-//					dog.setImage(rs.getString("image"));
-//					dog.setReadcount(rs.getInt("readcount"));
-//					
-//					dogList.add(dog);				
-//					*/
-//					
-//					dogList.add(new Dog(rs.getInt("id"),
-//										rs.getString("kind"),
-//										rs.getString("country"),
-//										rs.getInt("price"),
-//										rs.getInt("height"),
-//										rs.getInt("weight"),
-//										rs.getString("content"),
-//										rs.getString("image"),
-//										rs.getInt("readcount")
-//										)
-//								);
-//				}while(rs.next());
-//				
-//			}
-//			
-//			
-//		} catch(Exception e) {
-//			System.out.println("DogDAO클래스 : selectDogList() 에러 "+e);//예외객체종류 + 예외메시지
-//		} finally {
-//			close(pstmt); //JdbcUtil.생략가능
-//			close(rs); //JdbcUtil.생략가능
-//			//connection 객체에 대한 해제는 DogListService에서 이루어짐
-//		}
-//		
-//		return dogList;
-//	}
 	
 	//1. 로그인 폼에서 전달받은 id와 pw로 회원여부 조회한 후, 그 id를 다시 반환 (boolean으로 반환해도 됨)
 	public String selectLoginId(MemberBean user) {
@@ -172,6 +89,7 @@ public class UserDAO {
 		return loginId;
 	}
 
+	//아이디로 회원정보를 가져옴
 	public MemberBean selectUserInfo(String u_id) {
 		MemberBean userInfo = null;
 		
@@ -193,7 +111,7 @@ public class UserDAO {
 				userInfo.setEmail(rs.getString("email"));
 				userInfo.setPhone(rs.getString("phone"));
 				userInfo.setAccount(rs.getInt("account"));
-				userInfo.setAdmin(rs.getBoolean("isAdmin"));
+				userInfo.setAdmin_status(rs.getString("admin_status"));
 			}
 			
 			
@@ -243,7 +161,7 @@ public class UserDAO {
 		int insertUserCount = 0;
 		
 		//joindate timestamp default now() -> joindate 생략
-		String sql = "insert into member_tbl(member_id, password, name, email, phone, account, isAdmin) "
+		String sql = "insert into member_tbl(member_id, password, name, email, phone, account, admin_status) "
 					+ "values(?,?,?,?,?,?,?)";
 		
 		//joindate timestamp (디폴트값 없음) -> insert into member_tbl values(?,?,?,?,?,?,now());
@@ -262,7 +180,7 @@ public class UserDAO {
 			pstmt.setString(4, user.getEmail());
 			pstmt.setString(5, user.getPhone());
 			pstmt.setInt(6, user.getAccount());
-			pstmt.setBoolean(7, user.isAdmin());
+			pstmt.setString(7, user.getAdmin_status());
 			
 			insertUserCount = pstmt.executeUpdate();
 			
@@ -280,18 +198,20 @@ public class UserDAO {
 	public int insertAddr(AddressBean addr) {
 		int insertAddrCount = 0;
 		
-		String sql = "insert into address_tbl(member_id, receiver_name, phone, postcode, address1, address2) values(?,?,?,?,?,?)";
+		String sql = "insert into address_tbl values(?,?,?,?,?,?,?,?)";
 		
 		try {
 			
 			pstmt = con.prepareStatement(sql);
 			
-			pstmt.setString(1, addr.getMember_id());
-			pstmt.setString(2, addr.getReceiver_name());
-			pstmt.setString(3, addr.getPhone());
-			pstmt.setInt(4, addr.getPostcode());
-			pstmt.setString(5, addr.getAddress1());
-			pstmt.setString(6, addr.getAddress2());
+			pstmt.setString(1, addr.getAddress_id());
+			pstmt.setString(2, addr.getMember_id());
+			pstmt.setString(3, addr.getReceiver_name());
+			pstmt.setString(4, addr.getReceiver_phone());
+			pstmt.setInt(5, addr.getPostcode());
+			pstmt.setString(6, addr.getAddress1());
+			pstmt.setString(7, addr.getAddress2());
+			pstmt.setString(8, addr.getBasic_status());
 			
 			insertAddrCount = pstmt.executeUpdate();
 			
@@ -306,10 +226,14 @@ public class UserDAO {
 		return insertAddrCount;
 	}
 
-	public AddressBean selectAddrInfo(String u_id) {
+	public AddressBean selectBasicAddrInfo(String u_id) {
 		AddressBean addrInfo = null;
 		
-		String sql = "select * from address_tbl where member_id=?";
+		//해당 회원의 id 중, 기본주소의 정보만 가져옴
+		String sql = "select * "
+				  + " from address_tbl"
+				  + " where basic_status='Y'"
+				  + " and member_id=?";
 		
 		try {
 			
@@ -321,16 +245,17 @@ public class UserDAO {
 			if(rs.next()) {
 				addrInfo = new AddressBean();
 				
+				addrInfo.setAddress_id(rs.getString("address_id"));
 				addrInfo.setMember_id(rs.getString("member_id"));
 				addrInfo.setReceiver_name(rs.getString("receiver_name"));
-				addrInfo.setPhone(rs.getString("phone"));
+				addrInfo.setReceiver_phone(rs.getString("receiver_phone"));
 				addrInfo.setPostcode(rs.getInt("postcode"));
 				addrInfo.setAddress1(rs.getString("address1"));
 				addrInfo.setAddress2(rs.getString("address2"));
 			}
 			
 		} catch(Exception e) {
-			System.out.println("[UserDAO] selectAddrInfo() 에러 : "+e);//예외객체종류 + 예외메시지
+			System.out.println("[UserDAO] selectBasicAddrInfo() 에러 : "+e);//예외객체종류 + 예외메시지
 		} finally {
 			close(pstmt); //JdbcUtil.생략가능
 			close(rs); //JdbcUtil.생략가능
@@ -374,29 +299,29 @@ public class UserDAO {
 	}
 
 	//회원정보수정 시 회원의 주소 수정
-	public int updateAddr(AddressBean addr) {
+	public int updateBasicAddr(AddressBean addr) {
 		int updateAddrCount = 0;
 		
 		String sql = "update address_tbl"
-					+ " set receiver_name=?, phone=?, postcode=?, address1=?, address2=?"
-			   		+ " where member_id=?";
+					+ " set receiver_name=?, receiver_phone=?, postcode=?, address1=?, address2=?"
+			   		+ " where address_id=?";
 		
 		try {
 			
 			pstmt = con.prepareStatement(sql);
 			
 			pstmt.setString(1, addr.getReceiver_name());
-			pstmt.setString(2, addr.getPhone());
+			pstmt.setString(2, addr.getReceiver_phone());
 			pstmt.setInt(3, addr.getPostcode());
 			pstmt.setString(4, addr.getAddress1());
 			pstmt.setString(5, addr.getAddress2());
 			
-			pstmt.setString(6, addr.getMember_id());
+			pstmt.setString(6, addr.getAddress_id());
 			
 			updateAddrCount = pstmt.executeUpdate();
 			
 		} catch(Exception e) {
-			System.out.println("[UserDAO] updateAddr() 에러 : "+e);//예외객체종류 + 예외메시지
+			System.out.println("[UserDAO] updateBasicAddr() 에러 : "+e);//예외객체종류 + 예외메시지
 		} finally {
 			close(pstmt); //JdbcUtil.생략가능
 			//close(rs); //JdbcUtil.생략가능
@@ -407,30 +332,37 @@ public class UserDAO {
 	}
 
 	//회원탈퇴 시 회원정보 삭제
-	public int deleteUser(String id) {
-		int deleteeAddrCount = 0;
+	public int updateDeleteUser(String id) {
+		int updateDeleteUserCount = 0;
 		
-		String sql = "delete from member_tbl where member_id=?";
+		//비밀번호, 이름, 이메일, 전화번호의 개인정보 삭제(계좌잔액, 관리자여부 제외)
+		//탈퇴여부 Y, 탈퇴일시 현재시간으로 업데이트
+		String sql = "update member_tbl"
+				 + " set password='delete', name='delete',"
+				 + " email='delete', phone='delete',"
+				 + " delete_status='Y',"
+				 + " deletedate=current_timestamp"
+				 + " where member_id=?";
 		
 		try {
 			
 			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, id);
 						
-			deleteeAddrCount = pstmt.executeUpdate();
+			updateDeleteUserCount = pstmt.executeUpdate();
 			
 		} catch(Exception e) {
-			System.out.println("[UserDAO] deleteUser() 에러 : "+e);//예외객체종류 + 예외메시지
+			System.out.println("[UserDAO] updateDeleteUser() 에러 : "+e);//예외객체종류 + 예외메시지
 		} finally {
 			close(pstmt); //JdbcUtil.생략가능
 			//close(rs); //JdbcUtil.생략가능
 			//connection 객체에 대한 해제는 DogListService에서 이루어짐
 		}
 		
-		return deleteeAddrCount;
+		return updateDeleteUserCount;
 	}
 
-	//회원탈퇴 시 회원의 주소 삭제
+	//회원탈퇴 시 회원의 모든 주소 삭제
 	public int deleteAddr(String id) {
 		int deleteeAddrCount = 0;
 		
@@ -729,64 +661,7 @@ public class UserDAO {
 		return fundProjectIdList;
 	}
 
-	public MemberBean selectUserToDelete(MemberBean user) {
-		MemberBean member = null;
-		
-		String sql = "select email, joindate";
-		   sql += " from member_tbl";
-		   sql += " where member_id=? and password=?";
 	
-		try {
-			
-			pstmt = con.prepareStatement(sql);
-			pstmt.setString(1, user.getMember_id());
-			pstmt.setString(2, user.getPassword());
-			
-			rs = pstmt.executeQuery();
-			
-			if(rs.next()) {
-				member = new MemberBean();
-				member.setMember_id(user.getMember_id());
-				member.setEmail(rs.getString("email"));
-				member.setJoindate(rs.getString("joindate"));
-			}
-			
-			
-		} catch(Exception e) {
-			System.out.println("[UserDAO] selectUserToDelete() 에러 : "+e);//예외객체종류 + 예외메시지
-		} finally {
-			close(pstmt); //JdbcUtil.생략가능
-			close(rs); //JdbcUtil.생략가능
-			//connection 객체에 대한 해제는 DogListService에서 이루어짐
-		}
-		
-		return member;
-	}
-
-	public int insertFormerUser(MemberBean user) {
-		int insertFormerUserCount = 0;
-		
-		String sql = "insert into former_member_tbl(member_id, email, joindate) values(?,?,?)";
-	
-		try {
-			
-			pstmt = con.prepareStatement(sql);
-			pstmt.setString(1, user.getMember_id());
-			pstmt.setString(2, user.getEmail());
-			pstmt.setString(3, user.getJoindate());
-			
-			insertFormerUserCount = pstmt.executeUpdate();			
-			
-		} catch(Exception e) {
-			System.out.println("[UserDAO] insertFormerUser() 에러 : "+e);//예외객체종류 + 예외메시지
-		} finally {
-			close(pstmt); //JdbcUtil.생략가능
-			//close(rs); //JdbcUtil.생략가능
-			//connection 객체에 대한 해제는 DogListService에서 이루어짐
-		}
-		
-		return insertFormerUserCount;
-	}
 
 	
 	
