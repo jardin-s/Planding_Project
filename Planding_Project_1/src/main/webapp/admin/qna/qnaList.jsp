@@ -34,6 +34,114 @@
     <!-- Template Stylesheet -->
     <link href="../../resources/css/style.css" rel="stylesheet">
 </head>
+
+
+<script type="text/javascript">
+//검색어 유효성 검사 및 검색요청
+function searchQnaList() {
+	
+	let search_title = document.getElementById("q_title").value;
+	
+	if(search_title == ''){
+		alert('검색어를 입력하세요.');
+		return false;
+	}
+	
+	document.fsearch.submit();
+	
+}
+
+//편집을 취소버튼으로 변경하고 삭제버튼 보이기
+function switchEditCancel(){
+	
+	//편집 버튼 클릭 시 -> 편집버튼을 취소버튼으로 변경하고, 선택삭제버튼 보이기
+	switchBtn();
+	
+	//form-check클래스 div태그 안에 체크박스 태그 삽입
+	const checkElements = document.getElementsByClassName('remove-th');
+	for(let i=0; i<checkElements.length; i++){
+		
+		if(checkElements[i].classList.contains('d-none')){//숨김 상태면 보이기로 전환
+			checkElements[i].classList.remove('d-none');
+		}else{//보이기 상태면 숨김으로 전환
+			checkElements[i].classList.add('d-none');
+		}
+	}
+	
+}
+
+//편집을 취소로 변경. 삭제버튼 활성화
+function switchBtn(){
+	
+	//편집을 취소로 변경
+	//취소를 편집으로 변경
+	const editBtn = document.getElementById("editBtn");
+	const editBtnText = editBtn.innerText;
+	
+	if(editBtnText == "편집"){
+		editBtn.innerText = "취소";
+	}else if(editBtnText == "취소"){
+		editBtn.innerText = "편집";
+	}
+	
+	//삭제버튼 없으면 활성화
+	//삭제버튼 있으면 비활성화
+	const deleteBtn = document.getElementById("deleteBtn");
+	if(deleteBtn.classList.contains('d-none')){
+		deleteBtn.classList.remove('d-none');
+	}else{
+		deleteBtn.classList.add('d-none');
+	}
+	
+}
+
+//전체선택
+function checkAll(theForm){
+	
+	if(theForm.remove.length == undefined){//폼의 remove(체크박스)배열의 길이가 정의되어 있지 않다면 == 항목이 1개만 있다면
+		
+		theForm.remove.checked = theForm.allCheck.checked; //전체선택 체크하면, 모든 항목이 체크됨
+	
+	}else{//항목이 2개 이상 있다면 -> 배열로 생성(같은이름(remove)의 checkbox)
+	
+		for(var i=0; i<theForm.remove.length; i++){
+			theForm.remove[i].checked = theForm.allCheck.checked; //remove배열의 각 값 checked
+		}
+	}
+	
+}
+
+function selectDelete(){
+	
+	const checkElements = document.getElementsByClassName('form-check-input');
+	
+	let isCheckboxChecked = false;
+	for(let i=0; i<checkElements.length; i++){
+		
+		//하나라도 체크된 것이 있으면 체크여부 true로 변경하고 반복문 끝
+		if(checkElements[i].checked == true){
+			isCheckboxChecked = true;
+			break;
+		}		
+	}
+	
+	if(!isCheckboxChecked){//체크된 것이 없으면
+		return alert('선택된 항목이 없어 삭제할 수 없습니다.');
+	
+	}else{//체크된 것이 있으면
+		
+		if(confirm('정말로 해당 문의글들을 삭제하시겠습니까?')){
+			document.dlt.submit();
+		}else{
+			alert('문의글 삭제를 취소합니다.');
+			return false;
+		}		
+	}
+	
+	
+}
+</script>
+
 <body>
 	
 	<!-- Main Section -->
@@ -60,7 +168,7 @@
 	    <div class="container-fluid pt-4 pb-3">
 	    	<div class="container col-lg-8 px-0">
 	    		<div class="d-flex justify-content-end">
-					<form>
+					<form action="searchQnaList.adm" method="post" name="fsearch">
 		    			<div class="btn btn-outline-light py-1 px-2 me-1">
 			    			<input type="text" name="q_title" id="q_title" class="border-0 me-2" placeholder="제목으로 검색">
 			    			<a href="javascript:searchQnaList();"><i class="fas fa-search"></i></a>
@@ -72,29 +180,41 @@
 	    <%-- Search Tab End --%>
 	
 	    <%-- Table Start --%>
+	    <form action="adminDeleteQnaList.adm" method="post" name="dlt">
 	    <div class="container-fluid pt-0 pb-2">
 	        <div class="container col-lg-8">
 	            <div class="row justify-content-center">
 					<table class="table table-hover">
 						<thead>
 							<tr>
+								<th scope="col" class="remove-th d-none text-center"><input class="form-check-input" type="checkbox" name="allCheck" onclick="checkAll(this.form);"></th>
 								<th scope="col" class="col-l text-center">#</th>
-								<th scope="col" class="col-7">제목</th>
+								<th scope="col" class="col-5">제목</th>
 								<th scope="col" class="col-2 text-center">작성자</th>
 								<th scope="col" class="col-2 text-center">날짜</th>
+								<th scope="col" class="col-2 text-center">답변</th>
 							</tr>
 						</thead>
 						<tbody class="table-group-divider">
 							<c:forEach var="qna" items="${qnaList }">
 								<tr>
+									<th class="remove-th d-none">
+										<input class="form-check-input" type="checkbox" name="remove" value="${qna.qna_id}">
+									</th>
 									<th scope="row" class="text-center">${q_index}</th>
 									<td><a href="adminQnaView.adm?qna_id=${qna.qna_id}&page=${pageInfo.page}">${qna.q_title }</a>
 										<c:if test="${qna.q_private eq 'Y'}">
 											<i class="fas fa-lock ms-1"></i>
 										</c:if>
 									</td>
-									<td class="text-center">${qna.member_id }</td>
+									<td class="text-center">${qna.q_writer }</td>
 									<td class="text-center">${qna.q_time }</td>
+									<td class="text-center">
+										<c:if test="${qna.a_writer ne null }">완료</c:if>
+										<c:if test="${qna.a_writer eq null }">
+											<button class="btn btn-outline-primary py-1" type="button" id="answerBtn" onclick="location.href='adminInsertQnaAForm.adm?qna_id=${qna.qna_id}&page=${pageInfo.page}'">답변</button>
+										</c:if>
+									</td>
 								</tr>
 								<c:set var="q_index" value="${q_index -1 }"/>
 							</c:forEach>
@@ -104,6 +224,17 @@
 	        </div>		
 	    </div>
 	    <%-- Table End --%>
+	    
+	    <%-- Delete Button --%>
+	    <div class="container-fluid mt-0 pt-0 pb-5">
+	    	<div class="container col-lg-8 px-0">
+	    		<div class="d-flex justify-content-end">
+	    			<button class="btn btn-outline-primary float-right me-2 py-1 d-none" type="submit" id="deleteBtn" onclick="selectDelete(); return false;">선택삭제</button>
+	    			<button class="btn btn-outline-primary float-right py-1" type="button" id="editBtn" onclick="switchEditCancel();">편집</button>	    			
+	    		</div>
+	    	</div>
+	   	</div>
+	   	</form>
 	    
 	    	    
 	    <%-- Pagination Start --%>
@@ -123,7 +254,7 @@
 								</a>	
 							</c:if>
 							<c:if test="${pageInfo.page > 1}">
-								<a class="page-link" href="userQnaList.usr?page=${pageInfo.page -1 }" aria-label="Previous">
+								<a class="page-link" href="adminQnaList.adm?page=${pageInfo.page -1 }" aria-label="Previous">
 									<span aria-hidden="true">&laquo;</span>
 								</a>	
 							</c:if>								
@@ -140,7 +271,7 @@
 									<li class="page-item active" aria-current="page"><a class="page-link">${pNum}</a></li>
 								</c:if>
 								<c:if test="${pNum ne pageInfo.page }">
-									<li class="page-item"><a class="page-link" href="userQnaList.usr?page=${pNum}">${pNum}</a></li>
+									<li class="page-item"><a class="page-link" href="adminQnaList.adm?page=${pNum}">${pNum}</a></li>
 								</c:if>
 							</c:forEach>
 						</c:if>
@@ -152,7 +283,7 @@
 								</a>
 							</c:if>
 							<c:if test="${pageInfo.page < pageInfo.maxPage }">
-								<a class="page-link" href="userQnaList.usr?page=${pageInfo.page +1 }" aria-label="Next">
+								<a class="page-link" href="adminQnaList.adm?page=${pageInfo.page +1 }" aria-label="Next">
 									<span aria-hidden="true">&raquo;</span>
 								</a>
 							</c:if>							
@@ -166,21 +297,5 @@
     </c:if>
     
     
-		
-	    
-    <!-- JavaScript Libraries -->
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="../../resources/lib/wow/wow.min.js"></script>
-    <script src="../../resources/lib/easing/easing.min.js"></script>
-    <script src="../../resources/lib/waypoints/waypoints.min.js"></script>
-    <script src="../../resources/lib/owlcarousel/owl.carousel.min.js"></script>
-    <script src="../../resources/lib/counterup/counterup.min.js"></script>
-    <script src="../../resources/lib/parallax/parallax.min.js"></script>
-    <script src="../../resources/lib/isotope/isotope.pkgd.min.js"></script>
-    <script src="../../resources/lib/lightbox/js/lightbox.min.js"></script>
-
-    <!-- Template Javascript -->
-    <script src="../../resources/js/main.js"></script>
 </body>
 </html>

@@ -1,17 +1,19 @@
 package action.admin.manageMember;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Map.Entry;
+import java.util.Set;
+import java.util.TreeMap;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import action.Action;
 import svc.admin.manageMember.ManageMemberListService;
-import svc.qna.QnaListService;
 import vo.ActionForward;
 import vo.MemberBean;
 import vo.PageInfo;
-import vo.QnaBean;
 
 public class ManageMemberListAction implements Action {
 
@@ -29,20 +31,28 @@ public class ManageMemberListAction implements Action {
 		}
 		
 		
-		/* member 테이블에서 글을 가져옴 */
+		/* < 회원 조회하는 경우 >
+		 * 1. 아무 조건도 없이 조회하는 경우 (기본값 '최근 가입한 회원순')
+		 * 2. 정렬기준으로 조회하는 경우 (선택한 정렬기준 selectOrder로 넘어온 파라미터값으로 정렬)
+		 * 3. 검색하여 조회하는 경우 (입력한 id값으로 검색하여 정렬)
+		 */
+		
+		//[순서-1] member 테이블에서 글을 가져옴 
 		ManageMemberListService manageMemberListService = new ManageMemberListService();
 		
 		//member_tbl에서 관리자가 아닌 회원 수를 얻어옴
-		int listCount = manageMemberListService.getMemberCount();
+		int	listCount = manageMemberListService.getMemberCount();
+		System.out.println("[ManageMemberListAction] member_tbl 총 회원 수 = "+listCount);
 		
-		System.out.println("[AdminManageMemberListAction] member_tbl 총 회원 수 = "+listCount);
-		
-		ArrayList<MemberBean> memberList = manageMemberListService.getMemberList(page, limit);//원하는 페이지넘버의 원하는개수만큼 글을 가져옴
-		
+		//회원목록을 얻어옴 (기본값 : 최근 가입순)
+		ArrayList<MemberBean> memberList = manageMemberListService.getMemberList(page, limit);
 		request.setAttribute("memberList", memberList);
 		
 		
-		/* 페이지네이션 */
+		
+		
+		
+		//[순서-2] 페이지네이션 설정
 		int maxPage = (int) ((double)listCount/limit + 0.95); //최대 페이지 수
 		//(0.95를 더해 올림 -> 나눗셈 결과가 0 또는 1이 아니면 무조건 올림효과 발생)
 		
@@ -70,7 +80,7 @@ public class ManageMemberListAction implements Action {
 		request.setAttribute("pageInfo", pageInfo);
 		
 		
-		request.setAttribute("showAdmin", "admin/manageMemeber/manageMemberList.jsp");
+		request.setAttribute("showAdmin", "admin/manageMember/manageMemberList.jsp");
 		forward = new ActionForward("adminTemplate.jsp", false);
 		
 		return forward;

@@ -93,9 +93,8 @@ function adminLogout(){
                 <div class="nav-item dropdown">
                     <a href="#" class="nav-link fs-6 dropdown-toggle" data-bs-toggle="dropdown">프로젝트 관리</a>
                     <div class="dropdown-menu bg-light m-0">
-                        <a href="feature.html" class="dropdown-item fs-6">신규 프로젝트</a>
-                        <a href="quote.html" class="dropdown-item fs-6">마감임박 프로젝트</a>
-                        <a href="team.html" class="dropdown-item fs-6">공개예정 프로젝트</a>
+                        <a href="manageDonateProjectList.mngp" class="dropdown-item fs-6">기부 프로젝트</a>
+                        <a href="manageFundProjectList.mngp" class="dropdown-item fs-6">펀딩 프로젝트</a>
                     </div>
                 </div>
                 <div class="nav-item dropdown">
@@ -111,20 +110,5 @@ function adminLogout(){
     </nav>
     <!-- Navbar End -->
     
-    
-    <!-- JavaScript Libraries -->
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="../resources/lib/wow/wow.min.js"></script>
-    <script src="../resources/lib/easing/easing.min.js"></script>
-    <script src="../resources/lib/waypoints/waypoints.min.js"></script>
-    <script src="../resources/lib/owlcarousel/owl.carousel.min.js"></script>
-    <script src="../resources/lib/counterup/counterup.min.js"></script>
-    <script src="../resources/lib/parallax/parallax.min.js"></script>
-    <script src="../resources/lib/isotope/isotope.pkgd.min.js"></script>
-    <script src="../resources/lib/lightbox/js/lightbox.min.js"></script>
-
-    <!-- Template Javascript -->
-    <script src="../resources/js/main.js"></script>
 </body>
 </html>

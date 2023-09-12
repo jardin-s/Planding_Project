@@ -13,7 +13,7 @@ import vo.MemberBean;
 
 public class AdminUpdateService {
 	
-	public boolean adminUpdate(MemberBean admin) {
+	public boolean adminUpdate(MemberBean admin, AddressBean addr) {
 		//1. 커넥션 풀에서 Connection객체를 얻어와
 		Connection con = getConnection(); //JdbcUtil. 생략(이유?import static 하여)
 		
@@ -27,12 +27,13 @@ public class AdminUpdateService {
 		
 		/*-------DAO의 해당 메서드를 호출하여 처리----------------------------------------------------*/
 		int updateAdminCount = adminDAO.updateAdmin(admin);
+		int updateAddrCount = adminDAO.updateAddr(addr);
 		
-		boolean isAdminJoinResult = false;
+		boolean isAdminUpdateResult = false;
 		/*-------(insert, update, delete) 성공하면 commit(), 실패하면 rollback() 호출
 		 * 		 단, select는 이런 작업을 제외 ------------------*/
-		if(updateAdminCount > 0) {
-			isAdminJoinResult = true;
+		if(updateAdminCount > 0 && updateAddrCount > 0) {
+			isAdminUpdateResult = true;
 			commit(con);
 		}else {
 			rollback(con);
@@ -41,7 +42,7 @@ public class AdminUpdateService {
 		//4. 해제
 		close(con); //JdbcUtil. 생략(이유?import static 하여)
 		
-		return isAdminJoinResult;
+		return isAdminUpdateResult;
 	}
 	
 }

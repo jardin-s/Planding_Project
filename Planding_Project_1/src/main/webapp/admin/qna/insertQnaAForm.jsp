@@ -57,9 +57,8 @@ function qnaFormCheck(){
 	<!-- Main Section -->
 	<!-- Page Header Start -->
     <div class="container-fluid py-5 mb-5 wow fadeIn" data-wow-delay="0.1s" style="background-color:#86B381">
-        <div class="container text-center py-5">
+        <div class="container text-center pt-5">
             <h3 class="display-6 text-white animated slideInDown">문의사항</h3>
-            <p class="mb-4">회원 문의사항에 답변 등록</p>
         </div>
     </div>
     <!-- Page Header End -->
@@ -72,7 +71,7 @@ function qnaFormCheck(){
 				<h4 class="mb-3">${qnaInfo.q_title }</h4>
 				<hr>
 				<div class="mb-3">
-					<span>${qnaInfo.member_id }</span> | <span>${qnaInfo.q_time }</span>
+					<span>${qnaInfo.q_writer }</span> | <span>${qnaInfo.q_time }</span>
 				</div>
 				<hr>
                 <p class="mb-3">
@@ -90,8 +89,9 @@ function qnaFormCheck(){
                 
                 <form action="adminInsertQnaAAction.adm" method="post" name="f">
 					<input type="hidden" name="qna_id" value="${qnaInfo.qna_id}">
+					<input type="hidden" name="a_writer" value="${sessionScope.a_id}">
 					<input type="hidden" name="page" value="${page}">
-					<div class="input-group mb-2">
+					<div class="input-group mb-4">
 						<textarea name="a_content" class="form-control" placeholder="답변을 입력하세요." aria-label="a_content" rows="10"></textarea>
 					</div>
 					<div class="col-12 text-center">
@@ -103,20 +103,5 @@ function qnaFormCheck(){
     </div>   
     <!-- Table End -->   
 		
-	    
-    <!-- JavaScript Libraries -->
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="../../resources/lib/wow/wow.min.js"></script>
-    <script src="../../resources/lib/easing/easing.min.js"></script>
-    <script src="../../resources/lib/waypoints/waypoints.min.js"></script>
-    <script src="../../resources/lib/owlcarousel/owl.carousel.min.js"></script>
-    <script src="../../resources/lib/counterup/counterup.min.js"></script>
-    <script src="../../resources/lib/parallax/parallax.min.js"></script>
-    <script src="../../resources/lib/isotope/isotope.pkgd.min.js"></script>
-    <script src="../../resources/lib/lightbox/js/lightbox.min.js"></script>
-
-    <!-- Template Javascript -->
-    <script src="../../resources/js/main.js"></script>
 </body>
 </html>

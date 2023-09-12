@@ -76,8 +76,8 @@ public class UserNoticeListAction implements Action {
 		request.setAttribute("importantList", importantList);
 		request.setAttribute("noticeList", noticeList);
 		
-		request.setAttribute("showAdmin", "admin/notice/noticeList.jsp");
-		forward = new ActionForward("adminTemplate.jsp", false);
+		request.setAttribute("showPage", "user/notice/noticeList.jsp");
+		forward = new ActionForward("userTemplate.jsp", false);
 		
 		return forward;
 	}

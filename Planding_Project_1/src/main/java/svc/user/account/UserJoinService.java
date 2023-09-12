@@ -15,7 +15,7 @@ public class UserJoinService {
 	
 	//메서드
 	//1. 회원 가입
-	public boolean userJoin(MemberBean user){
+	public boolean userJoin(MemberBean user, AddressBean addr){
 		
 		//1. 커넥션 풀에서 Connection객체를 얻어와
 		Connection con = getConnection(); //JdbcUtil. 생략(이유?import static 하여)
@@ -30,11 +30,12 @@ public class UserJoinService {
 		
 		/*-------DAO의 해당 메서드를 호출하여 처리----------------------------------------------------*/
 		int insertUserCount = userDAO.insertUser(user);
+		int insertAddressCount = userDAO.insertAddr(addr);
 		
 		boolean isUserJoinResult = false;
 		/*-------(insert, update, delete) 성공하면 commit(), 실패하면 rollback() 호출
 		 * 		 단, select는 이런 작업을 제외 ------------------*/
-		if(insertUserCount > 0) {
+		if(insertUserCount > 0 && insertAddressCount > 0) {
 			isUserJoinResult = true;
 			commit(con);
 		}else {

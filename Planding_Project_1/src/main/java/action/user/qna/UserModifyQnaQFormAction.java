@@ -18,12 +18,12 @@ public class UserModifyQnaQFormAction implements Action {
 		ActionForward forward = null;
 		
 		int qna_id = Integer.parseInt(request.getParameter("qna_id"));
-		String member_id = request.getParameter("member_id");
+		String q_writer = request.getParameter("q_writer");
 		
 		HttpSession session = request.getSession();
 		String u_id = (String) session.getAttribute("u_id");
 		
-		if(!u_id.equals(member_id)) {
+		if(!u_id.equals(q_writer)) {
 			response.setContentType("text/html; charset=utf-8");
 			PrintWriter out = response.getWriter();
 			out.println("<script>");

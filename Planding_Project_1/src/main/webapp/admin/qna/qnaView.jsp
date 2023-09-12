@@ -65,7 +65,7 @@ function deleteConfirm(page, qna_id){
 				<h4 class="mb-3">${qnaInfo.q_title }</h4>
 				<hr>
 				<div class="mb-3">
-					<span>${qnaInfo.member_id }</span> | <span>${qnaInfo.q_time }</span>
+					<span>${qnaInfo.q_writer }</span> | <span>${qnaInfo.q_time }</span>
 				</div>
 				<hr>
                 <p class="mb-3">
@@ -74,14 +74,13 @@ function deleteConfirm(page, qna_id){
                 <c:if test="${qnaInfo.q_image ne null }">
                 	<hr>
 	                <div>
-	                	<img src="qna/images/${qnaInfo.q_image}">
-	                	<span>첨부파일 : <a href="qnaImageFileDown.usr?q_image=${qnaInfo.q_iamge }">${qnaInfo.q_image}</a></span>	                	
+	                	<img src="${pageContext.request.contextPath}/images/qna/${qnaInfo.q_image}">	                	
 	                </div>
 	                <hr>
                 </c:if>
                 <hr class="mb-5">
                 
-                <c:if test="${qnaInfo.a_content ne 'unanswered'}">
+                <c:if test="${qnaInfo.a_writer ne null}">
                 	<div class="mb-3">
                 		<span class="fw-bold fs-5">문의사항에 대한 답변입니다.</span> | <span>${qnaInfo.a_time}</span>
                 	</div>
@@ -89,12 +88,12 @@ function deleteConfirm(page, qna_id){
                 	<p>${qnaInfo.a_content }</p>
                 	<hr class="mb-4">
                 	<div class="col-12 text-center mx-auto">
-                		<button class="btn btn-light" type="button" onclick="location.href='adminModifyQnaAForm.adm?page=${page}&qna_id=${qnaInfo.qna_id}'">답변 수정</button>
+                		<button class="btn btn-light" type="button" onclick="location.href='adminModifyQnaAForm.adm?page=${page}&qna_id=${qnaInfo.qna_id}&a_writer=${qnaInfo.a_writer }'">답변 수정</button>
 						<button class="btn btn-light" type="button" onclick="deleteConfirm(${page},${qnaInfo.qna_id});">삭제</button>
                 		<button class="btn btn-light" onclick="location.href='adminQnaList.adm?page=${page}'">글 목록</button>
 					</div>
                 </c:if>
-                <c:if test="${qnaInfo.a_content eq 'unanswered'}">
+                <c:if test="${qnaInfo.a_writer eq null}">
                 	<div class="col-12">
 	    				<p class="text-center">아직 답변이 작성되지 않았습니다.</p>
 	    			</div>
@@ -109,20 +108,5 @@ function deleteConfirm(page, qna_id){
     </div>   
     <!-- Table End -->   
 		
-	    
-    <!-- JavaScript Libraries -->
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="../../resources/lib/wow/wow.min.js"></script>
-    <script src="../../resources/lib/easing/easing.min.js"></script>
-    <script src="../../resources/lib/waypoints/waypoints.min.js"></script>
-    <script src="../../resources/lib/owlcarousel/owl.carousel.min.js"></script>
-    <script src="../../resources/lib/counterup/counterup.min.js"></script>
-    <script src="../../resources/lib/parallax/parallax.min.js"></script>
-    <script src="../../resources/lib/isotope/isotope.pkgd.min.js"></script>
-    <script src="../../resources/lib/lightbox/js/lightbox.min.js"></script>
-
-    <!-- Template Javascript -->
-    <script src="../../resources/js/main.js"></script>
 </body>
 </html>

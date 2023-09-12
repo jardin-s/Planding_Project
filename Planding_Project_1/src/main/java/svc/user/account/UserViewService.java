@@ -57,7 +57,7 @@ public class UserViewService {
 		
 		/*-------DAO의 해당 메서드를 호출하여 처리----------------------------------------------------*/
 		AddressBean addrUserInfo = null;
-		addrUserInfo = userDAO.selectAddrInfo(u_id);
+		addrUserInfo = userDAO.selectBasicAddrInfo(u_id);
 				
 		/*-------(insert, update, delete) 성공하면 commit(), 실패하면 rollback() 호출
 		 * 		 단, select는 이런 작업을 제외 ------------------*/

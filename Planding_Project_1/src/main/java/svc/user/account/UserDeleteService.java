@@ -3,9 +3,12 @@ package svc.user.account;
 import static db.JdbcUtil.*;
 
 import java.sql.Connection;
+import java.util.ArrayList;
 
+import dao.ProjectDAO;
 import dao.UserDAO;
 import vo.AddressBean;
+import vo.DonationBean;
 import vo.MemberBean;
 
 public class UserDeleteService {
@@ -57,6 +60,8 @@ public class UserDeleteService {
 		
 		//회원 개인정보를 삭제하고 탈퇴여부와 탈퇴일자 업데이트
 		int updateDeleteUserCount = userDAO.updateDeleteUser(user.getMember_id());
+		
+		//만약, 회원이 신청한 펀딩에서 배송완료되지 않은 상태가 아니라면 주소 삭제 (배송완료 & 신청한 펀딩 없음)
 		int deleteAddrCount = userDAO.deleteAddr(user.getMember_id());
 		
 		boolean isUserDeleteResult = false;	
@@ -75,5 +80,5 @@ public class UserDeleteService {
 		return isUserDeleteResult;
 	}
 
-	
+		
 }

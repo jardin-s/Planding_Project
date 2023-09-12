@@ -76,7 +76,7 @@ function qnaFormCheck(){
 				<h4 class="mb-3">${qnaInfo.q_title }</h4>
 				<hr>
 				<div class="mb-3">
-					<span>${qnaInfo.member_id }</span> | <span>${qnaInfo.q_time }</span>
+					<span>${qnaInfo.q_writer }</span> | <span>${qnaInfo.q_time }</span>
 				</div>
 				<hr>
                 <p class="mb-3">
@@ -95,7 +95,8 @@ function qnaFormCheck(){
                 <form action="adminModifyQnaAAction.adm" method="post" name="f">
 					<input type="hidden" name="page" value="${page}">
 					<input type="hidden" name="qna_id" value="${qnaInfo.qna_id}">
-					<div class="input-group mb-2">
+					<input type="hidden" name="a_writer" value="${sessionScope.a_id}">
+					<div class="input-group mb-4">
 						<textarea name="a_content" class="form-control" aria-label="a_content" rows="10">${qnaInfo.a_content}</textarea>
 					</div>
 					<div class="col-12 text-center">
@@ -107,20 +108,6 @@ function qnaFormCheck(){
     </div>   
     <!-- Table End -->    
 		
-	    
-    <!-- JavaScript Libraries -->
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="../../resources/lib/wow/wow.min.js"></script>
-    <script src="../../resources/lib/easing/easing.min.js"></script>
-    <script src="../../resources/lib/waypoints/waypoints.min.js"></script>
-    <script src="../../resources/lib/owlcarousel/owl.carousel.min.js"></script>
-    <script src="../../resources/lib/counterup/counterup.min.js"></script>
-    <script src="../../resources/lib/parallax/parallax.min.js"></script>
-    <script src="../../resources/lib/isotope/isotope.pkgd.min.js"></script>
-    <script src="../../resources/lib/lightbox/js/lightbox.min.js"></script>
-
-    <!-- Template Javascript -->
-    <script src="../../resources/js/main.js"></script>
+	
 </body>
 </html>

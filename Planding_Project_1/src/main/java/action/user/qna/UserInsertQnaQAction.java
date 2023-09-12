@@ -39,23 +39,11 @@ public class UserInsertQnaQAction implements Action {
 		MultipartRequest multi = new MultipartRequest(request, uploadPath, size, "UTF-8", new DefaultFileRenamePolicy());
 													//request객체, 업로드위치, 최대용량, 파일명인코딩, 파일명 중복방지
 		
-		String member_id = multi.getParameter("member_id");
+		String q_writer = multi.getParameter("q_writer");
 		
 		String q_title = multi.getParameter("q_title");
 		String q_content = multi.getParameter("q_content");
 		String q_private = multi.getParameter("q_private");
-		
-		Enumeration<String> filenames =  multi.getFileNames();
-		
-		while(filenames.hasMoreElements()) {
-			
-			String filename = filenames.nextElement();
-			
-			String filesystemname = multi.getFilesystemName(filename);
-			
-			
-			
-		}
 		
 		String q_image = multi.getFilesystemName("q_image");
 			
@@ -63,7 +51,7 @@ public class UserInsertQnaQAction implements Action {
 		
 		
 		QnaBean qna = new QnaBean();
-		qna.setMember_id(member_id);
+		qna.setQ_writer(q_writer);
 		qna.setQ_title(q_title);
 		qna.setQ_content(q_content);
 		qna.setQ_image(q_image);

@@ -9,6 +9,7 @@ import javax.servlet.http.HttpSession;
 import action.Action;
 import svc.admin.account.AdminViewService;
 import vo.ActionForward;
+import vo.AddressBean;
 import vo.MemberBean;
 
 public class AdminUpdateFormAction implements Action {
@@ -34,10 +35,10 @@ public class AdminUpdateFormAction implements Action {
 			AdminViewService adminViewService = new AdminViewService();
 			
 			MemberBean adminInfo = adminViewService.getAdminInfo(viewId);
-			//AddressBean userAddrInfo = userViewService.getUserAddrInfo(viewId);
+			AddressBean adminAddrInfo = adminViewService.getAdminAddrInfo(viewId);
 						
 			request.setAttribute("admin", adminInfo);
-			//request.setAttribute("addr", userAddrInfo);
+			request.setAttribute("addr", adminAddrInfo);
 			
 			request.setAttribute("showPage", "admin/account/adminUpdateForm.jsp");//어느 폼 보기인지 showPage이름 속성으로 저장
 			

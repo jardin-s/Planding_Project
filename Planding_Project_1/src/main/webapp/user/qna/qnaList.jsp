@@ -34,6 +34,23 @@
     <!-- Template Stylesheet -->
     <link href="../resources/css/style.css" rel="stylesheet">
 </head>
+
+<script type="text/javascript">
+//검색어 유효성 검사 및 검색요청
+function searchQnaList() {
+	
+	let search_title = document.getElementById("q_title").value;
+	
+	if(search_title == ''){
+		alert('검색어를 입력하세요.');
+		return false;
+	}
+	
+	document.fsearch.submit();
+	
+}
+</script>
+
 <body>
 	
 	<!-- Main Section -->
@@ -72,7 +89,7 @@
 	    <div class="container-fluid pt-4 pb-3">
 	    	<div class="container col-lg-8 px-0">
 	    		<div class="d-flex justify-content-end">
-					<form>
+					<form action="searchQnaList.usr" method="post" name="fsearch">
 		    			<div class="btn btn-outline-light py-1 px-2 me-1">
 			    			<input type="text" name="q_title" id="q_title" class="border-0 me-2" placeholder="제목으로 검색">
 			    			<a href="javascript:searchQnaList();"><i class="fas fa-search"></i></a>
@@ -100,12 +117,12 @@
 							<c:forEach var="qna" items="${qnaList}">
 								<tr>
 									<th scope="row" class="text-center">${q_index}</th>
-									<td><a href="userQnaView.usr?qna_id=${qna.qna_id}&page=${pageInfo.page}&q_private=${qna.q_private}">${qna.q_title }</a>
+									<td><a href="userQnaView.usr?qna_id=${qna.qna_id}&page=${pageInfo.page}&q_private=${qna.q_private}&q_writer=${qna.q_writer}">${qna.q_title }</a>
 										<c:if test="${qna.q_private eq 'Y'}">
 											<i class="fas fa-lock ms-1"></i>
 										</c:if>
 									</td>
-									<td>${qna.member_id }</td>
+									<td>${qna.q_writer}</td>
 									<td>${qna.q_time }</td>
 								</tr>
 								<c:set var="q_index" value="${q_index -1 }"/>
@@ -132,6 +149,7 @@
 	    	<div class="container col-lg-4">
 		    	<div class="row">
 					<ul class="pagination justify-content-center">
+						<%-- 이전버튼 --%>
 						<li class="page-item">
 							<c:if test="${pageInfo.page <= 1}">
 								<a class="page-link" aria-label="Previous">
@@ -145,6 +163,7 @@
 							</c:if>								
 						</li>
 						
+						<%-- 1~10까지 --%>
 						<c:forEach var="pNum" begin="${pageInfo.startPage }" end="${pageInfo.endPage}" step="1">
 							<c:if test="${pNum eq pageInfo.page }">
 								<li class="page-item active" aria-current="page"><a class="page-link">${pNum}</a></li>
@@ -154,6 +173,7 @@
 							</c:if>
 						</c:forEach>
 						
+						<%-- 다음버튼 --%>
 						<li class="page-item">
 							<c:if test="${pageInfo.page >= pageInfo.maxPage }">
 								<a class="page-link" aria-label="Next">
@@ -175,21 +195,5 @@
     </c:if>
     
     
-		
-	    
-    <!-- JavaScript Libraries -->
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="../resources/lib/wow/wow.min.js"></script>
-    <script src="../resources/lib/easing/easing.min.js"></script>
-    <script src="../resources/lib/waypoints/waypoints.min.js"></script>
-    <script src="../resources/lib/owlcarousel/owl.carousel.min.js"></script>
-    <script src="../resources/lib/counterup/counterup.min.js"></script>
-    <script src="../resources/lib/parallax/parallax.min.js"></script>
-    <script src="../resources/lib/isotope/isotope.pkgd.min.js"></script>
-    <script src="../resources/lib/lightbox/js/lightbox.min.js"></script>
-
-    <!-- Template Javascript -->
-    <script src="../resources/js/main.js"></script>
 </body>
 </html>

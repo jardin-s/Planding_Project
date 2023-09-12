@@ -7,7 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
-import util.SHA256;
+
 import vo.QnaBean;
 
 public class QnaDAO {
@@ -85,10 +85,10 @@ public class QnaDAO {
 		//2페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 10부터
 		//3페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 20부터
 		
-		String sql = "select qna_id, member_id,"
+		String sql = "select qna_id, q_writer,"
 				  + " q_title, q_content, q_image, q_private,"
 				  + " DATE_FORMAT(q_time,'%Y.%m.%d') as q_time,"
-				  + " a_content, DATE_FORMAT(a_time,'%Y.%m.%d') as a_time"
+				  + " a_writer, a_content, DATE_FORMAT(a_time,'%Y.%m.%d') as a_time"
 				  + " from qna_tbl"
 				  + " order by qna_id desc"
 				  + " limit ?, ?";
@@ -107,7 +107,7 @@ public class QnaDAO {
 					QnaBean qna = new QnaBean();
 					
 					qna.setQna_id(rs.getInt("qna_id"));
-					qna.setMember_id(rs.getString("member_id"));
+					qna.setQ_writer(rs.getString("q_writer"));
 					
 					qna.setQ_title(rs.getString("q_title"));
 					qna.setQ_content(rs.getString("q_content"));
@@ -115,6 +115,7 @@ public class QnaDAO {
 					qna.setQ_private(rs.getString("q_private"));
 					qna.setQ_time(rs.getString("q_time"));
 					
+					qna.setA_writer(rs.getString("a_writer"));
 					qna.setA_content(rs.getString("a_content"));
 					qna.setA_time(rs.getString("a_time"));
 					
@@ -140,10 +141,10 @@ public class QnaDAO {
 	public QnaBean selectQna(int qna_id) {
 		QnaBean qna = null;
 		
-		String sql = "select qna_id, member_id,"
+		String sql = "select qna_id, q_writer,"
 				 + " q_title, q_content, q_image, q_private,"
 				 + " DATE_FORMAT(q_time,'%Y.%m.%d %H:%i') as q_time,"
-				 + " a_content,"
+				 + " a_writer, a_content,"
 				 + " DATE_FORMAT(a_time,'%Y.%m.%d %H:%i') as a_time"
 				 + " from qna_tbl"
 				 + " where qna_id=?";
@@ -157,13 +158,14 @@ public class QnaDAO {
 				qna = new QnaBean();
 				
 				qna.setQna_id(rs.getInt("qna_id"));
-				qna.setMember_id(rs.getString("member_id"));
+				qna.setQ_writer(rs.getString("q_writer"));
 				
 				qna.setQ_title(rs.getString("q_title"));
 				qna.setQ_content(rs.getString("q_content"));
 				qna.setQ_private(rs.getString("q_private"));
 				qna.setQ_time(rs.getString("q_time"));
 				
+				qna.setA_writer(rs.getString("a_writer"));
 				qna.setA_content(rs.getString("a_content"));
 				qna.setA_time(rs.getString("a_time"));
 				
@@ -214,12 +216,12 @@ public class QnaDAO {
 		
 		int insertNewQuestionCount = 0;
 		
-		String sql = "insert into qna_tbl(member_id, q_title, q_content, q_image, q_private) values(?,?,?,?,?)";
+		String sql = "insert into qna_tbl(q_writer, q_title, q_content, q_image, q_private) values(?,?,?,?,?)";
 		
 		try {
 			
 			pstmt = con.prepareStatement(sql);
-			pstmt.setString(1, qna.getMember_id());
+			pstmt.setString(1, qna.getQ_writer());
 			pstmt.setString(2, qna.getQ_title());
 			pstmt.setString(3, qna.getQ_content());
 			pstmt.setString(4, qna.getQ_image());
@@ -308,14 +310,15 @@ public class QnaDAO {
 		int udpateNewAnswerCount = 0;
 		
 		String sql = "update qna_tbl"
-				  + " set a_content=?, a_time=current_timestamp"
+				  + " set a_writer=?, a_content=?, a_time=current_timestamp"
 				  + " where qna_id=?";
 		
 		try {
 			
 			pstmt = con.prepareStatement(sql);
-			pstmt.setString(1, qna.getA_content());
-			pstmt.setInt(2, qna.getQna_id());			
+			pstmt.setString(1, qna.getA_writer());
+			pstmt.setString(2, qna.getA_content());
+			pstmt.setInt(3, qna.getQna_id());			
 			
 			udpateNewAnswerCount = pstmt.executeUpdate();
 			
@@ -355,6 +358,91 @@ public class QnaDAO {
 		}
 		
 		return udpateAnswerCount;
+	}
+
+	
+	//검색조건에 맞는 문의글 개수를 얻어옴
+	public int searchQnaCount(String search_title) {
+		int searchQnaCount = 0;
+		
+		String sql = "select count(*)"
+				  + " from qna_tbl"
+				  + " where q_title regexp ?";
+		
+		try {
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, search_title);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				searchQnaCount = rs.getInt(1);
+			}
+			
+		} catch(Exception e) {
+			System.out.println("[QnaDAO] searchQnaCount() 에러 : "+e);//예외객체종류 + 예외메시지
+		} finally {
+			close(pstmt); //JdbcUtil.생략가능
+			close(rs); //JdbcUtil.생략가능
+			//connection 객체에 대한 해제는 DogListService에서 이루어짐
+		}
+		
+		return searchQnaCount;
+	}
+	
+	//검색조건에 맞는 문의글 목록을 얻어옴
+	public ArrayList<QnaBean> searchQnaList(String search_title, int page, int limit) {
+		ArrayList<QnaBean> qnaList = null;
+		
+		int startrow = (page-1)*10;
+		
+		String sql = "select qna_id, q_writer,"
+				  + " q_title, q_content, q_image, q_private,"
+				  + " DATE_FORMAT(q_time,'%Y.%m.%d') as q_time,"
+				  + " a_writer, a_content, DATE_FORMAT(a_time,'%Y.%m.%d') as a_time"
+				  + " from qna_tbl"
+				  + " where q_title regexp ?"
+				  + " limit ?, ?";
+		
+		try {
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, search_title);
+			pstmt.setInt(2, startrow);
+			pstmt.setInt(3, limit);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				qnaList = new ArrayList<>();
+				
+				do {
+					qnaList.add(new QnaBean(rs.getInt("qna_id"),
+											rs.getString("q_writer"),
+											rs.getString("q_title"),
+											rs.getString("q_content"),
+											rs.getString("q_image"),
+											rs.getString("q_private"),
+											rs.getString("q_time"),
+											rs.getString("a_writer"),
+											rs.getString("a_content"),
+											rs.getString("a_time")
+											)
+								);
+				}while(rs.next());
+				
+			}
+			
+			
+		} catch(Exception e) {
+			System.out.println("[QnaDAO] searchQnaList() 에러 : "+e);//예외객체종류 + 예외메시지
+		} finally {
+			close(pstmt); //JdbcUtil.생략가능
+			close(rs); //JdbcUtil.생략가능
+			//connection 객체에 대한 해제는 DogListService에서 이루어짐
+		}
+		
+		return qnaList;
 	}
 	
 }

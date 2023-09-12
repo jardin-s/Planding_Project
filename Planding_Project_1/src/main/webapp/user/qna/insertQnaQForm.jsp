@@ -97,7 +97,7 @@ function qnaFormCheck(){
         <div class="container col-md-8 col-lg-7">
             <div class="row justify-content-center">
 				<form action="userInsertQnaQAction.usr" method="post" name="f" enctype="multipart/form-data">
-					<input type="hidden" name="member_id" value="${sessionScope.u_id}">
+					<input type="hidden" name="q_writer" value="${sessionScope.u_id}">
 					<div class="input-group mb-2">
 						<span class="input-group-text" id="q_title">제목</span>
 						<input type="text" name="q_title" class="form-control" placeholder="제목을 입력하세요." aria-label="q_title" aria-describedby="q_title">
@@ -123,20 +123,5 @@ function qnaFormCheck(){
     </div>   
     <!-- Table End -->   
 		
-	    
-    <!-- JavaScript Libraries -->
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="../resources/lib/wow/wow.min.js"></script>
-    <script src="../resources/lib/easing/easing.min.js"></script>
-    <script src="../resources/lib/waypoints/waypoints.min.js"></script>
-    <script src="../resources/lib/owlcarousel/owl.carousel.min.js"></script>
-    <script src="../resources/lib/counterup/counterup.min.js"></script>
-    <script src="../resources/lib/parallax/parallax.min.js"></script>
-    <script src="../resources/lib/isotope/isotope.pkgd.min.js"></script>
-    <script src="../resources/lib/lightbox/js/lightbox.min.js"></script>
-
-    <!-- Template Javascript -->
-    <script src="../resources/js/main.js"></script>
 </body>
 </html>

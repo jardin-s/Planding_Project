@@ -10,6 +10,7 @@ import java.util.ArrayList;
 
 import util.SHA256;
 import vo.AddressBean;
+import vo.DonationBean;
 import vo.MemberBean;
 import vo.MemberPwChangeBean;
 import vo.ProjectBean;
@@ -55,16 +56,25 @@ public class ProjectDAO {
 	}
 
 	//1. 프로젝트 ID로 프로젝트 정보를 얻어옴
-	public ProjectBean getProjectInfo(int p_id) {
+	public ProjectBean selectProject(int project_id) {
 		ProjectBean projectInfo = null;
 		
-		String sql = "select * from project_tbl where project_id=?";
-		   	
+		String sql = "select project_id, kind, title,"
+				  + " summary, thumbnail, content, image,"
+				  + " DATE_FORMAT(startdate,'%Y.%m.%d %H:%i') as startdate,"
+				  + " DATE_FORMAT(enddate,'%Y.%m.%d %H:%i') as enddate,"
+				  + " goal_amount, curr_amount, status, likes,"
+				  + " DATE_FORMAT(regdate,'%Y.%m.%d %H:%i') as regdate"
+				  + " from project_tbl"
+				  + " where project_id=?";
+		
 		try {
 			
 			pstmt = con.prepareStatement(sql);
-			pstmt.setInt(1, p_id);
-						
+			pstmt.setInt(1, project_id);
+			
+			rs = pstmt.executeQuery();
+			
 			if(rs.next()) {
 				projectInfo = new ProjectBean(rs.getInt("project_id"),
 											  rs.getString("kind"),
@@ -77,15 +87,14 @@ public class ProjectDAO {
 											  rs.getString("enddate"),
 											  rs.getInt("goal_amount"),
 											  rs.getInt("curr_amount"),
-											  rs.getString("category"),
 											  rs.getString("status"),
-											  rs.getInt("likes")
+											  rs.getInt("likes"),
+											  rs.getString("regdate")
 											  );
 			}
 			
-			
 		} catch(Exception e) {
-			System.out.println("[ProjectDAO] getProjectInfo() 에러 : "+e);//예외객체종류 + 예외메시지
+			System.out.println("[ProjectDAO] selectProject() 에러 : "+e);//예외객체종류 + 예외메시지
 		} finally {
 			close(pstmt); //JdbcUtil.생략가능
 			close(rs); //JdbcUtil.생략가능
@@ -93,5 +102,49 @@ public class ProjectDAO {
 		}
 		
 		return projectInfo;
+	}
+
+	//특정 회원의 후원기록을 가져오기
+	public ArrayList<DonationBean> selectDonationList(String u_id) {
+		ArrayList<DonationBean> donationList = null;
+		
+		String sql = "select donation_id, project_id, member_id, reward_id,"
+				  + " r_price, add_donation, address_id,"
+				  + " DATE_FORMAT(donatedate,'%Y.%m.%d') as donatedate"
+				  + " from donation_tbl"
+				  + " where member_id=?";
+		
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, u_id);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				donationList = new ArrayList<>();
+				
+				DonationBean donation = new DonationBean();
+				donation.setDonation_id(rs.getInt("donation_id"));
+				donation.setProject_id(rs.getInt("project_id"));
+				donation.setMember_id(rs.getString("member_id"));
+				donation.setReward_id(rs.getInt("reward_id"));
+				donation.setR_price(rs.getInt("r_price"));
+				donation.setAdd_donation(rs.getInt("add_donation"));
+				donation.setAddress_id(rs.getString("address_id"));
+				donation.setDonatedate(rs.getString("donatedate"));
+				
+				donationList.add(donation);
+			}
+			
+			
+		} catch(Exception e) {
+			System.out.println("[ProjectDAO] selectProject() 에러 : "+e);//예외객체종류 + 예외메시지
+		} finally {
+			close(pstmt); //JdbcUtil.생략가능
+			close(rs); //JdbcUtil.생략가능
+			//connection 객체에 대한 해제는 DogListService에서 이루어짐
+		}
+		
+		return donationList;
 	}
 }

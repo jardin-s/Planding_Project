@@ -15,7 +15,7 @@ public class AdminJoinService {
 	
 	//메서드
 	//1. 회원 가입
-	public boolean adminJoin(MemberBean admin){
+	public boolean adminJoin(MemberBean admin, AddressBean addr){
 		
 		//1. 커넥션 풀에서 Connection객체를 얻어와
 		Connection con = getConnection(); //JdbcUtil. 생략(이유?import static 하여)
@@ -30,11 +30,12 @@ public class AdminJoinService {
 		
 		/*-------DAO의 해당 메서드를 호출하여 처리----------------------------------------------------*/
 		int insertAdminCount = adminDAO.insertAdmin(admin);
+		int insertAddrCount = adminDAO.insertAddr(addr);
 		
 		boolean isAdminJoinResult = false;
 		/*-------(insert, update, delete) 성공하면 commit(), 실패하면 rollback() 호출
 		 * 		 단, select는 이런 작업을 제외 ------------------*/
-		if(insertAdminCount > 0) {
+		if(insertAdminCount > 0 && insertAddrCount > 0) {
 			isAdminJoinResult = true;
 			commit(con);
 		}else {

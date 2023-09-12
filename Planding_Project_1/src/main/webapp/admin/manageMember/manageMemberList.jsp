@@ -37,6 +37,18 @@
 
 <script type="text/javascript">
 
+//정렬 요청
+function changeOrder() {
+	
+	let selectedValue = document.getElementById("selectOrder").value;
+	
+	if(selectedValue != 'default'){
+		document.forder.submit();
+	}
+	
+}
+
+//검색어 유효성 검사 및 검색요청
 function searchMemberList() {
 	
 	let search_id = document.getElementById("member_id").value;
@@ -47,6 +59,96 @@ function searchMemberList() {
 	}
 	
 	document.fsearch.submit();
+	
+}
+
+//편집을 취소버튼으로 변경하고 삭제버튼 보이기
+function switchEditCancel(){
+	
+	//편집 버튼 클릭 시 -> 편집버튼을 취소버튼으로 변경하고, 선택삭제버튼 보이기
+	switchBtn();
+	
+	//form-check클래스 div태그 안에 체크박스 태그 삽입
+	const checkElements = document.getElementsByClassName('remove-th');
+	for(let i=0; i<checkElements.length; i++){
+		
+		if(checkElements[i].classList.contains('d-none')){//숨김 상태면 보이기로 전환
+			checkElements[i].classList.remove('d-none');
+		}else{//보이기 상태면 숨김으로 전환
+			checkElements[i].classList.add('d-none');
+		}
+	}
+	
+}
+
+//편집을 취소로 변경. 삭제버튼 활성화
+function switchBtn(){
+	
+	//편집을 취소로 변경
+	//취소를 편집으로 변경
+	const editBtn = document.getElementById("editBtn");
+	const editBtnText = editBtn.innerText;
+	
+	if(editBtnText == "회원편집"){
+		editBtn.innerText = "취소";
+	}else if(editBtnText == "취소"){
+		editBtn.innerText = "회원편집";
+	}
+	
+	//삭제버튼 없으면 활성화
+	//삭제버튼 있으면 비활성화
+	const deleteBtn = document.getElementById("deleteBtn");
+	if(deleteBtn.classList.contains('d-none')){
+		deleteBtn.classList.remove('d-none');
+	}else{
+		deleteBtn.classList.add('d-none');
+	}
+	
+}
+
+//전체선택
+function checkAll(theForm){
+	
+	if(theForm.remove.length == undefined){//폼의 remove(체크박스)배열의 길이가 정의되어 있지 않다면 == 항목이 1개만 있다면
+		
+		theForm.remove.checked = theForm.allCheck.checked; //전체선택 체크하면, 모든 항목이 체크됨
+	
+	}else{//항목이 2개 이상 있다면 -> 배열로 생성(같은이름(remove)의 checkbox)
+	
+		for(var i=0; i<theForm.remove.length; i++){
+			theForm.remove[i].checked = theForm.allCheck.checked; //remove배열의 각 값 checked
+		}
+	}
+	
+}
+
+function selectDelete(){
+	
+	const checkElements = document.getElementsByClassName('form-check-input');
+	
+	let isCheckboxChecked = false;
+	for(let i=0; i<checkElements.length; i++){
+		
+		//하나라도 체크된 것이 있으면 체크여부 true로 변경하고 반복문 끝
+		if(checkElements[i].checked == true){
+			isCheckboxChecked = true;
+			break;
+		}		
+	}
+	
+	if(!isCheckboxChecked){//체크된 것이 없으면
+		return alert('선택된 항목이 없어 삭제할 수 없습니다.');
+	
+	}else{//체크된 것이 있으면
+		
+		if(confirm('회원을 삭제하면 회원 아이디를 제외한 모든 개인정보가 삭제됩니다. 정말로 삭제하시겠습니까?')){
+			document.dlt.submit();
+		}else{
+			alert('회원 삭제를 취소합니다.');
+			return false;
+		}		
+	}
+	
 	
 }
 
@@ -61,8 +163,8 @@ function searchMemberList() {
             <div class="row justify-content-center">
 	            <ul class="col-12 col-lg-8 nav nav-pills justify-content-center mt-4 mb-0">
 					<li class="col-4 nav-item"><a class="nav-link active fw-bold" aria-current="page" href="#">전체 회원</a></li>
-					<li class="col-4 nav-item"><a class="nav-link text-white" href="undeletedMemberList.adm">미탈퇴 회원</a></li>
-					<li class="col-4 nav-item"><a class="nav-link text-white" href="deletedMemberList.adm">탈퇴 회원</a></li>
+					<li class="col-4 nav-item"><a class="nav-link text-white" href="undeletedMemberList.mngm">미탈퇴 회원</a></li>
+					<li class="col-4 nav-item"><a class="nav-link text-white" href="deletedMemberList.mngm">탈퇴 회원</a></li>
 	            </ul>
             </div>
         </div>
@@ -70,10 +172,15 @@ function searchMemberList() {
     <!-- Page Header End -->
     
     <c:if test="${pageInfo.listCount == 0 }">
-    	<div class="container-xxl py-5">
+    	<div class="container-xxl mb-5 py-5" style="height:30vh">
     		<div class="container col-10 col-md-6 col-lg-4">
     			<div class="col-12 mb-5">
-    				<p class="text-center">가입한 회원이 없습니다.</p>
+    				<c:if test="${search_id ne null }">
+    					<p class="text-center">${search_id }이(가) 포함된 회원 아이디가 없습니다.</p>
+    				</c:if>
+    				<c:if test="${search_id eq null }">
+    					<p class="text-center">가입한 회원이 없습니다.</p>
+    				</c:if>
     			</div>
     		</div>
     	</div>
@@ -85,42 +192,48 @@ function searchMemberList() {
 	    <%-- Search Tab Start --%>
 	    <div class="container-fluid pt-4 pb-3">
 	    	<div class="container col-lg-8 px-0">
-				<div class="row">
-	    			<div class="col-4 col-md-3 col-xl-2">
-	    				<div class="d-flex justify-content-start">
-			    			<select class="form-select py-1" name="selectOrder" id="selectOrder" aria-label="selectOrder">
-								<option selected>-- 정렬조건 --</option>
-								<option value="joindate_desc">최근 회원순</option>
-								<option value="joindate_asc">오래된 회원순</option>
-								<option value="high_donation">높은 펀딩액 순</option>
-								<option value="row_donation">낮은 펀딩액 순</option>
-							</select>
-						</div>
-	    			</div>
-	    			
-	    			<form action="searchMemberList.adm" method="post" name="fsearch">
-		    			<div class="col auto">
-			    			<div class="d-flex justify-content-end">
+	    		<div class="row">
+					
+					<%-- Order --%>
+					<div class="col-4 col-md-3">
+						<div class="d-flex justify-content-start">
+							<form action="orderMemberList.mngm" method="post" name="forder">
+				    			<select class="form-select py-1" name="selectOrder" id="selectOrder" aria-label="selectOrder" onchange="changeOrder()">
+									<option value="default" selected>-- 정렬조건 --</option>
+									<option value="new">최근 가입순</option>
+									<option value="old">오래된 가입순</option>
+									<option value="az">가나다순</option>
+									<option value="za">역가나다순</option>
+								</select>
+							</form>
+		    			</div>
+		    		</div>
+		    		
+		    		<%-- Search --%>
+		    		<div class="col auto">
+			    		<div class="d-flex justify-content-end">
+			    			<form action="searchMemberList.mngm" method="post" name="fsearch">
 				    			<div class="btn btn-outline-light py-1 px-2 me-1">
 					    			<input type="text" name="member_id" id="member_id" class="border-0" placeholder="아이디로 검색">
 					    			<a href="javascript:searchMemberList();"><i class="fas fa-search"></i></a>
 				    			</div>
-			    			</div>
+			    			</form>
 		    			</div>
-	    			</form>
+	    			</div>
     			</div>
 	    	</div>
 	    </div>
 	    <%-- Search Tab End --%>
 	
 	    <%-- Table Start --%>
+	    <form action="deleteMember.mngm" method="post" name="dlt">
 	    <div class="container-fluid pt-0 pb-2">
 	        <div class="container col-lg-8">
 	            <div class="row justify-content-center">
 					<table class="table table-hover">
 						<thead>
 							<tr class="text-center">
-								<th scope="col" class="col-1 d-none"><input type="checkbox" name="removeAll"></th>
+								<th scope="col" class="remove-th col-1 d-none"><input class="form-check-input" type="checkbox" name="allCheck" onclick="checkAll(this.form);"></th>
 								<th scope="col" class="col-1">#</th>
 								<th scope="col" class="col-auto">아이디</th>
 								<th scope="col" class="col-3">가입일자</th>
@@ -130,18 +243,18 @@ function searchMemberList() {
 						<tbody class="table-group-divider">						
 							<c:forEach var="member" items="${memberList}">
 								<tr class="text-center">
-									<th class="d-none">
-										<c:if test="${member.deleted_status eq 'Y' }">
-											<input type="checkbox" name="remove" value="${member.member_id}">
+									<th class="remove-th d-none">
+										<c:if test="${member.delete_status ne 'Y' }">
+											<input class="form-check-input" type="checkbox" name="remove" value="${member.member_id}">
 										</c:if>
-										<c:if test="${member.deleted_status ne 'Y' }">
-											<input type="checkbox" name="remove" value="" disabled>
+										<c:if test="${member.delete_status eq 'Y' }"><%-- 탈퇴회원은 삭제불가 --%>
+											<input class="form-check-input"  type="checkbox" name="noremove" value="" disabled>
 										</c:if>										
 									</th>
 									<th scope="row">${m_index}</th>
-									<td><a href="memberView.adm?member_id=${member.member_id}&page=${pageInfo.page}">${member.member_id }</a></td>
+									<td><a href="memberView.mngm?member_id=${member.member_id}&page=${pageInfo.page}">${member.member_id }</a></td>
 									<td>${member.joindate }</td>
-									<td>${member.deleted_status }</td>
+									<td>${member.delete_status }</td>
 								</tr>
 								<c:set var="m_index" value="${m_index -1 }"/>
 							</c:forEach>
@@ -157,14 +270,16 @@ function searchMemberList() {
 	    <div class="container-fluid mt-0 pt-0 pb-5">
 	    	<div class="container col-lg-8 px-0">
 	    		<div class="d-flex justify-content-end">
-	    			<button class="btn btn-outline-primary float-right py-1" type="submit" onclick="">선택회원 추방</button>
+	    			<button class="btn btn-outline-primary float-right me-2 py-1 d-none" type="submit" id="deleteBtn" onclick="selectDelete(); return false;">선택추방</button>
+	    			<button class="btn btn-outline-primary float-right py-1" type="button" id="editBtn" onclick="switchEditCancel();">회원편집</button>	    			
 	    		</div>
 	    	</div>
 	   	</div>
+	   	</form>
 	    
 	    	    
 	    <%-- Pagination Start --%>
-	    <div class="container-fluid mt-0 pt-0 pb-5">
+	    <div class="container-fluid mb-5 mt-0 pt-0 pb-5">
 	    	<div class="container col-lg-4">
 		    	<div class="row">
 					<ul class="pagination justify-content-center">
@@ -175,7 +290,7 @@ function searchMemberList() {
 								</a>	
 							</c:if>
 							<c:if test="${pageInfo.page > 1}">
-								<a class="page-link" href="userNoticeList.usr?page=${pageInfo.page -1 }" aria-label="Previous">
+								<a class="page-link" href="manageMemberList.mngm?page=${pageInfo.page -1 }" aria-label="Previous">
 									<span aria-hidden="true">&laquo;</span>
 								</a>	
 							</c:if>								
@@ -186,7 +301,7 @@ function searchMemberList() {
 								<li class="page-item active" aria-current="page"><a class="page-link">${pNum}</a></li>
 							</c:if>
 							<c:if test="${pNum ne pageInfo.page }">
-								<li class="page-item"><a class="page-link" href="userNoticeList.usr?page=${pNum}">${pNum}</a></li>
+								<li class="page-item"><a class="page-link" href="manageMemberList.mngm?page=${pNum}">${pNum}</a></li>
 							</c:if>
 						</c:forEach>
 						
@@ -197,7 +312,7 @@ function searchMemberList() {
 								</a>
 							</c:if>
 							<c:if test="${pageInfo.page < pageInfo.maxPage }">
-								<a class="page-link" href="userNoticeList.usr?page=${pageInfo.page +1 }" aria-label="Next">
+								<a class="page-link" href="manageMemberList.mngm?page=${pageInfo.page +1 }" aria-label="Next">
 									<span aria-hidden="true">&raquo;</span>
 								</a>
 							</c:if>							
@@ -211,20 +326,5 @@ function searchMemberList() {
     </c:if>
     
     
-    
-    <!-- JavaScript Libraries -->
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="../../resources/lib/wow/wow.min.js"></script>
-    <script src="../../resources/lib/easing/easing.min.js"></script>
-    <script src="../../resources/lib/waypoints/waypoints.min.js"></script>
-    <script src="../../resources/lib/owlcarousel/owl.carousel.min.js"></script>
-    <script src="../../resources/lib/counterup/counterup.min.js"></script>
-    <script src="../../resources/lib/parallax/parallax.min.js"></script>
-    <script src="../../resources/lib/isotope/isotope.pkgd.min.js"></script>
-    <script src="../../resources/lib/lightbox/js/lightbox.min.js"></script>
-
-    <!-- Template Javascript -->
-    <script src="../../resources/js/main.js"></script>
 </body>
 </html>

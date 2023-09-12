@@ -18,23 +18,27 @@ import action.admin.account.AdminLoginAction;
 import action.admin.account.AdminLogoutAction;
 import action.admin.account.AdminUpdateAction;
 import action.admin.account.AdminUpdateFormAction;
-import action.admin.manageMember.DeletedMemberListAction;
+import action.admin.manageMember.DeletedOrderMemberListAction;
 import action.admin.manageMember.ManageMemberListAction;
 import action.admin.manageMember.SearchMemberListAction;
 import action.admin.manageMember.UndeletedMemberListAction;
 import action.admin.notice.AdminDeleteNoticeAction;
+import action.admin.notice.AdminDeleteNoticeListAction;
 import action.admin.notice.AdminInsertNoticeAction;
 import action.admin.notice.AdminInsertNoticeFormAction;
 import action.admin.notice.AdminModifyNoticeFormAction;
 import action.admin.notice.AdminNoticeListAction;
 import action.admin.notice.AdminNoticeViewAction;
+import action.admin.notice.AdminSearchNoticeListAction;
 import action.admin.qna.AdminDeleteQnaAction;
+import action.admin.qna.AdminDeleteQnaListAction;
 import action.admin.qna.AdminInsertQnaAAction;
 import action.admin.qna.AdminInsertQnaAFormAction;
 import action.admin.qna.AdminModifyQnaAAction;
 import action.admin.qna.AdminModifyQnaAFormAction;
 import action.admin.qna.AdminQnaListAction;
 import action.admin.qna.AdminQnaViewAction;
+import action.admin.qna.SearchQnaListAction;
 import vo.ActionForward;
 
 /**
@@ -293,6 +297,19 @@ public class AdminFrontController extends HttpServlet {
 			}
  
 		}
+		/*-- '검색하여 문의글 목록 보기' 요청 --------------------------------------*/
+		if(command.equals("/searchQnaList.adm")) {//
+			
+			//부모인터페이스 = 구현한 자식객체
+			action = new SearchQnaListAction();//부모인터페이스인 Action으로 받음 
+			
+			try {
+				forward = action.execute(request, response);
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+			
+		}
 		
 
 		/*-- '문의글 상세보기' 요청 -> 처리 --------------------------------------*/
@@ -360,8 +377,21 @@ public class AdminFrontController extends HttpServlet {
 		/*-- '문의글 삭제하기' 요청 -> 처리 --------------------------------------*/
 		else if(command.equals("/adminDeleteQnaAction.adm")) {//문의글 삭제하기 요청
 			
-			action = new AdminDeleteAction();
+			action = new AdminDeleteQnaAction();
 
+			try {
+				forward = action.execute(request, response);
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+			
+		}
+		
+		/*-- '여러 문의글 삭제하기' 요청 -> 처리 --------------------------------------*/
+		else if(command.equals("/adminDeleteQnaList.adm")) {//문의글 삭제하기 요청
+			
+			action = new AdminDeleteQnaListAction();
+			
 			try {
 				forward = action.execute(request, response);
 			} catch(Exception e) {
@@ -379,6 +409,18 @@ public class AdminFrontController extends HttpServlet {
 			
 			action = new AdminNoticeListAction();
 
+			try {
+				forward = action.execute(request, response);
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+			
+		}
+		/*-- '검색 공지글 목록 보기' 요청 -> 처리 --------------------------------------*/
+		else if(command.equals("/searchNoticeList.adm")) {//검색 공지글 목록 보기 요청
+			
+			action = new AdminSearchNoticeListAction();
+			
 			try {
 				forward = action.execute(request, response);
 			} catch(Exception e) {
@@ -443,6 +485,18 @@ public class AdminFrontController extends HttpServlet {
 		else if(command.equals("/adminDeleteNoticeAction.adm")) {//공지글 삭제하기 요청
 			
 			action = new AdminDeleteNoticeAction();
+			
+			try {
+				forward = action.execute(request, response);
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+			
+		}
+		/*-- '여러 공지글 삭제하기' 요청 -> 처리 --------------------------------------*/
+		else if(command.equals("/adminDeleteNoticeList.adm")) {//공지글 삭제하기 요청
+			
+			action = new AdminDeleteNoticeListAction();
 			
 			try {
 				forward = action.execute(request, response);

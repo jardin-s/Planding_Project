@@ -16,7 +16,7 @@ public class UndeletedMemberListAction implements Action {
 
 	@Override
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
-ActionForward forward = null;
+		ActionForward forward = null;
 		
 		//처음 요청할 경우 조회하는 페이지넘버 기본값 1
 		int page = 1;
@@ -28,20 +28,25 @@ ActionForward forward = null;
 		}
 		
 		
-		/* member 테이블에서 글을 가져옴 */
+		/* < 회원 조회하는 경우 >
+		 * 1. 아무 조건도 없이 조회하는 경우 (기본값 '최근 가입한 회원순')
+		 * 2. 정렬기준으로 조회하는 경우 (선택한 정렬기준 selectOrder로 넘어온 파라미터값으로 정렬)
+		 * 3. 검색하여 조회하는 경우 (입력한 id값으로 검색하여 정렬)
+		 */
+		
+		//[순서-1] member 테이블에서 글을 가져옴 
 		UndeletedMemberListService undeletedMemberListService = new UndeletedMemberListService();
 		
-		//member_tbl에서 관리자가 아닌 미탈퇴 회원 수를 얻어옴
-		int listCount = undeletedMemberListService.getUndeletedMemberCount();
+		//member_tbl에서 관리자가 아닌 회원 수를 얻어옴
+		int	listCount = undeletedMemberListService.getUndeletedMemberCount();
+		System.out.println("[UndeletedMemberListAction] member_tbl 총 회원 수 = "+listCount);
 		
-		System.out.println("[UndeletedMemberListAction] member_tbl 총 미탈퇴 회원 수 = "+listCount);
-		
-		ArrayList<MemberBean> memberList = undeletedMemberListService.getUndeletedMemberList(page, limit);//원하는 페이지넘버의 원하는개수만큼 글을 가져옴
-		
+		//회원목록을 얻어옴 (기본값 : 최근 가입순)
+		ArrayList<MemberBean> memberList = undeletedMemberListService.getUndeletedMemberList(page, limit);
 		request.setAttribute("memberList", memberList);
 		
 		
-		/* 페이지네이션 */
+		//[순서-2] 페이지네이션 설정
 		int maxPage = (int) ((double)listCount/limit + 0.95); //최대 페이지 수
 		//(0.95를 더해 올림 -> 나눗셈 결과가 0 또는 1이 아니면 무조건 올림효과 발생)
 		
@@ -69,7 +74,7 @@ ActionForward forward = null;
 		request.setAttribute("pageInfo", pageInfo);
 		
 		
-		request.setAttribute("showAdmin", "admin/manageMemeber/undeletedMemberList.jsp");
+		request.setAttribute("showAdmin", "admin/manageMember/undeleteMemberList.jsp");
 		forward = new ActionForward("adminTemplate.jsp", false);
 		
 		return forward;
