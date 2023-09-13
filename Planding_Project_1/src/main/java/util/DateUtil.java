@@ -1,9 +1,12 @@
 package util;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
+
+import vo.AdminIncomeBean;
 
 public class DateUtil {//날짜 계산하는 클래스 (매출관리에서 달력생성을 위함)
 	
@@ -20,6 +23,9 @@ public class DateUtil {//날짜 계산하는 클래스 (매출관리에서 달�
 	//스케줄링에 사용
 	private String schedule = "";
 	private String schedule_datail = "";
+	
+	//각 날짜별 수익기록들
+	private ArrayList<AdminIncomeBean> incomeList = null; 
 	
 	//2. 생성자
 	//2-1. 스케줄 사용
@@ -40,6 +46,17 @@ public class DateUtil {//날짜 계산하는 클래스 (매출관리에서 달�
 			this.month = month;
 			this.date = date;
 			this.value = value;
+		}
+	}
+	
+	//2-3. 수익달력 생성시 필요한 생성자
+	public DateUtil(String year, String month, String date, String value, ArrayList<AdminIncomeBean> list) {
+		if((month != null && month !="") && (date != null && date != "")) {
+			this.year = year;
+			this.month = month;
+			this.date = date;
+			this.value = value;
+			this.incomeList = list;
 		}
 	}
 	
@@ -106,22 +123,38 @@ public class DateUtil {//날짜 계산하는 클래스 (매출관리에서 달�
 	public void setSchedule_datail(String schedule_datail) {
 		this.schedule_datail = schedule_datail;
 	}
-	
+		
+	public ArrayList<AdminIncomeBean> getIncomeList() {
+		return incomeList;
+	}
+
+	public void setIncomeList(ArrayList<AdminIncomeBean> incomeList) {
+		this.incomeList = incomeList;
+	}
+
 	//3-2. 날짜에 관련된 달력정보를 가지는 메서드 (달력네비게이션에서 이전달/다음달 넘기는 <>에 사용 )-------------------------------------------
 	public Map<String, Object> today_info(DateUtil dateUtil){
+		//2023.9월에서 이전해를 클릭하여 2022, 8(실제9)이 넘어온 상황
 		
 		//int값 외에도 db_startdate, db_enddate는 String이므로 모두 value에 담기 위해 Object타입으로 설정
 		Map<String, Object> today_data = new HashMap<String, Object>();//HashMap : 순서 상관없이 쌍으로 관리
 		
 		//Calendar 객체를 얻어옴
 		Calendar cal = Calendar.getInstance();
-		cal.set(Integer.parseInt(dateUtil.getYear()), Integer.parseInt(dateUtil.getMonth()), Integer.parseInt(dateUtil.getDate()));
-		//매개변수의 year, month, day로 날짜 세팅
+		cal.set(Integer.parseInt(dateUtil.getYear()), Integer.parseInt(dateUtil.getMonth()), 1);
+		//매개변수의 year, month로 날짜 세팅
+		System.out.println("[today_info 메서드 호출]");
+		System.out.println("검색날짜 연도 = "+dateUtil.getYear());//2022
+		System.out.println("검색날짜 월-1 = "+dateUtil.getMonth());//8
 		
 		//DB에서 사용
-		int startDay = cal.getMinimum(java.util.Calendar.DATE);//이번달 날짜 중 첫째날(minimum)
-		int endDay = cal.getActualMaximum(java.util.Calendar.DAY_OF_MONTH);//이번달의 마지막날(maximum)
-		int start = cal.get(java.util.Calendar.DAY_OF_WEEK);//현재요일 (일요일 1 ~ 토요일 7)
+		int startDay = cal.getActualMinimum(Calendar.DAY_OF_MONTH);//선택달 날짜 중 첫째날(minimum) 1
+		int endDay = cal.getActualMaximum(Calendar.DAY_OF_MONTH);//선택달의 마지막날(maximum) 30 (매개값 8 <- 9월이므로)
+		int start = cal.getActualMinimum(Calendar.DAY_OF_WEEK);//이번달의 첫째날 요일 (일요일 1 ~ 토요일 7) 5
+		System.out.println("[today_info 메서드 호출]");
+		System.out.println("선택 달 중 첫째날 = "+startDay);
+		System.out.println("선택 달 중 마지말날 = "+endDay);
+		System.out.println("선택 달 중 첫째날 요일 = "+start);
 		
 		//오늘 날짜에 해당하는 연도와 월 등의 정보를 얻기위해 호출
 		Calendar todayCal = Calendar.getInstance();
@@ -130,9 +163,13 @@ public class DateUtil {//날짜 계산하는 클래스 (매출관리에서 달�
 		
 		int today_year = Integer.parseInt(ysdf.format(todayCal.getTime()));//오늘날짜 중 연도 yyyy형태로 가져와 숫자로 변환
 		int today_month = Integer.parseInt(msdf.format(todayCal.getTime()));//오늘날짜 중 월 M형태로 가져와 숫자로 변환
+		System.out.println("오늘날짜 중 연도 = "+today_year);//2023
+		System.out.println("오늘날짜 중 월 = "+today_month);//9
 		
-		int search_year = Integer.parseInt(ysdf.format(dateUtil.getYear()));//매개변수(검색날짜) 중 연도 yyyy 숫자변환
-		int search_month = Integer.parseInt(msdf.format(dateUtil.getMonth()));//매개변수(검색날짜) 중 월 M 숫자변환
+		int search_year = Integer.parseInt(dateUtil.getYear());//매개변수(검색날짜) 중 연도
+		int search_month = Integer.parseInt(dateUtil.getMonth())+1;//매개변수(검색날짜) 중 월 숫자변환 후 1 더해줌
+		System.out.println("검색날짜 연도 = "+search_year);//2022
+		System.out.println("검색날짜 월 = "+search_month);//9 (위에서 search_month 초기화 시 8+1을 했으므로)
 		
 		int today = -1;
 		if(today_year == search_year && today_month == search_month) {//만약 검색날짜가 올해, 이번달이라면
@@ -140,11 +177,15 @@ public class DateUtil {//날짜 계산하는 클래스 (매출관리에서 달�
 			today = Integer.parseInt(dsdf.format(todayCal.getTime()));//today는 오늘 날짜의 day로 변경
 		}
 		
-		//시스템적으로 월은 0~11이므로 -1하여 세팅 (예: 검색날짜가 5월이면, 시스템적 월은 5-1=4)
+		
+		//검색날짜의 달
+		System.out.println("search_momth : "+search_month);
+		
+		//시스템적으로 월은 0~11이므로 -1하여 다시 세팅 (search_month => 8+1 = 9 => 9-1 = 8)
 		search_month = search_month -1;
 		
 		//검색날짜의 이전년도/이전달 & 다음년도/다음달 정보가 담긴 Map객체
-		Map<String, Integer> before_after_calendar = before_after_calendar(search_year, search_month);
+		Map<String, Integer> before_after_calendar = before_after_calendar(search_year, search_month);//이때 매개값, 달은 실제달보다 -1된 숫자로
 		
 		//검색날짜의 달
 		System.out.println("search_momth : "+search_month);
@@ -154,7 +195,7 @@ public class DateUtil {//날짜 계산하는 클래스 (매출관리에서 달�
 		today_data.put("endDay", endDay);//이번달 마지막날
 		today_data.put("today", today);//검색날짜가 이번달이면 오늘날짜, 아니면 -1
 		today_data.put("search_year", search_year);//검색날짜의 연도
-		today_data.put("search_month", search_month);//검색날짜의 달
+		today_data.put("search_month", search_month+1);//검색날짜의 달 (다시 1을 더해 실제 달로 세팅)
 		today_data.put("before_year", before_after_calendar.get("before_year"));//이전년도
 		today_data.put("before_month", before_after_calendar.get("before_month"));//이전달
 		today_data.put("after_year", before_after_calendar.get("after_year"));//다음년도

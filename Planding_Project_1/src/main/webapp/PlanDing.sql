@@ -17,6 +17,13 @@ drop table notice_tbl;
 drop table member_tbl;
 */
 
+/*
+ 2023.9.13
+ member_tbl, qna_tbl 기존생성
+ 매출관리 테스트를 위해 project_tbl, admin_income_tbl 생성
+   
+ */
+
 -- MySQL Workbench Forward Engineering
 
 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
@@ -54,6 +61,12 @@ CREATE TABLE IF NOT EXISTS `project`.`project_tbl` (
   PRIMARY KEY (`project_id`))
 ENGINE = InnoDB;
 
+/* 테스트를 위해 데이터 1개 등록 */
+insert into project_tbl(kind, title, summary, thumbnail, content, image, startdate, enddate, goal_amount, curr_amount, status, likes)
+values('donate','기부제목','기부요약','thumbnail.jpg','프로젝트 내용','content_image.jpg',
+		'2023-09-11', '2023-09-15', 1000000, 100000, 'unauthorized', 0);
+		
+select * from project_tbl;
 
 -- -----------------------------------------------------
 -- Table `project`.`member_tbl`
@@ -145,6 +158,14 @@ CREATE TABLE IF NOT EXISTS `project`.`admin_income_tbl` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
+insert into admin_income_tbl(project_id, fee_income) values(1, 50000);
+
+select * from admin_income_tbl;
+
+select project_id, fee_income,
+DATE_FORMAT(incomedate,'%Y.%m.%d') as incomedate
+from admin_income_tbl
+where incomedate between '2023-9-1' and '2023-9-30';
 
 -- -----------------------------------------------------
 -- Table `project`.`project_reward_tbl`
