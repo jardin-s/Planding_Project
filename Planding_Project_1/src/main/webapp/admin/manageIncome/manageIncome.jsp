@@ -46,9 +46,10 @@
     </div>
     <!-- Page Header End -->
     
-    <!-- 날짜 네비게이션 -->
-    <div class="container-fluid py-4 mb-5">
-        <div class="container col-12 col-md-10 col-lg-7 mb-5">
+   	<!-- 달력 (width 768px이상일 때만 보임) -->
+    <div class="container-fluid py-4 mb-5 d-none d-md-block">
+    	<!-- 날짜 네비게이션 -->
+    	<div class="container col-12 col-md-10 col-lg-7 mb-5">
             <div class="row justify-content-center">
 		    	<div class="text-center">
 		    		<!-- 이전 해 -->
@@ -56,13 +57,13 @@
 		    			<span class="fs-3" aria-hidden="true">&laquo;</span>
 		    		</a>
 		    		<!-- 이전 달 -->
-		    		<a class="me-2" href="manageIncome.mngi?year=${today_info.before_month}&month=${today_info.before_month }">
+		    		<a class="me-2" href="manageIncome.mngi?year=${today_info.before_year}&month=${today_info.before_month }">
 		    			<span class="fs-3" aria-hidden="true">&lt;</span>
 		    		</a>
 		    		
 		    		<!-- 현재 달 -->
-		  	  		<span class="fs-4">&nbsp;${today_info.search_year}
-		  	  			<c:if test="${today_info.search_month < 10 }">0</c:if>${today_info.search_month }
+		  	  		<span class="fs-4">&nbsp;${today_info.search_year}년
+		  	  			${today_info.search_month }월
 		  	  		</span>
 		    		
 		    		<!-- 다음 달 -->
@@ -77,17 +78,18 @@
 	    	</div>
 	    </div>
 	    
-	    <div class="container col-12 col-md-10 col-lg-7">
+	    <%-- 달력 출력 --%>
+	    <div class="container col-12 col-md-10 col-lg-8 col-xl-7 col-xxl-6">
 		    <table class="table">
 		    	<thead>
 		    		<tr class="text-center">
-		    			<td>일</td>
-		    			<td>월</td>
-		    			<td>화</td>
-		    			<td>수</td>
-		    			<td>목</td>
-		    			<td>금</td>
-		    			<td>토</td>
+		    			<td style="width:15%">일</td>
+		    			<td style="width:14%">월</td>
+		    			<td style="width:14%">화</td>
+		    			<td style="width:14%">수</td>
+		    			<td style="width:14%">목</td>
+		    			<td style="width:14%">금</td>
+		    			<td style="width:15%">토</td>
 		    		</tr>
 		    	</thead>
 		    	<tbody>
@@ -102,7 +104,7 @@
 			    						<div class="fw-bold">${incomedate.date }</div><%-- n일 --%>
 			    						
 			    						<%-- 수익리스트 --%>
-			    						<div class="text-center">
+			    						<div class="dropdown text-center">
 				    						<c:if test="${incomedate.du_incomeList ne null}">
 				    							<c:set var="totalIncome" value="0"/><%-- 해당 날짜의 총수익 0으로 초기화 --%>
 				    							
@@ -113,13 +115,13 @@
 				    							</c:forEach>
 				    							
 				    							<%-- 계산된 총 수익을 드롭다운 제일 위에 출력 --%>
-			    								<button class="btn btn-primary dropdown-toggle text-white px-2 py-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+			    								<button class="btn btn-primary dropdown-toggle text-white px-2 py-0 mx-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
 				    								+ ${totalIncome}
 				   								</button>
 				   								
-				   								<ul class="dropdown-menu dropdown-menu-light">
+				   								<ul class="dropdown-menu dropdown-menu-light mx-0">
 				   									<c:forEach var="income" items="${incomedate.du_incomeList }">
-				   										<li><a class="dropdown-item">${income.fee_income}원</a></li>   										
+				   										<li><a class="dropdown-item">+${income.fee_income}원</a></li>   										
 				   									</c:forEach>
 				   								</ul>
 				    						</c:if>
@@ -134,20 +136,20 @@
 			    						<div class="text-info">${incomedate.date}</div>
 			    						
 			    						<%-- 수익리스트 --%>
-			    						<div class="text-center">
+			    						<div class="drowndown text-center">
 				    						<c:if test="${incomedate.du_incomeList ne null}">
 				    							<c:set var="totalIncome" value="0"/>
 				    							<c:forEach var="income" items="${incomedate.du_incomeList }">
 				    								<c:set var="totalIncome" value="${totalIncome + income.fee_income }"/>
 				    							</c:forEach>
 				    							
-				    							<button class="btn btn-primary dropdown-toggle text-white px-2 py-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+				    							<button class="btn btn-primary dropdown-toggle text-white px-2 py-0 mx-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
 				    								+ ${totalIncome}
 				   								</button>
 				   								
-				   								<ul class="dropdown-menu dropdown-menu-light">
+				   								<ul class="dropdown-menu dropdown-menu-light mx-0">
 				   									<c:forEach var="income" items="${incomedate.du_incomeList }">
-				   										<li><a class="dropdown-item">${income.fee_income}원</a></li>   										
+				   										<li><a class="dropdown-item">+${income.fee_income}원</a></li>   										
 				   									</c:forEach>
 				   								</ul>
 			   								</c:if>
@@ -164,18 +166,18 @@
 										<div class="text-danger">${incomedate.date}</div>
 										
 										<%-- 수익리스트 --%>
-			    						<div class="text-center">
+			    						<div class="drowndown text-center">
 			    							<c:if test="${incomedate.du_incomeList ne null}">
 				    							<c:set var="totalIncome" value="0"/>
 				    							<c:forEach var="income" items="${incomedate.du_incomeList }">
 				    								<c:set var="totalIncome" value="${totalIncome + income.fee_income }"/>
 				    							</c:forEach>
 				    							
-				    							<button class="btn btn-primary dropdown-toggle text-white px-2 py-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+				    							<button class="btn btn-primary dropdown-toggle text-white px-2 py-0 mx-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
 				    								+ ${totalIncome}
 				   								</button>
 				   								
-				   								<ul class="dropdown-menu dropdown-menu-light">
+				   								<ul class="dropdown-menu dropdown-menu-light mx-0">
 				   									<c:forEach var="income" items="${incomedate.du_incomeList }">
 				   										<li><a class="dropdown-item">${income.fee_income}원</a></li>   										
 				   									</c:forEach>
@@ -192,18 +194,18 @@
 			    						<div>${incomedate.date}</div>
 			    						
 			    						<%-- 수익리스트 --%>
-			    						<div class="text-center">
+			    						<div class="drowndown text-center">
 			    							<c:if test="${incomedate.du_incomeList ne null}">
 				    							<c:set var="totalIncome" value="0"/>
 				    							<c:forEach var="income" items="${incomedate.du_incomeList }">
 				    								<c:set var="totalIncome" value="${totalIncome + income.fee_income }"/>
 				    							</c:forEach>
-				    							<button class="btn btn-primary dropdown-toggle text-white px-2 py-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+				    							<button class="btn btn-primary dropdown-toggle text-white px-2 py-0 mx-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
 				    								+ ${totalIncome}
 				   								</button>
-				   								<ul class="dropdown-menu dropdown-menu-light">
+				   								<ul class="dropdown-menu dropdown-menu-light mx-0">
 				   									<c:forEach var="income" items="${incomedate.du_incomeList }">
-				   										<li><a class="dropdown-item">${income.fee_income}원</a></li>   										
+				   										<li><a class="dropdown-item">+${income.fee_income}원</a></li>   										
 				   									</c:forEach>
 				   								</ul>
 			   								</c:if>
@@ -218,20 +220,41 @@
     	</div>
     </div>
     
-    <!-- JavaScript Libraries -->
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="../../resources/lib/wow/wow.min.js"></script>
-    <script src="../../resources/lib/easing/easing.min.js"></script>
-    <script src="../../resources/lib/waypoints/waypoints.min.js"></script>
-    <script src="../../resources/lib/owlcarousel/owl.carousel.min.js"></script>
-    <script src="../../resources/lib/counterup/counterup.min.js"></script>
-    <script src="../../resources/lib/parallax/parallax.min.js"></script>
-    <script src="../../resources/lib/isotope/isotope.pkgd.min.js"></script>
-    <script src="../../resources/lib/lightbox/js/lightbox.min.js"></script>
-
-    <!-- Template Javascript -->
-    <script src="../../resources/js/main.js"></script>
+    
+    <!-- 모든 수익기록을 리스트로 출력 -->
+    <div class="container-fluid py-4 mb-5">
+    	<div class="container col-12 col-md-10 col-lg-7 mb-5">
+    		<div class="row justify-content-center">
+    			<c:if test="${allIncomeList eq null }">
+    				<p class="text-center">수익이 없습니다.</p>
+    			</c:if>
+    			<c:if test="${allIncomeList ne null }">
+	    			<div style="height:300px; overflow-y:auto">
+		    			<table class="table">
+		    				<thead>
+		    					<tr class="text-center">
+		    						<th>프로젝트 ID</th>
+		    						<th>수수료 수익</th>
+		    						<th>수익일자</th>
+		    					</tr>
+		    				</thead>
+		    				<tbody>
+		    					<c:forEach var="incomeInfo" items="${allIncomeList}">
+		    						<tr class="text-center">
+		    							<td>${incomeInfo.project_id}</td>
+		    							<td>+${incomeInfo.fee_income}원</td>
+		    							<td>${incomeInfo.incomedate}</td>
+		    						</tr>
+		    					</c:forEach>
+		    				</tbody>
+		    			</table>
+	    			</div>
+    			</c:if>
+    		</div>
+    	</div>
+    </div>
+    
+    
     
 </body>
 </html>

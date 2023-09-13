@@ -79,7 +79,7 @@ public class SearchDonateProjectListAction implements Action {
 		request.setAttribute("pageInfo", pageInfo);
 		
 		
-		request.setAttribute("showAdmin", "admin/manageProject/donateList/searchOrderDonateProjectList.jsp");
+		request.setAttribute("showAdmin", "admin/manageProject/donateList/searchDonateProjectList.jsp");
 		forward = new ActionForward("adminTemplate.jsp", false);
 		
 		return forward;

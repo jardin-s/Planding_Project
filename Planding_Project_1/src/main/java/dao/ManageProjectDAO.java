@@ -264,6 +264,7 @@ public class ManageProjectDAO {
 			if(rs.next()) {
 				projectList = new ArrayList<>();
 				
+				do {
 				projectList.add(new ProjectBean(rs.getInt("project_id"),
 												rs.getString("kind"),
 												rs.getString("title"),
@@ -271,6 +272,15 @@ public class ManageProjectDAO {
 												rs.getString("regdate_F")
 												)
 								);
+				
+				System.out.println("[ManageProjectDAO] selectProjectList");
+				System.out.println("조회한 project_id = "+rs.getInt("project_id"));
+				System.out.println("조회한 kind = "+rs.getString("kind"));
+				System.out.println("조회한 title = "+rs.getString("title"));
+				System.out.println("조회한 status = "+rs.getString("status"));
+				System.out.println("조회한 regdate_F = "+rs.getString("regdate_F"));
+				
+				}while(rs.next());
 			}
 			
 		} catch(Exception e) {

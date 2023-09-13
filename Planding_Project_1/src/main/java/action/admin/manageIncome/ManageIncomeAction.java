@@ -20,6 +20,12 @@ public class ManageIncomeAction implements Action {
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ActionForward forward = null;
 		
+		/* ******************************************************************************
+		 * 
+		 * 1. 매출 달력 만들기
+		 * 
+		 ********************************************************************************/
+		
 		//현재 2023.9 -> 뷰페이지에서 이전해 클릭 -> 2022.9 -> month값으로 search_month-1을 넘김(=8) 
 		String year = request.getParameter("year");//2022년
 		String month = request.getParameter("month");//8일때 (실제 9월)
@@ -64,7 +70,7 @@ public class ManageIncomeAction implements Action {
 		
 		//실제 매출 정보를 얻어옴
 		ManageIncomeService manageIncomeService = new ManageIncomeService();
-		ArrayList<AdminIncomeBean> incomeList = manageIncomeService.selectList(db_startDate, db_endDate);
+		ArrayList<AdminIncomeBean> incomeList = manageIncomeService.getDateRangeList(db_startDate, db_endDate);
 		
 		
 		/*-- 얻어온 매출정보를 달력의 각 칸에 삽입 ------------------------------------*/
@@ -171,6 +177,22 @@ public class ManageIncomeAction implements Action {
 		
 		//수익데이터가 담긴 날짜객체로 이루어진 날짜리스트를 request에 저장
 		request.setAttribute("dateList", dateList);
+		
+		
+		/* ******************************************************************************
+		 * 
+		 * 2. 매출 리스트 만들기
+		 * 
+		 ********************************************************************************/
+		//최근순으로 정렬된 모든 수익리스트를 얻어옴
+		ArrayList<AdminIncomeBean> allIncomeList = manageIncomeService.getAllIncomeList();
+		System.out.println("[ManageIncomeAction]");
+		System.out.println("allIncomeList = "+allIncomeList);
+		
+		//request에 저장
+		request.setAttribute("allIncomeList", allIncomeList);
+		
+		
 		
 		request.setAttribute("showAdmin", "admin/manageIncome/manageIncome.jsp");
 		forward = new ActionForward("adminTemplate.jsp", false);

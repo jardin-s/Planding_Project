@@ -57,7 +57,7 @@ public class AdminIncomeDAO {
 		System.out.println("db_startDate = "+db_startDate);
 		System.out.println("db_endDate = "+db_endDate);
 		
-		ArrayList<AdminIncomeBean> adminIncomeList = null;
+		ArrayList<AdminIncomeBean> adminIncomeList = new ArrayList<>();
 		
 		System.out.println("[AdminIncomeDAO]");
 		System.out.println("db_startDate = "+db_startDate);
@@ -76,11 +76,7 @@ public class AdminIncomeDAO {
 			
 			rs = pstmt.executeQuery();
 			
-			if(rs.next()) {
-				
-				adminIncomeList = new ArrayList<>();
-				
-				do {
+			while(rs.next()) {
 					
 					AdminIncomeBean admIncome = new AdminIncomeBean();
 					admIncome.setProject_id(rs.getInt("project_id"));
@@ -93,8 +89,6 @@ public class AdminIncomeDAO {
 					System.out.println("조회한 incomedate = "+rs.getString("incomedate"));
 					
 					adminIncomeList.add(admIncome);
-					
-				}while(rs.next());
 				
 			}
 			
@@ -163,7 +157,7 @@ public class AdminIncomeDAO {
 		ArrayList<AdminIncomeBean> adminIncomeList = null;
 		
 		String sql = "select project_id, fee_income,"
-				  + " DATE_FORMAT(incomedate,'%Y.%m.%d') as incomedate"
+				  + " DATE_FORMAT(incomedate,'%Y.%m.%d') as incomedate_F"
 				  + " from admin_income_tbl"
 				  + " order by incomedate desc";
 		
@@ -181,7 +175,7 @@ public class AdminIncomeDAO {
 					
 					adminIncomeList.add(new AdminIncomeBean(rs.getInt("project_id"),
 															rs.getInt("fee_income"),
-															rs.getString("incomedate")
+															rs.getString("incomedate_F")
 															)
 										);
 					
