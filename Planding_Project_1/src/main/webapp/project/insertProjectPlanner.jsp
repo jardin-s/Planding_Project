@@ -41,18 +41,25 @@
 <link href="../resources/css/style.css" rel="stylesheet">
 
 <script>
-		  function otherBank() {
-		      var bankSelect = document.getElementById("bank");
-		      var bankInput = document.getElementById("otherBank");
-		      var selectedValue = bankSelect.value;
-		            
-		      if (selectedValue === "OtherBank") {
-		       bankInput.style.display = "block";
-		      } else {
-		        bankInput.style.display = "none";
-		           }
-		  }
+		function otherBank() {
+		    var bankSelect = document.getElementById("bank");
+		    var bankInput = document.getElementById("otherBank");
+		    var selectedValue = bankSelect.value;
+		          
+		    if (selectedValue === "OtherBank") {
+		     bankInput.style.display = "block";
+		    } else {
+		      bankInput.style.display = "none";
+		         }
+		}
+		function validateAccountInput() {
+		    var accountInput = document.getElementById("account");
+		    var inputValue = accountInput.value;
+		    var numericValue = inputValue.replace(/\D/g, ''); // 숫자가 아닌 문자 제거
 
+		    // 숫자만 포함된 값을 입력 필드에 업데이트
+		    accountInput.value = numericValue;
+		}
 </script>
 </head>
 <body>
@@ -100,7 +107,7 @@
        		</div>
 			<div class="mb-3">
 				<label for="account" class="form-label">입금계좌번호</label> 
-				<input type="text" class="form-control" id="account" name="account" pattern="[0-9]+" maxlength="45byte" required placeholder="펀딩 성공 시 입금받을 계좌를 (-)하이푼 없이 숫자만 입력해주세요" value="${sessionScope.account}">
+				<input type="text" class="form-control" id="account" name="account" pattern="[0-9]+" maxlength="45" required placeholder="펀딩 성공 시 입금받을 계좌를 (-)하이푼 없이 숫자만 입력해주세요" value="${sessionScope.account}" oninput="validateAccountInput()">
 			</div>
 		
 			

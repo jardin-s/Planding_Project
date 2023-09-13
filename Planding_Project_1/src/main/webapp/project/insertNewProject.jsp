@@ -50,7 +50,7 @@
                         <div class="service-text rounded p-5">
                             <h4 class="mb-3">기부 프로젝트</h4>
                             <p class="mb-4">취약계층이나 동물, 환경을 보호하기 위한<br>기부를 받고자 한다면</p>
-                            <a class="btn btn-sm" href="donateProjectInsert.pj"><i class="fas fa-plus me-2"></i>등록하기</a>
+                            <a class="btn btn-sm" href="donateProjectInsert.pj?u_id=${u_id }"><i class="fas fa-plus me-2"></i>등록하기</a>
                         </div>
                     </div>
                 </div>
@@ -59,7 +59,7 @@
                         <div class="service-text rounded p-5">
                             <h4 class="mb-3">펀딩 프로젝트</h4>
                             <p class="mb-4">지구를 위한 아이템을 개발하기 위해<br>투자를 받고자 한다면</p>
-                            <a class="btn btn-sm" href="fundProjectInsert.pj"><i class="fas fa-plus me-2"></i>등록하기</a>
+                            <a class="btn btn-sm" href="fundProjectInsert.pj?u_id=${u_id }"><i class="fas fa-plus me-2"></i>등록하기</a>
                         </div>
                     </div>
                 </div>
