@@ -64,7 +64,7 @@ public class ManageIncomeAction implements Action {
 		
 		//실제 매출 정보를 얻어옴
 		ManageIncomeService manageIncomeService = new ManageIncomeService();
-		List<AdminIncomeBean> incomeList = manageIncomeService.selectList(db_startDate, db_endDate);
+		ArrayList<AdminIncomeBean> incomeList = manageIncomeService.selectList(db_startDate, db_endDate);
 		
 		
 		/*-- 얻어온 매출정보를 달력의 각 칸에 삽입 ------------------------------------*/
@@ -75,16 +75,42 @@ public class ManageIncomeAction implements Action {
 		//얻어온 데이터를 배열에 저장
 		if(!incomeList.isEmpty()) {//만약 매출데이터가 있으면
 			
-			int j = 0;
 			for(int i=0; i<incomeList.size(); i++) {
 				
-				//수익기록 중 날짜만 가져옴
+				//수익기록 중 날짜만 가져옴 (예 : incomeList.get(i)의 수익날짜가 2023-9-13 일 때 13만)
 				String incomeDate = incomeList.get(i).getIncomedate();
 				//날짜(연월일) 중 일만 가져와서 숫자로 변환 
 				int date = Integer.parseInt(incomeDate.substring(incomeDate.length()-2));
 				
-				//해당 날짜의 배열 칸에 수익기록을 저장
-				adminIncomeArr[date].add(incomeList.get(i));
+				
+				if(i>0) {//총 매출데이터가 1개가 넘으면
+					
+					//i번째와 i-1번째 기록의 날짜를 비교
+					String beforeIncomeDate = incomeList.get(i-1).getIncomedate();
+					int beforeDate = Integer.parseInt(beforeIncomeDate.substring(beforeIncomeDate.length()-2));
+					
+					//만약 현재기록이 이전수익기록과 같은날 발생한 수익이면
+					if(date == beforeDate) {
+						//이미 해당 칸의 ArrayList객체가 생성되어 있는 상태이므로 바로 add
+						adminIncomeArr[date].add(incomeList.get(i));
+					}else {//다른날 발생한 수익이라면
+						
+						//date번째 배열에 넣을 ArrayList객체를 생성한 다음
+						adminIncomeArr[date] = new ArrayList<AdminIncomeBean>();
+						//현재 수익기록을 list에 저장
+						adminIncomeArr[date].add(incomeList.get(i));
+					}
+					
+				}else {//총 매출데이터가 1개만 있다면
+					//ArrayList객체 생성 후 add
+					adminIncomeArr[date] = new ArrayList<AdminIncomeBean>();
+					adminIncomeArr[date].add(incomeList.get(i));
+				}
+				
+				System.out.println("얻어온 수익기록데이터의 날짜 : "+date);
+				
+				//해당 날짜의 배열 칸에 수익기록을 저장 (기존 소스에서 : 13일이면 index13에 저장)
+				//adminIncomeArr[date] = incomeList.get(i);
 			}
 		}
 		
@@ -93,26 +119,31 @@ public class ManageIncomeAction implements Action {
 		//실질적인 달력데이터 리스트에 데이터 삽입 시작
 		List<DateUtil> dateList = new ArrayList<>();
 		DateUtil calendarData = null;
-		//start=현재요일, startDay = 이번달 첫째날, endDay = 이번달 마지막날
+		//start=이번달 첫째날 요일, startDay = 이번달 첫째날, endDay = 이번달 마지막날
 		int start = Integer.parseInt(String.valueOf(today_info.get("start")));
 		int startDay = Integer.parseInt(String.valueOf(today_info.get("startDay")));
 		int endDay = Integer.parseInt(String.valueOf(today_info.get("endDay")));
 		
-		//start : 현재요일(일요일1~토요일7)
-		//현재요일까지 일단 아무것도 없는 데이터 삽입
-		//????근데 왜 이렇게 하는지 이해가 안 됨. 이번달 첫째날 전까지 아무것도 없는 데이터 삽입한다 하면 이해가 가는데
+		//start : 이번달 첫째날 요일(일요일1~토요일7)
+		//첫째날 요일 전까지 빈데이터의 DateUtil값으로 list 자리를 채움
 		for(int i=1; i<start; i++) {
 			calendarData = new DateUtil(null, null, null, null, null);
 			dateList.add(calendarData);
+			
+			//dateList의 값 calendarData의 모든 필드가 null값으로 되어있음.
 		}
 		
 		//이번달 첫째날부터 마지막날까지
-		for(int i=startDay; i<endDay; i++) {
+		for(int i=startDay; i<=endDay; i++) {
 			ArrayList<AdminIncomeBean> dayIncomeList = new ArrayList<>();
 			dayIncomeList = adminIncomeArr[i];
 			//13일이면 -> dayIncomeList는 13일 수익기록목록이 대입됨 
+			//만약 13일만 데이터가 있으면, dayIncomeList는 adminIncomeArr[13]일 때를 제외하고 모두 null이 대입됨
+			
+			System.out.println("[ManageIncomeAction] "+i+"일의 수익리스트 값 확인 : "+dayIncomeList);
 			
 			//만약 특정날짜가 오늘에 해당할 경우, 생성할 DateUtil객체의 value에 "today"라는 값을 넣어줌
+			//"today"는 지정날짜가 올해, 이번달일 경우, 오늘날짜의 '일'이 대입되어 있음
 			if(i == Integer.parseInt(String.valueOf(today_info.get("today")))) {
 				calendarData = new DateUtil(dateUtil.getYear(), dateUtil.getMonth(), String.valueOf(i), "today", dayIncomeList);
 				
@@ -133,6 +164,8 @@ public class ManageIncomeAction implements Action {
 			for(int i=0; i<index; i++) {
 				calendarData = new DateUtil(null,null,null,null,null);
 				dateList.add(calendarData);
+				
+				//dateList의 값 calendarData의 모든 필드가 null값으로 되어있음.
 			}
 		}
 		

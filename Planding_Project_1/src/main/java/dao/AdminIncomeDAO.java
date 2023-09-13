@@ -53,7 +53,15 @@ public class AdminIncomeDAO {
 	//1. 지정한 날짜 범위에 있는 수익기록 목록을 가져옴
 	public ArrayList<AdminIncomeBean> selectIncomeDateList(String db_startDate, String db_endDate){
 		
+		System.out.println("[AdminIncomeDAO]");
+		System.out.println("db_startDate = "+db_startDate);
+		System.out.println("db_endDate = "+db_endDate);
+		
 		ArrayList<AdminIncomeBean> adminIncomeList = null;
+		
+		System.out.println("[AdminIncomeDAO]");
+		System.out.println("db_startDate = "+db_startDate);
+		System.out.println("db_endDate = "+db_endDate);
 		
 		String sql = "select project_id, fee_income,"
 				  + " DATE_FORMAT(incomedate,'%Y.%m.%d') as incomedate"
@@ -74,11 +82,17 @@ public class AdminIncomeDAO {
 				
 				do {
 					
-					adminIncomeList.add(new AdminIncomeBean(rs.getInt("project_id"),
-															rs.getInt("fee_income"),
-															rs.getString("incomedate")
-															)
-										);
+					AdminIncomeBean admIncome = new AdminIncomeBean();
+					admIncome.setProject_id(rs.getInt("project_id"));
+					admIncome.setFee_income(rs.getInt("fee_income"));
+					admIncome.setIncomedate(rs.getString("incomedate"));
+					
+					System.out.println("[AdminIncomeDAO]");
+					System.out.println("조회한 project_id = "+rs.getInt("project_id"));
+					System.out.println("조회한 fee_income = "+rs.getInt("fee_income"));
+					System.out.println("조회한 incomedate = "+rs.getString("incomedate"));
+					
+					adminIncomeList.add(admIncome);
 					
 				}while(rs.next());
 				

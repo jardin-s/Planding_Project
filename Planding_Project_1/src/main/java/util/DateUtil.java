@@ -25,7 +25,7 @@ public class DateUtil {//날짜 계산하는 클래스 (매출관리에서 달�
 	private String schedule_datail = "";
 	
 	//각 날짜별 수익기록들
-	private ArrayList<AdminIncomeBean> incomeList = null; 
+	private ArrayList<AdminIncomeBean> du_incomeList = null; 
 	
 	//2. 생성자
 	//2-1. 스케줄 사용
@@ -56,7 +56,7 @@ public class DateUtil {//날짜 계산하는 클래스 (매출관리에서 달�
 			this.month = month;
 			this.date = date;
 			this.value = value;
-			this.incomeList = list;
+			this.du_incomeList = list;
 		}
 	}
 	
@@ -124,12 +124,12 @@ public class DateUtil {//날짜 계산하는 클래스 (매출관리에서 달�
 		this.schedule_datail = schedule_datail;
 	}
 		
-	public ArrayList<AdminIncomeBean> getIncomeList() {
-		return incomeList;
+	public ArrayList<AdminIncomeBean> getDu_incomeList() {
+		return du_incomeList;
 	}
 
-	public void setIncomeList(ArrayList<AdminIncomeBean> incomeList) {
-		this.incomeList = incomeList;
+	public void setDu_incomeList(ArrayList<AdminIncomeBean> du_incomeList) {
+		this.du_incomeList = du_incomeList;
 	}
 
 	//3-2. 날짜에 관련된 달력정보를 가지는 메서드 (달력네비게이션에서 이전달/다음달 넘기는 <>에 사용 )-------------------------------------------
@@ -144,13 +144,13 @@ public class DateUtil {//날짜 계산하는 클래스 (매출관리에서 달�
 		cal.set(Integer.parseInt(dateUtil.getYear()), Integer.parseInt(dateUtil.getMonth()), 1);
 		//매개변수의 year, month로 날짜 세팅
 		System.out.println("[today_info 메서드 호출]");
-		System.out.println("검색날짜 연도 = "+dateUtil.getYear());//2022
+		System.out.println("검색날짜 연도 = "+dateUtil.getYear());//2023
 		System.out.println("검색날짜 월-1 = "+dateUtil.getMonth());//8
 		
 		//DB에서 사용
 		int startDay = cal.getActualMinimum(Calendar.DAY_OF_MONTH);//선택달 날짜 중 첫째날(minimum) 1
 		int endDay = cal.getActualMaximum(Calendar.DAY_OF_MONTH);//선택달의 마지막날(maximum) 30 (매개값 8 <- 9월이므로)
-		int start = cal.getActualMinimum(Calendar.DAY_OF_WEEK);//이번달의 첫째날 요일 (일요일 1 ~ 토요일 7) 5
+		int start = cal.get(Calendar.DAY_OF_WEEK);//이번달의 첫째날 요일 (일요일 1 ~ 토요일 7) 5
 		System.out.println("[today_info 메서드 호출]");
 		System.out.println("선택 달 중 첫째날 = "+startDay);
 		System.out.println("선택 달 중 마지말날 = "+endDay);
