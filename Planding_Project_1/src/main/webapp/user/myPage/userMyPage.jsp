@@ -70,6 +70,17 @@
             		<img class="img-thumbnail" src="resources/img/mypage_sample.jpg" style="width:15rem">
             	</div>
                 <div class="col-md-8 col-lg-4 py-5 py-lg-0">
+                    <div class="bg-primary rounded py-3 px-5 mb-5 text-center">
+                    	<div class="row justify-content-center">
+                    		<div class="col-7">
+		                    	<span class="fw-bold fs-5 text-white">플랜딩 계좌 잔액<br>
+		                    	50000원</span>
+	                    	</div>
+	                    	<div class="col-5 my-auto">
+	                    		<button type="button" class="btn btn-light" id="topUpBtn">충전하기</button>
+	                    	</div>
+                    	</div>                    	
+                    </div>
                     <ul class="list-group list-group-flush">
 					  <li class="list-group-item"><a href="userUpdateForm.usr">회원정보 수정</a></li>
 					  <li class="list-group-item"><a href="userHashPwChangeForm.usr?u_id=${u_id}">비밀번호 변경</a></li>
