@@ -1069,13 +1069,18 @@ public class ManageMemberDAO {
 				
 				qnaList = new ArrayList<>();
 				
-				qnaList.add(new QnaBean(rs.getInt("qna_id"),
-										rs.getString("q_writer"),
-										rs.getString("q_title"),
-										rs.getString("q_time"),
-										rs.getString("a_writer")
-										)
-						   );
+				do {
+					
+					qnaList.add(new QnaBean(rs.getInt("qna_id"),
+											rs.getString("q_writer"),
+											rs.getString("q_title"),
+											rs.getString("q_time"),
+											rs.getString("a_writer")
+											)
+							   );
+					
+				}while(rs.next());
+				
 			}
 			
 			

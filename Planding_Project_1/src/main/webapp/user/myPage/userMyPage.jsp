@@ -73,6 +73,7 @@
                     <ul class="list-group list-group-flush">
 					  <li class="list-group-item"><a href="userUpdateForm.usr">회원정보 수정</a></li>
 					  <li class="list-group-item"><a href="userHashPwChangeForm.usr?u_id=${u_id}">비밀번호 변경</a></li>
+					  <li class="list-group-item"><a href="userMyQnaList.usr">나의 문의글 리스트 보기</a></li>
 					  <li class="list-group-item"><a href="userDeleteForm.usr">회원 탈퇴</a></li>
 					</ul>           
                 </div>

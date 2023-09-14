@@ -105,7 +105,16 @@ function deleteConfirm(page, qna_id, member_id){
 						<button class="btn btn-light" type="button" onclick="location.href='userModifyQnaQForm.usr?qna_id=${qnaInfo.qna_id}&q_writer=${qnaInfo.q_writer}&page=${page}'">수정</button>
                 		<button class="btn btn-light" type="button" onclick="deleteConfirm(${page},${qnaInfo.qna_id},'${qnaInfo.q_writer}');">삭제</button>
                 	</c:if>
-                	<button class="btn btn-light" onclick="location.href='userQnaList.usr?page=${page}'">글 목록</button>
+                	
+                	<%-- 나의 문의글 리스트에서 클릭하여 본 경우가 아니면 --%>
+                	<c:if test="${myqna eq null }">
+                		<button class="btn btn-light" onclick="location.href='userQnaList.usr?page=${page}'">글 목록</button>
+                	</c:if>
+                	<%-- 나의 문의글 리스트에서 클릭하여 본 경우라면 --%>
+                	<c:if test="${myqna ne null }">
+                		<button class="btn btn-light" onclick="location.href='userMyQnaList.usr?page=${page}'">글 목록</button>
+                	</c:if>
+                	
                 </div>
                 
 			</div>
