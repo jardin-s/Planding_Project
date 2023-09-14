@@ -592,6 +592,7 @@ public class UserDAO {
 		return bookmarkIdList;
 	}
 
+	/** 회원ID로 회원이 기획한 프로젝트ID리스트를 알아냄 */
 	public ArrayList<Integer> selectUploadProjectIdList(String p_id) {
 		
 		ArrayList<Integer> uploadProjectIdList = null;
@@ -659,6 +660,88 @@ public class UserDAO {
 		}
 		
 		return fundProjectIdList;
+	}
+
+	/** 회원의 계좌 잔액을 업데이트 (더하기) */
+	public int updateUserPlusMoney(String member_id, int money) {
+		
+		int updateUserMoneyCount = 0;
+		
+		String sql = "update member_tbl"
+				  + " set account = account + ?"
+				  + " where member_id = ?";
+		
+		try {
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, money);
+			pstmt.setString(2, member_id);
+			
+			updateUserMoneyCount = pstmt.executeUpdate();
+			
+		} catch(Exception e) {
+			System.out.println("[UserDAO] updateUserMoney() 에러 : "+e);//예외객체종류 + 예외메시지
+		} finally {
+			close(pstmt); //JdbcUtil.생략가능
+			//close(rs); //JdbcUtil.생략가능
+			//connection 객체에 대한 해제는 DogListService에서 이루어짐
+		}
+		
+		return updateUserMoneyCount;
+	}
+
+	/** 사용자의 관심프로젝트 수를 가져옴 */
+	public int selectBookmarkListCount(String member_id) {
+		
+		int bookmarkListCount = 0;
+		
+		String sql = "select count(*) from bookmark_tbl where member_id = ?";
+		
+		try {
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, member_id);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				bookmarkListCount = rs.getInt(1);
+			}			
+			
+		} catch(Exception e) {
+			System.out.println("[UserDAO] selectBookmarkListCount() 에러 : "+e);//예외객체종류 + 예외메시지
+		} finally {
+			close(pstmt); //JdbcUtil.생략가능
+			close(rs); //JdbcUtil.생략가능
+			//connection 객체에 대한 해제는 DogListService에서 이루어짐
+		}
+		
+		return bookmarkListCount;
+		
+	}
+
+	/** 프로젝트ID로 관심프로젝트 목록에서 삭제 */
+	public int deleteBookmark(int project_id) {
+		int deleteBookmarkCount = 0;
+		
+		String sql = "delete from bookmark_tbl where project_id = ?";
+		
+		try {
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, project_id);
+			
+			deleteBookmarkCount = pstmt.executeUpdate();
+			
+		} catch(Exception e) {
+			System.out.println("[UserDAO] deleteBookmark() 에러 : "+e);//예외객체종류 + 예외메시지
+		} finally {
+			close(pstmt); //JdbcUtil.생략가능
+			//close(rs); //JdbcUtil.생략가능
+			//connection 객체에 대한 해제는 DogListService에서 이루어짐
+		}
+		
+		return deleteBookmarkCount;
 	}
 
 	

@@ -17,6 +17,13 @@ drop table notice_tbl;
 drop table member_tbl;
 */
 
+/*
+ 2023.9.13
+ member_tbl, qna_tbl 기존생성
+ 매출관리 테스트를 위해 project_tbl, admin_income_tbl 생성
+   
+ */
+
 -- MySQL Workbench Forward Engineering
 
 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
@@ -54,6 +61,15 @@ CREATE TABLE IF NOT EXISTS `project`.`project_tbl` (
   PRIMARY KEY (`project_id`))
 ENGINE = InnoDB;
 
+/* 테스트를 위해 데이터 1개 등록 */
+insert into project_tbl(kind, title, summary, thumbnail, content, image, startdate, enddate, goal_amount, curr_amount, status, likes)
+values('donate','기부제목','기부요약','thumbnail.jpg','프로젝트 내용','content_image.jpg',
+		'2023-09-11', '2023-09-15', 1000000, 100000, 'unauthorized', 0);
+insert into project_tbl(kind, title, summary, thumbnail, content, image, startdate, enddate, goal_amount, curr_amount, status, likes)
+values('donate','기부제목2','기부요약2','thumbnail2.jpg','프로젝트 내용2','content_image2.jpg',
+		'2023-09-11', '2023-09-15', 1000000, 200000, 'unauthorized', 0);
+		
+select * from project_tbl;
 
 -- -----------------------------------------------------
 -- Table `project`.`member_tbl`
@@ -145,6 +161,15 @@ CREATE TABLE IF NOT EXISTS `project`.`admin_income_tbl` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
+insert into admin_income_tbl(project_id, fee_income) values(1, 50000);
+insert into admin_income_tbl(project_id, fee_income) values(2, 30000);
+
+select * from admin_income_tbl;
+
+select project_id, fee_income,
+DATE_FORMAT(incomedate,'%Y.%m.%d') as incomedate
+from admin_income_tbl
+where incomedate between '2023-9-1' and '2023-9-30';
 
 -- -----------------------------------------------------
 -- Table `project`.`project_reward_tbl`
@@ -152,7 +177,6 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `project`.`project_reward_tbl` (
   `project_id` INT NOT NULL COMMENT '프로젝트 ID',
   `reward_id` INT NOT NULL COMMENT '리워드 ID',
-  `donation` INT NOT NULL,
   PRIMARY KEY (`project_id`, `reward_id`),
   INDEX `fk_project_reward_tbl_reward_tbl1_idx` (`reward_id` ASC) VISIBLE,
   CONSTRAINT `fk_project_reward_tbl_project_tbl1`
@@ -266,9 +290,9 @@ ENGINE = InnoDB;
 -- Table `project`.`bookmark_tbl`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `project`.`bookmark_tbl` (
-  `member_id` VARCHAR(20) NOT NULL,
-  `project_id` INT NOT NULL,
-  `likedate` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
+  `member_id` VARCHAR(20) NOT NULL COMMENT '회원ID',
+  `project_id` INT NOT NULL COMMENT '관심프로젝트 ID',
+  `likedate` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP COMMENT '관심글 등록일자',
   INDEX `fk_bookmark_tbl_member_tbl1_idx` (`member_id` ASC) VISIBLE,
   INDEX `fk_bookmark_tbl_project_tbl1_idx` (`project_id` ASC) VISIBLE,
   CONSTRAINT `fk_bookmark_tbl_member_tbl1`

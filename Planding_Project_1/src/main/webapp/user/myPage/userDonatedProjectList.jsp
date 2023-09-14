@@ -54,48 +54,53 @@
             <div class="row justify-content-center">
 	            <ul class="col-12 col-lg-8 nav nav-pills justify-content-center mt-4 mb-0">
 					<li class="col-6 col-md-3 nav-item"><a class="nav-link text-white" href="userMyPage.usr">내 정보관리</a></li>
-					<li class="col-6 col-md-3 nav-item"><a class="nav-link active fw-bold" href="bookmarkList.usr">관심 프로젝트</a></li>
-					<li class="col-6 col-md-3 nav-item"><a class="nav-link text-white" href="uploadProjectList.usr">등록 프로젝트</a></li>
-					<li class="col-6 col-md-3 nav-item"><a class="nav-link text-white" aria-current="page" href="#">후원 프로젝트</a></li>
+					<li class="col-6 col-md-3 nav-item"><a class="nav-link text-white" href="userBookmarkList.usr">관심 프로젝트</a></li>
+					<li class="col-6 col-md-3 nav-item"><a class="nav-link text-white" href="userUploadProjectList.usr">등록 프로젝트</a></li>
+					<li class="col-6 col-md-3 nav-item"><a class="nav-link active fw-bold" aria-current="page" href="#">후원 프로젝트</a></li>
 	            </ul>
             </div>
         </div>
     </div>
     <!-- Page Header End -->
 
-
-    <!-- List Start -->
-    <c:if test="${requestScope.fundProjectList eq null }">
+	<c:if test="${donatedProjectList eq null }">
     	<div class="container-xxl py-5">
-    		<div class="container">
-    			<p class="text-center">후원한 프로젝트가 없습니다.</p>
+    		<div class="container col-lg-8 mb-5">
+   				<p class="text-center">후원한 프로젝트가 없습니다.</p>
     		</div>
-    	</div>    	
+    	</div>
     </c:if>
-    
-    <c:if test="${requestScope.fundProjectList ne null }">
-    	<div class="container-xxl py-5">
-	        <div class="container">
-				<div class="row g-4">
-					<c:forEach var="project" items="${requestScope.fundProjectList }" varStatus="status">
-						<div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
-							<div class="service-item rounded d-flex h-100">
-								<div class="service-img rounded">
-									<img class="img-fluid" src="${project.image }" alt="">
-								</div>
-								<div class="service-text rounded p-5">
-									<h4 class="mb-3">${project.title}</h4>
-									<p class="mb-4">${project.summary}</p>
-									<a class="btn btn-sm" href="projectView.prj?project_id=${project.project_id}"><i class="fa fa-plus text-primary me-2"></i>보러가기</a>
-								</div>
-		                    </div>
-		                </div>
-	                </c:forEach>
-	            </div>
-	        </div>
+	
+	<c:if test="${donatedProjectList ne null}">
+    	
+    	<!-- Table Start -->
+	    <div class="container-fluid pt-0 pb-2">
+	        <div class="container col-lg-8">
+	            <div class="row justify-content-center" style="height:300px; overflow-y:auto">
+					<table class="table table-hover">
+						<thead>
+							<tr>
+								<th scope="col" class="col-l text-center">#</th>
+								<th scope="col" class="col-auto">프로젝트 제목</th>
+							</tr>
+						</thead>
+						<tbody class="table-group-divider">
+							<c:forEach var="donatedProject" items="${requestScope.donatedProjectList }" varStatus="status">
+								<tr>
+									<th scope="row" class="text-center">${status.count}</th>
+									<td>
+										<a href="projectView.pj?project_id=${donatedProject.product_id}">${donatedProject.title}</a>
+									</td>
+								</tr>
+							</c:forEach>
+						</tbody>
+					</table>
+				</div>
+	        </div>		
 	    </div>
+	    <%-- Table End --%>
+		    
     </c:if>
-    <!-- List End -->
 	
     <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
