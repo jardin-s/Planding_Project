@@ -59,14 +59,19 @@ public class UserLoginAction implements Action {
 			System.out.println("cookieU_id의 Cookie 객체 생성");
 			
 			//체크박스 체크여부를 저장
-			//Cookie cookieCheckbox = new Cookie("checkbox","checked");
-			//System.out.println("cookieCheckbox의 Cookie 객체 생성");
+			Cookie cookieCheckbox = new Cookie("checkbox","checked");
+			cookieCheckbox.setMaxAge(24*60*60);//24시간
+			System.out.println("cookieCheckbox의 Cookie 객체 생성");
 			
 			if(checkbox != null) {//아이디 저장 체크 O
 				response.addCookie(cookieU_id);//반드시 마지막에 response에 쿠키를 추가 (클라이언트쪽에 보내기 위해)
+				response.addCookie(cookieCheckbox);
 			}else {//아이디 저장 체크 X
 				cookieU_id.setMaxAge(0);//쿠키를 즉시 삭제 (※-1 : 세션이 끝날 때 삭제)
+				cookieCheckbox.setMaxAge(0);
+				
 				response.addCookie(cookieU_id);//반드시 마지막에 response에 쿠키를 추가
+				response.addCookie(cookieCheckbox);
 			}
 			
 			//2. 입력한 id로 회원정보를 가져와(이유? session 영역에 공유 - 모든 페이지에서 공유할 수 있음) 

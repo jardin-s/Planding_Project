@@ -89,6 +89,23 @@ function switchBtn(){
 	
 }
 
+//전체선택
+function checkAll(theForm){
+	
+	if(theForm.remove.length == undefined){//폼의 remove(체크박스)배열의 길이가 정의되어 있지 않다면 == 항목이 1개만 있다면
+		
+		theForm.remove.checked = theForm.allCheck.checked; //전체선택 체크하면, 모든 항목이 체크됨
+	
+	}else{//항목이 2개 이상 있다면 -> 배열로 생성(같은이름(remove)의 checkbox)
+	
+		for(var i=0; i<theForm.remove.length; i++){
+			theForm.remove[i].checked = theForm.allCheck.checked; //remove배열의 각 값 checked
+		}
+	}
+	
+}
+
+//선택항목 삭제
 function selectDelete(){
 	
 	const checkElements = document.getElementsByClassName('form-check-input');
@@ -120,7 +137,7 @@ function selectDelete(){
 	<!-- Page Header Start -->
     <div class="container-fluid page-header pt-5 mb-5 wow fadeIn" data-wow-delay="0.1s">
         <div class="container text-center pt-5">
-            <h3 class="display-6 text-white animated slideInDown">${sessionScope.u_name}님의 페이지</h3>
+            <h3 class="display-6 text-white animated slideInDown">유저님의 페이지</h3>
             <div class="row justify-content-center">
 	            <ul class="col-12 col-lg-8 nav nav-pills justify-content-center mt-4 mb-0">
 					<li class="col-6 col-md-3 nav-item"><a class="nav-link text-white" href="userMyPage.usr">내 정보관리</a></li>
@@ -139,8 +156,11 @@ function selectDelete(){
 		<div class="container-xxl py-0">
 			<div class="container">
 				<div class="d-grid gap-2 d-md-flex justify-content-md-end">
-					<button class="btn btn-white border-secondary" type="button" id="editBtn" onClick="switchEditCancel();">편집</button>
+					<div class="form-check d-none">
+						<input class="form-check-input" name="allCheck" type="checkbox" onclick="checkAll(this.form);">
+					</div>
 					<button class="btn btn-white border-secondary d-none" type="button" id="deleteBtn" onClick="selectDelete();">선택삭제</button>
+					<button class="btn btn-white border-secondary" type="button" id="editBtn" onClick="switchEditCancel();">편집</button>
 				</div>
 			</div>
 		</div>
@@ -152,7 +172,7 @@ function selectDelete(){
 				<div class="row g-4">
 					<div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
 						<div class="form-check d-none">
-						  <input class="form-check-input" name="project_id" type="checkbox" value="${bookmark.project_id }" id="project_id">
+						  <input class="form-check-input" name="remove" type="checkbox" value="${bookmark.project_id }" id="project_id">
 						</div>
 						<div class="service-item rounded d-flex h-100">
 							<div class="service-img rounded">
@@ -160,14 +180,14 @@ function selectDelete(){
 							</div>
 							<div class="service-text rounded p-5">
 								<h4 class="mb-3">프로젝트 제목</h4>
-								<p class="mb-4">이 글은 프로젝트에 대한 대략적인 소개글로서 요약글이라고 할 수 있습니다.</p>
+								<p class="mb-4">대략적인 소개글</p>
 								<a class="btn btn-sm" href="projectView.prj?project_id=${bookmark.project_id}"><i class="fa fa-plus text-primary me-2"></i>보러가기</a>
 							</div>
 	                    </div>
 	                </div>
 	                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
 						<div class="form-check d-none">
-						  <input class="form-check-input" name="project_id" type="checkbox" value="${bookmark.project_id }" id="project_id">
+						  <input class="form-check-input" name="remove" type="checkbox" value="${bookmark.project_id }" id="project_id">
 						</div>
 						<div class="service-item rounded d-flex h-100">
 							<div class="service-img rounded">
@@ -175,14 +195,14 @@ function selectDelete(){
 							</div>
 							<div class="service-text rounded p-5">
 								<h4 class="mb-3">프로젝트 제목</h4>
-								<p class="mb-4">이 글은 프로젝트에 대한 대략적인 소개글로서 요약글이라고 할 수 있습니다.</p>
+								<p class="mb-4">대략적인 소개글</p>
 								<a class="btn btn-sm" href="projectView.prj?project_id=${bookmark.project_id}"><i class="fa fa-plus text-primary me-2"></i>보러가기</a>
 							</div>
 	                    </div>
 	                </div>
 	                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
 						<div class="form-check d-none">
-						  <input class="form-check-input" name="project_id" type="checkbox" value="${bookmark.project_id }" id="project_id">
+						  <input class="form-check-input" name="remove" type="checkbox" value="${bookmark.project_id }" id="project_id">
 						</div>
 						<div class="service-item rounded d-flex h-100">
 							<div class="service-img rounded">
@@ -190,7 +210,7 @@ function selectDelete(){
 							</div>
 							<div class="service-text rounded p-5">
 								<h4 class="mb-3">프로젝트 제목</h4>
-								<p class="mb-4">이 글은 프로젝트에 대한 대략적인 소개글로서 요약글이라고 할 수 있습니다.</p>
+								<p class="mb-4">대략적인 소개글</p>
 								<a class="btn btn-sm" href="projectView.prj?project_id=${bookmark.project_id}"><i class="fa fa-plus text-primary me-2"></i>보러가기</a>
 							</div>
 	                    </div>

@@ -13,7 +13,9 @@ import vo.AddressBean;
 import vo.DonationBean;
 import vo.MemberBean;
 import vo.MemberPwChangeBean;
+import vo.PlannerBean;
 import vo.ProjectBean;
+import vo.RewardBean;
 
 public class ProjectDAO {
 	
@@ -55,7 +57,7 @@ public class ProjectDAO {
 		this.con = con;
 	}
 
-	//1. 프로젝트 ID로 프로젝트 정보를 얻어옴
+	/** 프로젝트 ID로 프로젝트 정보를 얻어옴 */
 	public ProjectBean selectProject(int project_id) {
 		ProjectBean projectInfo = null;
 		
@@ -104,7 +106,7 @@ public class ProjectDAO {
 		return projectInfo;
 	}
 
-	//특정 회원의 후원기록을 가져오기
+	/** 특정 회원의 후원기록을 가져오기 */
 	public ArrayList<DonationBean> selectDonationList(String u_id) {
 		ArrayList<DonationBean> donationList = null;
 		
@@ -147,4 +149,228 @@ public class ProjectDAO {
 		
 		return donationList;
 	}
+	
+	/** 프로젝트 새로 등록하기 */
+	public int insertProject(ProjectBean pj) {
+		int insertProjectCount = 0;
+		
+		String sql = "insert into project_tbl(kind,title,summary,thumbnail,content,image,startdate,enddate,goal_amount,curr_amount,status,likes)";
+			   sql+= " values(?,?,?,?,?,?,?,?,?,?,?,?)";
+		
+		try {
+			
+			pstmt = con.prepareStatement(sql);
+			
+			pstmt.setString(1, pj.getKind());
+			pstmt.setString(2, pj.getTitle());
+			pstmt.setString(3, pj.getSummary());
+			pstmt.setString(4, pj.getThumbnail());
+			pstmt.setString(5, pj.getContent());
+			pstmt.setString(6, pj.getImage());
+			pstmt.setString(7, pj.getStartdate());
+			pstmt.setString(8, pj.getEnddate());
+			pstmt.setInt(9, pj.getGoal_amount());
+			pstmt.setInt(10, 0);
+			pstmt.setString(11, "unauthorized");
+			pstmt.setInt(12, 0);
+			
+			insertProjectCount = pstmt.executeUpdate();
+			
+		} catch(Exception e) {
+			System.out.println("[ProjectDAO] insertProject() 에러 : "+e);//예외객체종류 + 예외메시지
+		} finally {
+			close(pstmt); //JdbcUtil.생략가능
+			//close(rs); //JdbcUtil.생략가능
+			//connection 객체에 대한 해제는 DogListService에서 이루어짐
+		}
+		
+		return insertProjectCount;
+	}
+
+	/** 프로젝트 썸네일로 프로젝트 ID를 얻어오기 */
+	public int getProjectID(ProjectBean pj) {
+		int project_id = 0;
+		
+		String sql = "select project_id from project_tbl where thumbnail=?";
+		   	
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, pj.getThumbnail());
+			
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+	            project_id = rs.getInt(1);
+	        }
+			System.out.println(project_id);
+		
+		} catch(Exception e) {
+			System.out.println("[ProjectDAO] getProjectID() 에러 : "+e);//예외객체종류 + 예외메시지
+		} finally {
+			close(pstmt); //JdbcUtil.생략가능
+			close(rs); //JdbcUtil.생략가능
+			//connection 객체에 대한 해제는 DogListService에서 이루어짐
+		}
+		
+		return project_id;
+	}
+
+	/** 프로젝트 기획자 등록하기 */
+	public int insertPlanner(PlannerBean planner) {
+		int insertPlannerCount = 0;
+		
+		String sql ="insert into project_planner_tbl values(?,?,?,?,?,?)";
+		
+		try {
+			pstmt = con.prepareStatement(sql);
+			
+			pstmt.setInt(1, planner.getProject_id());
+			pstmt.setString(2, planner.getMember_id());
+			pstmt.setString(3, planner.getPlanner_name());
+			pstmt.setString(4, planner.getIntroduce());
+			pstmt.setString(5, planner.getBank());
+			pstmt.setString(6, planner.getAccount());
+
+			insertPlannerCount = pstmt.executeUpdate();
+			
+		} catch(Exception e) {
+			System.out.println("[ProjectDAO] insertPlanner() 에러 : "+e);//예외객체종류 + 예외메시지
+		} finally {
+			close(pstmt); //JdbcUtil.생략가능
+			//close(rs); //JdbcUtil.생략가능
+			//connection 객체에 대한 해제는 DogListService에서 이루어짐
+		}
+		
+		return insertPlannerCount;
+	}
+	
+	
+	/** 프로젝트ID로 기획자 정보 얻어오기 */
+	public PlannerBean selectPlanner(int project_id) {
+		PlannerBean plannerInfo = null;
+		
+		String sql = "select project_id, member_id, planner_name, introduce,"
+				  + " introduce, bank, account"
+				  + " from project_planner_tbl"
+				  + " where project_id = ?";
+		
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, project_id);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				
+				plannerInfo = new PlannerBean(project_id,
+											  rs.getString("member_id"),
+											  rs.getString("planner_name"),
+											  rs.getString("introduce"),
+											  rs.getString("bank"),
+											  rs.getString("account")
+											  );
+				
+			}
+			
+	
+		} catch(Exception e) {
+			System.out.println("[ProjectDAO] selectPlanner() 에러 : "+e);//예외객체종류 + 예외메시지
+		} finally {
+			close(pstmt); //JdbcUtil.생략가능
+			close(rs); //JdbcUtil.생략가능
+			//connection 객체에 대한 해제는 DogListService에서 이루어짐
+		}
+		
+		return plannerInfo;
+	}
+
+	/** 프로젝트ID로 리워드ID 리스트 얻어오기 */
+	public ArrayList<RewardBean> selectRewardIdList(int project_id) {
+		ArrayList<RewardBean> rewardList = null;
+		
+		String sql = "select reward_id"
+				  + " from project_reward_tbl"
+				  + " where project_id = ?"
+				  + " and reward_id != 1";
+		
+		try {
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, project_id);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				rewardList = new ArrayList<>();
+				
+				do {
+					
+					RewardBean reward = new RewardBean();
+					reward.setReward_id(rs.getInt("reward_id"));
+					
+					rewardList.add(reward);
+					
+				}while(rs.next());
+			}
+			
+		} catch(Exception e) {
+			System.out.println("[ProjectDAO] selectRewardIdList() 에러 : "+e);//예외객체종류 + 예외메시지
+		} finally {
+			close(pstmt); //JdbcUtil.생략가능
+			close(rs); //JdbcUtil.생략가능
+			//connection 객체에 대한 해제는 DogListService에서 이루어짐
+		}
+		
+		return rewardList;
+	}
+
+	/** 특정 프로젝트의 후원기록 리스트 가져오기 */
+	public ArrayList<DonationBean> selectProjectDonationList(int project_id) {
+		ArrayList<DonationBean> donationList = null;
+		
+		String sql = "select donation_id, project_id, member_id, reward_id,"
+				  + " r_price, add_donation, address_id, donatedate"
+				  + " from donation_tbl"
+				  + " where project_id = ?";
+		
+		try {
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, project_id);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				donationList = new ArrayList<>();
+				
+				do {
+					
+					DonationBean donation = new DonationBean();
+					donation.setDonation_id(rs.getInt("donation_id"));
+					donation.setProject_id(project_id);
+					donation.setMember_id(rs.getString("member_id"));
+					donation.setReward_id(rs.getInt("reward_id"));
+					donation.setR_price(rs.getInt("r_price"));
+					donation.setAdd_donation(rs.getInt("add_donation"));
+					donation.setTotalDonation(rs.getInt("r_price") + rs.getInt("add_donation"));
+					donation.setAddress_id(rs.getString("address_id"));
+					donation.setDonatedate(rs.getString("donatedate"));
+					
+					donationList.add(donation);					
+					
+				}while(rs.next());
+			}
+			
+		} catch(Exception e) {
+			System.out.println("[ProjectDAO] selectProjectDonationList() 에러 : "+e);//예외객체종류 + 예외메시지
+		} finally {
+			close(pstmt); //JdbcUtil.생략가능
+			close(rs); //JdbcUtil.생략가능
+			//connection 객체에 대한 해제는 DogListService에서 이루어짐
+		}
+		
+		return donationList;
+	}
+	
+	
+	
 }

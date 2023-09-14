@@ -69,6 +69,7 @@ public class UserBookmarkListService {
 		return bookmarkIdList;
 	}
 
+	/** 관심프로젝트 ID로 프로젝트 정보를 얻어옴 */
 	public ArrayList<ProjectBean> getProjectList(ArrayList<Integer> bookmarkIdList) {
 		//1. 커넥션 풀에서 Connection객체를 얻어와
 		Connection con = getConnection(); //JdbcUtil. 생략(이유?import static 하여)
@@ -102,5 +103,6 @@ public class UserBookmarkListService {
 		
 		return projectList;		
 	}
-
+	
+	
 }

@@ -10,7 +10,7 @@ import dao.ProjectDAO;
 import dao.UserDAO;
 import vo.ProjectBean;
 
-public class UserFundProjectListService {
+public class UserDonatedProjectListService {
 	//필드 없음
 
 	//기본생성자

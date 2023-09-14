@@ -115,13 +115,13 @@
 				    							</c:forEach>
 				    							
 				    							<%-- 계산된 총 수익을 드롭다운 제일 위에 출력 --%>
-			    								<button class="btn btn-primary dropdown-toggle text-white px-2 py-0 mx-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-				    								+ ${totalIncome}
+			    								<button class="btn btn-primary dropdown-toggle text-center text-white p-0 mx-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+				    								${totalIncome}
 				   								</button>
 				   								
 				   								<ul class="dropdown-menu dropdown-menu-light mx-0">
 				   									<c:forEach var="income" items="${incomedate.du_incomeList }">
-				   										<li><a class="dropdown-item">+${income.fee_income}원</a></li>   										
+				   										<li><a class="dropdown-item">+ ${income.fee_income}원 (프로젝트 : ${income.project_id})</a></li>   										
 				   									</c:forEach>
 				   								</ul>
 				    						</c:if>
@@ -143,13 +143,13 @@
 				    								<c:set var="totalIncome" value="${totalIncome + income.fee_income }"/>
 				    							</c:forEach>
 				    							
-				    							<button class="btn btn-primary dropdown-toggle text-white px-2 py-0 mx-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-				    								+ ${totalIncome}
+				    							<button class="btn btn-primary dropdown-toggle text-center text-white p-0 mx-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+				    								${totalIncome}
 				   								</button>
 				   								
 				   								<ul class="dropdown-menu dropdown-menu-light mx-0">
 				   									<c:forEach var="income" items="${incomedate.du_incomeList }">
-				   										<li><a class="dropdown-item">+${income.fee_income}원</a></li>   										
+				   										<li><a class="dropdown-item">+ ${income.fee_income}원 (프로젝트 : ${income.project_id})</a></li>   										
 				   									</c:forEach>
 				   								</ul>
 			   								</c:if>
@@ -173,13 +173,13 @@
 				    								<c:set var="totalIncome" value="${totalIncome + income.fee_income }"/>
 				    							</c:forEach>
 				    							
-				    							<button class="btn btn-primary dropdown-toggle text-white px-2 py-0 mx-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-				    								+ ${totalIncome}
+				    							<button class="btn btn-primary dropdown-toggle text-center text-white p-0 mx-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+				    								${totalIncome}
 				   								</button>
 				   								
 				   								<ul class="dropdown-menu dropdown-menu-light mx-0">
 				   									<c:forEach var="income" items="${incomedate.du_incomeList }">
-				   										<li><a class="dropdown-item">${income.fee_income}원</a></li>   										
+				   										<li><a class="dropdown-item">+ ${income.fee_income}원 (프로젝트 : ${income.project_id})</a></li>   										
 				   									</c:forEach>
 				   								</ul>
 			   								</c:if>
@@ -200,12 +200,12 @@
 				    							<c:forEach var="income" items="${incomedate.du_incomeList }">
 				    								<c:set var="totalIncome" value="${totalIncome + income.fee_income }"/>
 				    							</c:forEach>
-				    							<button class="btn btn-primary dropdown-toggle text-white px-2 py-0 mx-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-				    								+ ${totalIncome}
+				    							<button class="btn btn-primary dropdown-toggle text-center text-white p-0 mx-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+				    								${totalIncome}
 				   								</button>
 				   								<ul class="dropdown-menu dropdown-menu-light mx-0">
 				   									<c:forEach var="income" items="${incomedate.du_incomeList }">
-				   										<li><a class="dropdown-item">+${income.fee_income}원</a></li>   										
+				   										<li><a class="dropdown-item">+ ${income.fee_income}원 (프로젝트 : ${income.project_id})</a></li>   										
 				   									</c:forEach>
 				   								</ul>
 			   								</c:if>

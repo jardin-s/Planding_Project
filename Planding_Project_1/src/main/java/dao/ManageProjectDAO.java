@@ -1209,4 +1209,175 @@ public class ManageProjectDAO {
 		return projectList;
 	}
 	
+	
+	
+	/**********************************************************************************
+	 * 프로젝트 승인, 취소, 삭제 등	 *
+	 * ********************************************************************************/
+	
+	/** 미승인 프로젝트 승인 */
+	public int authorizeProject(int project_id) {
+		int authorizeProjectCount = 0;
+		
+		String sql = "update project_tbl"
+				  + " set status = 'ready'"
+				  + " where project_id = ?";
+		
+		try {
+			
+			pstmt = con.prepareStatement(sql);
+			authorizeProjectCount = pstmt.executeUpdate();
+			
+		} catch(Exception e) {
+			System.out.println("[ManageProjectDAO] authorizeProject() 에러 : "+e);//예외객체종류 + 예외메시지
+		} finally {
+			close(pstmt); //JdbcUtil.생략가능
+			//close(rs); //JdbcUtil.생략가능
+			//connection 객체에 대한 해제는 DogListService에서 이루어짐
+		}
+		
+		return authorizeProjectCount;
+	}
+	
+	/** 프로젝트 승인 거절 시 (1) - 프로젝트 기획자 삭제 */
+	public int deletePlanner(int project_id) {
+		int deletePlannerCount = 0;
+		
+		String sql = "delete from project_planner_tbl"
+				  + " where project_id = ?";
+		
+		try {
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, project_id);
+			
+			deletePlannerCount = pstmt.executeUpdate();
+			
+		} catch(Exception e) {
+			System.out.println("[ManageProjectDAO] deletePlanner() 에러 : "+e);//예외객체종류 + 예외메시지
+		} finally {
+			close(pstmt); //JdbcUtil.생략가능
+			//close(rs); //JdbcUtil.생략가능
+			//connection 객체에 대한 해제는 DogListService에서 이루어짐
+		}
+		
+		return deletePlannerCount;
+	}
+	
+	/** 프로젝트 승인 거절 시 (2) - 프로젝트-리워드 매핑 데이터 삭제 */
+	public int deleteProjectRewardMap(int project_id) {
+		int deleteProjectRewardMapCount = 0;
+		
+		String sql = "delete from project_reward_tbl"
+				  + " where project_id = ?";
+		
+		try {
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, project_id);
+			
+			deleteProjectRewardMapCount = pstmt.executeUpdate();
+			
+		} catch(Exception e) {
+			System.out.println("[ManageProjectDAO] deleteProjectRewardMap() 에러 : "+e);//예외객체종류 + 예외메시지
+		} finally {
+			close(pstmt); //JdbcUtil.생략가능
+			//close(rs); //JdbcUtil.생략가능
+			//connection 객체에 대한 해제는 DogListService에서 이루어짐
+		}
+		
+		return deleteProjectRewardMapCount;
+	}
+	
+	/** 프로젝트 승인 거절 시 (2) - (기본리워드 제외) 프로젝트에 등록된 리워드 삭제 */
+	public int deleteReward(int reward_id) {
+		int deleteRewardCount = 0;
+		
+		try {
+			
+		} catch(Exception e) {
+			System.out.println("[ManageProjectDAO] deleteReward() 에러 : "+e);//예외객체종류 + 예외메시지
+		} finally {
+			close(pstmt); //JdbcUtil.생략가능
+			//close(rs); //JdbcUtil.생략가능
+			//connection 객체에 대한 해제는 DogListService에서 이루어짐
+		}
+		
+		return deleteRewardCount;
+	}
+		
+	/** 프로젝트 승인 거절 시 (4) - 프로젝트 삭제 */
+	public int deleteProject(int project_id) {
+		int deleteProjectCount = 0;
+		
+		String sql = "delete from project_tbl"
+				  + " where project_id = ?";
+		
+		try {
+			
+			pstmt = con.prepareStatement(sql);
+			deleteProjectCount = pstmt.executeUpdate();
+			
+		} catch(Exception e) {
+			System.out.println("[ManageProjectDAO] deleteProject() 에러 : "+e);//예외객체종류 + 예외메시지
+		} finally {
+			close(pstmt); //JdbcUtil.생략가능
+			//close(rs); //JdbcUtil.생략가능
+			//connection 객체에 대한 해제는 DogListService에서 이루어짐
+		}
+		
+		return deleteProjectCount;
+	}
+
+	/** 회원의 계좌 잔액을 업데이트 (더하기) */
+	public int updateUserPlusMoney(String member_id, int money) {
+		
+		int updateUserMoneyCount = 0;
+		
+		String sql = "update member_tbl"
+				  + " set account = account + ?"
+				  + " where member_id = ?";
+		
+		try {
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, money);
+			pstmt.setString(2, member_id);
+			
+			updateUserMoneyCount = pstmt.executeUpdate();
+			
+		} catch(Exception e) {
+			System.out.println("[UserDAO] updateUserMoney() 에러 : "+e);//예외객체종류 + 예외메시지
+		} finally {
+			close(pstmt); //JdbcUtil.생략가능
+			//close(rs); //JdbcUtil.생략가능
+			//connection 객체에 대한 해제는 DogListService에서 이루어짐
+		}
+		
+		return updateUserMoneyCount;
+	}
+
+	public int deleteDonation(int project_id) {
+		int updateUserMoneyCount = 0;
+		
+		String sql = "delete from donation_tbl"
+				  + " where member_id";
+		
+		try {
+			
+		} catch(Exception e) {
+			System.out.println("[UserDAO] updateUserMoney() 에러 : "+e);//예외객체종류 + 예외메시지
+		} finally {
+			close(pstmt); //JdbcUtil.생략가능
+			//close(rs); //JdbcUtil.생략가능
+			//connection 객체에 대한 해제는 DogListService에서 이루어짐
+		}
+		
+		return updateUserMoneyCount;
+	}
+
+	
+	
+	
+	
 }

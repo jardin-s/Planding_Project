@@ -28,8 +28,9 @@ import action.user.qna.UserModifyQnaQAction;
 import action.user.qna.UserModifyQnaQFormAction;
 import action.user.qna.UserQnaListAction;
 import action.user.qna.UserQnaViewAction;
+import action.user.UserBookmarkDeleteAction;
 import action.user.UserBookmarkListAction;
-import action.user.UserFundProjectListAction;
+import action.user.UserDonatedProjectListAction;
 import vo.ActionForward;
 
 /**
@@ -266,6 +267,10 @@ public class UserFrontController extends HttpServlet {
 			}
 		}
 		
+		/***************************************************************************************
+		 * 마이페이지
+		 ***************************************************************************************/
+				
 		/*------- '사용자 마이페이지 보기' -------------------------------*/
 		else if(command.equals("/userMyPage.usr")) {//'비밀번호 변경 폼 보기' 요청이면
 			request.setAttribute("showPage", "user/myPage/userMyPage.jsp");
@@ -285,7 +290,7 @@ public class UserFrontController extends HttpServlet {
 		}
 		
 		/*------- '등록한 프로젝트 목록 보기' -------------------------------*/
-		else if(command.equals("/uploadProjectList.usr")) {//'등록한 프로젝트 목록 보기' 요청이면
+		else if(command.equals("/userUploadProjectList.usr")) {//'등록한 프로젝트 목록 보기' 요청이면
 			//action:부모인터페이스 = UserHashPwChangeAction:구현한자식객체;
 			action = new UserUploadProjectListAction();
 			try {
@@ -297,9 +302,9 @@ public class UserFrontController extends HttpServlet {
 		}
 		
 		/*------- '후원한 프로젝트 목록 보기' -------------------------------*/
-		else if(command.equals("/fundProjectList.usr")) {//'후원한 프로젝트 목록 보기' 요청이면
+		else if(command.equals("/userDonatedProjectList.usr")) {//'후원한 프로젝트 목록 보기' 요청이면
 			//action:부모인터페이스 = UserHashPwChangeAction:구현한자식객체;
-			action = new UserFundProjectListAction();
+			action = new UserDonatedProjectListAction();
 			try {
 				forward = action.execute(request, response);
 			} catch (Exception e) {
@@ -307,6 +312,19 @@ public class UserFrontController extends HttpServlet {
 				e.printStackTrace();
 			}
 		}
+		
+		else if(command.equals("/userBookmarkDelete.usr")) {//'후원한 프로젝트 목록 보기' 요청이면
+			//action:부모인터페이스 = UserHashPwChangeAction:구현한자식객체;
+			action = new UserBookmarkDeleteAction();
+			try {
+				forward = action.execute(request, response);
+			} catch (Exception e) {
+				// TODO 자동 생성된 catch 블록
+				e.printStackTrace();
+			}
+		}
+		
+		
 		
 		
 		

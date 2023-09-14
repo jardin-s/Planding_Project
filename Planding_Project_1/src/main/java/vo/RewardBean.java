@@ -3,18 +3,18 @@ package vo;
 public class RewardBean {
 
 	private int reward_id;
-	private String name;
-	private String desc;
-	private int price;
+	private String r_name;
+	private String r_content;
+	private int r_price;
 	
 	public RewardBean () {}
 
 	public RewardBean(int reward_id, String name, String desc, int price) {
 		super();
 		this.reward_id = reward_id;
-		this.name = name;
-		this.desc = desc;
-		this.price = price;
+		this.r_name = name;
+		this.r_content = desc;
+		this.r_price = price;
 	}
 
 	public int getReward_id() {
@@ -26,27 +26,27 @@ public class RewardBean {
 	}
 
 	public String getName() {
-		return name;
+		return r_name;
 	}
 
 	public void setName(String name) {
-		this.name = name;
+		this.r_name = name;
 	}
 
 	public String getDesc() {
-		return desc;
+		return r_content;
 	}
 
 	public void setDesc(String desc) {
-		this.desc = desc;
+		this.r_content = desc;
 	}
 
 	public int getPrice() {
-		return price;
+		return r_price;
 	}
 
 	public void setPrice(int price) {
-		this.price = price;
+		this.r_price = price;
 	}
 	
 	

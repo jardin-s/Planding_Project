@@ -5,7 +5,7 @@
 	String id = ""; //초기화 값을 반드시 ""로 함 (null X) -> 이유? 쿠키에 저장된 id가 없을 경우 value로 셋팅되는 값이 ""가 될 수 있게
 	String checked = "";
 	
-	/*
+	
 	//[방법-1] id와 체크된 상태까지 가져옴
 	String cookie = request.getHeader("Cookie");//생략가능
 	
@@ -27,22 +27,7 @@
 				System.out.println("checkbox쿠키값 : "+checked);
 			}
 		}
-	}
-	*/
-	
-	//[방법-2] id만 가지고 옴
-	Cookie[] cookies = request.getCookies();
-	if(cookies != null && cookies.length > 0) {
-		for(int i=0; i<cookies.length; i++){
-			if(cookies[i].getName().equals("u_id")){
-				id = cookies[i].getValue();
-				checked="checked";
-				break;
-			}
-			
-		}
-	}
-	
+	}	
 	
 	%>
 <!DOCTYPE html>
