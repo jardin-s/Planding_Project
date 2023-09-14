@@ -74,16 +74,16 @@ public class InsertProjectContentsAction implements Action {
         }
         
         contentImgSysNames=contentImgSysName.toString();
-        
+       
         HttpSession session = request.getSession();
         session.setAttribute("title", multi.getParameter("title"));
         session.setAttribute("summary", multi.getParameter("summary"));
         session.setAttribute("contentImgSysNames", contentImgSysNames); // 컬럼에 올릴 저장용이자 서버폴더에 올릴 실제 파일명 나열
         session.setAttribute("content", multi.getParameter("content"));
         session.setAttribute("thumbnail", thumbnailSysName);
-        session.setAttribute("startdate", multi.getParameter("startdate"));
-        session.setAttribute("enddate", multi.getParameter("enddate"));
-        session.setAttribute("goal_amount", multi.getParameter("goal_amount"));
+        session.setAttribute("startdate", multi.getParameter("startdate").substring(0, 9));
+        session.setAttribute("enddate", multi.getParameter("enddate").substring(0, 9));
+        session.setAttribute("goal_amount",  multi.getParameter("goal_amount").replace(",", ""));
         
         
         

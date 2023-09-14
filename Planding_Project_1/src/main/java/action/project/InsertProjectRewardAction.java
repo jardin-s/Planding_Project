@@ -17,16 +17,16 @@ public class InsertProjectRewardAction implements Action {
 		String[] rewardNames=request.getParameterValues("rewardName");
 		String[] r_contents=request.getParameterValues("r_content");
 		String[] r_prices=request.getParameterValues("r_price");
-		
-		
-		for(int i=0;i<rewardNames.length;i++) {
-			session.setAttribute(("rewardName"+(i+1)), rewardNames[i]);
-			session.setAttribute(("r_content"+(i+1)), r_contents[i]);
-			session.setAttribute(("r_price"+(i+1)), r_prices[i]);
-//			System.out.println(rewardNames[i]);
-//			System.out.println(r_contents[i]);
-//			System.out.println(r_prices[i]);
+		String[] r_price=new String[r_prices.length];
+		for(int i=0;i<r_prices.length;i++) {
+			r_price[i]=r_prices[i].replace(",", "");
 		}
+		
+		
+			session.setAttribute("rewardName", rewardNames);
+			session.setAttribute("r_content", r_contents);
+			session.setAttribute("r_price", r_price);
+
 		
 
 		

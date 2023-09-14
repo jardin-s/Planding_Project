@@ -37,14 +37,14 @@ public class RewardDAO {
 	
 	
 	
-	private static RewardDAO projectDAO; //static메서드인 getInstance에서 쓸 수 있게 static (단 외부에서 직접 접근 불가능하도록 private)
+	private static RewardDAO rewardDAO; //static메서드인 getInstance에서 쓸 수 있게 static (단 외부에서 직접 접근 불가능하도록 private)
 	
 	public static RewardDAO getInstance() {
-		if(projectDAO == null) {//DogDAO객체가 없으면
-			projectDAO = new RewardDAO();//객체 생성
+		if(rewardDAO == null) {//DogDAO객체가 없으면
+			rewardDAO = new RewardDAO();//객체 생성
 		}
 		
-		return projectDAO;//기존 DogDAO객체의 주소 리턴
+		return rewardDAO;//기존 DogDAO객체의 주소 리턴
 	}
 	
 	/******************************************************************/
@@ -60,14 +60,14 @@ public class RewardDAO {
 	public RewardBean selectReward(int reward_id, String r_name) {
 		RewardBean rewardInfo = null;
 		
-		String sql = "select * from reward_tbl where reward_id=? r_name=?";
+		String sql = "select * from reward_tbl where reward_id=? and r_name=?";
 		   	
 		try {
 			
 			pstmt = con.prepareStatement(sql);
 			pstmt.setInt(1, reward_id);
 			pstmt.setString(2, r_name);
-						
+			rs = pstmt.executeQuery();
 			if(rs.next()) {
 				rewardInfo = new RewardBean(
 						rs.getInt("reward_id"),
@@ -87,6 +87,28 @@ public class RewardDAO {
 		}
 		
 		return rewardInfo;
+	}
+
+	public int project_reward_connecting(int project_id, int reward_id) {
+		int insertProjectCount = 0;
+		String sql ="insert into project_reward_tbl values(?,?)";
+		
+		try {
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, project_id);
+			pstmt.setInt(2, reward_id);
+			insertProjectCount = pstmt.executeUpdate();
+			
+		} catch(Exception e) {
+			System.out.println("[RewardDAO] project_reward_connecting() 에러 : "+e);//예외객체종류 + 예외메시지
+		} finally {
+			close(pstmt); //JdbcUtil.생략가능
+			//close(rs); //JdbcUtil.생략가능
+			//connection 객체에 대한 해제는 DogListService에서 이루어짐
+		}
+		
+		return insertProjectCount;
 	}
 
 	

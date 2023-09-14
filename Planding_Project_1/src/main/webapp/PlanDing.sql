@@ -1,51 +1,59 @@
-/* 테이블 일괄삭제 (순서대로)
-drop table former_member_tbl;
 
-drop table project_reward_tbl;
-drop table donation_tbl;
-drop table reward_tbl;
+-- 1. 프로젝트 후기 테이블
+DROP TABLE IF EXISTS project.project_review_tbl;
 
-drop table project_review_tbl;
-drop table bookmark_tbl;
-drop table project_planner_tbl;
-drop table admin_income_tbl;
-drop table project_tbl;
+-- 2. 프로젝트 리워드 테이블
+DROP TABLE IF EXISTS project.project_reward_tbl;
 
-drop table address_tbl;
-drop table qna_tbl;
-drop table notice_tbl;
-drop table member_tbl;
-*/
+-- 3. 후원 테이블
+DROP TABLE IF EXISTS project.donation_tbl;
 
--- MySQL Workbench Forward Engineering
+-- 4. 관리자 수익 테이블
+DROP TABLE IF EXISTS project.admin_income_tbl;
+
+-- 5. 리워드 테이블
+DROP TABLE IF EXISTS project.reward_tbl;
+
+-- 6. 북마크 테이블
+DROP TABLE IF EXISTS project.bookmark_tbl;
+
+-- 7. 공지사항 테이블
+DROP TABLE IF EXISTS project.notice_tbl;
+
+-- 8. 문의사항 테이블
+DROP TABLE IF EXISTS project.qna_tbl;
+
+-- 9. 프로젝트 플래너 테이블
+DROP TABLE IF EXISTS project.project_planner_tbl;
+
+-- 10. 주소 테이블
+DROP TABLE IF EXISTS project.address_tbl;
+
+-- 11. 회원 테이블
+DROP TABLE IF EXISTS project.member_tbl;
+
+-- 12. 프로젝트 테이블
+DROP TABLE IF EXISTS project.project_tbl;
+
+-- 테이블 순서대로 삭제한 후, 다시 생성합니다.
+
+-- CREATE TABLE 문들을 여기에 추가합니다.
+
+USE `project` ;
+SHOW TABLES;
+
+
+
 
 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
 
--- -----------------------------------------------------
--- Schema project
--- -----------------------------------------------------
 
--- -----------------------------------------------------
--- Schema project
--- -----------------------------------------------------
 CREATE SCHEMA IF NOT EXISTS `project` DEFAULT CHARACTER SET utf8 ;
 USE `project` ;
-show tables;
-USE `project` ;
-select *
-from project_planner_tbl;
-USE `project` ;
-select *
-from member_tbl;
-USE `project` ;
-DELETE FROM project_tbl ;
 
-select project_id from project_tbl where thumbnail='up8.jpg';
--- -----------------------------------------------------
--- Table `project`.`project_tbl`
--- -----------------------------------------------------
+
 CREATE TABLE IF NOT EXISTS `project`.`project_tbl` (
   `project_id` INT NOT NULL AUTO_INCREMENT COMMENT '프로젝트 ID',
   `kind` VARCHAR(10) NOT NULL COMMENT 'Donate or Funding',
@@ -65,9 +73,6 @@ CREATE TABLE IF NOT EXISTS `project`.`project_tbl` (
 ENGINE = InnoDB;
 
 
--- -----------------------------------------------------
--- Table `project`.`member_tbl`
--- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `project`.`member_tbl` (
   `member_id` VARCHAR(20) NOT NULL COMMENT '회원 ID',
   `password` VARCHAR(256) NOT NULL COMMENT '비밀번호',
@@ -83,20 +88,7 @@ CREATE TABLE IF NOT EXISTS `project`.`member_tbl` (
   UNIQUE INDEX `email_UNIQUE` (`email` ASC) VISIBLE)
 ENGINE = InnoDB;
 
-select * from member_tbl;
 
-update member_tbl
-set password='delete', name='delete',
-email='delete', phone='delete',
-delete_status='Y',
-deletedate=current_timestamp
-where member_id='testuser0009';
-
-
-
--- -----------------------------------------------------
--- Table `project`.`reward_tbl`
--- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `project`.`reward_tbl` (
   `reward_id` INT NOT NULL AUTO_INCREMENT COMMENT '리워드 ID',
   `r_name` NVARCHAR(30) NOT NULL COMMENT '리워드 이름',
@@ -105,15 +97,12 @@ CREATE TABLE IF NOT EXISTS `project`.`reward_tbl` (
   PRIMARY KEY (`reward_id`))
 ENGINE = InnoDB;
 
-insert into project.reward_tbl(r_name,r_content,r_price) values('donate','donate',1000);
+INSERT INTO project.reward_tbl (r_name, r_content, r_price)
+VALUES ('donate', 'donate', 1000);
 
-select *
-from project.reward_tbl;
--- -----------------------------------------------------
--- Table `project`.`donation_tbl`
--- -----------------------------------------------------
+
 CREATE TABLE IF NOT EXISTS `project`.`donation_tbl` (
-  `donate_id` INT NOT NULL AUTO_INCREMENT COMMENT '후원기록 ID',
+  `donation_id` INT NOT NULL AUTO_INCREMENT COMMENT '후원기록 ID',
   `project_id` INT NOT NULL COMMENT '프로젝트 ID',
   `member_id` VARCHAR(20) NOT NULL COMMENT '회원 ID',
   `reward_id` INT NOT NULL COMMENT '리워드 ID',
@@ -121,15 +110,9 @@ CREATE TABLE IF NOT EXISTS `project`.`donation_tbl` (
   `add_donation` INT NULL COMMENT '추가 후원금액',
   `address_id` VARCHAR(100) NULL,
   `donatedate` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP COMMENT '후원일자',
-  PRIMARY KEY (`donate_id`),
-  INDEX `fk_donation_tbl_project_tbl_idx` (`project_id` ASC) VISIBLE,
+  PRIMARY KEY (`donation_id`),
   INDEX `fk_donation_tbl_member_tbl1_idx` (`member_id` ASC) VISIBLE,
   INDEX `fk_donation_tbl_reward_tbl1_idx` (`reward_id` ASC) VISIBLE,
-  CONSTRAINT `fk_donation_tbl_project_tbl`
-    FOREIGN KEY (`project_id`)
-    REFERENCES `project`.`project_tbl` (`project_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
   CONSTRAINT `fk_donation_tbl_member_tbl1`
     FOREIGN KEY (`member_id`)
     REFERENCES `project`.`member_tbl` (`member_id`)
@@ -143,9 +126,7 @@ CREATE TABLE IF NOT EXISTS `project`.`donation_tbl` (
 ENGINE = InnoDB;
 
 
--- -----------------------------------------------------
--- Table `project`.`admin_income_tbl`
--- -----------------------------------------------------
+
 CREATE TABLE IF NOT EXISTS `project`.`admin_income_tbl` (
   `project_id` INT NOT NULL COMMENT '프로젝트 ID',
   `fee_income` INT NOT NULL COMMENT '수수료 수익',
@@ -159,9 +140,7 @@ CREATE TABLE IF NOT EXISTS `project`.`admin_income_tbl` (
 ENGINE = InnoDB;
 
 
--- -----------------------------------------------------
--- Table `project`.`project_reward_tbl`
--- -----------------------------------------------------
+
 CREATE TABLE IF NOT EXISTS `project`.`project_reward_tbl` (
   `project_id` INT NOT NULL COMMENT '프로젝트 ID',
   `reward_id` INT NOT NULL COMMENT '리워드 ID',
@@ -180,9 +159,7 @@ CREATE TABLE IF NOT EXISTS `project`.`project_reward_tbl` (
 ENGINE = InnoDB;
 
 
--- -----------------------------------------------------
--- Table `project`.`notice_tbl`
--- -----------------------------------------------------
+
 CREATE TABLE IF NOT EXISTS `project`.`notice_tbl` (
   `notice_id` INT NOT NULL AUTO_INCREMENT COMMENT '공지사항ID',
   `member_id` VARCHAR(20) NOT NULL COMMENT '작성자 ID',
@@ -202,10 +179,7 @@ CREATE TABLE IF NOT EXISTS `project`.`notice_tbl` (
 ENGINE = InnoDB;
 
 
-drop table qna_tbl;
--- -----------------------------------------------------
--- Table `project`.`qna_tbl`
--- -----------------------------------------------------
+
 CREATE TABLE IF NOT EXISTS `project`.`qna_tbl` (
   `qna_id` INT NOT NULL AUTO_INCREMENT COMMENT '문의사항 ID',
   `q_writer` VARCHAR(20) NOT NULL COMMENT '작성자 ID',
@@ -232,26 +206,7 @@ CREATE TABLE IF NOT EXISTS `project`.`qna_tbl` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
-select * from qna_tbl;
 
-select count(*) from qna_tbl;
-
-delete from qna_tbl;
-
-select qna_id, member_id, q_title, q_content, q_image, isPrivate
-from qna_tbl;
-
-select qna_id, member_id, q_title, q_content, q_image, isPrivate,
-DATE_FORMAT(q_time,'%Y.%m.%d %H:%i') as q_time,
-a_content,
-DATE_FORMAT(a_time,'%Y.%m.%d %H:%i') as a_time
-from qna_tbl;
-
-select count(*) from qna_tbl where q_title regexp '제목';
-
--- -----------------------------------------------------
--- Table `project`.`project_planner_tbl`
--- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `project`.`project_planner_tbl` (
   `project_id` INT NOT NULL COMMENT '프로젝트 ID',
   `member_id` VARCHAR(20) NOT NULL COMMENT '기획자 ID',
@@ -274,13 +229,11 @@ CREATE TABLE IF NOT EXISTS `project`.`project_planner_tbl` (
 ENGINE = InnoDB;
 
 
--- -----------------------------------------------------
--- Table `project`.`bookmark_tbl`
--- -----------------------------------------------------
+
 CREATE TABLE IF NOT EXISTS `project`.`bookmark_tbl` (
-  `member_id` VARCHAR(20) NOT NULL,
-  `project_id` INT NOT NULL,
-  `likedate` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
+  `member_id` VARCHAR(20) NOT NULL COMMENT '회원ID',
+  `project_id` INT NOT NULL COMMENT '관심프로젝트 ID',
+  `likedate` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP COMMENT '관심글 등록일자',
   INDEX `fk_bookmark_tbl_member_tbl1_idx` (`member_id` ASC) VISIBLE,
   INDEX `fk_bookmark_tbl_project_tbl1_idx` (`project_id` ASC) VISIBLE,
   CONSTRAINT `fk_bookmark_tbl_member_tbl1`
@@ -291,14 +244,11 @@ CREATE TABLE IF NOT EXISTS `project`.`bookmark_tbl` (
   CONSTRAINT `fk_bookmark_tbl_project_tbl1`
     FOREIGN KEY (`project_id`)
     REFERENCES `project`.`project_tbl` (`project_id`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
--- -----------------------------------------------------
--- Table `project`.`project_review_tbl`
--- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `project`.`project_review_tbl` (
   `review_id` INT NOT NULL AUTO_INCREMENT COMMENT '프로젝트후기ID',
   `project_id` INT NOT NULL COMMENT '프로젝트ID',
@@ -314,9 +264,7 @@ CREATE TABLE IF NOT EXISTS `project`.`project_review_tbl` (
 ENGINE = InnoDB;
 
 
--- -----------------------------------------------------
--- Table `project`.`address_tbl`
--- -----------------------------------------------------
+
 CREATE TABLE IF NOT EXISTS `project`.`address_tbl` (
   `address_id` VARCHAR(100) NOT NULL,
   `member_id` VARCHAR(20) NOT NULL,
@@ -336,7 +284,6 @@ CREATE TABLE IF NOT EXISTS `project`.`address_tbl` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
-select * from address_tbl;
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;

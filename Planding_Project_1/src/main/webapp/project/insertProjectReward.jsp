@@ -108,11 +108,11 @@ function deleteReward(button) {
 
 	<div class="m-5">
 	
-		<form action="insertProjectReward.pj?" method="post">
+		<form action="insertProjectReward.pj" method="post">
 				
 					<div class="mb-3">
-			            <label for="rewardName" class="form-label">리워드 이름</label>
-			            <input type="text" class="form-control" id="rewardName" name="rewardName" required value="${rewardName }">
+			            <label for="r_name" class="form-label">리워드 이름</label>
+			            <input type="text" class="form-control" id="r_name" name="r_name" required value="${r_name }">
 			        </div>
 			        <div class="mb-3">
 			            <label for="r_content" class="form-label">리워드 설명</label>
@@ -133,17 +133,17 @@ function deleteReward(button) {
 		             <c:if test="${ not empty rewardNames[i]}">style="display: block;"</c:if>
 		        >
 		            <div class="mb-3">
-		                <label for="rewardName${loop.index + 1}" class="form-label">리워드 이름</label>
-		                <input type="text" class="form-control" id="rewardName${loop.index + 1}" name="rewardName${loop.index + 1}" value="${rewardNames[i] }">
+		                <label for="r_name${loop.index + 1}" class="form-label">리워드 이름</label>
+		                <input type="text" class="form-control" id="r_name${loop.index + 1}" name="r_name" value="${r_name[i] }">
 		            </div>
 		            <div class="mb-3">
 		                <label for="r_content${loop.index + 1}" class="form-label">리워드 설명</label>
-		                <textarea class="form-control" name="r_content${loop.index + 1}" rows="3" maxlength="100">${r_contents[i] }</textarea>
+		                <textarea class="form-control" name="r_content" rows="3" maxlength="100">${r_contents[i] }</textarea>
 		            </div>
 		            <div class="mb-3">
 		                <label for="r_price${loop.index + 1}" class="form-label">리워드 금액</label>
 		                <div class="input-group">
-		                    <input type="text" class="form-control" name="r_price${loop.index + 1}" oninput="updateFormattedAmount(this);" value="${r_prices[i] }">
+		                    <input type="text" class="form-control" name="r_price" oninput="updateFormattedAmount(this);" value="${r_prices[i] }">
 		                    <span class="input-group-text">원</span>
 		                </div>
 		            </div>
@@ -151,10 +151,10 @@ function deleteReward(button) {
 		        </div>
 		    </c:forEach>
 		
-		    <c:if test="${kind eq 'fund'}">
+		    
 		        <br>
 		        <button class="btn btn-primary" id="addRewardButton" onclick="addReward()">리워드 추가</button>
-		    </c:if>
+		   
 			
 			
 			

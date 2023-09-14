@@ -141,6 +141,7 @@ public class ProjectFrontController extends HttpServlet {
 				forward=action.execute(request, response);
 			}catch(Exception e) {
 				System.out.println("donatePageView error : "+e);
+				e.printStackTrace();
 			}
 		}
 		
@@ -152,8 +153,18 @@ public class ProjectFrontController extends HttpServlet {
 				System.out.println("fundPageView error : "+e);
 			}
 		}
-		
-		
+		else if(command.equals("/insertProjectView.pj")) {
+			request.setAttribute("showPage", "project/insertProjectView.jsp");//어느 폼 보기인지 showPage이름 속성으로 저장
+			forward = new ActionForward("userTemplate.jsp",false);//반드시 디스패치 (request를 공유)
+		}
+		else if(command.equals("/submitProject.pj")) {
+			action=new submitProjectAction();
+			try {
+				forward=action.execute(request, response);
+			}catch(Exception e) {
+				System.out.println("submitProject error : "+e);
+			}
+		}
 		
 		
 		

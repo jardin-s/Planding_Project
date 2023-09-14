@@ -66,9 +66,10 @@ public class ProjectDAO {
 			
 			pstmt = con.prepareStatement(sql);
 			pstmt.setInt(1, p_id);
-						
+			rs=pstmt.executeQuery();
 			if(rs.next()) {
-				projectInfo = new ProjectBean(rs.getInt("project_id"),
+				projectInfo = new ProjectBean(
+						rs.getInt("project_id"),
 						rs.getString("kind"),
 						  rs.getString("title"),
 						  rs.getString("summary"),
@@ -114,7 +115,7 @@ public class ProjectDAO {
 			pstmt.setString(8, pj.getEnddate());
 			pstmt.setInt(9, pj.getGoal_amount());
 			pstmt.setInt(10, 0);
-			pstmt.setString(11, "unauthorized");
+			pstmt.setString(11, "temp");
 			pstmt.setInt(12, 0);
 			
 			insertProjectCount = pstmt.executeUpdate();
@@ -240,7 +241,7 @@ public class ProjectDAO {
 				pstmt = con.prepareStatement(sql);
 				pstmt.setInt(1, project_id);
 				pstmt.setString(2, member_id);
-							
+				rs = pstmt.executeQuery();			
 				if(rs.next()) {
 					planner = new PlannerBean(
 							rs.getInt("project_id"),
@@ -262,5 +263,29 @@ public class ProjectDAO {
 			}
 			
 			return planner;
+		}
+
+		public int projectStatusUpdateService(int project_id, String string) {
+			String sql="UPDATE project_tbl SET status = ? WHERE project_id = ?;";
+			int updateStatusCount=0;
+			try {
+				
+				pstmt = con.prepareStatement(sql);
+				pstmt.setString(1, string);
+				pstmt.setInt(2, project_id);
+
+
+				
+				updateStatusCount = pstmt.executeUpdate();
+				
+			} catch(Exception e) {
+				System.out.println("[ProjectDAO] projectStatusUpdateService() 에러 : "+e);//예외객체종류 + 예외메시지
+			} finally {
+				close(pstmt); //JdbcUtil.생략가능
+				//close(rs); //JdbcUtil.생략가능
+				//connection 객체에 대한 해제는 DogListService에서 이루어짐
+			}
+			
+			return updateStatusCount;
 		}
 	}

@@ -19,13 +19,12 @@ public class donatePageViewAction implements Action {
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ActionForward forward = null;
 		HttpSession session = request.getSession();
-		
-		int project_id=Integer.parseInt((String)session.getAttribute("project_id"));
-		
-		
+		int project_id = (int) session.getAttribute("project_id"); // 기본값 설정
+
 		ProjectPageViewService donatePageViewService = new ProjectPageViewService();
 		ProjectBean pj=new ProjectBean();
 		pj=donatePageViewService.projectPageViewService(project_id);
+		
 		
 		String member_id=(String)session.getAttribute("u_id");
 		
@@ -44,8 +43,9 @@ public class donatePageViewAction implements Action {
 		request.setAttribute("planner", planner);
 		request.setAttribute("reward", reward);
 		
-		request.setAttribute("showPage", "project/insertProjectSuccess.jsp");
-        forward = new ActionForward("userTemplate.jsp", false);
+		request.setAttribute("showPage", "project/insertProjectView.jsp");//어느 폼 보기인지 showPage이름 속성으로 저장
+		forward = new ActionForward("userTemplate.jsp",false);//반드시 디스패치 (request를 공유)
+	
 
 		
 		
