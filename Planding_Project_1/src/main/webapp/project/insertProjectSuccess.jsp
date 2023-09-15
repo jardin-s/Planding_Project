@@ -1,10 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
+
 	<meta charset="utf-8">
-    <title>PlanDing - Fund for Our Planet</title>
+    <title>PlanDing - Fund for Our Plannet</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
     <meta content="" name="description">
@@ -31,50 +33,38 @@
 
     <!-- Template Stylesheet -->
     <link href="../resources/css/style.css" rel="stylesheet">
-    
-    <!-- Custom Stylesheet (style modify) -->
-    <link href="../resources/css/customStyle.css" rel="stylesheet">
+   
 </head>
 <body>
-	<div>
-		<jsp:include page="../user/userHeader.jsp" />
-	</div>
+
+	<c:if test="${project_id ne null }">
+		${planner_name} 기획자님의 ${title} 프로젝트를 저장하는 데 성공하였습니다.
+		
+		<%-- 기부 프로젝트는 리워드가 없으므로 --%>
+		<c:if test="${kind eq 'donate' }">
+			<a href="donatePageView.pj"><button>확인하기</button></a>
+		</c:if>
+		<%-- 펀딩 프로젝트는 리워드가 있으므로 --%>
+		<c:if test="${kind eq 'fund' }">
+			<a href="fundPageView.pj"><button>확인하고 리워드 추가하기</button></a>
+		</c:if>
+	</c:if>
 	
-	<!-- Main Section -->
-	<div class="container-xxl my-5">
-		<div class="container">
-		    <div class="text-center mx-auto wow fadeInUp" data-wow-delay="0.1s" style="max-width: 500px;">
-		        <p class="fs-5 fw-bold text-primary">새 프로젝트 등록하기</p>
-		        <h1 class="display-6 mb-5">프로젝트를 등록하여<br>기부 또는 투자를 받으세요.</h1>
-		    </div>
-		    <div class="row g-4 justify-content-center">
-		        <div class="col-md-6 wow fadeInUp" data-wow-delay="0.1s">
-		            <div class="service-item rounded d-flex h-100">
-		                <div class="service-text rounded p-5">
-		                    <h4 class="mb-3">기부 프로젝트</h4>
-		                    <p class="mb-4">취약계층이나 동물, 환경을 보호하기 위한<br>기부를 받고자 한다면</p>
-		                    <a class="btn btn-sm" href="registerNewDonateForm.fnd"><i class="fas fa-plus me-2"></i>등록하기</a>
-		                </div>
-		            </div>
-		        </div>
-		        <div class="col-md-6 wow fadeInUp" data-wow-delay="0.1s">
-		            <div class="service-item rounded d-flex h-100">
-		                <div class="service-text rounded p-5">
-		                    <h4 class="mb-3">펀딩 프로젝트</h4>
-		                    <p class="mb-4">지구를 위한 아이템을 개발하기 위해<br>투자를 받고자 한다면</p>
-		                    <a class="btn btn-sm" href="registerNewFundForm.fnd"><i class="fas fa-plus me-2"></i>등록하기</a>
-		                </div>
-		            </div>
-		        </div>
-		    </div>
-	    </div>
-    </div>
-              
+	<c:if test="${project_id eq null }">
+		프로젝트 저장에 실패하였습니다.
+		
+		<c:if test="${kind eq 'donate' }">
+			<a href="donateProjectInsert.pj"><button>프로젝트 작성페이지로 돌아가기</button></a>
+		</c:if>
+		<c:if test="${kind eq 'fund' }">
+			<a href="fundProjectInsert.pj"><button>프로젝트 작성페이지로 돌아가기</button></a>
+		</c:if>
+		<a href="userMain.usr"><button>홈으로</button></a>
+	</c:if>
 	
-	<div>
-		<jsp:include page="../user/userFooter.jsp" />
-	</div>
-    
+	
+	
+
     <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -89,5 +79,7 @@
 
     <!-- Template Javascript -->
     <script src="../resources/js/main.js"></script>
+     
 </body>
+
 </html>

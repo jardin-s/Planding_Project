@@ -7,12 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
-
-import util.SHA256;
-import vo.AddressBean;
 import vo.DonationBean;
-import vo.MemberBean;
-import vo.MemberPwChangeBean;
 import vo.PlannerBean;
 import vo.ProjectBean;
 import vo.RewardBean;
@@ -78,7 +73,27 @@ public class ProjectDAO {
 			rs = pstmt.executeQuery();
 			
 			if(rs.next()) {
-				projectInfo = new ProjectBean(rs.getInt("project_id"),
+				projectInfo = new ProjectBean();
+				
+				projectInfo.setProject_id(project_id);
+				projectInfo.setKind(rs.getString("kind"));
+				projectInfo.setTitle(rs.getString("title"));
+				projectInfo.setSummary(rs.getString("summary"));
+				projectInfo.setThumbnail(rs.getString("thumbnail"));
+				projectInfo.setContent(rs.getString("content"));
+				projectInfo.setImage(rs.getString("image"));
+				projectInfo.setStartdate(rs.getString("startdate"));
+				projectInfo.setEnddate(rs.getString("enddate"));
+				projectInfo.setGoal_amount(rs.getInt("goal_amount"));
+				projectInfo.setCurr_amount(rs.getInt("curr_amount"));
+				projectInfo.setStatus(rs.getString("status"));
+				projectInfo.setLikes(rs.getInt("likes"));
+				projectInfo.setRegdate(rs.getString("regdate"));
+				
+				//달성률 set
+				projectInfo.setProgressFormatWithCurrGoal(rs.getInt("curr_amount"), rs.getInt("goal_amount"));
+				
+				/*projectInfo = new ProjectBean(rs.getInt("project_id"),
 											  rs.getString("kind"),
 											  rs.getString("title"),
 											  rs.getString("summary"),
@@ -92,7 +107,7 @@ public class ProjectDAO {
 											  rs.getString("status"),
 											  rs.getInt("likes"),
 											  rs.getString("regdate")
-											  );
+											  );*/
 			}
 			
 		} catch(Exception e) {
@@ -150,7 +165,7 @@ public class ProjectDAO {
 		return donationList;
 	}
 	
-	/** 프로젝트 새로 등록하기 */
+	/** 프로젝트 임시 등록하기 - status가 temp. 최종적으로 등록하면 unauthorize로 변경 */
 	public int insertProject(ProjectBean pj) {
 		int insertProjectCount = 0;
 		
@@ -161,6 +176,7 @@ public class ProjectDAO {
 			
 			pstmt = con.prepareStatement(sql);
 			
+			//project_id 자동생성
 			pstmt.setString(1, pj.getKind());
 			pstmt.setString(2, pj.getTitle());
 			pstmt.setString(3, pj.getSummary());
@@ -171,7 +187,7 @@ public class ProjectDAO {
 			pstmt.setString(8, pj.getEnddate());
 			pstmt.setInt(9, pj.getGoal_amount());
 			pstmt.setInt(10, 0);
-			pstmt.setString(11, "unauthorized");
+			pstmt.setString(11, "temp");//아직까지 임시저장 상태이므로 temp
 			pstmt.setInt(12, 0);
 			
 			insertProjectCount = pstmt.executeUpdate();
@@ -246,6 +262,7 @@ public class ProjectDAO {
 	
 	/** 프로젝트ID로 기획자 정보 얻어오기 */
 	public PlannerBean selectPlanner(int project_id) {
+		
 		PlannerBean plannerInfo = null;
 		
 		String sql = "select project_id, member_id, planner_name, introduce,"
@@ -369,6 +386,33 @@ public class ProjectDAO {
 		}
 		
 		return donationList;
+	}
+	
+	/**플래너가 최종적으로 프로젝트 제출하면 unauthorized 등록대기상태로 변경
+	 * status 입력값 조정으로 관리자가 요구하는 상태로 변경가능
+	 * */
+	public int projectStatusUpdateService(int project_id, String status) {
+		String sql="UPDATE project_tbl SET status = ? WHERE project_id = ?;";
+		
+		int updateStatusCount = 0;
+		
+		try {
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, status);
+			pstmt.setInt(2, project_id);
+			
+			updateStatusCount = pstmt.executeUpdate();
+			
+		} catch(Exception e) {
+			System.out.println("[ProjectDAO] projectStatusUpdateService() 에러 : "+e);//예외객체종류 + 예외메시지
+		} finally {
+			close(pstmt); //JdbcUtil.생략가능
+			//close(rs); //JdbcUtil.생략가능
+			//connection 객체에 대한 해제는 DogListService에서 이루어짐
+		}
+		
+		return updateStatusCount;
 	}
 	
 	

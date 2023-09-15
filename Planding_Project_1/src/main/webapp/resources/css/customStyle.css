@@ -1,7 +1,7 @@
 @charset "UTF-8";
 
 .service-item:hover .service-text .btn{
-    width: 98px;
+    width: 50px;
 }
 
 .nav-pills > .nav-item > .active {

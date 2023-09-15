@@ -109,26 +109,26 @@ function findAddr(){
                     </div>
                     
                     <div class="mb-3">
-		   				<i class="fas fa-heart mx-2 text-danger"></i><strong>배송지 입력</strong>
+		   				<i class="fas fa-heart mx-2 text-danger"></i><strong>배송지</strong>
 		   			</div>
                     <div class="bg-light rounded p-4 mb-4 animated fadeIn" data-wow-delay="0.1s">                        
                         <div class="row g-3 pt-3">
                             <div class="mb-3 row gx-3 justify-content-center">
 								<label for="receiver_name" class="col-3 col-form-label text-center">수령인 이름</label>
 								<div class="col-9">
-									<input type="text" class="form-control" name="receiver_name" id="receiver_name" placeholder="한글 또는 영문만 입력">
+									<input type="text" class="form-control" name="receiver_name" value="홍길동" id="receiver_name" placeholder="한글 또는 영문만 입력">
 								</div>
 							</div>
                             <div class="mb-3 row gx-3 justify-content-center">
 								<label for="receiver_phone" class="col-3 col-form-label text-center">전화번호</label>
 								<div class="col-9">
-									<input type="text" class="form-control" name="receiver_phone" id="receiver_phone" placeholder="(-)없이 숫자만 입력">
+									<input type="text" class="form-control" name="receiver_phone" value="01012340001" id="receiver_phone" placeholder="(-)없이 숫자만 입력">
 								</div>
 							</div>
 							<div class="mb-3 row g-3 justify-content-center">
 								<label for="postcode" class="col-3 col-form-label text-center">우편번호</label>
 								<div class="col-6 me-0 pe-0">
-									<input type="text" class="form-control" name="postcode" id="postcode" maxlength="20" placeholder="우편번호만 입력" required>
+									<input type="text" class="form-control" name="postcode" value="12345" id="postcode" maxlength="20" placeholder="우편번호만 입력" required>
 								</div>
 								<div class="col-3 text-end">
 									<input type="button" class="btn btn-primary" type="button" name="addck" id="addck" value="번호검색" onclick="findAddr();" required>                                
@@ -137,13 +137,13 @@ function findAddr(){
                             <div class="mb-3 row gx-3 justify-content-center">
 								<label for="address1" class="col-3 col-form-label text-center">주소</label>
 								<div class="col-9">
-									<input type="text" class="form-control" name="address1" id="address1" maxlength="11" placeholder="주소">
+									<input type="text" class="form-control" name="address1" value="달서구 이곡로 256" id="address1" maxlength="11" placeholder="주소">
 								</div>
 							</div>
 							<div class="mb-3 row gx-3 justify-content-center">
 								<label for="address2" class="col-3 col-form-label text-center">상세주소</label>
 								<div class="col-9">
-									<input type="text" class="form-control" name="address2" id="address2" maxlength="11" placeholder="직접 입력">
+									<input type="text" class="form-control" name="address2" value="6층" id="address2" maxlength="11" placeholder="직접 입력">
 							    </div>
                             </div>
                         </div>
