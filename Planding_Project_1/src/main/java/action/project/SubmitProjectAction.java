@@ -27,12 +27,10 @@ public class SubmitProjectAction implements Action {
 		//파라미터 값을 얻어옴
 		int project_id = Integer.parseInt(request.getParameter("project_id"));
 		int reward_id = Integer.parseInt(request.getParameter("reward_id"));
-		String status = request.getParameter("editStatus");//제출하기를 눌렀다면, editStatus="unauthorize"값으로 넘어옴
 		
 		System.out.println("[SubmitProjectAction] 파라미터값");
 		System.out.println("project_id = "+project_id);
 		System.out.println("reward_id = "+reward_id);
-		System.out.println("editStatus = "+status);
 		
 		//★★세션에 저장된 아이디가 없으면 뒤로가기 처리한 부분 삭제
 		//이유? 프로젝트 내용 다 작성했는데 그동안 세션이 만료돼서 뒤로가기 처리되어봤자
@@ -110,34 +108,47 @@ public class SubmitProjectAction implements Action {
             ProjectRewardMappingService projectRewardMappingService = new ProjectRewardMappingService();
             boolean isMapProjectRewardSuccess = projectRewardMappingService.mapProjectReward(project_id, reward_id);
             
-            if(!isMapProjectRewardSuccess) {
-            	System.out.println(" submitProjectAction error : project_reward_tbl_Service ");
+            if(!isMapProjectRewardSuccess) {//매핑 실패 시
+            	response.setContentType("text/html; charset=UTF-8");
+                
+            	PrintWriter out = response.getWriter();
+                out.println("<script>");
+                out.println("alert('프로젝트-리워드 매핑 실패');");
+                out.println("history.back();");
+                out.println("</script>");
+            
+            }else {//매핑 성공 시
             	
-            }else {
-            	ProjectStatusUpdateService projectStatusUpdateService=new ProjectStatusUpdateService();
-            	boolean updateSuccess = projectStatusUpdateService.projectStatusUpdateService(project_id,status);
+            	//temp(임시저장)인 프로젝트 상태를 unauthorized로 변경
+            	SubmitProjectService submitProjectService = new SubmitProjectService();
+            	boolean isUpdateStatusSuccess = submitProjectService.updateStatusUnautorized(project_id);
             	
-            	if(!updateSuccess) {
-	            	System.out.println(" submitProjectAction error : projectStatusUpdateService ");
-            	}else {
-            		
-            		
+            	if(!isUpdateStatusSuccess) {
+            		response.setContentType("text/html; charset=UTF-8");
+                    
+                	PrintWriter out = response.getWriter();
+                    out.println("<script>");
+                    out.println("alert('프로젝트 상태 업데이트 실패');");
+                    out.println("history.back();");
+                    out.println("</script>");
+                    
+            	}else {//프로젝트 상태 업데이트 성공 시
             		forward = new ActionForward("userUploadProjectList.usr",true);//반드시 디스패치 (request를 공유)
             	}
             }
             
         } catch (IOException e) {
-            System.out.println("이미지폴더 이동 error : ");
+            System.out.println("[SubmitProjectAction] 이미지 폴더 이동 시 에러 발생 : "+e);
         	e.printStackTrace();
 
             response.setContentType("text/html; charset=UTF-8");
+            
             PrintWriter out = response.getWriter();
             out.println("<script>");
             out.println("alert('폴더 이동에 실패하였습니다.');");
             out.println("history.back();");
             out.println("</script>");
-        }
-			
+        }			
 		
 		return forward;
 	}

@@ -191,7 +191,6 @@ if(project.getImage()!=null){//프로젝트 이미지가 있으면
 			<form action="submitProject.pj" method="post">
 				<input type="hidden" name="project_id" value="${projectInfo.project_id }" >
 				<input type="hidden" name="reward_id" value="${rewardInfo.reward_id }" >
-				<input type="hidden" name="editStatus" value="unauthorized" >
 				<input type="submit" value="제출하기">
 			</form>
 			<p>제출하신 프로젝트는 검토 후 게시됩니다.</p>

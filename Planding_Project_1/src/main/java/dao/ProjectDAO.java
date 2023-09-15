@@ -73,27 +73,7 @@ public class ProjectDAO {
 			rs = pstmt.executeQuery();
 			
 			if(rs.next()) {
-				projectInfo = new ProjectBean();
-				
-				projectInfo.setProject_id(project_id);
-				projectInfo.setKind(rs.getString("kind"));
-				projectInfo.setTitle(rs.getString("title"));
-				projectInfo.setSummary(rs.getString("summary"));
-				projectInfo.setThumbnail(rs.getString("thumbnail"));
-				projectInfo.setContent(rs.getString("content"));
-				projectInfo.setImage(rs.getString("image"));
-				projectInfo.setStartdate(rs.getString("startdate"));
-				projectInfo.setEnddate(rs.getString("enddate"));
-				projectInfo.setGoal_amount(rs.getInt("goal_amount"));
-				projectInfo.setCurr_amount(rs.getInt("curr_amount"));
-				projectInfo.setStatus(rs.getString("status"));
-				projectInfo.setLikes(rs.getInt("likes"));
-				projectInfo.setRegdate(rs.getString("regdate"));
-				
-				//달성률 set
-				projectInfo.setProgressFormatWithCurrGoal(rs.getInt("curr_amount"), rs.getInt("goal_amount"));
-				
-				/*projectInfo = new ProjectBean(rs.getInt("project_id"),
+				projectInfo = new ProjectBean(rs.getInt("project_id"),
 											  rs.getString("kind"),
 											  rs.getString("title"),
 											  rs.getString("summary"),
@@ -107,7 +87,9 @@ public class ProjectDAO {
 											  rs.getString("status"),
 											  rs.getInt("likes"),
 											  rs.getString("regdate")
-											  );*/
+											  );
+				//현재모금액과 목표모금액으로 달성률 세팅
+				projectInfo.setProgressFormatWithCurrGoal(rs.getInt("curr_amount"), rs.getInt("goal_amount"));
 			}
 			
 		} catch(Exception e) {
@@ -391,10 +373,12 @@ public class ProjectDAO {
 	/**플래너가 최종적으로 프로젝트 제출하면 unauthorized 등록대기상태로 변경
 	 * status 입력값 조정으로 관리자가 요구하는 상태로 변경가능
 	 * */
-	public int projectStatusUpdateService(int project_id, String status) {
-		String sql="UPDATE project_tbl SET status = ? WHERE project_id = ?;";
+	public int updateProjectStatus(int project_id, String status) {
+		int updateProjectStatusCount = 0;
 		
-		int updateStatusCount = 0;
+		String sql = "upate project_tbl"
+				  + " set status = ?"
+				  + " where project_id = ?";
 		
 		try {
 			
@@ -402,17 +386,17 @@ public class ProjectDAO {
 			pstmt.setString(1, status);
 			pstmt.setInt(2, project_id);
 			
-			updateStatusCount = pstmt.executeUpdate();
+			updateProjectStatusCount = pstmt.executeUpdate();
 			
 		} catch(Exception e) {
-			System.out.println("[ProjectDAO] projectStatusUpdateService() 에러 : "+e);//예외객체종류 + 예외메시지
+			System.out.println("[ProjectDAO] updateProjectStatus() 에러 : "+e);//예외객체종류 + 예외메시지
 		} finally {
 			close(pstmt); //JdbcUtil.생략가능
 			//close(rs); //JdbcUtil.생략가능
 			//connection 객체에 대한 해제는 DogListService에서 이루어짐
 		}
 		
-		return updateStatusCount;
+		return updateProjectStatusCount;
 	}
 	
 	

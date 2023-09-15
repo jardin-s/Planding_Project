@@ -6,9 +6,10 @@ import java.sql.Connection;
 
 import dao.ProjectDAO;
 
-public class ProjectStatusUpdateService {
+public class SubmitProjectService {
 
-	public boolean projectStatusUpdateService(int project_id, String string) {
+	/** 프로젝트 상태를 temp(임시저장)에서 unauthorized(미승인)상태로 변경 */
+	public boolean updateStatusUnautorized(int project_id) {
 
 		//1. 커넥션 풀에서 Connection객체를 얻어와
 		Connection con = getConnection(); //JdbcUtil. 생략(이유?import static 하여)
@@ -22,13 +23,13 @@ public class ProjectStatusUpdateService {
 		
 		
 		/*-------DAO의 해당 메서드를 호출하여 처리----------------------------------------------------*/
-		int updateStatus = projectDAO.projectStatusUpdateService(project_id, string);
+		int updateProjectStatusCount = projectDAO.updateProjectStatus(project_id, "unauthorized");
 		
-		boolean isupdateStatusResult = false;
+		boolean isUpdateStatusResult = false;
 		/*-------(insert, update, delete) 성공하면 commit(), 실패하면 rollback() 호출
 		 * 		 단, select는 이런 작업을 제외 ------------------*/
-		if(updateStatus > 0) {
-			isupdateStatusResult = true;
+		if(updateProjectStatusCount > 0) {
+			isUpdateStatusResult = true;
 			commit(con);
 		}else {
 			rollback(con);
@@ -37,6 +38,6 @@ public class ProjectStatusUpdateService {
 		//4. 해제
 		close(con); //JdbcUtil. 생략(이유?import static 하여)
 		
-		return isupdateStatusResult;
+		return isUpdateStatusResult;
 	}
 }
