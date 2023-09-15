@@ -44,15 +44,19 @@ public class InsertProjectPlannerAction implements Action {
 		/*--- 프로젝트 시작일 설정 시, 시작일을 내일부터 설정가능하도록 minDate 설정 ---*/
 		Calendar mindateCal = Calendar.getInstance();
 		SimpleDateFormat dd_format = new SimpleDateFormat("dd");
-		int min_day = Integer.parseInt(dd_format.format(mindateCal.getTime())) + 1;//오늘이 아닌 내일로 세팅
+		int min_startday = Integer.parseInt(dd_format.format(mindateCal.getTime())) + 1;//오늘이 아닌 내일로 세팅
+		int min_endday = Integer.parseInt(dd_format.format(mindateCal.getTime())) + 2;//모레로 세팅 (종료일과 시작일 최소 하루 차이는 나도록)
 		
 		SimpleDateFormat yyyymm_format = new SimpleDateFormat("yyyy-MM");
-		String minDate = yyyymm_format.format(mindateCal.getTime()) + "-"+ min_day;
-			
-		System.out.println("[InsertProjectPlannerAction] 최소시작일 = "+ minDate);
+		String minStartdate = yyyymm_format.format(mindateCal.getTime()) + "-"+ min_startday;
+		String minEnddate = yyyymm_format.format(mindateCal.getTime()) + "-"+ min_endday;
+		
+		System.out.println("[InsertProjectPlannerAction] 최소시작일 = "+ minStartdate);
+		System.out.println("[InsertProjectPlannerAction] 최소종료일 = "+ minEnddate);
 		
 		//최소시작일(내일날짜) request속성값으로 저장
-		request.setAttribute("minDate", minDate);
+		request.setAttribute("minStartdate", minStartdate);
+		request.setAttribute("minEnddate", minEnddate);
 		
 		
 		//hidden타입으로 넘어온 아이디값을 가져옴 (프로젝트 작성 중 세션이 만료될 수 있으므로 작성과정 요청마다 request로 넘겨줌)
