@@ -28,10 +28,7 @@ public class ProjectBean {
 	private double progress;//달성률 (DB에 없음. 조회시, 현재모금액/목표모금액 계산하여 세팅)
 	
 	
-	public double getProgress() {
-		return progress;
-	}
-
+	
 	public ProjectBean() {}
 	
 	//프로젝트 모든 정보

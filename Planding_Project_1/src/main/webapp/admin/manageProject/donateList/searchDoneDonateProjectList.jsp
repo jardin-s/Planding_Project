@@ -255,7 +255,7 @@ function selectDelete(){
 							</tr>
 						</thead>
 						<tbody class="table-group-divider">						
-							<c:forEach var="project" items="${projectList}}">
+							<c:forEach var="project" items="${projectList}">
 								<tr class="text-center">
 									<th scope="row">${p_index}</th>
 									<td><a href="projectView.mngp?project_id=${project.project_id}&page=${pageInfo.page}">${project.title}</a></td>

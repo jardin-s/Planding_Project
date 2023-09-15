@@ -111,6 +111,10 @@ function deleteReward(button) {
 		<form action="insertProjectReward.pj" method="post">
 				
 					<div class="mb-3">
+			            <label for="reward_id" class="form-label"></label>
+			            <input type="hidden" class="form-control" id="reward_id" name="reward_id" required value="${r_name }">
+			        </div>
+					<div class="mb-3">
 			            <label for="r_name" class="form-label">리워드 이름</label>
 			            <input type="text" class="form-control" id="r_name" name="r_name" required value="${r_name }">
 			        </div>

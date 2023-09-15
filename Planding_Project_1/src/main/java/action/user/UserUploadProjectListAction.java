@@ -1,5 +1,6 @@
 package action.user;
 
+import java.io.PrintWriter;
 import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,19 +22,35 @@ public class UserUploadProjectListAction implements Action {
 		HttpSession session = request.getSession();
 		String u_id = (String) session.getAttribute("u_id");
 		
-		UserUploadProjectListService uploadProjectListService = new UserUploadProjectListService();
-		//[방법-1] 프로젝트 ID만 가지고와서 id로 프로젝트 정보 가져옴
-		ArrayList<Integer> uploadProjectIdList = uploadProjectListService.getProjectIdList(u_id);
-		ArrayList<ProjectBean> uploadProjectList = uploadProjectListService.getProjectList(uploadProjectIdList);
+		if(u_id == null) {//만약 로그인 풀린 상태라면
+			response.setContentType("text/html; charset=utf-8");
+			
+			PrintWriter out = response.getWriter();
+			out.println("<script>");
+			out.println("alert('로그인 후 이용가능한 서비스입니다.');");
+			out.println("location.href='userLogin.usr'");
+			out.println("</script>");
 		
-		//[방법-2] BookmarkBean(프로젝트 ID, 멤버 ID, 추가일 모두 얻어옴)
-		//ArrayList<BookmarkBean> bookmarkList =  userBookmarkListService.getBookmarkList(u_id);
-		//ArrayList<ProjectBean> projectList userBookmarkListService.getProjectList(bookmarkList);
-		
-		request.setAttribute("uploadProjectList", uploadProjectList);
-		
-		request.setAttribute("showPage", "user/myPage/userUploadProjectList.jsp");
-		forward = new ActionForward("userTemplate.jsp", false);		
+		}else {
+			
+			UserUploadProjectListService uploadProjectListService = new UserUploadProjectListService();
+			//[순서-1] 사용자ID로 기획한 프로젝트 ID를 가져와서
+			ArrayList<Integer> uploadProjectIdList = uploadProjectListService.getProjectIdList(u_id);
+			System.out.println("UserUploadProjectListAction"+uploadProjectIdList.toString());
+			//[순서-2] 프로젝트ID로 프로젝트 정보를 가져옴
+			ArrayList<ProjectBean> uploadProjectList = null;
+			if(uploadProjectIdList != null) {
+				uploadProjectList=uploadProjectListService.getProjectList(uploadProjectIdList);
+				System.out.println("UserUploadProjectListAction"+uploadProjectList.toString());
+
+			}					
+			
+			request.setAttribute("uploadProjectList", uploadProjectList);
+			
+			request.setAttribute("showPage", "user/myPage/userUploadProjectList.jsp");
+			forward = new ActionForward("userTemplate.jsp", false);		
+			
+		}		
 		
 		return forward;
 	}

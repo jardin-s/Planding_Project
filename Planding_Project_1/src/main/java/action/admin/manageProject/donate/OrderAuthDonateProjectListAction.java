@@ -77,7 +77,7 @@ public class OrderAuthDonateProjectListAction implements Action {
 		request.setAttribute("pageInfo", pageInfo);
 		
 		
-		request.setAttribute("showAdmin", "admin/manageProject/donateList/searchOrderAuthDonateProjectList.jsp");
+		request.setAttribute("showAdmin", "admin/manageProject/donateList/orderAuthDonateProjectList.jsp");
 		forward = new ActionForward("adminTemplate.jsp", false);
 		
 		return forward;

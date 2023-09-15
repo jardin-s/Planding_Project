@@ -2,6 +2,36 @@
     pageEncoding="UTF-8"%>
 
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
+<%
+	String id = ""; //초기화 값을 반드시 ""로 함 (null X) -> 이유? 쿠키에 저장된 id가 없을 경우 value로 셋팅되는 값이 ""가 될 수 있게
+	String checked = "";
+	
+	
+	//[방법-1] id와 체크된 상태까지 가져옴
+	String cookie = request.getHeader("Cookie");//생략가능
+	
+	if(cookie != null){//생략가능
+		
+		Cookie[] cookies = request.getCookies(); //세션아이디도 배열에 저장되어 있음 (세션ID를 쿠키배열에 안 담는 브라우저도 있음)
+		for(int i=0; i<cookies.length; i++){
+			String cookieName = cookies[i].getName();
+			
+			//클라이언트의 쿠키에 저장된 아이디값을 가져오기
+			if(cookieName.equals("a_id")){ //쿠키 중 name이 u_id인 쿠키가 있으면
+				id = cookies[i].getValue();//쿠키 id의 value를 String u_id인에 저장 
+				System.out.println("id쿠키값 : "+id);
+			}
+
+			//이전에 아이디 저장에 체크를 했다면, checked되도록 하기
+			if(cookieName.equals("checkbox")){ //쿠키 중 name이 remember인 쿠키가 있으면
+				checked = cookies[i].getValue();//쿠키 remember의 value를 String remember에 저장
+				System.out.println("checkbox쿠키값 : "+checked);
+			}
+		}
+	}	
+	
+	%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -48,7 +78,7 @@
 	                        <div class="row g-3">
 	                            <div class="col-12">
 	                                <div class="form-floating">
-	                                    <input type="text" name="member_id" value="" class="form-control border-0" id="member_id" placeholder="아이디">
+	                                    <input type="text" name="member_id" value="<%=id %>" class="form-control border-0" id="member_id" placeholder="아이디">
 	                                    <label for="member_id">아이디</label>
 	                                </div>
 	                            </div>
@@ -60,7 +90,7 @@
 	                            </div>
 	                            <div class="col-12">
 	                                <div class="form-check">
-	                                    <input type="checkbox" name="checkbox" value="checked" class="form-check-input border-0" id="checkbox">
+	                                    <input type="checkbox" name="checkbox" value="checked" <%=checked %> class="form-check-input border-0" id="checkbox">
 	                                    <label class="form-check-label" for="checkbox">아이디 기억하기</label>
 	                                </div>
 	                            </div>

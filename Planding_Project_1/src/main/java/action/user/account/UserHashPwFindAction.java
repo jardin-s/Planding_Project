@@ -82,15 +82,15 @@ public class UserHashPwFindAction implements Action {
 				PrintWriter out = response.getWriter();
 				
 				//1. 발신자의 메일계정과 비밀번호 등을 설정 (예: 구글계정 + 앱비밀번호)
-				String sender = "admin@mac.com";//보내는 사람
+				String sender = "plandingproject@gmail.com";//보내는 사람
 				String receiver = u_email;//받는 사람
-				String subject = "임시비밀번호 발급";//제목
+				String subject = "[PlanDing] 임시비밀번호 발급";//제목
 				String content = "임시비밀번호 8자리 : "+random_password;//내용
 						
 				
 				final String host = "smtp.gmail.com"; //SMTP서버주소 (구글로 이메일 전송). 만약 보내는쪽이 네이버 "smtp.naver.com"
-				final String username = "wjddnjs051339"; //구글 아이디 입력
-				final String password = "gvbyothmkbtbtlbr"; //구글 아이디 입력
+				final String username = "plandingproject"; //구글 아이디 입력
+				final String password = "hnbknxjoayprexvn"; //구글 앱비번 입력
 				
 				final int port = 587;//구글에 대한 포트번호 : 프로그램 구분 (네이버:25)(※4465:2차보안인증(임시비밀번호). 메일전송이 안 됨)
 				

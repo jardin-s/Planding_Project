@@ -40,6 +40,12 @@ DROP TABLE IF EXISTS project.project_tbl;
 -- CREATE TABLE 문들을 여기에 추가합니다.
 
 USE `project` ;
+select* from project_planner_tbl;
+USE `project` ;
+select* from project_tbl;
+
+USE `project` ;
+USE `project` ;
 SHOW TABLES;
 
 

@@ -69,7 +69,7 @@ function userLogout(){
                     <c:if test="${sessionScope.u_id ne null }">
                     	<a class="btn btn-link text-light" href="#" onclick="userLogout();">로그아웃하기</a>
                     	<a class="btn btn-link text-light" href="userMyPage.usr"><i class="fas fa-user"></i></a>
-                    	<a class="btn btn-link text-light" href=""><i class="far fa-heart"></i></a>
+                    	<a class="btn btn-link text-light" href="userBookmarkList.usr"><i class="far fa-heart"></i></a>
                     </c:if>                    
                     <a class="btn btn-link text-light" href=""><i class="fas fa-search"></i></a>
                 </div>
@@ -92,14 +92,6 @@ function userLogout(){
                 <a href="service.html" class="nav-item nav-link fs-6">기부하기</a>
                 <a href="project.html" class="nav-item nav-link fs-6">펀딩하기</a>
                 <div class="nav-item dropdown">
-                    <a href="#" class="nav-link fs-6 dropdown-toggle" data-bs-toggle="dropdown">모아보기</a>
-                    <div class="dropdown-menu bg-light m-0">
-                        <a href="feature.html" class="dropdown-item fs-6">신규 프로젝트</a>
-                        <a href="quote.html" class="dropdown-item fs-6">마감임박 프로젝트</a>
-                        <a href="team.html" class="dropdown-item fs-6">공개예정 프로젝트</a>
-                    </div>
-                </div>
-                <div class="nav-item dropdown">
                     <a href="#" class="nav-link fs-6 dropdown-toggle" data-bs-toggle="dropdown">고객센터</a>
                     <div class="dropdown-menu bg-light m-0">
                         <a href="about.html" class="dropdown-item fs-6">사이트소개</a>
@@ -108,24 +100,22 @@ function userLogout(){
                     </div>
                 </div>
                 <a href=
-                <c:if test="${sessionScope.u_id eq null }">
-                "userLoginForm.usr" 
-                </c:if>
-                <c:if test="${sessionScope.u_id ne null }">
-                "insertNewProject.pj" 
-                </c:if>
-                class="nav-item nav-link fs-6 fw-bold d-lg-none d-xl-none d-xxl-none">프로젝트 등록하기</a>
+	                <c:if test="${sessionScope.u_id eq null }">
+	                "userLoginForm.usr" 
+	                </c:if>
+	                <c:if test="${sessionScope.u_id ne null }">
+	                "insertNewProject.pj" 
+	                </c:if>
+                 class="nav-item nav-link fs-6 fw-bold d-lg-none d-xl-none d-xxl-none">프로젝트 등록하기</a>
             </div>
             <a href=
-            
-            <c:if test="${sessionScope.u_id eq null }">
-                "userLoginForm.usr" 
-                </c:if>
-                <c:if test="${sessionScope.u_id ne null }">
-                "insertNewProject.pj" 
-                </c:if> 
-            
-            class="btn btn-primary py-4 px-lg-4 rounded-0 d-none d-lg-block">프로젝트 등록하기<i class="fa fa-arrow-right ms-3"></i></a>
+	            	<c:if test="${sessionScope.u_id eq null }">
+	                "userLoginForm.usr" 
+	                </c:if>
+	                <c:if test="${sessionScope.u_id ne null }">
+	                "insertNewProject.pj" 
+	                </c:if>  
+                class="btn btn-primary py-4 px-lg-4 rounded-0 d-none d-lg-block">프로젝트 등록하기<i class="fa fa-arrow-right ms-3"></i></a>
             
         </div>
     </nav>

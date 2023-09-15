@@ -54,9 +54,9 @@
             <div class="row justify-content-center">
 	            <ul class="col-12 col-lg-8 nav nav-pills justify-content-center mt-4 mb-0">
 					<li class="col-6 col-md-3 nav-item"><a class="nav-link text-white" href="userMyPage.usr">내 정보관리</a></li>
-					<li class="col-6 col-md-3 nav-item"><a class="nav-link text-white" href="bookmarkList.usr">관심 프로젝트</a></li>
+					<li class="col-6 col-md-3 nav-item"><a class="nav-link text-white" href="userBookmarkList.usr">관심 프로젝트</a></li>
 					<li class="col-6 col-md-3 nav-item"><a class="nav-link active fw-bold" aria-current="page" href="#">등록 프로젝트</a></li>
-					<li class="col-6 col-md-3 nav-item"><a class="nav-link text-white" href="fundProjectList.usr">후원 프로젝트</a></li>
+					<li class="col-6 col-md-3 nav-item"><a class="nav-link text-white" href="userDonatedProjectList.usr">후원 프로젝트</a></li>
 	            </ul>
             </div>
         </div>
@@ -64,38 +64,48 @@
     <!-- Page Header End -->
 
 
-    <!-- Service Start -->
-    <c:if test="${requestScope.uploadProjectList eq null }">
+    <c:if test="${uploadProjectList eq null }">
     	<div class="container-xxl py-5">
-    		<div class="container">
-    			<p class="text-center">등록한 프로젝트가 없습니다.</p>
+    		<div class="container col-lg-8 mb-5">
+   				<p class="text-center">등록한 프로젝트가 없습니다.</p>
     		</div>
-    	</div>    	
+    	</div>
     </c:if>
-    
-    <c:if test="${requestScope.uploadProjectList ne null }">
-    	<div class="container-xxl py-5">
-	        <div class="container">
-				<div class="row g-4">
-					<c:forEach var="project" items="${requestScope.uploadProjectList }" varStatus="status">
-						<div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
-							<div class="service-item rounded d-flex h-100">
-								<div class="service-img rounded">
-									<img class="img-fluid" src="${project.image }" alt="">
-								</div>
-								<div class="service-text rounded p-5">
-									<h4 class="mb-3">${project.title}</h4>
-									<p class="mb-4">${project.summary}</p>
-									<a class="btn btn-sm" href="projectManage.prj?project_id=${project.project_id}"><i class="fa fa-plus text-primary me-2"></i>관리하기</a>
-								</div>
-		                    </div>
-		                </div>
-	                </c:forEach>
-	            </div>
-	        </div>
+	
+	<c:if test="${uploadProjectList ne null}">
+    	
+    	<!-- Table Start -->
+	    <div class="container-fluid pt-0 pb-2">
+	        <div class="container col-lg-8">
+	            <div class="row justify-content-center" style="height:300px; overflow-y:auto">
+					<table class="table table-hover">
+						<thead>
+							<tr class="text-center">
+								<th scope="col" class="col-1">#</th>
+								<th scope="col" class="col-auto">프로젝트 제목</th>
+								<th scope="col" class="col-2">관리</th>
+							</tr>
+						</thead>
+						<tbody class="table-group-divider">
+							<c:forEach var="uploadProject" items="${requestScope.uploadProjectList }" varStatus="status">
+								<tr class="text-center">
+									<th scope="row" class="text-center">${status.count}</th>
+									<td>
+										<a href="projectView.pj?project_id=${uploadProject.project_id}">${uploadProject.title}</a>
+									</td>
+									<td>
+										<button class="btn btn-outline-primary py-1" type="button" id="answerBtn" onclick="location.href='editProject.pj?project_id=${uploadProject.project_id}'">관리</button>
+									</td>
+								</tr>
+							</c:forEach>
+						</tbody>
+					</table>
+				</div>
+	        </div>		
 	    </div>
+	    <%-- Table End --%>
+		    
     </c:if>
-    <!-- Service End -->
 	
     <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>

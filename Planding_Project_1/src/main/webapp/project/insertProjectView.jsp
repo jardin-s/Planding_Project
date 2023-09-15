@@ -35,7 +35,34 @@
 
     <!-- Template Stylesheet -->
     <link href="../resources/css/style.css" rel="stylesheet">
-   
+   <style>
+  /* 버튼 스타일 초기화 */
+  .custom-button {
+    background: none;
+    border: none;
+    outline: none;
+    padding: 0;
+    margin: 0;
+    cursor: default;
+  }
+
+  /* 버튼 내부 span 스타일 지정 */
+  .custom-button span {
+    background-color: #007bff; /* 원하는 배경색 지정 */
+    color: #fff; /* 텍스트 색상 */
+    border-radius: 15px; /* 둥근 모서리를 위한 값, 원하는 값으로 조정 */
+    padding: 5px 10px; /* 내부 여백 조정, 원하는 값으로 조정 */
+  }
+
+  /* 버튼에 마우스를 올렸을 때와 클릭했을 때의 스타일 지정 (반응하지 않도록 설정) */
+  .custom-button:hover,
+  .custom-button:active {
+    background: none;
+    border: none;
+    outline: none;
+    cursor: default;
+  }
+</style>
    
 
 </head>
@@ -72,9 +99,12 @@ progress=Double.parseDouble(formattedProgress);
         </div>
         <div class="col-md-6 col-lg-8">
             <table class="table table-sm">
-                <caption>${pj.project_id}-${pj.kind}</caption>
                 <tr>
-                    <th>${pj.title }</th>
+                    <th>${pj.title }
+	                    <button class="custom-button">
+						<span class="badge bg-primary rounded-pill"> ${pj.project_id}-${pj.kind}</span>
+						</button>
+					</th>
                 </tr>
                 <tr>
                     <td>${pj.summary}</td>
@@ -169,8 +199,9 @@ progress=Double.parseDouble(formattedProgress);
 		</div>
 		<br><hr>
 		<form action="submitProject.pj" >
-			<input type="number" name="project_id" value="${pj.project_id }" style="display: none">
-			<input type="number" name="reward_id" value="${reward.reward_id }" style="display: none">
+			<input type="text" name="project_id" value="${pj.project_id }" style="display: none">
+			<input type="text" name="reward_id" value="${reward.reward_id }" style="display: none">
+			<input type="text" name="editStatus" value="unauthorized" style="display: none">
 			<input type="submit" value="제출하기">
 		</form>
 		<p>제출하신 프로젝트는 검토 후 게시됩니다.</p>

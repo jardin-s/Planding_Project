@@ -77,7 +77,7 @@ function checkDeleteForm(){
     <!-- Form Start -->
     <div class="container-fluid pt-4 pb-5">
         <div class="container">
-            <form action="userDeleteAction.usr" method="post">
+            <form action="userDeleteAction.usr" method="post" name="f">
 	            <div class="row justify-content-center">
 	                <div class="col-12 col-md-10 col-lg-8">
 	                    <div class="bg-light rounded p-4 animated fadeIn" data-wow-delay="0.1s">                        
@@ -85,28 +85,12 @@ function checkDeleteForm(){
 	                            <div class="col-12">
 	                                <div class="bg-white rounded">
 	                                    <p class="p-3">
-	                                    	<span class="fw-bold">&nbsp;서비스를 이용하는 데 불편함이 있었나요?</span><br><br>	                                    	
-	                                    	&nbsp;다음 중 탈퇴 사유를 골라 사이트를 개선하는 데 도움을 주세요.
-						                    <div class="col-12 col-lg-8 px-4 pb-3 pt-0">
-							                    <select class="form-select" name="reason">
-													<option value="" selected>--- 탈퇴 사유를 골라주세요. ---</option>
-													<option value="1">원하는 프로젝트를 찾을 수 없음</option>
-													<option value="2">프로젝트 등록 절차가 복잡함</option>
-													<option value="3">프로젝트 후원 절차가 복잡함</option>
-													<option value="4">개인정보를 삭제하고 싶음</option>
-													<option value="5">직접입력</option>
-												</select>
-											</div>               	
-										</p>
-	                                </div>
-	                                <div class="bg-white rounded">
-	                                    <p class="p-3">
 	                                    	<span class="fw-bold">&nbsp;탈퇴 전 유의사항을 확인해주세요.</span><br><br>	                                    	
-	                                    	&nbsp;타인이 동일 아이디로 회원가입하여 부정이용을 하는 경우를 방지하기 위해 아이디를 포함한 개인정보는 6개월 뒤 삭제됩니다.<br><br>
-	                                    	&nbsp;검토 중 또는 공개예정이었던 프로젝트는 삭제되며 진행 중이던 프로젝트는 즉시 중단됩니다.<br>
+	                                    	&nbsp;타인이 동일 아이디로 회원가입하여 부정이용을 하는 경우를 방지하기 위해 아이디를 제외한 개인정보만 즉시 삭제됩니다.<br><br>
+	                                    	&nbsp;검토 중 또는 공개예정이었던 프로젝트는 삭제됩니다.<br>
 	                                    	&nbsp;이미 종료된 프로젝트는 삭제되지 않습니다.<br><br>
-	                                    	&nbsp;종료된 프로젝트의 후원은 취소되지 않습니다. 리워드 배송을 위해 배송지 기록은 리워드 배송이 모두 끝나기 전까지 삭제되지 않습니다.<br>
-	                                    	&nbsp;진행 중인 프로젝트의 후원은 환불처리됩니다. (카드사에 따라 최대 7일 정도 소요될 수 있습니다.)
+	                                    	&nbsp;종료된 프로젝트의 후원은 취소되지 않습니다. 리워드 배송을 위해 배송지 기록은 탈퇴 후 6개월 뒤 삭제됩니다.<br>
+	                                    	&nbsp;기획한 프로젝트 중 진행 중인 프로젝트가 있다면 모든 후원금액이 후원자들에게 환불처리되며, 프로젝트 관련 정보가 모두 삭제됩니다. 
 	                                    </p>	              
 	                                    <div class="px-4 pb-3">                      
 		                                    <div class="form-check">
