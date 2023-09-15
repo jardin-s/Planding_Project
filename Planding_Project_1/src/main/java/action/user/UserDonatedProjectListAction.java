@@ -9,9 +9,7 @@ import javax.servlet.http.HttpSession;
 
 import action.Action;
 import svc.user.UserDonatedProjectListService;
-import svc.user.UserBookmarkListService;
 import vo.ActionForward;
-import vo.PageInfo;
 import vo.ProjectBean;
 
 public class UserDonatedProjectListAction implements Action {

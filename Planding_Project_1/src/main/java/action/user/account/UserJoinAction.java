@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import action.Action;
 import svc.user.account.UserJoinService;
-import util.SHA256;
 import vo.ActionForward;
 import vo.AddressBean;
 import vo.MemberBean;

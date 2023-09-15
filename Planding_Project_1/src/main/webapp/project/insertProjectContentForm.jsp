@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>PlanDing - Fund for Our Plannet</title>
+<title>PlanDing - Fund for Our Planet</title>
 <meta content="width=device-width, initial-scale=1.0" name="viewport">
 <meta content="" name="keywords">
 <meta content="" name="description">
@@ -70,6 +70,7 @@ function calculateDateDifference() {
     daysCounter.textContent = "시작일로부터 " + daysDifference + "일";
   }
 
+  //날짜 유효성 검사
   function validateDates() {
     var startDateInput = document.getElementById("startdate");
     var endDateInput = document.getElementById("enddate");
@@ -88,26 +89,29 @@ function calculateDateDifference() {
       return true;
     }
   }
+  
+  //금액 천단위 구분쉼표
   function formatCurrency(amount) {
 	    return amount.toLocaleString();
 	}
 
+  //금액 천단위 구분쉼표
   function updateFormattedAmount(inputElement) {
 	    var rawValue = inputElement.value.replace(/[^\d]/g, ''); // 숫자와 반점 제외한 문자 제거
 	    
-	    if (!rawValue || rawValue === "") {
+	    if (!rawValue || rawValue === "") {//입력한 값이 없으면 0으로 세팅
 	        inputElement.value = "0";
 	        return;
 	    }
 	    
-	    var goalAmount = parseInt(rawValue);
-	    if (!isNaN(goalAmount)) {
+	    var goalAmount = parseInt(rawValue);//숫자로 변환
+	    if (!isNaN(goalAmount)) {//숫자가 아니라면
 	        var formattedAmount = formatCurrency(goalAmount);
 	        inputElement.value = formattedAmount; // 반점 자동 입력
 	    }
 	}
 
-  
+  //이미지 파일 추가
   function addImageField() {
 	    var imageFields = document.querySelectorAll('[id^=imageField]');
 	    for (var i = 0; i < imageFields.length; i++) {
@@ -127,6 +131,7 @@ function calculateDateDifference() {
     var input = imageFieldContainer.querySelector('input[type="file"]');
     input.value = '';
 }
+	//이미지 확장자 유효성 검사
 	function validateImageFile(input) {
 	    var file = input.files[0];
 	    var allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif)$/i; // 허용되는 이미지 파일 확장자 목록
@@ -143,13 +148,13 @@ function calculateDateDifference() {
 </head>
 <body>
 <%
-String[] contentImgss;
-if(session.getAttribute("contentImgs") != null){
-	contentImgss = (String[]) session.getAttribute("contentImgs"); 
 
-}else{
-	contentImgss=null;
+//세션에 이미지목록이 있으면 contentImgss 변수에 담음
+String[] contentImgss = null;
+if(session.getAttribute("contentImgs") != null){
+	contentImgss = (String[]) session.getAttribute("contentImgs");
 }
+
 %>
 	<div class="m-5">
 		<form action="insertProjectTemp.pj" method="post" enctype="multipart/form-data"	>
@@ -193,7 +198,7 @@ if(session.getAttribute("contentImgs") != null){
 			
 			<div class="mb-3">
 				<label for="startdate" class="form-label">시작예정일</label> 
-					<input type="date" class="form-control" id="startdate" name="startdate" required oninput="calculateDateDifference(); validateDates()"
+					<input type="date" class="form-control" id="startdate" name="startdate" min="${requestScope.minDate }" required oninput="calculateDateDifference(); validateDates()"
 					  value="${sessionScope.startdate }">
 			<span id="startdate-error" style="color: red;"></span>
 			</div>
@@ -206,10 +211,12 @@ if(session.getAttribute("contentImgs") != null){
 			<div class="mb-3">
 		        <label for="goal_amount" class="form-label">목표 모금액</label>
 		        <div class="input-group">
-		            <input type="text" class="form-control" id="goal_amount" name="goal_amount" value="${sessionScope.goal_amount }" required oninput="updateFormattedAmount(this);" >
+		            <input type="text" class="form-control" id="goal_amount" name="goal_amount" min="${requestScope.minDate }" value="${sessionScope.goal_amount }" required oninput="updateFormattedAmount(this);" >
 		            <span class="input-group-text">원</span>
 		        </div>
 		    </div>
+			
+			<input type="hidden" name="member_id" value="${requestScope.member_id}">
 			
 			<div align="center">
 			<c:if test="${sessionScope.kind == 'donate'}" >

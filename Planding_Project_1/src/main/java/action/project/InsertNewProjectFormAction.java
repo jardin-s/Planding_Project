@@ -20,7 +20,7 @@ public class InsertNewProjectFormAction implements Action {
 		 * 2. 기부 프로젝트 -> kind값 donate설정 후 insertProjectPlannerForm.jsp로 이동
 		 *    펀딩 프로젝트 -> kind값 fund설정 후 insertProjectPlannerForm.jsp로 이동
 		 * 3. insertProjectPlanner.jsp에서 프로젝트 기획자 정보 입력 후 insertProjectPlanner.pj 요청
-		 *    프로젝트 기획자를 테이블에 저장하지 않고(프로젝트id 필요) 세션에 저장 후 다음단계로
+		 *    프로젝트 기획자를 테이블에 저장하지 않고(프로젝트id 필요) 세션에 저장 후 다음단계로(insertProjectContentForm.jsp)
 		 * 4. 프로젝트명, 프로젝트요약, 썸네일 이미지, 프로젝트 내용이미지, 프로젝트 내용,
 		 *    시작예정일, 종료일, 목표 모금액 설정 후 insertProjectTemp.pj 요청
 		 *    insertProjectAction에서 프로젝트 내용으로 project_tbl에 프로젝트 insert
@@ -29,10 +29,7 @@ public class InsertNewProjectFormAction implements Action {
 		 * 6. 기부프로젝트 : 미리보기 페이지에서 제출하기 클릭 시, submitProject.pj 요청
 		 *    펀딩프로젝트 : 
 		 */
-		
-		
-		
-		
+				
 		
 		
 		HttpSession session = request.getSession();

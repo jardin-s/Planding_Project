@@ -28,7 +28,7 @@ public class JdbcUtil {
 		try {
 			Context initCtx = new InitialContext();
 			Context envCtx= (Context) initCtx.lookup("java:comp/env"); //앞에 java:comp/env를 적음 (항상 고정) -> 돌려주는 타입이 Object이므로 다운캐스팅
-			DataSource ds = (DataSource) envCtx.lookup("jdbc/MySQLDB"); //"context.xml의 name"으로 DataSource객체를 가져옴 -> Object로 돌려주므로 다운캐스팅
+			DataSource ds = (DataSource) envCtx.lookup("jdbc/PlandingDB"); //"context.xml의 name"으로 DataSource객체를 가져옴 -> Object로 돌려주므로 다운캐스팅
 			con = ds.getConnection();//커넥션 풀에서 커넥션 객체를 가져옴
 			
 			con.setAutoCommit(false); //★★Connection객체에 트랜잭션(insert,update,delete)을 자동으로 완료하지 못하도록 false -> 실패 시 rollback 할 수 있도록

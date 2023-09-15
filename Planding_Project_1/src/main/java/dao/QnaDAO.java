@@ -162,6 +162,7 @@ public class QnaDAO {
 				
 				qna.setQ_title(rs.getString("q_title"));
 				qna.setQ_content(rs.getString("q_content"));
+				qna.setQ_image(rs.getString("q_image"));
 				qna.setQ_private(rs.getString("q_private"));
 				qna.setQ_time(rs.getString("q_time"));
 				

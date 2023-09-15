@@ -37,11 +37,11 @@
 </head>
 
 <script>
-function deleteConfirm(page, qna_id, member_id){
+function deleteConfirm(page, qna_id, q_writer){
 	if(!confirm('문의글을 삭제하시겠습니까?')){
 		return false;
 	}else{
-		location.href="userDeleteQnaAction.qna?page="+page+"&qna_id="+qna_id+"&q_writer="+q_writer;
+		location.href="userDeleteQnaAction.usr?page="+page+"&qna_id="+qna_id+"&q_writer="+q_writer;
 	}
 }
 </script>
@@ -81,7 +81,7 @@ function deleteConfirm(page, qna_id, member_id){
                 <c:if test="${qnaInfo.q_image ne null }">
                 	<hr>
 	                <div>
-	                	<img src="${pageContext.request.contextPath}/images/qna/${qnaInfo.q_image}">	                	
+	                	<img src="<%=request.getContextPath() %>/images/qna/${qnaInfo.q_image}">	                	
 	                </div>
 	                <hr>
                 </c:if>
@@ -101,7 +101,7 @@ function deleteConfirm(page, qna_id, member_id){
                 </c:if>
                 
                 <div class="col-12 text-center">
-                	<c:if test="${sessionScope.u_id eq qna.member_id }">
+                	<c:if test="${sessionScope.u_id eq qnaInfo.q_writer }">
 						<button class="btn btn-light" type="button" onclick="location.href='userModifyQnaQForm.usr?qna_id=${qnaInfo.qna_id}&q_writer=${qnaInfo.q_writer}&page=${page}'">수정</button>
                 		<button class="btn btn-light" type="button" onclick="deleteConfirm(${page},${qnaInfo.qna_id},'${qnaInfo.q_writer}');">삭제</button>
                 	</c:if>

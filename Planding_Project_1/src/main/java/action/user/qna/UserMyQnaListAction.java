@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import action.Action;
-import svc.qna.QnaListService;
 import svc.user.qna.UserMyQnaListService;
 import vo.ActionForward;
 import vo.PageInfo;

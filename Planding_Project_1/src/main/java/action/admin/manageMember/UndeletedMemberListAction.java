@@ -6,7 +6,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import action.Action;
-import svc.admin.manageMember.ManageMemberListService;
 import svc.admin.manageMember.UndeletedMemberListService;
 import vo.ActionForward;
 import vo.MemberBean;

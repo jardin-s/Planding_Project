@@ -4,10 +4,6 @@ import static db.JdbcUtil.*;
 
 import java.sql.Connection;
 
-import javax.activation.CommandInfo;
-
-import com.mysql.cj.jdbc.ha.LoadBalancedAutoCommitInterceptor;
-
 import dao.NoticeDAO;
 import vo.NoticeBean;
 

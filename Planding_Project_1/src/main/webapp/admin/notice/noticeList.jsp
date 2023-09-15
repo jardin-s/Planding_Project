@@ -184,7 +184,7 @@ function selectDelete(){
 	    <%-- Search Tab End --%>
 	
 	    <%-- Table Start --%>
-	    <form action="adminDeleteNoticeList" method="post" name="dlt">
+	    <form action="adminDeleteNoticeList.adm" method="post" name="dlt">
 	    <div class="container-fluid pt-0 pb-2">
 	        <div class="container col-lg-8">
 	            <div class="row justify-content-center">
@@ -200,16 +200,15 @@ function selectDelete(){
 						</thead>
 						<tbody class="table-group-divider">
 							<c:forEach var="noticeImp" items="${importantList}">
-								<tr>
+								<tr class="bg-light">
 									<th class="remove-th d-none">
 										<input class="form-check-input" type="checkbox" name="remove" value="${noticeImp.notice_id}">
 									</th>
-									<th scope="row" class="text-center"><i class="fas fa-exclamation"></i></th>
+									<th scope="row" class="text-center"><i class="fas fa-exclamation text-danger"></i></th>
 									<td><a href="adminNoticeView.adm?notice_id=${noticeImp.notice_id}&page=${pageInfo.page}">${noticeImp.n_title }</a></td>
 									<td class="text-center">${noticeImp.writetime }</td>
 									<td class="text-center">${noticeImp.viewcount }</td>
 								</tr>
-								<c:set var="n_index" value="${n_index -1 }"/>
 							</c:forEach>							
 							<c:forEach var="notice" items="${noticeList}">
 								<tr>

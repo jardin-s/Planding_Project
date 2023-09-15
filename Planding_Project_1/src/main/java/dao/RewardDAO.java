@@ -5,16 +5,7 @@ import static db.JdbcUtil.close;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.ArrayList;
 
-
-import util.SHA256;
-import vo.AddressBean;
-import vo.DonationBean;
-import vo.MemberBean;
-import vo.MemberPwChangeBean;
-import vo.PlannerBean;
-import vo.ProjectBean;
 import vo.RewardBean;
 
 public class RewardDAO {
@@ -57,7 +48,7 @@ public class RewardDAO {
 		this.con = con;
 	}
 
-	/** rewardId와 리워드이름으로 특정 리워드정보를 얻어냄 */
+	/** 리워드ID와 리워드이름으로 특정 리워드정보를 얻어냄 */
 	public RewardBean selectReward(int reward_id, String r_name) {
 		RewardBean rewardInfo = null;
 		
@@ -93,8 +84,8 @@ public class RewardDAO {
 	}
 
 	/** 프로젝트ID와 리워드ID로 프로젝트-리워드 매핑 */
-	public int project_reward_connecting(int project_id, int reward_id) {
-		int insertProjectCount = 0;
+	public int insertProjectReward(int project_id, int reward_id) {
+		int insertProjectRewardCount = 0;
 		
 		String sql = "insert into project_reward_tbl values(?,?)";
 		
@@ -104,17 +95,17 @@ public class RewardDAO {
 			pstmt.setInt(1, project_id);
 			pstmt.setInt(2, reward_id);
 			
-			insertProjectCount = pstmt.executeUpdate();
+			insertProjectRewardCount = pstmt.executeUpdate();
 			
 		} catch(Exception e) {
-			System.out.println("[RewardDAO] project_reward_connecting() 에러 : "+e);//예외객체종류 + 예외메시지
+			System.out.println("[RewardDAO] insertProjectReward() 에러 : "+e);//예외객체종류 + 예외메시지
 		} finally {
 			close(pstmt); //JdbcUtil.생략가능
 			//close(rs); //JdbcUtil.생략가능
 			//connection 객체에 대한 해제는 DogListService에서 이루어짐
 		}
 		
-		return insertProjectCount;
+		return insertProjectRewardCount;
 	}
 
 	

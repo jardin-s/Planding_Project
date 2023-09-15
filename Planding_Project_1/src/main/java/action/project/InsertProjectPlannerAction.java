@@ -1,5 +1,8 @@
 package action.project;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -38,7 +41,24 @@ public class InsertProjectPlannerAction implements Action {
 		 * planner_name(기획자 이름), introduce(기획자 소개글), bank(기획자 은행), account(기획자 계좌번호)
 		 *  */
 		
+		/*--- 프로젝트 시작일 설정 시, 시작일을 내일부터 설정가능하도록 minDate 설정 ---*/
+		Calendar mindateCal = Calendar.getInstance();
+		SimpleDateFormat dd_format = new SimpleDateFormat("dd");
+		int min_day = Integer.parseInt(dd_format.format(mindateCal.getTime())) + 1;//오늘이 아닌 내일로 세팅
 		
+		SimpleDateFormat yyyymm_format = new SimpleDateFormat("yyyy-MM");
+		String minDate = yyyymm_format.format(mindateCal.getTime()) + "-"+ min_day;
+			
+		System.out.println("[InsertProjectPlannerAction] 최소시작일 = "+ minDate);
+		
+		//최소시작일(내일날짜) request속성값으로 저장
+		request.setAttribute("minDate", minDate);
+		
+		
+		//hidden타입으로 넘어온 아이디값을 가져옴 (프로젝트 작성 중 세션이 만료될 수 있으므로 작성과정 요청마다 request로 넘겨줌)
+		String member_id = request.getParameter("member_id");
+		System.out.println("[InsertProjectPlannerAction] 파라미터로 넘어온 member_id = "+member_id);
+		request.setAttribute("member_id", member_id);
 
 		//프로젝트 내용입력 폼으로 이동
 		request.setAttribute("showPage", "project/insertProjectContentForm.jsp");

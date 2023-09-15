@@ -1,12 +1,15 @@
 package svc.project;
 
-import static db.JdbcUtil.close;
-import static db.JdbcUtil.getConnection;
+import static db.JdbcUtil.*;
 
 import java.sql.Connection;
 
-import dao.*;
-import vo.*;
+import dao.ProjectDAO;
+import dao.RewardDAO;
+import vo.PlannerBean;
+import vo.ProjectBean;
+import vo.RewardBean;
+
 
 public class ProjectPageViewService {
 	

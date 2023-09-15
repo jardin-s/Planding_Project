@@ -8,7 +8,6 @@ import javax.servlet.http.HttpSession;
 
 import action.Action;
 import svc.admin.notice.AdminDeleteNoticeService;
-import svc.qna.DeleteQnaService;
 import vo.ActionForward;
 
 public class AdminDeleteNoticeAction implements Action {

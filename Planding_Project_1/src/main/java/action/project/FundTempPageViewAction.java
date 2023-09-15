@@ -6,12 +6,9 @@ import javax.servlet.http.HttpSession;
 
 import action.Action;
 import svc.project.ProjectPageViewService;
-import svc.project.ProjectPageViewService2;
-import svc.project.reward.ProjectPageViewService3;
 import vo.ActionForward;
 import vo.PlannerBean;
 import vo.ProjectBean;
-import vo.RewardBean;
 
 public class FundTempPageViewAction implements Action {
 
@@ -33,7 +30,7 @@ public class FundTempPageViewAction implements Action {
 		request.setAttribute("projectInfo", projectInfo);
 		request.setAttribute("plannerInfo", plannerInfo);
 		
-		request.setAttribute("showPage", "project/insertProjectView.jsp");//어느 폼 보기인지 showPage이름 속성으로 저장
+		request.setAttribute("showPage", "project/insertProjectTempView.jsp");//어느 폼 보기인지 showPage이름 속성으로 저장
 		forward = new ActionForward("userTemplate.jsp",false);//반드시 디스패치 (request를 공유)
 		
 		return forward;

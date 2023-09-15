@@ -19,6 +19,7 @@ import vo.ActionForward;
 import vo.PlannerBean;
 import vo.ProjectBean;
 
+//프로젝트 기획자 입력, 프로젝트 내용 입력 후 임시저장
 public class InsertProjectTempAction implements Action {
 
     @Override
@@ -112,9 +113,11 @@ public class InsertProjectTempAction implements Action {
         session.setAttribute("startdate", multi.getParameter("startdate"));
         session.setAttribute("enddate", multi.getParameter("enddate"));
         session.setAttribute("goal_amount", multi.getParameter("goal_amount"));
-                
+        
+        /* 프로젝트 기획자 저장을 위해 파라미터로 넘긴 값 member_id */
+        String member_id = multi.getParameter("member_id");
 
-        /* 프로젝트 및 플래너 저장 -------------------------------------------------------------------*/
+        /* 프로젝트 및 기획자 저장 -------------------------------------------------------------------*/
 		//[순서-1] project_tbl에 프로젝트 저장
         //session에서 kind값 + 파라미터값들을 가져와
         String kind = (String)session.getAttribute("kind");
@@ -126,20 +129,20 @@ public class InsertProjectTempAction implements Action {
 		int goal_amount = Integer.parseInt(multi.getParameter("goal_amount").replace(",", ""));
 		
 		//ProjectBean객체 생성
-		ProjectBean pj = new ProjectBean();
-		pj.setKind(kind);
-		pj.setTitle(title);
-		pj.setSummary(summary);
-		pj.setThumbnail(thumbnailSysName);
-		pj.setContent(content);
-		pj.setImage(contentImgSysNames);
-		pj.setStartdate(startdate);
-		pj.setEnddate(enddate);
-		pj.setGoal_amount(goal_amount);
+		ProjectBean project = new ProjectBean();
+		project.setKind(kind);
+		project.setTitle(title);
+		project.setSummary(summary);
+		project.setThumbnail(thumbnailSysName);
+		project.setContent(content);
+		project.setImage(contentImgSysNames);
+		project.setStartdate(startdate);
+		project.setEnddate(enddate);
+		project.setGoal_amount(goal_amount);
 		
 		//프로젝트 테이블에 프로젝트 저장
 		InsertProjectService insertProjectService = new InsertProjectService();
-		boolean isInsertProjectSuccess = insertProjectService.insertProjectService(pj);
+		boolean isInsertProjectSuccess = insertProjectService.insertProjectService(project);
 		
 		
 		if(!isInsertProjectSuccess) {//프로젝트 insert 실패 시
@@ -155,7 +158,7 @@ public class InsertProjectTempAction implements Action {
 			
 			//프로젝트 ID를 가지고 옴
 			InsertPlannerSevice insertPlannerSevice = new InsertPlannerSevice();
-			project_id = insertPlannerSevice.getProjectID(pj);
+			project_id = insertPlannerSevice.getProjectID(project);
 			
 			
 			if(project_id==0) {//프로젝트 id 조회 실패 (1부터 자동 1증가이므로)
@@ -169,11 +172,14 @@ public class InsertProjectTempAction implements Action {
 			
 			}else{//프로젝트 id 조회 성공
 				
-				session.setAttribute("project_id", project_id );//해당 project_id를 session에 저장
-				pj.setProject_id(project_id);//projectBean에 세팅
+				//해당 project_id를 session에 저장
+				session.setAttribute("project_id", project_id );
+				project.setProject_id(project_id);//projectBean에 세팅
 				
-				//이전 페이지에서 입력해 세션에 저장해둔 프로젝트 기획자 입력값을 가지고 옴
-				String member_id = (String)session.getAttribute("u_id");
+				//이전 페이지에서 입력해 세션에 저장해둔 프로젝트 기획자 입력값을 가지고 옴(위에서 multi로 가지고 옴)
+				//String member_id = request.getParameter("member_id");//hidden타입 태그에 담긴 값
+				System.out.println("[InsertProjectTempAction] 파라미터로 넘어온 member_id = "+member_id);
+				
 				String planner_name = (String)session.getAttribute("planner_name");
 				String introduce = (String)session.getAttribute("introduce");
 				String bank = (String)session.getAttribute("bank");

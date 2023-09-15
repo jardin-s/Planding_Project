@@ -69,7 +69,7 @@ function validateAccountInput() {
 	<div class="m-5">
 		<form action="insertProjectPlanner.pj" method="post">
 			<input type="hidden" name="kind" value="${kind}" required> 
-			<input type="hidden" name="member_id" value="${member_id}" required>
+			<input type="hidden" name="member_id" value="${sessionScope.u_id}" required>
 
 			<div class="mb-3">
 				<label for="planner_name" class="form-label">기획자명</label> 
