@@ -204,14 +204,14 @@ if(session.getAttribute("contentImgs") != null){
 			</div>
 			<div class="mb-3">
 				<label for="enddate" class="form-label">종료일</label> 
-					<input type="date" class="form-control" id="enddate" name="enddate" required oninput="calculateDateDifference(); validateDates()"
+					<input type="date" class="form-control" id="enddate" name="enddate" min="${requestScope.minDate }" required oninput="calculateDateDifference(); validateDates()"
   						value="${sessionScope.enddate }">
 				<span id="enddate-error" style="color: red;"></span>
 			</div>
 			<div class="mb-3">
 		        <label for="goal_amount" class="form-label">목표 모금액</label>
 		        <div class="input-group">
-		            <input type="text" class="form-control" id="goal_amount" name="goal_amount" min="${requestScope.minDate }" value="${sessionScope.goal_amount }" required oninput="updateFormattedAmount(this);" >
+		            <input type="text" class="form-control" id="goal_amount" name="goal_amount"  value="${sessionScope.goal_amount }" required oninput="updateFormattedAmount(this);" >
 		            <span class="input-group-text">원</span>
 		        </div>
 		    </div>
