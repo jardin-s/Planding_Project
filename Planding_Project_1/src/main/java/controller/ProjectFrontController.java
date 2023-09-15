@@ -1,22 +1,29 @@
 package controller;
 
 import java.io.IOException;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import action.Action;
-import action.project.RegisterNewDonateAction;
-import action.project.RegisterNewFundAction;
+import action.project.InsertNewProjectFormAction;
+import action.project.InsertProjectContentsAction;
+import action.project.InsertProjectPlannerAction;
+import action.project.InsertProjectTempAction;
+import action.project.DonateTempPageViewAction;
+import action.project.FundTempPageViewAction;
+import action.project.SubmitProjectAction;
 import vo.ActionForward;
 
 /**
  * Servlet implementation class DogFrontController
  */
 
-//확장자가 usr이면 무조건 UserFrontController로 이동하여 doProcess(request, response); 실행
+//확장자가 pj이면 무조건 ProjectFrontController로 이동하여 doProcess(request, response); 실행
 @WebServlet("*.pj")
 public class ProjectFrontController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -70,52 +77,120 @@ public class ProjectFrontController extends HttpServlet {
 		Action action = null;
 		ActionForward forward = null;
 		
-		System.out.println("[Fund]command : "+command);//어떤 요청인지 확인하기 위해 콘솔에 출력
+		System.out.println("[Project]command : "+command);//어떤 요청인지 확인하기 위해 콘솔에 출력
 		
-		/*-- '프로젝트 등록 페이지 이동' 요청 ------------------------------------------*/
-		if(command.equals("/registerNewProject.pj")) {//'userMain.jsp'에서 프로젝트 등록하기 요청이면
-			forward = new ActionForward("fund/registerNewProject.jsp", false);
-			//false(디스패치) 이유? 
-		}
-		
-		/*-- '기부 프로젝트 폼 보기' 요청 -> 처리 --------------------------------------*/
-		else if(command.equals("/fund/registerNewDonateForm.pj")) {//'기부 프로젝트 등록 폼 보기' 요청이면
-			
-			forward = new ActionForward("fund/registerNewDonateForm.jsp",false);//반드시 디스패치 (request를 공유)
-					
-		}
-		
-		else if(command.equals("/fund/registerNewDonateAction.pj")) {//'로그인 처리' 요청이면
-			
-			//부모인터페이스 = 구현한 자식객체
-			action = new RegisterNewDonateAction();//부모인터페이스인 Action으로 받음 
-		
+		/*-- '프로젝트 등록 페이지 이동' 요청 (기부/펀딩 선택) ------------------------------------------*/
+		if(command.equals("/insertNewProject.pj")) {
+			action = new InsertNewProjectFormAction();
 			try {
-				forward = action.execute(request, response); //DogListAction의 execute()를 실행
-			} catch(Exception e) {
+				forward = action.execute(request, response);
+			}catch(Exception e) {
+				System.out.println("insertNewProject error : "+e);
+			}
+		}
+		
+		
+		/*-- '프로젝트 등록 폼' 요청 -> 처리 --------------------------------------*/
+		
+		/*-- '기부 프로젝트 등록 폼' 요청 -> 처리 --------------------------------------*/
+		else if(command.equals("/donateProjectInsert.pj")) {//'프로젝트 등록 폼 보기' 요청이면
+			HttpSession session = request.getSession();
+			session.setAttribute("kind", "donate");//kind를 donate로 설정
+			
+			request.setAttribute("showPage", "project/insertProjectPlannerForm.jsp");//어느 폼 보기인지 showPage이름 속성으로 저장
+			forward = new ActionForward("userTemplate.jsp",false);//반드시 디스패치 (request를 공유)
+		}
+		
+		/*-- '펀딩 프로젝트 등록 폼' 요청 -> 처리 --------------------------------------*/
+		else if(command.equals("/fundProjectInsert.pj")) {//'프로젝트 등록 폼 보기' 요청이면
+			HttpSession session = request.getSession();
+			session.setAttribute("kind", "fund");//kind를 fund로 설정
+			
+			request.setAttribute("showPage", "project/insertProjectPlannerForm.jsp");//어느 폼 보기인지 showPage이름 속성으로 저장
+			forward = new ActionForward("userTemplate.jsp",false);//반드시 디스패치 (request를 공유)
+		}
+		
+		/*-- '프로젝트 기획자 등록하기' 요청 -> 처리 --------------------------------------*/
+		else if(command.equals("/insertProjectPlanner.pj")) {//'프로젝트 등록 폼 보기' 요청이면
+			action = new InsertProjectPlannerAction();
+			try {
+				forward = action.execute(request, response);
+			}catch(Exception e) {
+				System.out.println("insertProjectPlanner error : "+e);
+			}
+		}
+		
+		/*-- '프로젝트 테이블에 프로젝트 등록하기' 요청 -> 처리 --------------------------------------*/
+		else if(command.equals("/insertProjectContents.pj")) {//'프로젝트 등록 폼 보기' 요청이면
+			action = new InsertProjectContentsAction();
+			try {
+				forward = action.execute(request, response);
+			}catch(Exception e) {
+				System.out.println("insertProjectContents error : "+e);
+			}
+		}
+		
+		/*-- '프로젝트 등록 폼에서 이전단계로' 요청 -> 처리 --------------------------------------*/
+		else if(command.equals("/insertProjectContentsBack.pj")) {
+			request.setAttribute("showPage", "project/insertProjectContents.jsp?kind=fund");//어느 폼 보기인지 showPage이름 속성으로 저장
+			forward = new ActionForward("userTemplate.jsp",false);//반드시 디스패치 (request를 공유)
+		}
+		
+		/*-- '펀딩 프로젝트의 리워드 등록하기' 요청 -> 처리 --------------------------------------*/
+		else if(command.equals("/insertFundProjectReward.pj")) {//'프로젝트 등록 폼 보기' 요청이면
+			request.setAttribute("showPage", "project/insertProjectReward.jsp");//어느 폼 보기인지 showPage이름 속성으로 저장
+			forward = new ActionForward("userTemplate.jsp",false);//반드시 디스패치 (request를 공유)
+		}
+		
+		/*-- '프로젝트 미리보기 요청' 요청 -> 처리 --------------------------------------*/
+		else if(command.equals("/insertProjectTemp.pj")) {
+			action = new InsertProjectTempAction();
+			try {
+				forward = action.execute(request, response);
+			}catch(Exception e) {
+				System.out.println("insertProjectTemp error : "+e);
+			}
+		}
+		
+				
+		/*-- '기부 프로젝트 임시 상세페이지 보기' 요청 -> 처리 --------------------------------------*/
+		else if(command.equals("/donateTempPageView.pj")) {
+			action=new DonateTempPageViewAction();
+			try {
+				forward = action.execute(request, response);
+			}catch(Exception e) {
+				System.out.println("donatePageView error : "+e);
 				e.printStackTrace();
 			}
-					
 		}
 		
-		/*-- '펀딩 프로젝트 폼 보기' 요청 -> 처리 --------------------------------------*/
-		else if(command.equals("/fund/registerNewFundForm.pj")) {//'펀딩 프로젝트 등록 폼 보기' 요청이면
-			
-			forward = new ActionForward("fund/registerNewFundForm.jsp",false);//반드시 디스패치 (request를 공유)
-					
-		}
-		
-		else if(command.equals("/fund/registerNewFundAction.pj")) {//'로그인 처리' 요청이면
-			
-			//부모인터페이스 = 구현한 자식객체
-			action = new RegisterNewFundAction();//부모인터페이스인 Action으로 받음 
-			
+		/*-- '펀딩 프로젝트 임시 상세페이지 보기' 요청 -> 처리 --------------------------------------*/
+		else if(command.equals("/fundTempPageView.pj")) {
+			action=new FundTempPageViewAction();
 			try {
-				forward = action.execute(request, response); //DogListAction의 execute()를 실행
-			} catch(Exception e) {
-				e.printStackTrace();
+				forward = action.execute(request, response);
+			}catch(Exception e) {
+				System.out.println("fundPageView error : "+e);
 			}
-					
+		}
+		
+		
+		
+		/*-- '실제 프로젝트 등록' 요청 -> 처리 --------------------------------------*/
+		else if(command.equals("/submitProject.pj")) {
+			action = new SubmitProjectAction();
+			try {
+				forward = action.execute(request, response);
+			}catch(Exception e) {
+				System.out.println("submitProject error : "+e);
+			}
+		}
+		
+		
+		/*-- 뭔지모름 --------------------------------------*/
+		else if(command.equals("/insertProjectView.pj")) {
+			request.setAttribute("showPage", "project/insertProjectView.jsp");//어느 폼 보기인지 showPage이름 속성으로 저장
+			forward = new ActionForward("userTemplate.jsp",false);//반드시 디스패치 (request를 공유)
 		}
 		
 		

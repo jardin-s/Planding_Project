@@ -1,7 +1,5 @@
 package action.user.account;
 
-import java.io.PrintWriter;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -16,8 +14,7 @@ public class UserLogoutAction implements Action {
 		
 		ActionForward forward = null;
 		
-		response.setContentType("text/html; charset=utf-8");
-				
+			
 		/**
 		 * session 영역의 속성들을 제거
 		 */

@@ -72,13 +72,13 @@ function deleteConfirm(page, notice_id){
 							<td colspan="2" class="col-6 col-md-5 col-xl-4 col-xxl-3 text-end">${noticeInfo.writetime } | 조회수 ${noticeInfo.viewcount }</td>
 						</tr>
 						<c:if test="${noticeInfo.n_image ne null }">
-							<tr>
+							<tr class="text-center">
 								<td colspan="3">
-									<img src="${pageContext.request.contextPath}/images/notice/${noticeInfo.n_image}">		
+									<img src="<%=request.getContextPath() %>/images/notice/${noticeInfo.n_image}" style="width:80%">		
 								</td>
 							</tr>
 						</c:if>							
-						<tr>
+						<tr class="text-center">
 							<td colspan="3">${noticeInfo.n_content }</td>
 						</tr>
 					</tbody>

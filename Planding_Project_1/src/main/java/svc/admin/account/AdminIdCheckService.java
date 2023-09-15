@@ -5,7 +5,6 @@ import static db.JdbcUtil.*;
 import java.sql.Connection;
 
 import dao.AdminDAO;
-import vo.AddressBean;
 import vo.MemberBean;
 
 public class AdminIdCheckService {

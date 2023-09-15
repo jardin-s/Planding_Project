@@ -2,7 +2,6 @@ package action.admin.manageProject;
 
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Properties;
 
 import javax.mail.Address;
@@ -19,7 +18,6 @@ import javax.servlet.http.HttpSession;
 
 import action.Action;
 import svc.admin.manageProject.CancelProjectService;
-import svc.admin.manageProject.UnauthorizeProjectService;
 import vo.ActionForward;
 import vo.DonationBean;
 import vo.MemberBean;

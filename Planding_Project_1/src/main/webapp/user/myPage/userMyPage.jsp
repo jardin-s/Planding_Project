@@ -15,7 +15,8 @@
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@500;600;700&family=Open+Sans:wght@400;500&display=swap" rel="stylesheet">  
+    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@500;600;700&family=Open+Sans:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Gothic+A1:100,400,500,700,800" rel="stylesheet">  
 
     <!-- Icon Font Stylesheet -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
@@ -70,9 +71,21 @@
             		<img class="img-thumbnail" src="resources/img/mypage_sample.jpg" style="width:15rem">
             	</div>
                 <div class="col-md-8 col-lg-4 py-5 py-lg-0">
+                    <div class="bg-primary rounded py-3 px-5 mb-5 text-center">
+                    	<div class="row justify-content-center">
+                    		<div class="col-7">
+		                    	<span class="fw-bold fs-5 text-white">플랜딩 계좌 잔액<br>
+		                    	50000원</span>
+	                    	</div>
+	                    	<div class="col-5 my-auto">
+	                    		<button type="button" class="btn btn-light" id="topUpBtn">충전하기</button>
+	                    	</div>
+                    	</div>                    	
+                    </div>
                     <ul class="list-group list-group-flush">
 					  <li class="list-group-item"><a href="userUpdateForm.usr">회원정보 수정</a></li>
 					  <li class="list-group-item"><a href="userHashPwChangeForm.usr?u_id=${u_id}">비밀번호 변경</a></li>
+					  <li class="list-group-item"><a href="userMyQnaList.usr">나의 문의글 리스트 보기</a></li>
 					  <li class="list-group-item"><a href="userDeleteForm.usr">회원 탈퇴</a></li>
 					</ul>           
                 </div>

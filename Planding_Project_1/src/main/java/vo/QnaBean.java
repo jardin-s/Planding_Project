@@ -1,7 +1,5 @@
 package vo;
 
-import util.SHA256;
-
 public class QnaBean {
 	
 	private int qna_id;
@@ -173,13 +171,10 @@ public class QnaBean {
 
 	@Override
 	public String toString() {
-		return "QnaBean [qna_id=" + qna_id + ", a_writer=" + a_writer + ", q_title=" + q_title + ", q_content="
-				+ q_content + ", q_image=" + q_image + ", q_private=" + q_private + ", q_time=" + q_time
-				+ ", a_writer="+ a_writer +", a_content=" + a_content + ", a_time=" + a_time + "]";
-	}
-	
-	
-	
+		return "QnaBean [qna_id=" + qna_id + ", q_writer=" + q_writer + ", q_title=" + q_title + ", q_content="
+				+ q_content + ", q_image=" + q_image + ", q_private=" + q_private + ", q_time=" + q_time + ", a_writer="
+				+ a_writer + ", a_content=" + a_content + ", a_time=" + a_time + "]";
+	}	
 	
 }
 

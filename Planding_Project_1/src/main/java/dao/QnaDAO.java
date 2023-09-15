@@ -162,6 +162,7 @@ public class QnaDAO {
 				
 				qna.setQ_title(rs.getString("q_title"));
 				qna.setQ_content(rs.getString("q_content"));
+				qna.setQ_image(rs.getString("q_image"));
 				qna.setQ_private(rs.getString("q_private"));
 				qna.setQ_time(rs.getString("q_time"));
 				
@@ -444,5 +445,87 @@ public class QnaDAO {
 		
 		return qnaList;
 	}
+
+	/** 특정 회원의 문의글 개수를 알아냄 */
+	public int selectUserQnaCount(String member_id) {
+		int userQnaCount = 0;
+		
+		String sql = "select count(*) from qna_tbl where q_writer = ?";
+		
+		try {
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, member_id);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				userQnaCount = rs.getInt(1);				
+			}
+			
+		} catch(Exception e) {
+			System.out.println("[QnaDAO] selectUserQnaCount() 에러 : "+e);//예외객체종류 + 예외메시지
+		} finally {
+			close(pstmt); //JdbcUtil.생략가능
+			close(rs); //JdbcUtil.생략가능
+			//connection 객체에 대한 해제는 DogListService에서 이루어짐
+		}
+		
+		return userQnaCount;
+	}
+	
+	/** 특정 회원의 문의글 리스트를 얻어옴 */
+	public ArrayList<QnaBean> selectUserQnaList(String member_id, int page, int limit) {
+		ArrayList<QnaBean> qnaList = null;
+		
+		int startrow = (page-1)*10;
+		
+		String sql = "select qna_id, q_writer, q_title, q_content,"
+				  + " DATE_FORMAT(q_time,'%Y.%m.%d') as q_time_F,"
+				  + " a_writer"
+				  + " from qna_tbl"
+				  + " where q_writer=?"
+				  + " order by q_time desc"
+				  + " limit ?, ?";
+		
+		try {
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, member_id);
+			pstmt.setInt(2, startrow);
+			pstmt.setInt(3, limit);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				
+				qnaList = new ArrayList<>();
+				
+				do {
+					
+					qnaList.add(new QnaBean(rs.getInt("qna_id"),
+											rs.getString("q_writer"),
+											rs.getString("q_title"),
+											rs.getString("q_time_F"),
+											rs.getString("a_writer")
+											)
+								);
+					
+				}while(rs.next());
+				
+			}
+			
+			
+		} catch(Exception e) {
+			System.out.println("[QnaDAO] selectUserQnaList() 에러 : "+e);//예외객체종류 + 예외메시지
+		} finally {
+			close(pstmt); //JdbcUtil.생략가능
+			close(rs); //JdbcUtil.생략가능
+			//connection 객체에 대한 해제는 DogListService에서 이루어짐
+		}
+		
+		return qnaList;
+	}
+
+	
 	
 }

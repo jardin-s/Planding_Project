@@ -1,15 +1,11 @@
 package svc.qna;
 
-import static db.JdbcUtil.close;
-import static db.JdbcUtil.commit;
-import static db.JdbcUtil.getConnection;
-import static db.JdbcUtil.rollback;
+import static db.JdbcUtil.*;
 
 import java.sql.Connection;
 import java.util.ArrayList;
 
 import dao.QnaDAO;
-import dao.UserDAO;
 import vo.QnaBean;
 
 public class QnaListService {

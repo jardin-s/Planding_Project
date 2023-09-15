@@ -39,7 +39,8 @@ public class AdminNoticeListAction implements Action {
 		
 		//중요공지글을 제외하고 한 페이지에 출력할 글의 개수 (10 - 중요글개수)
 		limit = limit - importantCount;
-				
+		System.out.println("[AdminNoticeListAction] 중요공지글 제외 한 페이지에 출력할 글의 개수 = "+limit);
+						
 		//중요공지글을 얻어옴
 		ArrayList<NoticeBean> importantList = noticeListService.getImportantList();
 		

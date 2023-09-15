@@ -83,6 +83,7 @@
 							<tr class="text-center">
 								<th scope="col" class="col-1">#</th>
 								<th scope="col" class="col-auto">프로젝트 제목</th>
+								<th scope="col" class="col-2">수정</th>
 								<th scope="col" class="col-2">관리</th>
 							</tr>
 						</thead>
@@ -94,7 +95,10 @@
 										<a href="projectView.pj?project_id=${uploadProject.product_id}">${uploadProject.title}</a>
 									</td>
 									<td>
-										<button class="btn btn-outline-primary py-1" type="button" id="answerBtn" onclick="location.href='editProject.pj?project_id=${uploadProject.project_id}'">관리</button>
+										<button class="btn btn-outline-primary py-1" type="button" id="answerBtn" onclick="location.href='editProject.pj?project_id=${uploadProject.project_id}'">수정</button>
+									</td>
+									<td>
+										<button class="btn btn-outline-primary py-1" type="button" id="answerBtn" onclick="location.href='manageProject.pj?project_id=${uploadProject.project_id}'">관리</button>
 									</td>
 								</tr>
 							</c:forEach>
@@ -107,19 +111,5 @@
 		    
     </c:if>
 	
-    <!-- JavaScript Libraries -->
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="../resources/lib/wow/wow.min.js"></script>
-    <script src="../resources/lib/easing/easing.min.js"></script>
-    <script src="../resources/lib/waypoints/waypoints.min.js"></script>
-    <script src="../resources/lib/owlcarousel/owl.carousel.min.js"></script>
-    <script src="../resources/lib/counterup/counterup.min.js"></script>
-    <script src="../resources/lib/parallax/parallax.min.js"></script>
-    <script src="../resources/lib/isotope/isotope.pkgd.min.js"></script>
-    <script src="../resources/lib/lightbox/js/lightbox.min.js"></script>
-
-    <!-- Template Javascript -->
-    <script src="../resources/js/main.js"></script>
 </body>
 </html>

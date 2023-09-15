@@ -3,7 +3,6 @@ package util;
 import java.security.MessageDigest;//SHA256 알고리즘을 사용하기위해 import
 import java.security.SecureRandom;
 import java.util.Date;
-import java.util.Random;
 
 //단방향 암호화(SHA256) : 복호화가 불가능 (비밀번호 찾을 때 반드시 임시비밀번호 발급)
 public class SHA256 {

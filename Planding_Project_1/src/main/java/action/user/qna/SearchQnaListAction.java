@@ -15,7 +15,7 @@ public class SearchQnaListAction implements Action {
 
 	@Override
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
-ActionForward forward = null;
+		ActionForward forward = null;
 		
 		
 		//처음 요청할 경우 조회하는 페이지넘버 기본값 1
@@ -55,6 +55,23 @@ ActionForward forward = null;
 		if(endPage > maxPage) {//만약 페이지네이션 마지막수가 최대페이지수보다 크다면
 			endPage = maxPage;//페이지네이션 마지막수를 최대페이지수로 표시
 		}
+		
+		/*
+		 * int itemsPerPage = 15; // 페이지당 항목 수
+			int firstNumber = 1;  // 원하는 첫 번째 숫자
+			int lastNumber = 15;  // 원하는 마지막 숫자
+			
+			int currentPage = 56; // 현재 보고자 하는 페이지
+			int startPage = ((currentPage - 1) / itemsPerPage) * itemsPerPage + firstNumber;
+			endPage = 46+15 = 51 51-50 50이랑 15
+			
+			int endPage = Math.min(startPage + itemsPerPage - 1, lastNumber);
+			
+			System.out.println("Start Page: " + startPage);
+			System.out.println("End Page: " + endPage);
+		 * 
+		 * */
+		
 		
 		//페이지네이션 정보를 PageInfo객체에 담아 전달
 		PageInfo pageInfo = new PageInfo();

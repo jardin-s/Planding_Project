@@ -12,7 +12,6 @@ import vo.AddressBean;
 import vo.DonationBean;
 import vo.MemberBean;
 import vo.QnaBean;
-import vo.RewardBean;
 
 public class MemberViewAction implements Action {
 
