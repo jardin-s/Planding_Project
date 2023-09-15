@@ -198,13 +198,13 @@ if(session.getAttribute("contentImgs") != null){
 			
 			<div class="mb-3">
 				<label for="startdate" class="form-label">시작예정일</label> 
-					<input type="date" class="form-control" id="startdate" name="startdate" min="${requestScope.minDate }" required oninput="calculateDateDifference(); validateDates()"
+					<input type="date" class="form-control" id="startdate" name="startdate" min="${requestScope.minStartdate }" required oninput="calculateDateDifference(); validateDates()"
 					  value="${sessionScope.startdate }">
 			<span id="startdate-error" style="color: red;"></span>
 			</div>
 			<div class="mb-3">
 				<label for="enddate" class="form-label">종료일</label> 
-					<input type="date" class="form-control" id="enddate" name="enddate" min="${requestScope.minDate }" required oninput="calculateDateDifference(); validateDates()"
+					<input type="date" class="form-control" id="enddate" name="enddate" min="${requestScope.minEnddate }" required oninput="calculateDateDifference(); validateDates()"
   						value="${sessionScope.enddate }">
 				<span id="enddate-error" style="color: red;"></span>
 			</div>

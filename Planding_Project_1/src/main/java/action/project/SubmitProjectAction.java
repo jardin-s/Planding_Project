@@ -49,6 +49,8 @@ public class SubmitProjectAction implements Action {
 			myFileNames.add(projectInfo.getImage().split(";")[i]);
 		}
 		myFileNames.add(projectInfo.getThumbnail());
+		//(+) 썸네일 이미지도 이동을 해야하므로 썸네일 이미지를 가져옴
+		String thumbnail = projectInfo.getThumbnail();
 		
 		//[순서-2] 이미지 저장 경로 처리
 		String sourceImgFolder = "images/temp"; // 임시 폴더 경로
@@ -90,6 +92,10 @@ public class SubmitProjectAction implements Action {
                                 break;
                             }
                         }
+            			
+            			if(fileName.equals(thumbnail)) {//임시폴더에 저장된 파일이름이 썸네일 이미지와 같다면
+            				shouldMove = true;//이동여부 true
+            			}
                     	
             			if (shouldMove) {
                             //파일을 지정한 폴더로 이동 (파일이름 : 해당프로젝트ID_파일명)
