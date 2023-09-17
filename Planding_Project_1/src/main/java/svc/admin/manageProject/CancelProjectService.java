@@ -21,7 +21,7 @@ public class CancelProjectService {
 	
 	//메서드
 	/** 프로젝트 취소 */
-	public boolean cancelProject(int project_id, ArrayList<RewardBean> rewardList) {
+	public boolean cancelProject(int project_id, ArrayList<String> rewardList) {
 		//1. 커넥션 풀에서 Connection객체를 얻어와
 		Connection con = getConnection(); //JdbcUtil. 생략(이유?import static 하여)
 		
@@ -52,7 +52,7 @@ public class CancelProjectService {
 			
 			//2-2. 모든 리워드 삭제
 			for(int i=0; i<rewardList.size(); i++) {
-				deleteRewardCount += manageProjectDAO.deleteReward(rewardList.get(i).getReward_id());
+				deleteRewardCount += manageProjectDAO.deleteReward(rewardList.get(i));
 			}
 			if(deleteRewardCount == rewardList.size()) {//모든 리워드 데이터 삭제에 성공했다면
 				deleteRewardCount = 1; //성공대표값 1로 세팅
@@ -200,7 +200,7 @@ public class CancelProjectService {
 
 
 	/** 프로젝트 ID로 프로젝트-리워드 매핑테이블에서 리워드 목록 얻어오기 */
-	public ArrayList<RewardBean> getProjectRewardIdList(int project_id) {
+	public ArrayList<String> getProjectRewardIdList(int project_id) {
 		//1. 커넥션 풀에서 Connection객체를 얻어와
 		Connection con = getConnection(); //JdbcUtil. 생략(이유?import static 하여)
 		
@@ -211,7 +211,7 @@ public class CancelProjectService {
 		projectDAO.setConnection(con);
 		
 		/*-------DAO의 해당 메서드를 호출하여 처리----------------------------------------------------*/
-		ArrayList<RewardBean> rewardList = projectDAO.selectRewardIdList(project_id);
+		ArrayList<String> rewardList = projectDAO.selectRewardIdList(project_id);
 		
 		/*-------(insert, update, delete) 성공하면 commit(), 실패하면 rollback() 호출
 		 * 		 단, select는 이런 작업을 제외 ------------------*/

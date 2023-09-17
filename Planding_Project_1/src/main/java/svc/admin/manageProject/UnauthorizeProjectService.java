@@ -19,7 +19,7 @@ public class UnauthorizeProjectService {
 	
 	//메서드
 	//1. 미승인 프로젝트 승인 거절
-	public boolean unautorizeProject(int project_id, ArrayList<RewardBean> rewardList) {
+	public boolean unautorizeProject(int project_id, ArrayList<String> rewardIdList) {
 		//1. 커넥션 풀에서 Connection객체를 얻어와
 		Connection con = getConnection(); //JdbcUtil. 생략(이유?import static 하여)
 		
@@ -38,7 +38,7 @@ public class UnauthorizeProjectService {
 		int deleteProjectRewardMapCount = 0;
 		int deleteRewardCount = 0;
 		//만약 리워드 목록이 null이라면? 기본리워드만 사용하고 있으므로 -> 매핑데이터만 삭제
-		if(rewardList == null) {
+		if(rewardIdList == null) {
 			deleteProjectRewardMapCount = manageProjectDAO.deleteProjectRewardMap(project_id);
 			deleteRewardCount = 1;//삭제할 리워드가 없으므로 우선 1로 세팅 (삭제실패가 발생하지 않음)
 		}
@@ -49,10 +49,10 @@ public class UnauthorizeProjectService {
 			deleteProjectRewardMapCount = manageProjectDAO.deleteProjectRewardMap(project_id);
 			
 			//2-2. 모든 리워드 삭제
-			for(int i=0; i<rewardList.size(); i++) {
-				deleteRewardCount += manageProjectDAO.deleteReward(rewardList.get(i).getReward_id());
+			for(int i=0; i<rewardIdList.size(); i++) {
+				deleteRewardCount += manageProjectDAO.deleteReward(rewardIdList.get(i));
 			}
-			if(deleteRewardCount == rewardList.size()) {//모든 리워드 데이터 삭제에 성공했다면
+			if(deleteRewardCount == rewardIdList.size()) {//모든 리워드 데이터 삭제에 성공했다면
 				deleteRewardCount = 1; //성공대표값 1로 세팅
 			}else {//모든 리워드 데이터를 삭제하는 데 실패했다면
 				deleteRewardCount = 0; //실패대표값 0으로 세팅
@@ -134,7 +134,7 @@ public class UnauthorizeProjectService {
 
 
 	/** 프로젝트 ID로 프로젝트-리워드 매핑테이블에서 리워드 목록 얻어오기 */
-	public ArrayList<RewardBean> getProjectRewardIdList(int project_id) {
+	public ArrayList<String> getProjectRewardIdList(int project_id) {
 		//1. 커넥션 풀에서 Connection객체를 얻어와
 		Connection con = getConnection(); //JdbcUtil. 생략(이유?import static 하여)
 		
@@ -145,7 +145,7 @@ public class UnauthorizeProjectService {
 		projectDAO.setConnection(con);
 		
 		/*-------DAO의 해당 메서드를 호출하여 처리----------------------------------------------------*/
-		ArrayList<RewardBean> rewardList = projectDAO.selectRewardIdList(project_id);
+		ArrayList<String> rewardList = projectDAO.selectRewardIdList(project_id);
 		
 		//4. 해제
 		close(con); //JdbcUtil. 생략(이유?import static 하여)

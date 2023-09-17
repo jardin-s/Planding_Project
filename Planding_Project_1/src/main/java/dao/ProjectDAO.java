@@ -288,13 +288,13 @@ public class ProjectDAO {
 	}
 
 	/** 프로젝트ID로 리워드ID 리스트 얻어오기 */
-	public ArrayList<RewardBean> selectRewardIdList(int project_id) {
-		ArrayList<RewardBean> rewardList = null;
+	public ArrayList<String> selectRewardIdList(int project_id) {
+		ArrayList<String> rewardList = null;
 		
 		String sql = "select reward_id"
 				  + " from project_reward_tbl"
 				  + " where project_id = ?"
-				  + " and reward_id != 1";
+				  + " and reward_id is not 'default'";
 		
 		try {
 			
@@ -308,10 +308,7 @@ public class ProjectDAO {
 				
 				do {
 					
-					RewardBean reward = new RewardBean();
-					reward.setReward_id(rs.getString("reward_id"));
-					
-					rewardList.add(reward);
+					rewardList.add(rs.getString("reward_id"));
 					
 				}while(rs.next());
 			}
