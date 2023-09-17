@@ -188,11 +188,11 @@
 
 
 
-<!--     	<div class="container-xxl py-5"> -->
-<!--     		<div class="container col-lg-8 mb-5"> -->
-<!--    				<p class="text-center">무슨 메세지가 필요할까 싶어서 일단 냅둠</p> -->
-<!--     		</div> -->
-<!--     	</div> -->
+    	<div class="container-xxl py-5">
+    		<div class="container col-lg-8 mb-5">
+   				<p class="text-center">$(planner.planner_name)의 ${pj.title } 프로젝트<br>리워드 관리 페이지</p>
+    		</div>
+    	</div>
 
 	
 
@@ -214,7 +214,7 @@
 						</thead>
 						<tbody class="table-group-divider">
 							<c:forEach var="i" begin="0" end="${rewardList.size()-1 }" step="1" varStatus="count">
-							 <tr class="text-center" onclick="redirectToPage('your_page_url')" data-bs-toggle="tooltip" data-bs-placement="top" title="클릭하여 리워드 수정">
+							 <tr class="text-center" onclick="byRewardDonationList.pj?reward_id=${rewardList[i].reward_id }" data-bs-toggle="tooltip" data-bs-placement="top" title="클릭하여 리워드 수정">
 						        <td>
 						            ${rewardList[i].reward_id }
 						        </td>
@@ -239,7 +239,7 @@
 						<tfoot class="sticky-footer">
 							<tr class="text-center">
 								<th scope="col" class="col-1" colspan="2">
-								<button class="btn btn-outline-primary py-1" type="button" id="answerBtn" onclick="#">리워드+</button>
+								리워드를 클릭하여 수정하기
 								</th>
 								<th scope="col" class="col-2">총신청자수</th>
 								<th scope="col" class="col-2">10000명</th>
