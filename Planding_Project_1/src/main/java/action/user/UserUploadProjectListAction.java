@@ -39,7 +39,7 @@ public class UserUploadProjectListAction implements Action {
 			//[순서-2] 프로젝트ID로 프로젝트 정보를 가져옴
 			ArrayList<ProjectBean> uploadProjectList = null;
 			if(uploadProjectIdList != null) {
-				uploadProjectListService.getProjectList(uploadProjectIdList);
+				uploadProjectList = uploadProjectListService.getProjectList(uploadProjectIdList);
 			}					
 			
 			request.setAttribute("uploadProjectList", uploadProjectList);

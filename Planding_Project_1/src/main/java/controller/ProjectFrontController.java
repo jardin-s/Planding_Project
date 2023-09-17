@@ -11,12 +11,12 @@ import javax.servlet.http.HttpSession;
 
 import action.Action;
 import action.project.InsertNewProjectFormAction;
-import action.project.InsertProjectContentsAction;
 import action.project.InsertProjectPlannerAction;
-import action.project.InsertProjectTempAction;
-import action.project.DonateTempPageViewAction;
-import action.project.FundTempPageViewAction;
-import action.project.SubmitProjectAction;
+import action.project.InsertDonateProjectTempAction;
+import action.project.InsertFundProjectRewardFormAction;
+import action.project.InsertFundProjectTempAction;
+import action.project.SubmitDonateProjectAction;
+import action.project.SubmitFundProjectAction;
 import vo.ActionForward;
 
 /**
@@ -85,7 +85,7 @@ public class ProjectFrontController extends HttpServlet {
 			try {
 				forward = action.execute(request, response);
 			}catch(Exception e) {
-				System.out.println("insertNewProject error : "+e);
+				e.printStackTrace();
 			}
 		}
 		
@@ -94,18 +94,20 @@ public class ProjectFrontController extends HttpServlet {
 		
 		/*-- '기부 프로젝트 등록 폼' 요청 -> 처리 --------------------------------------*/
 		else if(command.equals("/donateProjectInsert.pj")) {//'프로젝트 등록 폼 보기' 요청이면
-			HttpSession session = request.getSession();
-			session.setAttribute("kind", "donate");//kind를 donate로 설정
+			//HttpSession session = request.getSession();
+			//session.setAttribute("kind", "donate");//kind를 donate로 설정
 			
+			request.setAttribute("kind", "donate");
 			request.setAttribute("showPage", "project/insertProjectPlannerForm.jsp");//어느 폼 보기인지 showPage이름 속성으로 저장
 			forward = new ActionForward("userTemplate.jsp",false);//반드시 디스패치 (request를 공유)
 		}
 		
 		/*-- '펀딩 프로젝트 등록 폼' 요청 -> 처리 --------------------------------------*/
 		else if(command.equals("/fundProjectInsert.pj")) {//'프로젝트 등록 폼 보기' 요청이면
-			HttpSession session = request.getSession();
-			session.setAttribute("kind", "fund");//kind를 fund로 설정
+			//HttpSession session = request.getSession();
+			//session.setAttribute("kind", "fund");//kind를 fund로 설정
 			
+			request.setAttribute("kind", "fund");
 			request.setAttribute("showPage", "project/insertProjectPlannerForm.jsp");//어느 폼 보기인지 showPage이름 속성으로 저장
 			forward = new ActionForward("userTemplate.jsp",false);//반드시 디스패치 (request를 공유)
 		}
@@ -116,23 +118,24 @@ public class ProjectFrontController extends HttpServlet {
 			try {
 				forward = action.execute(request, response);
 			}catch(Exception e) {
-				System.out.println("insertProjectPlanner error : "+e);
+				e.printStackTrace();
 			}
 		}
 		
-		/*-- '프로젝트 테이블에 프로젝트 등록하기' 요청 -> 처리 --------------------------------------*/
-		else if(command.equals("/insertProjectContents.pj")) {//'프로젝트 등록 폼 보기' 요청이면
-			action = new InsertProjectContentsAction();
+		
+		/*-- '리워드 입력 폼 보기' 요청 -> 처리 --------------------------------------*/
+		else if(command.equals("/insertFundProjectRewardForm.pj")) {//'프로젝트 등록 폼 보기' 요청이면
+			action = new InsertFundProjectRewardFormAction();
 			try {
 				forward = action.execute(request, response);
 			}catch(Exception e) {
-				System.out.println("insertProjectContents error : "+e);
+				e.printStackTrace();
 			}
 		}
 		
 		/*-- '프로젝트 등록 폼에서 이전단계로' 요청 -> 처리 --------------------------------------*/
 		else if(command.equals("/insertProjectContentsBack.pj")) {
-			request.setAttribute("showPage", "project/insertProjectContents.jsp?kind=fund");//어느 폼 보기인지 showPage이름 속성으로 저장
+			request.setAttribute("showPage", "project/insertProjectContentForm.jsp?kind=fund");//어느 폼 보기인지 showPage이름 속성으로 저장
 			forward = new ActionForward("userTemplate.jsp",false);//반드시 디스패치 (request를 공유)
 		}
 		
@@ -142,56 +145,48 @@ public class ProjectFrontController extends HttpServlet {
 			forward = new ActionForward("userTemplate.jsp",false);//반드시 디스패치 (request를 공유)
 		}
 		
-		/*-- '프로젝트 미리보기 요청' 요청 -> 처리 --------------------------------------*/
-		else if(command.equals("/insertProjectTemp.pj")) {
-			action = new InsertProjectTempAction();
+		/*-- '기부 프로젝트 미리보기 요청' 요청 -> 처리 --------------------------------------*/
+		else if(command.equals("/insertDonateProjectTemp.pj")) {
+			action = new InsertDonateProjectTempAction();
 			try {
 				forward = action.execute(request, response);
 			}catch(Exception e) {
-				System.out.println("insertProjectTemp error : "+e);
-			}
-		}
-		
-				
-		/*-- '기부 프로젝트 임시 상세페이지 보기' 요청 -> 처리 --------------------------------------*/
-		else if(command.equals("/donateTempPageView.pj")) {
-			action=new DonateTempPageViewAction();
-			try {
-				forward = action.execute(request, response);
-			}catch(Exception e) {
-				System.out.println("donatePageView error : "+e);
 				e.printStackTrace();
 			}
 		}
 		
-		/*-- '펀딩 프로젝트 임시 상세페이지 보기' 요청 -> 처리 --------------------------------------*/
-		else if(command.equals("/fundTempPageView.pj")) {
-			action=new FundTempPageViewAction();
+		/*-- '펀딩 프로젝트 미리보기 요청' 요청 -> 처리 --------------------------------------*/
+		else if(command.equals("/insertFundProjectTemp.pj")) {
+			action = new InsertFundProjectTempAction();
 			try {
 				forward = action.execute(request, response);
 			}catch(Exception e) {
-				System.out.println("fundPageView error : "+e);
+				e.printStackTrace();
 			}
 		}
 		
 		
-		
-		/*-- '실제 프로젝트 등록' 요청 -> 처리 --------------------------------------*/
-		else if(command.equals("/submitProject.pj")) {
-			action = new SubmitProjectAction();
+				
+		/*-- '기부 프로젝트를 실제로 등록' 요청 -> 처리 --------------------------------------*/
+		else if(command.equals("/submitDonateProjectAction.pj")) {
+			action = new SubmitDonateProjectAction();
 			try {
 				forward = action.execute(request, response);
 			}catch(Exception e) {
-				System.out.println("submitProject error : "+e);
+				e.printStackTrace();
 			}
 		}
 		
-		
-		/*-- 뭔지모름 --------------------------------------*/
-		else if(command.equals("/insertProjectView.pj")) {
-			request.setAttribute("showPage", "project/insertProjectView.jsp");//어느 폼 보기인지 showPage이름 속성으로 저장
-			forward = new ActionForward("userTemplate.jsp",false);//반드시 디스패치 (request를 공유)
+		/*-- '펀딩 프로젝트를 실제로 등록' 요청 -> 처리 --------------------------------------*/
+		else if(command.equals("/submitFundProjectAction.pj")) {
+			action = new SubmitFundProjectAction();
+			try {
+				forward = action.execute(request, response);
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
 		}
+				
 		
 		
 		/***********************************************************

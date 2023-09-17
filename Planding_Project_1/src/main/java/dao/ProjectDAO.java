@@ -92,6 +92,8 @@ public class ProjectDAO {
 				projectInfo.setProgressFormatWithCurrGoal(rs.getInt("curr_amount"), rs.getInt("goal_amount"));
 			}
 			
+			System.out.println("[ProjectDAO] selectProject() - rs값이 있는지 확인(title) : "+rs.getString("title"));
+			
 		} catch(Exception e) {
 			System.out.println("[ProjectDAO] selectProject() 에러 : "+e);//예외객체종류 + 예외메시지
 		} finally {
@@ -126,7 +128,7 @@ public class ProjectDAO {
 				donation.setDonation_id(rs.getInt("donation_id"));
 				donation.setProject_id(rs.getInt("project_id"));
 				donation.setMember_id(rs.getString("member_id"));
-				donation.setReward_id(rs.getInt("reward_id"));
+				donation.setReward_id(rs.getString("reward_id"));
 				donation.setR_price(rs.getInt("r_price"));
 				donation.setAdd_donation(rs.getInt("add_donation"));
 				donation.setAddress_id(rs.getString("address_id"));
@@ -148,7 +150,7 @@ public class ProjectDAO {
 	}
 	
 	/** 프로젝트 임시 등록하기 - status가 temp. 최종적으로 등록하면 unauthorize로 변경 */
-	public int insertProject(ProjectBean pj) {
+	public int insertProject(ProjectBean project) {
 		int insertProjectCount = 0;
 		
 		String sql = "insert into project_tbl(kind,title,summary,thumbnail,content,image,startdate,enddate,goal_amount,curr_amount,status,likes)";
@@ -159,17 +161,17 @@ public class ProjectDAO {
 			pstmt = con.prepareStatement(sql);
 			
 			//project_id 자동생성
-			pstmt.setString(1, pj.getKind());
-			pstmt.setString(2, pj.getTitle());
-			pstmt.setString(3, pj.getSummary());
-			pstmt.setString(4, pj.getThumbnail());
-			pstmt.setString(5, pj.getContent());
-			pstmt.setString(6, pj.getImage());
-			pstmt.setString(7, pj.getStartdate());
-			pstmt.setString(8, pj.getEnddate());
-			pstmt.setInt(9, pj.getGoal_amount());
+			pstmt.setString(1, project.getKind());
+			pstmt.setString(2, project.getTitle());
+			pstmt.setString(3, project.getSummary());
+			pstmt.setString(4, project.getThumbnail());
+			pstmt.setString(5, project.getContent());
+			pstmt.setString(6, project.getImage());
+			pstmt.setString(7, project.getStartdate());
+			pstmt.setString(8, project.getEnddate());
+			pstmt.setInt(9, project.getGoal_amount());
 			pstmt.setInt(10, 0);
-			pstmt.setString(11, "temp");//아직까지 임시저장 상태이므로 temp
+			pstmt.setString(11, "unauthorized");//미승인 상태
 			pstmt.setInt(12, 0);
 			
 			insertProjectCount = pstmt.executeUpdate();
@@ -185,21 +187,24 @@ public class ProjectDAO {
 		return insertProjectCount;
 	}
 
-	/** 프로젝트 썸네일로 프로젝트 ID를 얻어오기 */
-	public int getProjectID(ProjectBean pj) {
+	/** 프로젝트 제목과 썸네일로 프로젝트 ID를 얻어오기 */
+	public int getProjectID(String title, String thumbnail) {
 		int project_id = 0;
 		
-		String sql = "select project_id from project_tbl where thumbnail=?";
+		String sql = "select project_id from project_tbl where title=? and thumbnail=?";
 		   	
 		try {
 			pstmt = con.prepareStatement(sql);
-			pstmt.setString(1, pj.getThumbnail());
+			pstmt.setString(1, title);
+			pstmt.setString(2, thumbnail);
 			
 			rs = pstmt.executeQuery();
 			if (rs.next()) {
 	            project_id = rs.getInt(1);
 	        }
-			System.out.println(project_id);
+			System.out.println("[ProjectDAO] getProjectID() 매개값 title = "+title);
+			System.out.println("[ProjectDAO] getProjectID() 매개값 thumbnail = "+thumbnail);
+			System.out.println("[ProjectDAO] getProjectID() 얻어온 ID값 확인 = "+project_id);
 		
 		} catch(Exception e) {
 			System.out.println("[ProjectDAO] getProjectID() 에러 : "+e);//예외객체종류 + 예외메시지
@@ -304,7 +309,7 @@ public class ProjectDAO {
 				do {
 					
 					RewardBean reward = new RewardBean();
-					reward.setReward_id(rs.getInt("reward_id"));
+					reward.setReward_id(rs.getString("reward_id"));
 					
 					rewardList.add(reward);
 					
@@ -347,7 +352,7 @@ public class ProjectDAO {
 					donation.setDonation_id(rs.getInt("donation_id"));
 					donation.setProject_id(project_id);
 					donation.setMember_id(rs.getString("member_id"));
-					donation.setReward_id(rs.getInt("reward_id"));
+					donation.setReward_id(rs.getString("reward_id"));
 					donation.setR_price(rs.getInt("r_price"));
 					donation.setAdd_donation(rs.getInt("add_donation"));
 					donation.setTotalDonation(rs.getInt("r_price") + rs.getInt("add_donation"));
@@ -376,7 +381,7 @@ public class ProjectDAO {
 	public int updateProjectStatus(int project_id, String status) {
 		int updateProjectStatusCount = 0;
 		
-		String sql = "upate project_tbl"
+		String sql = "update project_tbl"
 				  + " set status = ?"
 				  + " where project_id = ?";
 		

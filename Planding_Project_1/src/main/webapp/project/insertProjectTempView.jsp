@@ -70,7 +70,7 @@
 <%
 
 String[] contentImgSysName = null; //프로젝트 이미지 (split해서 뿌려야 함)
-ProjectBean project = (ProjectBean)request.getAttribute("projectInfo");
+ProjectBean project = (ProjectBean)session.getAttribute("projectInfo");
 
 if(project.getImage()!=null){//프로젝트 이미지가 있으면
 	//;을 기준으로 나누어 각 이미지파일이름을 배열에 저장
@@ -92,7 +92,7 @@ if(project.getImage()!=null){//프로젝트 이미지가 있으면
 	                <tr>
 	                    <th>${projectInfo.title }
 		                    <button class="custom-button">
-							<span class="badge bg-primary rounded-pill"> ${projectInfo.project_id}-${projectInfo.kind}</span>
+							<span class="badge bg-primary rounded-pill"> ${projectInfo.kind}</span>
 							</button>
 						</th>
 	                </tr>
@@ -144,7 +144,7 @@ if(project.getImage()!=null){//프로젝트 이미지가 있으면
 		
 		</table>
 	
-		<c:if test="${(projectInfo.kind eq 'fund') and (reward.reward_id eq null) }">
+		<c:if test="${(projectInfo.kind eq 'fund') and (rewardInfo.reward_id eq null) }">
 			<a href="insertFundProjectReward.pj"><button>리워드 추가하기</button></a>
 		</c:if>
 		<table class="table table-sm col-md-6 col-lg-4">
@@ -184,15 +184,22 @@ if(project.getImage()!=null){//프로젝트 이미지가 있으면
 			</tr>
 		</table>
 			<div class="btn-group" role="group" aria-label="Basic example">
-				아직<a href="editProject.pj"><button type="button" class="btn btn-primary">수정하기</button></a>
-				못만듬<a href="deleteProject.pj"><button type="button" class="btn btn-danger">삭제하기</button></a>
+				<a href="javascript:history.back();"><button type="button" class="btn btn-danger">이전단계로</button></a>
+				<a href="deleteTempProject.pj"><button type="button" class="btn btn-primary">삭제하기</button></a>
 			</div>
 			<br><hr>
-			<form action="submitProject.pj" method="post">
-				<input type="hidden" name="project_id" value="${projectInfo.project_id }" >
-				<input type="hidden" name="reward_id" value="${rewardInfo.reward_id }" >
-				<input type="submit" value="제출하기">
-			</form>
+			
+			<c:if test="${projectInfo.kind eq 'donate' }">
+				<form action="submitDonateProjectAction.pj" method="post">
+					<input type="submit" value="제출하기">
+				</form>
+			</c:if>
+			<c:if test="${projectInfo.kind eq 'fund' }">
+				<form action="submitFundProjectAction.pj" method="post">
+					<input type="submit" value="제출하기">
+				</form>
+			</c:if>
+			
 			<p>제출하신 프로젝트는 검토 후 게시됩니다.</p>
 	
 	</div>

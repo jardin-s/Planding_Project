@@ -18,9 +18,19 @@ drop table member_tbl;
 */
 
 /*
- 2023.9.13
- member_tbl, qna_tbl 기존생성
- 매출관리 테스트를 위해 project_tbl, admin_income_tbl 생성
+ 2023.9.17
+ 모든 테이블 삭제 후
+ 프로젝트 등록 테스트를 위해
+ member_tbl, project_tbl, reward_tbl, project_planner_tbl, project_reward_tbl 테이블 생성
+ 
+ 프로젝트 등록관련 초기화
+ drop table project_reward_tbl;
+ drop table project_planner_tbl;
+ drop table reward_tbl;
+ drop table project_tbl;
+ 
+ 
+ 
    
  */
 
@@ -47,10 +57,10 @@ CREATE TABLE IF NOT EXISTS `project`.`project_tbl` (
   `project_id` INT NOT NULL AUTO_INCREMENT COMMENT '프로젝트 ID',
   `kind` VARCHAR(10) NOT NULL COMMENT 'Donate or Funding',
   `title` NVARCHAR(50) NOT NULL COMMENT '프로젝트 제목',
-  `summary` NVARCHAR(100) NOT NULL COMMENT '요약글',
-  `thumbnail` VARCHAR(60) NOT NULL,
-  `content` NVARCHAR(500) NOT NULL COMMENT '내용',
-  `image` VARCHAR(1024) NOT NULL COMMENT '프로젝트 이미지',
+  `summary` NVARCHAR(1000) NOT NULL COMMENT '요약글',
+  `thumbnail` VARCHAR(150) NOT NULL,
+  `content` NVARCHAR(5000) NOT NULL COMMENT '내용',
+  `image` VARCHAR(1500) NOT NULL COMMENT '프로젝트 이미지',
   `startdate` DATETIME NOT NULL COMMENT '시작일',
   `enddate` DATETIME NOT NULL COMMENT '종료일',
   `goal_amount` INT NOT NULL COMMENT '목표 모금액',
@@ -70,6 +80,7 @@ values('donate','기부제목2','기부요약2','thumbnail2.jpg','프로젝트 �
 		'2023-09-11', '2023-09-15', 1000000, 200000, 'unauthorized', 0);
 		
 select * from project_tbl;
+delete from project_tbl;
 
 -- -----------------------------------------------------
 -- Table `project`.`member_tbl`
@@ -104,43 +115,34 @@ where member_id='testuser0009';
 -- Table `project`.`reward_tbl`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `project`.`reward_tbl` (
-  `reward_id` INT NOT NULL AUTO_INCREMENT COMMENT '리워드 ID',
+  `reward_id` VARCHAR(100) NOT NULL COMMENT '리워드 ID',
   `r_name` NVARCHAR(30) NOT NULL COMMENT '리워드 이름',
   `r_content` NVARCHAR(100) NOT NULL COMMENT '리워드 설명',
   `r_price` INT NOT NULL COMMENT '리워드 금액',
   PRIMARY KEY (`reward_id`))
 ENGINE = InnoDB;
 
+insert into reward_tbl values('default','donate','최소 후원금액',1000);
+
+select * from reward_tbl;
 
 -- -----------------------------------------------------
 -- Table `project`.`donation_tbl`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `project`.`donation_tbl` (
-  `donate_id` INT NOT NULL AUTO_INCREMENT COMMENT '후원기록 ID',
+  `donation_id` INT NOT NULL AUTO_INCREMENT COMMENT '후원기록 ID',
   `project_id` INT NOT NULL COMMENT '프로젝트 ID',
   `member_id` VARCHAR(20) NOT NULL COMMENT '회원 ID',
-  `reward_id` INT NOT NULL COMMENT '리워드 ID',
+  `reward_id` VARCHAR(100) NOT NULL COMMENT '리워드 ID',
   `r_price` INT NOT NULL,
   `add_donation` INT NULL COMMENT '추가 후원금액',
   `address_id` VARCHAR(100) NULL,
   `donatedate` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP COMMENT '후원일자',
-  PRIMARY KEY (`donate_id`),
-  INDEX `fk_donation_tbl_project_tbl_idx` (`project_id` ASC) VISIBLE,
+  PRIMARY KEY (`donation_id`),
   INDEX `fk_donation_tbl_member_tbl1_idx` (`member_id` ASC) VISIBLE,
-  INDEX `fk_donation_tbl_reward_tbl1_idx` (`reward_id` ASC) VISIBLE,
-  CONSTRAINT `fk_donation_tbl_project_tbl`
-    FOREIGN KEY (`project_id`)
-    REFERENCES `project`.`project_tbl` (`project_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
   CONSTRAINT `fk_donation_tbl_member_tbl1`
     FOREIGN KEY (`member_id`)
     REFERENCES `project`.`member_tbl` (`member_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_donation_tbl_reward_tbl1`
-    FOREIGN KEY (`reward_id`)
-    REFERENCES `project`.`reward_tbl` (`reward_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -176,13 +178,13 @@ where incomedate between '2023-9-1' and '2023-9-30';
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `project`.`project_reward_tbl` (
   `project_id` INT NOT NULL COMMENT '프로젝트 ID',
-  `reward_id` INT NOT NULL COMMENT '리워드 ID',
+  `reward_id` VARCHAR(100) NOT NULL COMMENT '리워드 ID',
   PRIMARY KEY (`project_id`, `reward_id`),
   INDEX `fk_project_reward_tbl_reward_tbl1_idx` (`reward_id` ASC) VISIBLE,
   CONSTRAINT `fk_project_reward_tbl_project_tbl1`
     FOREIGN KEY (`project_id`)
     REFERENCES `project`.`project_tbl` (`project_id`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_project_reward_tbl_reward_tbl1`
     FOREIGN KEY (`reward_id`)
@@ -190,6 +192,10 @@ CREATE TABLE IF NOT EXISTS `project`.`project_reward_tbl` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
+
+select * from reward_tbl;
+
+delete from project_reward_tbl;
 
 
 -- -----------------------------------------------------
@@ -200,7 +206,7 @@ CREATE TABLE IF NOT EXISTS `project`.`notice_tbl` (
   `member_id` VARCHAR(20) NOT NULL COMMENT '작성자 ID',
   `n_title` NVARCHAR(30) NOT NULL COMMENT '공지사항 제목',
   `n_content` NVARCHAR(500) NOT NULL COMMENT '공지사항 내용',
-  `n_image` VARCHAR(100) NULL COMMENT '공지사항 이미지',
+  `n_image` VARCHAR(150) NULL COMMENT '공지사항 이미지',
   `importance` VARCHAR(1) NULL COMMENT '중요글 여부 YN',
   `viewcount` INT NOT NULL COMMENT '조회수',
   `writetime` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP COMMENT '작성시간',
@@ -223,7 +229,7 @@ CREATE TABLE IF NOT EXISTS `project`.`qna_tbl` (
   `q_writer` VARCHAR(20) NOT NULL COMMENT '작성자 ID',
   `q_title` VARCHAR(256) NOT NULL COMMENT '질문 제목',
   `q_content` NVARCHAR(500) NOT NULL COMMENT '질문 내용',
-  `q_image` VARCHAR(100) NULL COMMENT '문의사항 이미지',
+  `q_image` VARCHAR(150) NULL COMMENT '문의사항 이미지',
   `q_private` VARCHAR(1) NOT NULL COMMENT '비밀글 여부 YN',
   `q_time` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP COMMENT '질문시간',
   `a_writer` VARCHAR(20) NULL,
@@ -285,6 +291,10 @@ CREATE TABLE IF NOT EXISTS `project`.`project_planner_tbl` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
+delete from project_planner_tbl;
+
+select * from project_planner_tbl;
+
 
 -- -----------------------------------------------------
 -- Table `project`.`bookmark_tbl`
@@ -303,7 +313,7 @@ CREATE TABLE IF NOT EXISTS `project`.`bookmark_tbl` (
   CONSTRAINT `fk_bookmark_tbl_project_tbl1`
     FOREIGN KEY (`project_id`)
     REFERENCES `project`.`project_tbl` (`project_id`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 

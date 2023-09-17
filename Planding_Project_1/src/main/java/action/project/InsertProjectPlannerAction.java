@@ -9,6 +9,7 @@ import javax.servlet.http.HttpSession;
 
 import action.Action;
 import vo.ActionForward;
+import vo.PlannerBean;
 
 public class InsertProjectPlannerAction implements Action {
 
@@ -16,6 +17,7 @@ public class InsertProjectPlannerAction implements Action {
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ActionForward forward = null;
 		
+		/* [이주헌]
 		HttpSession session = request.getSession();
 		
 		//기획자 이름, 기획자 소개글을 session에 저장
@@ -35,13 +37,42 @@ public class InsertProjectPlannerAction implements Action {
 		
 		//계좌번호값 session에 저장
 		session.setAttribute("account", request.getParameter("account"));
+		*/
+		
+		//[손정원] - 위의 소스를 수정함 (각 값을 따로따로 저장하지 않고, PlannerBean객체를 저장)
+		//기획자 이름, 기획자 소개글, 은행, 계좌번호 파라미터값 가져옴
+		String member_id = request.getParameter("member_id");
+		String planner_name = request.getParameter("planner_name");
+		String introduce = request.getParameter("introduce").trim();
+		String bank = (request.getParameter("bank") != null) ? request.getParameter("bank") : ((request.getParameter("otherBankName") != null) ? request.getParameter("otherBankName") : null);				
+		String account = request.getParameter("account");
+		
+		System.out.println("[InsertProjectPlannerAction] 파라미터값");
+		System.out.println("member_id = "+ member_id);
+		System.out.println("planner_name = "+ planner_name);
+		System.out.println("introduce = "+ introduce);
+		System.out.println("bank = "+ bank);
+		System.out.println("account = "+ account);
+		
+		//파라미터값으로 PlannerBean객체 생성
+		PlannerBean plannerInfo = new PlannerBean(member_id, planner_name, introduce, bank, account);
+		
+		//세션에 planner이름으로 PlannerBean객체 저장
+		HttpSession session = request.getSession();
+		session.setAttribute("plannerInfo", plannerInfo);
+		//이전단계에서, 은행이름 직접입력시, 해당 값을 넣어야 하므로
+		if(request.getParameter("otherBankName") != null) {
+			session.setAttribute("otherBankName", request.getParameter("otherBankName"));
+		};
+		
+		
 		
 		/* <여기까지 세션에 저장된 값>
 		 * kind(프로젝트 종류)
-		 * planner_name(기획자 이름), introduce(기획자 소개글), bank(기획자 은행), account(기획자 계좌번호)
+		 * member_id(기획자ID), planner_name(기획자 이름), introduce(기획자 소개글), bank(기획자 은행), account(기획자 계좌번호)
 		 *  */
 		
-		/*--- 프로젝트 시작일 설정 시, 시작일을 내일부터 설정가능하도록 minDate 설정 ---*/
+		/*--- [손정원] 프로젝트 시작일 설정 시, 시작일을 내일부터 설정가능하도록 minDate 설정 ---*/
 		Calendar mindateCal = Calendar.getInstance();
 		SimpleDateFormat dd_format = new SimpleDateFormat("dd");
 		int min_startday = Integer.parseInt(dd_format.format(mindateCal.getTime())) + 1;//오늘이 아닌 내일로 세팅
@@ -58,11 +89,11 @@ public class InsertProjectPlannerAction implements Action {
 		request.setAttribute("minStartdate", minStartdate);
 		request.setAttribute("minEnddate", minEnddate);
 		
-		
-		//hidden타입으로 넘어온 아이디값을 가져옴 (프로젝트 작성 중 세션이 만료될 수 있으므로 작성과정 요청마다 request로 넘겨줌)
-		String member_id = request.getParameter("member_id");
-		System.out.println("[InsertProjectPlannerAction] 파라미터로 넘어온 member_id = "+member_id);
-		request.setAttribute("member_id", member_id);
+		//[손정원]
+		//hidden타입으로 넘어온 kind값을 가져옴		
+		String kind = request.getParameter("kind");
+		System.out.println("[InsertProjectPlannerAction] 파라미터로 넘어온 kind = "+kind);
+		request.setAttribute("kind", kind);
 
 		//프로젝트 내용입력 폼으로 이동
 		request.setAttribute("showPage", "project/insertProjectContentForm.jsp");
