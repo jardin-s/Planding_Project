@@ -103,7 +103,7 @@
 									</td>
 									<td>
 										<c:choose>
-											<c:when test="${uploadProject.status eq 'unauthorized' }">
+											<c:when test="${uploadProject.status eq 'unauthorized' || uploadProject.status eq 'ready'}">
 												<button class="btn btn-outline-primary py-1" type="button" id="dltBtn" onclick="location.href='deleteProject.pj?project_id=${uploadProject.project_id}'">삭제</button>
 											</c:when>
 											<c:when test="${uploadProject.status eq 'ongoing' }">
