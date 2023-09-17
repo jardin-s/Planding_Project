@@ -87,6 +87,7 @@ public class UserLoginAction implements Action {
 			
 			session.setAttribute("u_name", userInfo.getName());			
 			session.setAttribute("u_email", userInfo.getEmail());
+			session.setAttribute("u_account", userInfo.getAccount());//계좌잔액 추가
 			
 			//isAdmin이 N이면 관리자페이지 접근제한
 			session.setAttribute("u_admin_status", userInfo.getAdmin_status());

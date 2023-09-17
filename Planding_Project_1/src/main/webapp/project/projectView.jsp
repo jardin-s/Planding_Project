@@ -6,7 +6,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-
 	<meta charset="utf-8">
     <title>PlanDing - Fund for Our Plannet</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
@@ -35,187 +34,209 @@
 
     <!-- Template Stylesheet -->
     <link href="../resources/css/style.css" rel="stylesheet">
-   <style>
-  /* 버튼 스타일 초기화 */
-  .custom-button {
-    background: none;
-    border: none;
-    outline: none;
-    padding: 0;
-    margin: 0;
-    cursor: default;
-  }
-
-  /* 버튼 내부 span 스타일 지정 */
-  .custom-button span {
-    background-color: #007bff; /* 원하는 배경색 지정 */
-    color: #fff; /* 텍스트 색상 */
-    border-radius: 15px; /* 둥근 모서리를 위한 값, 원하는 값으로 조정 */
-    padding: 5px 10px; /* 내부 여백 조정, 원하는 값으로 조정 */
-  }
-
-  /* 버튼에 마우스를 올렸을 때와 클릭했을 때의 스타일 지정 (반응하지 않도록 설정) */
-  .custom-button:hover,
-  .custom-button:active {
-    background: none;
-    border: none;
-    outline: none;
-    cursor: default;
-  }
-</style>
-   
-
 </head>
-<body>
 <%
-String[] contentImgSysName=null;
-ProjectBean pj=(ProjectBean)request.getAttribute("pj");
-PlannerBean planner=(PlannerBean)request.getAttribute("planner");
-RewardBean reward=(RewardBean)request.getAttribute("reward");
 
+ProjectBean projectInfo = (ProjectBean)request.getAttribute("projectInfo");
+int curr_amount = projectInfo.getCurr_amount();
+int goal_amount = projectInfo.getGoal_amount();
 
-if(pj.getImage()!=null){
-	
-	contentImgSysName=pj.getImage().split(";");
+//현재모금액, 목표모금액 천단위 구분쉼표 넣기
+DecimalFormat df = new DecimalFormat("###,###");
+String curr_amount_str = df.format(curr_amount);
+String goal_amount_str = df.format(goal_amount);
+
+%>
+
+<script>
+//후원하기 폼 유효성 체크
+function checkDonate() {
+	//리워드 선택여부 체크 (무조건 하나는 선택)
+	//추가후원금 입력시 숫자 입력했는지 체크
 }
 
-DecimalFormat df = new DecimalFormat("#.#");
 
-//progress 계산 및 소수점 첫째 자리까지 포맷팅
-double progress = (double) pj.getCurr_amount() / pj.getGoal_amount();
-String formattedProgress = df.format(progress);
+//그외 처리해야 할 내용
+//projectList 요청 시, 페이지네이션으로 한 페이지당 n개씩 출력하고
+//projectView 요청 시, 해당 페이지의 page값이 넘어가게 하고, sql에서 오늘날짜-종료일로 날짜계산해서 setDeadline()하기
+//프로젝트 후원하기 -> 후원 폼 보기 -> 최종 후원완료
 
-progress=Double.parseDouble(formattedProgress);
-%>
-<c:set var="progress" value="<%= progress%>"/>
+</script>
 
-<div class="container">
-		<div>
-			작성하신 프로젝트를 확인하는 페이지 입니다. 
-		</div>
-    <div class="row">
-        <div class="col-md-6 col-lg-4">
-            <div><img src="<%= request.getContextPath() %>/images/project_No_${project_id }/${project_id }_${pj.thumbnail}"></div>
-        </div>
-        <div class="col-md-6 col-lg-8">
-            <table class="table table-sm">
-                <tr>
-                    <th>${pj.title }
-	                    <button class="custom-button">
-						<span class="badge bg-primary rounded-pill"> ${pj.project_id}-${pj.kind}</span>
-						</button>
-					</th>
-                </tr>
-                <tr>
-                    <td>${pj.summary}</td>
-                </tr>
-                <tr>
-                    <td>플래너 : ${planner.planner_name }<br>플래너 한 마디 : ${planner.introduce }</td>
-                </tr>
-                <tr>
-                    <th>기간:${pj.startdate }~${pj.enddate }</th>
-                </tr>
-                <tr>
-                    <td>
-                        <c:if test="${progress < 100 }">
-                            <div class="progress" role="progressbar" aria-label="Example with label" aria-valuenow="${progress }" aria-valuemin="0" aria-valuemax="100">
-                                <div class="progress-bar">목표 달성률 ${progress}%</div>
-                            </div>	
-                        </c:if>	
-                        <c:if test="${progress >= 100 }">
-                            <div class="progress" role="progressbar" aria-label="Danger example" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
-                                <div class="progress-bar">${progress }%</div>
-                                <div class="progress-bar bg-danger"></div><!-- if문으로 100이상일때 빨갛게 보이도록  -->
-                            </div>	
-                        </c:if>	
-                    </td>
-                </tr>
-                <tr>
-                    <td><button type="button" class="btn btn-danger">관심표현하기<span class="badge bg-primary rounded-pill">0</span></button>  <button type="button" class="btn btn-danger">${(kind  eq "donate") ? "기부하기" : "펀딩하기"}</button></td>
-                </tr>
-            </table>
-        </div>
-    </div>
+<body>
 
-	<table class="table table-sm col-md-6 col-lg-4">
-		<tr>
-			<td colspan="2">
-				<%for(int i=contentImgSysName.length-1;i>=0;i--) {%>
-				<img src="<%= request.getContextPath() %>/images/project_No_${project_id }/${project_id }_<%= contentImgSysName[i] %>"><br>
-				<%} %>
-			</td>
-		</tr>
-		<tr>
-			<td colspan="2" class="text-break">${pj.content}</td>
-		</tr>
-	
-	
-	
-	
-	</table>
-
-	<c:if test="${(pj.kind eq 'fund') and (reward.reward_id eq null) }">
-		<a href="insertFundProjectReward.pj"><button>리워드 추가하기</button></a>
-	</c:if>
-	<table class="table table-sm col-md-6 col-lg-4">
-		<tr>
-			<td>
-				<c:if test="${pj.kind eq 'fund' }">
-					<ol class="list-group list-group-numbered">
-						<li class="list-group-item d-flex justify-content-between align-items-start">
-							<div class="ms-2 me-auto">
-								<div class="fw-bold">나눔 더하기</div>
-								추가 기부 금액 : <input type="number" name="r_price" min="1000" step="1" value="1000" readonly>
-							</div>
-						</li>
-					</ol>
-				</c:if>
-
-				<c:if test="${pj.kind eq 'donate' }">
-				<ol class="list-group list-group-numbered">
+	<div class="container-fluid pt-5 pb-2">
+		<div class="container col-lg-8">
+			<div class="row g-3 justify-content-center">
+				<!-- 제목 -->
+				<div class="col-12 text-center">
+					<c:if test="${projectInfo.kind eq 'donate' }">기부 프로젝트</c:if>
+					<c:if test="${projectInfo.kind eq 'fund' }">펀딩 프로젝트</c:if>
+				</div>
+				<div class="col-12 text-center">
+					<h1 class="display-6">${projectInfo.title }</h1>
+				</div>
 				
-					
-					<li class="list-group-item d-flex justify-content-between align-items-start">
-						
-<%-- 						<form action="<c:if test="${pj.status eq 'ongoing' }">newDonation.pj</c:if>" method="post" > --%>
-						
-						
-						<div class="ms-2 me-auto">
-							<div class="fw-bold">기부하실 금액을 입력해주세요.</div>
-							<input type="number" name="r_price" min="1000" step="1000" value="1000">
-						</div>
-							<input type="button" value="기부하기" onclick="">
-<!-- 						</form> -->
-					</li>
-					
-				</ol>
-				</c:if>
-			</td>
-		</tr>
-	</table>
-		<div class="btn-group" role="group" aria-label="Basic example">
-			아직<a href="editProject.pj"><button type="button" class="btn btn-primary">수정하기</button></a>
-			못만듬<a href="deleteProject.pj"><button type="button" class="btn btn-danger">삭제하기</button></a>
+				<!-- 상품 헤더 -->
+				<!-- 좌측 썸네일 이미지 -->
+				<div class="col-md-6 p-3 text-center">
+					<img src="<%=request.getContextPath()%>/images/project_No_${projectInfo.project_id }/${projectInfo.project_id }_${projectInfo.thumbnail }" style="width:100%">
+				</div>
+				
+				<!-- 우측 프로젝트 정보 -->
+				<div class="col-md-6 pt-4 px-4">
+					<table class="table">
+						<thead>
+							<tr class="text-start">
+								<th class="py-2">
+									<span class="fw-normal">&nbsp;현재 모금액</span><br>
+									<span style="font-size:2rem; font-weight:normal"><%=curr_amount_str %></span>&nbsp;원
+								</th>					
+							</tr>
+							<tr class="text-start">
+								<th class="py-2">
+									<span class="fw-normal">&nbsp;달성률</span>
+									<div class="progress col-10 mt-2" role="progressbar" aria-label="Basic example" aria-valuenow="${projectInfo.process }" aria-valuemin="0" aria-valuemax="100" style="height:20px">
+										<div class="progress-bar" style="width: ${projectInfo.process }%">${projectInfo.process }%</div>
+									</div>
+								</th>					
+							</tr>
+							<tr class="text-start">
+								<th class="py-2">
+									<span class="fw-normal">&nbsp;남은 시간</span><br>
+									&nbsp;<span style="font-size:2rem; font-weight:normal">${projectInfo.deadline }</span>&nbsp;일
+								</th>					
+							</tr>
+							<tr class="text-start">
+								<th class="py-3">
+									&nbsp;목표 금액 <span class="fw-normal ms-2"><%=goal_amount_str %>원</span><br>
+									&nbsp;후원 기간 <span class="fw-normal ms-2">${projectInfo.startdate } ~ ${projectInfo.enddate }</span>
+								</th>					
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<form action="userDonateProjectForm.pj" method="post" name="f">
+									<input type="hidden" name="project_id" value="${projectInfo.project_id }">
+									
+									<td class="pt-3">
+										<div class="row">
+											<div class="col-8 my-auto">
+												<c:if test="${projectInfo.kind eq 'donate' }">
+													<select class="form-select form-select-lg mb-3" name="reward_id">
+														<option value="default" selected>1000원 (최소후원금)</option>
+													</select>
+												</c:if>
+												<c:if test="${projectInfo.kind eq 'fund' }">
+													<select class="form-select form-select-lg mb-3" name="reward_id">
+														<option selected>리워드 선택</option>
+														<optgroup label="1,000원">
+															<option value="default">리워드 없이 후원하기</option>
+														</optgroup>
+														<c:forEach var="reward" items="rewardList">
+															<optgroup label="${reward.r_price}원">
+																<option value="${reward.reward_id }">${reward.r_name }</option>
+															</optgroup>
+														</c:forEach>
+													</select>
+												</c:if>
+											</div>
+											<div class="col-4">
+												<button type="submit" class="btn btn-primary btn-lg px-4 d-block d-md-none d-xl-block" onclick="checkDonate(); return false;">
+													<i class="fas fa-donate py-1 d-block d-xxl-none"></i><span class="d-none d-xxl-block">후원하기</span>
+												</button>
+												<button type="submit" class="btn btn-primary py-2 px-4 d-none d-md-block d-xl-none" onclick="checkDonate(); return false;">
+													<i class="fas fa-donate"></i>
+												</button>
+											</div>
+										</div>
+										<input class="form-control" type="text" name="add_donation" id="add_donation" placeholder="추가 후원금 (선택)">	
+									</td>
+								</form>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<!-- 상품 헤더 끝 -->
+				
+				<!-- 상품 바디 -->
+				<!-- 기획자 정보 -->
+				<div class="col-12">
+					<table class="table">
+						<thead>
+							<tr>
+								<th colspan="2">기획자 정보</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>기획자명</td>
+								<td>${plannerInfo.planner_name }</td>
+							</tr>
+							<tr>
+								<td>소개글</td>
+								<td>${plannerInfo.introduce }</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				
+				<!-- 프로젝트 세부사항 -->
+				<div class="col-12">
+					<table class="table">
+						<thead>
+							<tr>
+								<th colspan="3">프로젝트 상세</th>
+							</tr>
+							<tr class="text-center">
+								<th>
+									<c:forTokens var="image" items="${projectInfo.image }" delims=";">
+										<img src="<%=request.getContextPath()%>/images/project_No_${projectInfo.project_id }/${projectInfo.project_id }_${image}" style="width:60%; margin-bottom: 2rem">
+									</c:forTokens>
+								</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr class="text-center">
+								<td style="padding:50px">
+								${projectInfo.content }
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				
+				<!-- 리워드 세부사항 -->
+				<div class="col-12">
+					<table class="table">
+						<thead>
+							<tr>
+								<th>리워드 이름</th>
+								<th>세부내용</th>
+								<th>금액</th>
+							</tr>
+						</thead>
+						<tbody>
+							<c:forEach var="reward" items="rewardList">
+								<tr>
+									<td class="col-4">${reward.r_name}</td>
+									<td class="col-auto">${reward.r_content }</td>
+									<td class="col-2">${reward.r_price }원</td>
+								</tr>
+							</c:forEach>
+						</tbody>
+					</table>
+				</div>
+				
+				
+				<div class="col-12 text-center">
+					<button class="btn btn-light" onclick="location.href='userProjectList.pj?page=${page}'">프로젝트 목록</button>
+				</div>
+			</div>
 		</div>
+	</div>
+	
 
-
-</div>
-
-    <!-- JavaScript Libraries -->
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="../resources/lib/wow/wow.min.js"></script>
-    <script src="../resources/lib/easing/easing.min.js"></script>
-    <script src="../resources/lib/waypoints/waypoints.min.js"></script>
-    <script src="../resources/lib/owlcarousel/owl.carousel.min.js"></script>
-    <script src="../resources/lib/counterup/counterup.min.js"></script>
-    <script src="../resources/lib/parallax/parallax.min.js"></script>
-    <script src="../resources/lib/isotope/isotope.pkgd.min.js"></script>
-    <script src="../resources/lib/lightbox/js/lightbox.min.js"></script>
-
-    <!-- Template Javascript -->
-    <script src="../resources/js/main.js"></script>
-     
 </body>
 
 </html>
