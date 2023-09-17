@@ -1029,7 +1029,7 @@ public class ManageMemberDAO {
 					donation.setProject_id(rs.getInt("project_id"));
 					donation.setMember_id(rs.getString("member_id"));
 					donation.setAddress_id(rs.getString("address_id"));
-					donation.setReward_id(rs.getInt("reward_id"));
+					donation.setReward_id(rs.getString("reward_id"));
 					donation.setR_price(rs.getInt("r_price"));
 					donation.setAdd_donation(rs.getInt("add_donation"));
 					donation.setTotalDonation(rs.getInt("r_price") + rs.getInt("add_donation"));

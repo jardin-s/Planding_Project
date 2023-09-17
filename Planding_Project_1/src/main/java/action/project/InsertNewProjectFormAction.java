@@ -47,21 +47,30 @@ public class InsertNewProjectFormAction implements Action {
 		}else {
 			
 			//혹시라도 이전에 프로젝트 등록하는 과정에서 취소가 되어 session에 그대로 저장된 상태라면 다시 초기화
-			session.removeAttribute("planner_name");
-			session.removeAttribute("introduce");
-			session.removeAttribute("bank");
-			session.removeAttribute("otherBankName");
-			session.removeAttribute("account");
-			session.removeAttribute("kind");
-			session.removeAttribute("title");
-			session.removeAttribute("summary");
-			session.removeAttribute("contentImg");
-			session.removeAttribute("content");
-			session.removeAttribute("thumbnail");
-			session.removeAttribute("startdate");
-			session.removeAttribute("enddate");
-			session.removeAttribute("goal_amount");
-
+//			session.removeAttribute("planner_name");
+//			session.removeAttribute("introduce");
+//			session.removeAttribute("bank");
+//			session.removeAttribute("otherBankName");
+//			session.removeAttribute("account");
+//			session.removeAttribute("kind");
+//			session.removeAttribute("title");
+//			session.removeAttribute("summary");
+//			session.removeAttribute("contentImg");
+//			session.removeAttribute("content");
+//			session.removeAttribute("thumbnail");
+//			session.removeAttribute("startdate");
+//			session.removeAttribute("enddate");
+//			session.removeAttribute("goal_amount");
+			
+			session.removeAttribute("plannerInfo");
+    		session.removeAttribute("projectInfo");
+    		session.removeAttribute("otherBankName");
+    		session.removeAttribute("r_name");
+    		session.removeAttribute("r_contents");
+    		session.removeAttribute("r_price");
+    		session.removeAttribute("rewardInfo");
+    		session.removeAttribute("rewardList");
+			
 			//이때, 기부 프로젝트 클릭 시, session에 kind값으로 donate가 저장,
 			//펀딩 프로젝트 클릭 시, session에 kind값으로 fund가 저장된 상태로 다음 페이지로 이동
 			request.setAttribute("showPage", "project/insertNewProject.jsp");//어느 폼 보기인지 showPage이름 속성으로 저장

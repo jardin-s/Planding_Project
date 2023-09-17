@@ -68,39 +68,39 @@ function validateAccountInput() {
 
 	<div class="m-5">
 		<form action="insertProjectPlanner.pj" method="post">
-			<input type="hidden" name="kind" value="${kind}" required> 
+			<input type="hidden" name="kind" value="${requestScope.kind}" required> 
 			<input type="hidden" name="member_id" value="${sessionScope.u_id}" required>
 
 			<div class="mb-3">
 				<label for="planner_name" class="form-label">기획자명</label> 
-				<input type="text" class="form-control" id="planner_name" name="planner_name" maxlength="20" required placeholder="개인 또는 기업, 단체명" value="${sessionScope.planner_name}">
+				<input type="text" class="form-control" id="planner_name" name="planner_name" maxlength="20" required placeholder="개인 또는 기업, 단체명" value="${sessionScope.plannerInfo.planner_name}">
 			</div>
 			<div class="mb-3">
 				<label for="introduce" class="form-label">기획자소개</label>
-				<textarea class="form-control" id="introduce" name="introduce" rows="3" maxlength="100" required>${sessionScope.introduce}</textarea>
+				<textarea class="form-control" id="introduce" name="introduce" rows="3" maxlength="100" required>${sessionScope.plannerInfo.introduce}</textarea>
 			</div>
 			<div class="mb-3">
 				<select class="form-select" aria-label="bank"  id="bank" name="bank" onchange="otherBank()" required>
-					<option disabled selected="${sessionScope.bank != '' ? '' : 'selected'}">입금계좌 은행</option>
-			  		<option value="shinhan" ${sessionScope.bank == 'shinhan' ? 'selected' : ''}>신한은행</option>
-					<option value="kb" ${sessionScope.bank == 'kb' ? 'selected' : ''}>국민은행</option>
-					<option value="woori" ${sessionScope.bank == 'woori' ? 'selected' : ''}>우리은행</option>
-					<option value="hana" ${sessionScope.bank == 'hana' ? 'selected' : ''}>하나은행</option>
-					<option value="ibk" ${sessionScope.bank == 'ibk' ? 'selected' : ''}>기업은행</option>
-					<option value="nh" ${sessionScope.bank == 'nh' ? 'selected' : ''}>농협은행</option>
-					<option value="gn" ${sessionScope.bank == 'gn' ? 'selected' : ''}>경남은행</option>
-					<option value="kwangju" ${sessionScope.bank == 'kwangju' ? 'selected' : ''}>광주은행</option>
-					<option value="daegu" ${sessionScope.bank == 'daegu' ? 'selected' : ''}>대구은행</option>
-					<option value="busan" ${sessionScope.bank == 'busan' ? 'selected' : ''}>부산은행</option>
-					<option value="ibk" ${sessionScope.bank == 'ibk' ? 'selected' : ''}>산업은행</option>
-					<option value="suhyup" ${sessionScope.bank == 'suhyup' ? 'selected' : ''}>수협은행</option>
-					<option value="jb" ${sessionScope.bank == 'jb' ? 'selected' : ''}>전북은행</option>
-					<option value="jeju" ${sessionScope.bank == 'jeju' ? 'selected' : ''}>제주은행</option>
-					<option value="keb" ${sessionScope.bank == 'keb' ? 'selected' : ''}>케이뱅크</option>
-					<option value="kakaobank" ${sessionScope.bank == 'kakaobank' ? 'selected' : ''}>카카오뱅크</option>
-					<option value="shinhyup" ${sessionScope.bank == 'shinhyup' ? 'selected' : ''}>신협은행</option>
-					<option value="upost" ${sessionScope.bank == 'upost' ? 'selected' : ''}>우체국은행</option>
-					<option value="OtherBank" ${sessionScope.bank == 'OtherBank' ? 'selected' : ''}>기타(직접입력)</option>
+					<option disabled selected="${sessionScope.plannerInfo.bank != '' ? '' : 'selected'}">입금계좌 은행</option>
+			  		<option value="shinhan" ${sessionScope.plannerInfo.bank == 'shinhan' ? 'selected' : ''}>신한은행</option>
+					<option value="kb" ${sessionScope.plannerInfo.bank == 'kb' ? 'selected' : ''}>국민은행</option>
+					<option value="woori" ${sessionScope.plannerInfo.bank == 'woori' ? 'selected' : ''}>우리은행</option>
+					<option value="hana" ${sessionScope.plannerInfo.bank == 'hana' ? 'selected' : ''}>하나은행</option>
+					<option value="ibk" ${sessionScope.plannerInfo.bank == 'ibk' ? 'selected' : ''}>기업은행</option>
+					<option value="nh" ${sessionScope.plannerInfo.bank == 'nh' ? 'selected' : ''}>농협은행</option>
+					<option value="gn" ${sessionScope.plannerInfo.bank == 'gn' ? 'selected' : ''}>경남은행</option>
+					<option value="kwangju" ${sessionScope.plannerInfo.bank == 'kwangju' ? 'selected' : ''}>광주은행</option>
+					<option value="daegu" ${sessionScope.plannerInfo.bank == 'daegu' ? 'selected' : ''}>대구은행</option>
+					<option value="busan" ${sessionScope.plannerInfo.bank == 'busan' ? 'selected' : ''}>부산은행</option>
+					<option value="ibk" ${sessionScope.plannerInfo.bank == 'ibk' ? 'selected' : ''}>산업은행</option>
+					<option value="suhyup" ${sessionScope.plannerInfo.bank == 'suhyup' ? 'selected' : ''}>수협은행</option>
+					<option value="jb" ${sessionScope.plannerInfo.bank == 'jb' ? 'selected' : ''}>전북은행</option>
+					<option value="jeju" ${sessionScope.plannerInfo.bank == 'jeju' ? 'selected' : ''}>제주은행</option>
+					<option value="keb" ${sessionScope.plannerInfo.bank == 'keb' ? 'selected' : ''}>케이뱅크</option>
+					<option value="kakaobank" ${sessionScope.plannerInfo.bank == 'kakaobank' ? 'selected' : ''}>카카오뱅크</option>
+					<option value="shinhyup" ${sessionScope.plannerInfo.bank == 'shinhyup' ? 'selected' : ''}>신협은행</option>
+					<option value="upost" ${sessionScope.plannerInfo.bank == 'upost' ? 'selected' : ''}>우체국은행</option>
+					<option value="OtherBank" ${sessionScope.plannerInfo.bank == 'OtherBank' ? 'selected' : ''}>기타(직접입력)</option>
 			</select>
 			</div>
 			<div class="form-select" id="otherBank" style="display:none;" >
@@ -109,7 +109,7 @@ function validateAccountInput() {
        		</div>
 			<div class="mb-3">
 				<label for="account" class="form-label">입금계좌번호</label> 
-				<input type="text" class="form-control" id="account" name="account" pattern="[0-9]+" maxlength="45" required placeholder="펀딩 성공 시 입금받을 계좌를 (-)하이푼 없이 숫자만 입력해주세요" value="${sessionScope.account}" oninput="validateAccountInput()">
+				<input type="text" class="form-control" id="account" name="account" pattern="[0-9]+" maxlength="45" required placeholder="펀딩 성공 시 입금받을 계좌를 (-)하이푼 없이 숫자만 입력해주세요" value="${sessionScope.plannerInfo.account}" oninput="validateAccountInput()">
 			</div>
 		
 			<div align="center">

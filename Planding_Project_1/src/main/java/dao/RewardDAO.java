@@ -47,24 +47,50 @@ public class RewardDAO {
 	public void setConnection(Connection con){
 		this.con = con;
 	}
-
-	/** 리워드ID와 리워드이름으로 특정 리워드정보를 얻어냄 */
-	public RewardBean selectReward(int reward_id, String r_name) {
-		RewardBean rewardInfo = null;
+	
+	/** 리워드 테이블에 리워드 insert */
+	public int insertReward(RewardBean reward) {
+		int insertRewardCount = 0;
 		
-		String sql = "select * from reward_tbl where reward_id=? and r_name=?";
+		String sql = "insert into reward_tbl(reward_id, r_name, r_content, r_price) values(?,?,?,?)";
 		   	
 		try {
 			
 			pstmt = con.prepareStatement(sql);
-			pstmt.setInt(1, reward_id);
-			pstmt.setString(2, r_name);
+			pstmt.setString(1, reward.getReward_id());
+			pstmt.setString(2, reward.getR_name());
+			pstmt.setString(3, reward.getR_content());
+			pstmt.setInt(4, reward.getR_price());
+			
+			insertRewardCount = pstmt.executeUpdate();
+			
+		} catch(Exception e) {
+			System.out.println("[RewardDAO] insertReward() 에러 : "+e);//예외객체종류 + 예외메시지
+		} finally {
+			close(pstmt); //JdbcUtil.생략가능
+			//close(rs); //JdbcUtil.생략가능
+			//connection 객체에 대한 해제는 DogListService에서 이루어짐
+		}
+		
+		return insertRewardCount;
+	}
+
+	/** 리워드ID로 특정 리워드정보를 얻어냄 */
+	public RewardBean selectReward(String reward_id) {
+		RewardBean rewardInfo = null;
+		
+		String sql = "select * from reward_tbl where reward_id=?";
+		   	
+		try {
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, reward_id);
 			
 			rs = pstmt.executeQuery();
 			
 			if(rs.next()) {
 				rewardInfo = new RewardBean(
-											rs.getInt("reward_id"),
+											rs.getString("reward_id"),
 											rs.getString("r_name"),
 											rs.getString("r_content"),
 											rs.getInt("r_price")
@@ -84,7 +110,7 @@ public class RewardDAO {
 	}
 
 	/** 프로젝트ID와 리워드ID로 프로젝트-리워드 매핑 */
-	public int insertProjectReward(int project_id, int reward_id) {
+	public int insertProjectReward(int project_id, String reward_id) {
 		int insertProjectRewardCount = 0;
 		
 		String sql = "insert into project_reward_tbl values(?,?)";
@@ -93,7 +119,7 @@ public class RewardDAO {
 			
 			pstmt = con.prepareStatement(sql);
 			pstmt.setInt(1, project_id);
-			pstmt.setInt(2, reward_id);
+			pstmt.setString(2, reward_id);
 			
 			insertProjectRewardCount = pstmt.executeUpdate();
 			

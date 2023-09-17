@@ -10,7 +10,6 @@ import vo.PlannerBean;
 import vo.ProjectBean;
 import vo.RewardBean;
 
-
 public class ProjectPageViewService {
 	
 	/** 프로젝트ID로 프로젝트 정보를 얻어옴 */
@@ -59,8 +58,8 @@ public class ProjectPageViewService {
 		return planner;
 	}
 	
-	/** 리워드 ID, 리워드 이름으로 리워드 정보를 얻어옴 */
-	public RewardBean getRewardInfo(int reward_id, String r_name) {
+	/** 리워드 ID로 리워드 정보를 얻어옴 */
+	public RewardBean getRewardInfo(String reward_id) {
 		//1. 커넥션 풀에서 Connection객체를 얻어와
 		Connection con = getConnection(); //JdbcUtil. 생략(이유?import static 하여)
 		
@@ -71,7 +70,7 @@ public class ProjectPageViewService {
 		rewardDAO.setConnection(con);
 				
 		/*-------DAO의 해당 메서드를 호출하여 처리----------------------------------------------------*/
-		RewardBean reward = rewardDAO.selectReward(reward_id, r_name);
+		RewardBean reward = rewardDAO.selectReward(reward_id);
 		
 		/*-------(insert, update, delete) 성공하면 commit(), 실패하면 rollback() 호출
 		 * 		 단, select는 이런 작업을 제외 ------------------*/

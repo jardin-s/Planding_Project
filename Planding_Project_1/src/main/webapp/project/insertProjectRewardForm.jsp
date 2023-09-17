@@ -43,6 +43,7 @@
 
 <script>
 
+//금액 천단위 구분쉼표
 function updateFormattedAmount(input) {
     // 입력된 금액을 가져옵니다.
     var amount = input.value.replace(/\D/g, ''); // 숫자 이외의 문자 제거
@@ -53,17 +54,8 @@ function updateFormattedAmount(input) {
     // 포맷된 금액을 입력란에 설정합니다.
     input.value = formattedAmount;
 }
-function addImageField() {
-    var imageFields = document.querySelectorAll('[id^=imageField]');
-    for (var i = 0; i < imageFields.length; i++) {
-        if (imageFields[i].style.display === 'none') {
-            imageFields[i].style.display = 'block';
-            return; // 이미 숨겨진 필드를 보이게 한 후 종료
-        }
-    }
-}
 
-//이미지 필드 추가 함수
+//리워드 추가 함수
 function addReward() {
     var rewardFields = document.querySelectorAll('[id^=rewardField]');
     for (var i = 0; i < rewardFields.length; i++) {
@@ -81,7 +73,7 @@ function addReward() {
     }
 }
 
-
+//리워드 삭제 함수
 function deleteReward(button) {
     var rewardFieldContainer = button.parentNode;
     rewardFieldContainer.style.display = 'none';
@@ -99,39 +91,38 @@ function deleteReward(button) {
     }
 }
 
-
-
 </script>
 </head>
 <body>
 
-
-	<div class="m-5">
+	<!-- Main Section -->
 	
-		<form action="insertProjectReward.pj" method="post">
-				
-					<div class="mb-3">
-			            <label for="reward_id" class="form-label"></label>
-			            <input type="hidden" class="form-control" id="reward_id" name="reward_id" required value="${r_name }">
-			        </div>
-					<div class="mb-3">
-			            <label for="r_name" class="form-label">리워드 이름</label>
-			            <input type="text" class="form-control" id="r_name" name="r_name" required value="${r_name }">
-			        </div>
-			        <div class="mb-3">
-			            <label for="r_content" class="form-label">리워드 설명</label>
-			            <textarea class="form-control" name="r_content" rows="3" maxlength="100" required>${r_content }</textarea>
-			        </div>
-			        <div class="mb-3">
-			            <label for="r_price" class="form-label">리워드 금액</label>
-			            <div class="input-group">
-			                <input type="text" class="form-control" name="r_price" required oninput="updateFormattedAmount(this);" value="${r_price }">
-			                <span class="input-group-text">원</span>
-			            </div>
-			        </div>
-				
-		
-		 	<c:forEach var="i" begin="1" end="9" step="1" varStatus="loop">
+	<div class="m-5">
+		<form action="insertFundProjectTemp.pj" method="post">
+			
+			<!-- 리워드 입력란 -->
+			<div class="mb-3">
+	            <label for="reward_id" class="form-label"></label>
+	            <input type="hidden" class="form-control" id="reward_id" name="reward_id" required value="${r_name }">
+	        </div>
+			<div class="mb-3">
+	            <label for="r_name" class="form-label">리워드 이름</label>
+	            <input type="text" class="form-control" id="r_name" name="r_name" required value="${r_name }">
+	        </div>
+	        <div class="mb-3">
+	            <label for="r_content" class="form-label">리워드 설명</label>
+	            <textarea class="form-control" name="r_content" rows="3" maxlength="100" required>${r_content }</textarea>
+	        </div>
+	        <div class="mb-3">
+	            <label for="r_price" class="form-label">리워드 금액</label>
+	            <div class="input-group">
+	                <input type="text" class="form-control" name="r_price" required oninput="updateFormattedAmount(this);" value="${r_price }">
+	                <span class="input-group-text">원</span>
+	            </div>
+	        </div>
+			
+			<!-- 리워드 추가 시 (10개까지만 가능) -->
+			<c:forEach var="i" begin="1" end="9" step="1" varStatus="loop">
 		        <div class="mb-3" id="rewardField${loop.index + 1}" 
 		             <c:if test="${empty rewardNames[i]}">style="display: none;"</c:if> 
 		             <c:if test="${ not empty rewardNames[i]}">style="display: block;"</c:if>
@@ -154,21 +145,17 @@ function deleteReward(button) {
 		            <button type="button" class="btn btn-danger" onclick="deleteReward(this)">삭제</button>
 		        </div>
 		    </c:forEach>
-		
-		    
-		        <br>
-		        <button class="btn btn-primary" id="addRewardButton" onclick="addReward()">리워드 추가</button>
+			<br>
+			<button class="btn btn-primary" type="button" id="addRewardButton" onclick="addReward()">리워드 추가</button>
 		   
-			
-			
-			
-			
+			<!-- 최종 submit 버튼 -->
 			<div align="center">
-			<input class="btn btn-primary" type="button" value="이전 단계로" onclick="window.location.href = 'insertProjectContentsBack.pj'">
-			<input class="btn btn-primary" id="submit" type="submit" value="다음 단계로"><!-- 유효성 검사는 모든 항목에 required를 입력하여 대체함 -->
+				<input class="btn btn-primary" type="button" value="이전 단계로" onclick="history.back();">
+				<input class="btn btn-primary" id="submit" type="submit" value="저장하고 미리보기"><!-- 유효성 검사는 모든 항목에 required를 입력하여 대체함 -->
 			</div>
+			
 		</form>
-
+		
 	</div>
 	
 

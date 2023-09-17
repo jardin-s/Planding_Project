@@ -16,7 +16,7 @@ public class UserUploadProjectListService {
 	
 	//메서드
 	//1. 등록 프로젝트 id 리스트 얻어오기
-	public ArrayList<Integer> getProjectIdList(String p_id) {
+	public ArrayList<Integer> getProjectIdList(String member_id) {
 		//1. 커넥션 풀에서 Connection객체를 얻어와
 		Connection con = getConnection(); //JdbcUtil. 생략(이유?import static 하여)
 		
@@ -27,7 +27,7 @@ public class UserUploadProjectListService {
 		userDAO.setConnection(con);
 		
 		/*-------DAO의 해당 메서드를 호출하여 처리----------------------------------------------------*/
-		ArrayList<Integer> uploadProjectIdList = userDAO.selectUploadProjectIdList(p_id); 
+		ArrayList<Integer> uploadProjectIdList = userDAO.selectUploadProjectIdList(member_id); 
 				
 		/*-------(insert, update, delete) 성공하면 commit(), 실패하면 rollback() 호출
 		 * 		 단, select는 이런 작업을 제외 ------------------*/
@@ -63,6 +63,12 @@ public class UserUploadProjectListService {
 			
 			projectList.add(projectInfo);
 			
+		}
+		
+		//만약 프로젝트 목록에 저장된 프로젝트가 없다면 null로 변경
+		if(projectList.size() == 0) {
+			System.out.println("[UserUploadProjectListService] getProjectList() : 프로젝트리스트가 없습니다.");
+			projectList = null;
 		}
 		
 		/*-------(insert, update, delete) 성공하면 commit(), 실패하면 rollback() 호출
