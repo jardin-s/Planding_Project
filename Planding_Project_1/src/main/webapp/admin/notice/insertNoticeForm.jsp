@@ -32,6 +32,9 @@
 
     <!-- Template Stylesheet -->
     <link href="../../resources/css/style.css" rel="stylesheet">
+    
+    <!-- Image Cropper.js -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.0/cropper.min.css" integrity="sha512-gNSHyKCA9X3fCDdTd5UxyNaSznSyGtR9pwf5YwSp7haDRz6Gqor0nY20POCYLseXq5n/FGAEogNp7G0d56d3jg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 
 <script type="text/javascript">
@@ -114,7 +117,24 @@ function noticeFormCheck(){
 			</div>
         </div>		
     </div>   
-    <!-- Table End -->   
+    <!-- Table End -->
+    
+    <!-- Image Cropper -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.0/cropper.min.js" integrity="sha512-7C1FbUL8fX5IKwBEHEjwyyGssfSOKms2NQbMj3GYdeQTr4Xmbrk/q/4eqcDuROAbJwT71ATVpVIUiaeMnNqq/Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    
+    <script>
+    $(function(){
+    	var cropper;
+    	
+    	//사진 업로드 버튼
+    	$('#n_image').on('change', function(){
+    		$('.')
+    	})
+    })
+    </script>
+    
+    
 		
 </body>
 </html>

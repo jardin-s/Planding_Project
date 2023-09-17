@@ -3,12 +3,8 @@ package svc.user.account;
 import static db.JdbcUtil.*;
 
 import java.sql.Connection;
-import java.util.ArrayList;
 
-import dao.ProjectDAO;
 import dao.UserDAO;
-import vo.AddressBean;
-import vo.DonationBean;
 import vo.MemberBean;
 
 public class UserDeleteService {

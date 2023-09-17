@@ -16,9 +16,7 @@ public class UserQnaViewAction implements Action {
 	@Override
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ActionForward forward = null;
-		
-		
-		
+			
 		int qna_id = Integer.parseInt(request.getParameter("qna_id"));
 		int page = Integer.parseInt(request.getParameter("page"));
 		String q_private = request.getParameter("q_private");

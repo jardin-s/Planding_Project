@@ -7,14 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
-
-import util.SHA256;
-import vo.AddressBean;
 import vo.DonationBean;
-import vo.MemberBean;
-import vo.MemberPwChangeBean;
-import vo.PlannerBean;
-import vo.ProjectBean;
 import vo.RewardBean;
 
 public class RewardDAO {
@@ -56,25 +49,54 @@ public class RewardDAO {
 	public void setConnection(Connection con){
 		this.con = con;
 	}
-
-	public RewardBean selectReward(int reward_id, String r_name) {
-		RewardBean rewardInfo = null;
+	
+	/** 리워드 테이블에 리워드 insert */
+	public int insertReward(RewardBean reward) {
+		int insertRewardCount = 0;
 		
-		String sql = "select * from reward_tbl where reward_id=? and r_name=?";
+		String sql = "insert into reward_tbl(reward_id, r_name, r_content, r_price) values(?,?,?,?)";
 		   	
 		try {
 			
 			pstmt = con.prepareStatement(sql);
-			pstmt.setInt(1, reward_id);
-			pstmt.setString(2, r_name);
+			pstmt.setString(1, reward.getReward_id());
+			pstmt.setString(2, reward.getR_name());
+			pstmt.setString(3, reward.getR_content());
+			pstmt.setInt(4, reward.getR_price());
+			
+			insertRewardCount = pstmt.executeUpdate();
+			
+		} catch(Exception e) {
+			System.out.println("[RewardDAO] insertReward() 에러 : "+e);//예외객체종류 + 예외메시지
+		} finally {
+			close(pstmt); //JdbcUtil.생략가능
+			//close(rs); //JdbcUtil.생략가능
+			//connection 객체에 대한 해제는 DogListService에서 이루어짐
+		}
+		
+		return insertRewardCount;
+	}
+
+	/** 리워드ID로 특정 리워드정보를 얻어냄 */
+	public RewardBean selectReward(String reward_id) {
+		RewardBean rewardInfo = null;
+		
+		String sql = "select * from reward_tbl where reward_id=?";
+		   	
+		try {
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, reward_id);
+			
 			rs = pstmt.executeQuery();
+			
 			if(rs.next()) {
 				rewardInfo = new RewardBean(
-						rs.getInt("reward_id"),
-						rs.getString("r_name"),
-						rs.getString("r_content"),
-						rs.getInt("r_price")
-						  );
+											rs.getString("reward_id"),
+											rs.getString("r_name"),
+											rs.getString("r_content"),
+											rs.getInt("r_price")
+											);
 			}
 			
 			
@@ -89,26 +111,71 @@ public class RewardDAO {
 		return rewardInfo;
 	}
 
-	public int project_reward_connecting(int project_id, int reward_id) {
-		int insertProjectCount = 0;
-		String sql ="insert into project_reward_tbl values(?,?)";
+	/** 프로젝트ID와 리워드ID로 프로젝트-리워드 매핑 */
+	public int insertProjectReward(int project_id, String reward_id) {
+		int insertProjectRewardCount = 0;
+		
+		String sql = "insert into project_reward_tbl values(?,?)";
 		
 		try {
 			
 			pstmt = con.prepareStatement(sql);
 			pstmt.setInt(1, project_id);
-			pstmt.setInt(2, reward_id);
-			insertProjectCount = pstmt.executeUpdate();
+			pstmt.setString(2, reward_id);
+			
+			insertProjectRewardCount = pstmt.executeUpdate();
 			
 		} catch(Exception e) {
-			System.out.println("[RewardDAO] project_reward_connecting() 에러 : "+e);//예외객체종류 + 예외메시지
+			System.out.println("[RewardDAO] insertProjectReward() 에러 : "+e);//예외객체종류 + 예외메시지
 		} finally {
 			close(pstmt); //JdbcUtil.생략가능
 			//close(rs); //JdbcUtil.생략가능
 			//connection 객체에 대한 해제는 DogListService에서 이루어짐
 		}
 		
-		return insertProjectCount;
+		return insertProjectRewardCount;
+	}
+	//리워드 아이디로 도네이션 정보 얻어오기
+	public ArrayList<DonationBean> selectDonation(int project_id) {
+		DonationBean donationInfo = null;
+		ArrayList<DonationBean> donationList=new ArrayList<>();
+		String sql = "select donate_id,project_id,member_id,reward_id,r_price,add_donation,address_id,DATE_FORMAT(donatedate, %Y-%m-%d) as donatedate "
+				+ " from donation_tbl where project_id=?";
+		   	
+		try {
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, project_id);
+			
+			rs = pstmt.executeQuery();
+			//토탈프라이스를 바로 계산해서 넘길 수 있도록 객체 생성함
+			if(rs.next()) {
+				do{
+					donationInfo = new DonationBean(
+											rs.getInt("donate_id"),
+											rs.getInt("project_id"),
+											rs.getString("member_id"),
+											rs.getString("reward_id"),
+											rs.getInt("r_price"),
+											rs.getInt("add_donation"),
+											rs.getInt("r_price")+rs.getInt("add_donation"),
+											rs.getString("address_id"),
+											rs.getString("donatedate")
+											);
+					donationList.add(donationInfo);
+					}while(rs.next());
+			}
+			
+			
+		} catch(Exception e) {
+			System.out.println("[RewardDAO] selectDonation() 에러 : "+e);//예외객체종류 + 예외메시지
+		} finally {
+			close(pstmt); //JdbcUtil.생략가능
+			close(rs); //JdbcUtil.생략가능
+			//connection 객체에 대한 해제는 DogListService에서 이루어짐
+		}
+		
+		return donationList;
 	}
 
 	

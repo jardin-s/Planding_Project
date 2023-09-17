@@ -34,6 +34,13 @@
     
     <!-- Custom Stylesheet (style modify) -->
     <link href="../resources/css/customStyle.css" rel="stylesheet">
+    
+    
+    <style>
+    .service-item:hover .service-text .btn{
+	    width: 98px !important;
+	}
+    </style>
 </head>
 <body>
 

@@ -6,7 +6,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import action.Action;
-import svc.qna.QnaListService;
 import svc.qna.SearchQnaListService;
 import vo.ActionForward;
 import vo.PageInfo;

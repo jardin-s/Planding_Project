@@ -1,5 +1,5 @@
 <Context>	
-	<Resource name="jdbc/PlandingDB" 
+		<Resource name="jdbc/PlandingDB" 
 	   auth="Container"
 	   type="javax.sql.DataSource" 
 	   

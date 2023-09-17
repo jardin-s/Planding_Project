@@ -1,20 +1,20 @@
 package controller;
 
 import java.io.IOException;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.*;
 
 import action.Action;
 import action.project.*;
 import vo.ActionForward;
 
+/**
+ * Servlet implementation class DogFrontController
+ */
 
-
-//확장자가 usr이면 무조건 UserFrontController로 이동하여 doProcess(request, response); 실행
+//확장자가 pj이면 무조건 ProjectFrontController로 이동하여 doProcess(request, response); 실행
 @WebServlet("*.pj")
 public class ProjectFrontController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -70,112 +70,121 @@ public class ProjectFrontController extends HttpServlet {
 		
 		System.out.println("[Project]command : "+command);//어떤 요청인지 확인하기 위해 콘솔에 출력
 		
-		/*-- '프로젝트 등록 페이지 이동' 요청 ------------------------------------------*/
-		if(command.equals("/insertNewProject.pj")) {//'userMain.jsp'에서 프로젝트 등록하기 요청이면
-			action=new InsertNewProjectAction();
+		/*-- '프로젝트 등록 페이지 이동' 요청 (기부/펀딩 선택) ------------------------------------------*/
+		if(command.equals("/insertNewProject.pj")) {
+			action = new InsertNewProjectFormAction();
 			try {
-				forward=action.execute(request, response);
+				forward = action.execute(request, response);
 			}catch(Exception e) {
-				System.out.println("insertNewProject error : "+e);
-			}
-		}
-		/*-- '프로젝트 등록 폼' 요청 -> 처리 --------------------------------------*/
-		else if(command.equals("/donateProjectInsert.pj")) {//'프로젝트 등록 폼 보기' 요청이면
-			HttpSession session = request.getSession();
-			session.setAttribute("kind", "donate");
-			
-			request.setAttribute("showPage", "project/insertProjectPlanner.jsp");//어느 폼 보기인지 showPage이름 속성으로 저장
-			forward = new ActionForward("userTemplate.jsp",false);//반드시 디스패치 (request를 공유)
-		}
-		else if(command.equals("/fundProjectInsert.pj")) {//'프로젝트 등록 폼 보기' 요청이면
-			HttpSession session = request.getSession();
-			session.setAttribute("kind", "fund");
-			request.setAttribute("showPage", "project/insertProjectPlanner.jsp?kind=fund");//어느 폼 보기인지 showPage이름 속성으로 저장
-			forward = new ActionForward("userTemplate.jsp",false);//반드시 디스패치 (request를 공유)
-		}
-		else if(command.equals("/insertProjectPlanner.pj")) {//'프로젝트 등록 폼 보기' 요청이면
-			action=new InsertProjectPlannerAction();
-			try {
-				forward=action.execute(request, response);
-			}catch(Exception e) {
-				System.out.println("insertProjectPlanner error : "+e);
-			}
-		}
-		else if(command.equals("/insertProjectContents.pj")) {//'프로젝트 등록 폼 보기' 요청이면
-			action=new InsertProjectContentsAction();
-			try {
-				forward=action.execute(request, response);
-			}catch(Exception e) {
-				System.out.println("insertProjectContents error : "+e);
-			}
-		}
-		else if(command.equals("/insertProjectContentsBack.pj")) {
-			request.setAttribute("showPage", "project/insertProjectContents.jsp?kind=fund");//어느 폼 보기인지 showPage이름 속성으로 저장
-			forward = new ActionForward("userTemplate.jsp",false);//반드시 디스패치 (request를 공유)
-		}
-		else if(command.equals("/insertFundProjectReward.pj")) {//'프로젝트 등록 폼 보기' 요청이면
-			request.setAttribute("showPage", "project/insertProjectReward.jsp");//어느 폼 보기인지 showPage이름 속성으로 저장
-			forward = new ActionForward("userTemplate.jsp",false);//반드시 디스패치 (request를 공유)
-		}
-		else if(command.equals("/insertProjectTemp.pj")) {
-			action=new InsertProjectTempAction();
-			try {
-				forward=action.execute(request, response);
-			}catch(Exception e) {
-				System.out.println("insertProjectTemp error : "+e);
-			}
-		}
-		
-		else if(command.equals("/insertProject.pj")) {
-			action=new InsertProjectAction();
-			try {
-				forward=action.execute(request, response);
-			}catch(Exception e) {
-				System.out.println("insertProject error : "+e);
-			}
-		}
-		
-		else if(command.equals("/donatePageView.pj")) {
-			action=new donatePageViewAction();
-			try {
-				forward=action.execute(request, response);
-			}catch(Exception e) {
-				System.out.println("donatePageView error : "+e);
 				e.printStackTrace();
 			}
 		}
 		
-		else if(command.equals("/fundPageView.pj")) {
-			action=new fundPageViewAction();
-			try {
-				forward=action.execute(request, response);
-			}catch(Exception e) {
-				System.out.println("fundPageView error : "+e);
-			}
-		}
-		else if(command.equals("/insertProjectView.pj")) {
-			request.setAttribute("showPage", "project/insertProjectView.jsp");//어느 폼 보기인지 showPage이름 속성으로 저장
+		
+		/*-- '프로젝트 등록 폼' 요청 -> 처리 --------------------------------------*/
+		
+		/*-- '기부 프로젝트 등록 폼' 요청 -> 처리 --------------------------------------*/
+		else if(command.equals("/donateProjectInsert.pj")) {//'프로젝트 등록 폼 보기' 요청이면
+			//HttpSession session = request.getSession();
+			//session.setAttribute("kind", "donate");//kind를 donate로 설정
+			
+			request.setAttribute("kind", "donate");
+			request.setAttribute("showPage", "project/insertProjectPlannerForm.jsp");//어느 폼 보기인지 showPage이름 속성으로 저장
 			forward = new ActionForward("userTemplate.jsp",false);//반드시 디스패치 (request를 공유)
 		}
-		else if(command.equals("/submitProject.pj")) {
-			action=new submitProjectAction();
+		
+		/*-- '펀딩 프로젝트 등록 폼' 요청 -> 처리 --------------------------------------*/
+		else if(command.equals("/fundProjectInsert.pj")) {//'프로젝트 등록 폼 보기' 요청이면
+			//HttpSession session = request.getSession();
+			//session.setAttribute("kind", "fund");//kind를 fund로 설정
+			
+			request.setAttribute("kind", "fund");
+			request.setAttribute("showPage", "project/insertProjectPlannerForm.jsp");//어느 폼 보기인지 showPage이름 속성으로 저장
+			forward = new ActionForward("userTemplate.jsp",false);//반드시 디스패치 (request를 공유)
+		}
+		
+		/*-- '프로젝트 기획자 등록하기' 요청 -> 처리 --------------------------------------*/
+		else if(command.equals("/insertProjectPlanner.pj")) {//'프로젝트 등록 폼 보기' 요청이면
+			action = new InsertProjectPlannerAction();
 			try {
-				forward=action.execute(request, response);
+				forward = action.execute(request, response);
 			}catch(Exception e) {
-				System.out.println("submitProject error : "+e);
+				e.printStackTrace();
 			}
 		}
 		
 		
+		/*-- '리워드 입력 폼 보기' 요청 -> 처리 --------------------------------------*/
+		else if(command.equals("/insertFundProjectRewardForm.pj")) {//'프로젝트 등록 폼 보기' 요청이면
+			action = new InsertFundProjectRewardFormAction();
+			try {
+				forward = action.execute(request, response);
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+		/*-- '프로젝트 등록 폼에서 이전단계로' 요청 -> 처리 --------------------------------------*/
+		else if(command.equals("/insertProjectContentsBack.pj")) {
+			request.setAttribute("showPage", "project/insertProjectContentForm.jsp?kind=fund");//어느 폼 보기인지 showPage이름 속성으로 저장
+			forward = new ActionForward("userTemplate.jsp",false);//반드시 디스패치 (request를 공유)
+		}
+		
+		/*-- '펀딩 프로젝트의 리워드 등록하기' 요청 -> 처리 --------------------------------------*/
+		else if(command.equals("/insertFundProjectReward.pj")) {//'프로젝트 등록 폼 보기' 요청이면
+			request.setAttribute("showPage", "project/insertProjectReward.jsp");//어느 폼 보기인지 showPage이름 속성으로 저장
+			forward = new ActionForward("userTemplate.jsp",false);//반드시 디스패치 (request를 공유)
+		}
+		
+		/*-- '기부 프로젝트 미리보기 요청' 요청 -> 처리 --------------------------------------*/
+		else if(command.equals("/insertDonateProjectTemp.pj")) {
+			action = new InsertDonateProjectTempAction();
+			try {
+				forward = action.execute(request, response);
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+		/*-- '펀딩 프로젝트 미리보기 요청' 요청 -> 처리 --------------------------------------*/
+		else if(command.equals("/insertFundProjectTemp.pj")) {
+			action = new InsertFundProjectTempAction();
+			try {
+				forward = action.execute(request, response);
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
 		
 		
+				
+		/*-- '기부 프로젝트를 실제로 등록' 요청 -> 처리 --------------------------------------*/
+		else if(command.equals("/submitDonateProjectAction.pj")) {
+			action = new SubmitDonateProjectAction();
+			try {
+				forward = action.execute(request, response);
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
 		
-		
-		
-		
-		
-		
-		
+		/*-- '펀딩 프로젝트를 실제로 등록' 요청 -> 처리 --------------------------------------*/
+		else if(command.equals("/submitFundProjectAction.pj")) {
+			action = new SubmitFundProjectAction();
+			try {
+				forward = action.execute(request, response);
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+		else if(command.equals("/manageProject.pj")) {
+			action = new manageProjectAction();
+			try {
+				forward = action.execute(request, response);
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
 		
 		
 		

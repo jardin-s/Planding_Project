@@ -99,23 +99,9 @@ function userLogout(){
                         <a href="userQnaList.usr" class="dropdown-item fs-6">문의사항</a>
                     </div>
                 </div>
-                <a href=
-	                <c:if test="${sessionScope.u_id eq null }">
-	                "userLoginForm.usr" 
-	                </c:if>
-	                <c:if test="${sessionScope.u_id ne null }">
-	                "insertNewProject.pj" 
-	                </c:if>
-                 class="nav-item nav-link fs-6 fw-bold d-lg-none d-xl-none d-xxl-none">프로젝트 등록하기</a>
+                <a href="insertNewProject.pj" class="nav-item nav-link fs-6 fw-bold d-lg-none d-xl-none d-xxl-none">프로젝트 등록하기</a>
             </div>
-            <a href=
-	            	<c:if test="${sessionScope.u_id eq null }">
-	                "userLoginForm.usr" 
-	                </c:if>
-	                <c:if test="${sessionScope.u_id ne null }">
-	                "insertNewProject.pj" 
-	                </c:if>  
-                class="btn btn-primary py-4 px-lg-4 rounded-0 d-none d-lg-block">프로젝트 등록하기<i class="fa fa-arrow-right ms-3"></i></a>
+            <a href="insertNewProject.pj" class="btn btn-primary py-4 px-lg-4 rounded-0 d-none d-lg-block">프로젝트 등록하기<i class="fa fa-arrow-right ms-3"></i></a>
             
         </div>
     </nav>

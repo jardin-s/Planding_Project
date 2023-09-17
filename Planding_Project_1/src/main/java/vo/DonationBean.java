@@ -5,7 +5,7 @@ public class DonationBean {
 	private int donation_id;
 	private int project_id;
 	private String member_id;
-	private int reward_id;
+	private String reward_id;
 	private int r_price;//해당 리워드 금액
 	private int add_donation;//추가 후원금액
 	
@@ -17,7 +17,7 @@ public class DonationBean {
 	public DonationBean () {}
 
 	//후원할 시
-	public DonationBean(int project_id, String member_id, int reward_id, int r_price, int add_donation) {
+	public DonationBean(int project_id, String member_id, String reward_id, int r_price, int add_donation) {
 		super();
 		//this.donation_id = donation_id; //sql 자동1증가
 		this.project_id = project_id;
@@ -29,7 +29,7 @@ public class DonationBean {
 	}
 	
 	//후원할 시
-	public DonationBean(int project_id, String member_id, int reward_id, int r_price, int add_donation, String address_id) {
+	public DonationBean(int project_id, String member_id, String reward_id, int r_price, int add_donation, String address_id) {
 		super();
 		//this.donation_id = donation_id; //sql 자동1증가
 		this.project_id = project_id;
@@ -42,7 +42,7 @@ public class DonationBean {
 	}
 	
 	//후원기록 조회시
-	public DonationBean(int donation_id, int project_id, String member_id, int reward_id, int r_price, int add_donation,
+	public DonationBean(int donation_id, int project_id, String member_id, String reward_id, int r_price, int add_donation,
 			String address_id, String donatedate) {
 		super();
 		this.donation_id = donation_id;
@@ -56,7 +56,7 @@ public class DonationBean {
 	}
 	
 	//후원기록 조회시
-	public DonationBean(int donation_id, int project_id, String member_id, int reward_id, int r_price, int add_donation,
+	public DonationBean(int donation_id, int project_id, String member_id, String reward_id, int r_price, int add_donation,
 			int totalDonation, String address_id, String donatedate) {
 		super();
 		this.donation_id = donation_id;
@@ -94,11 +94,11 @@ public class DonationBean {
 		this.member_id = member_id;
 	}
 
-	public int getReward_id() {
+	public String getReward_id() {
 		return reward_id;
 	}
 
-	public void setReward_id(int reward_id) {
+	public void setReward_id(String reward_id) {
 		this.reward_id = reward_id;
 	}
 	

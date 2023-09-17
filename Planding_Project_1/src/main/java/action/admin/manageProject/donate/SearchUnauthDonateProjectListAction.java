@@ -6,7 +6,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import action.Action;
-import svc.admin.manageProject.donate.ManageDonateProjectListService;
 import svc.admin.manageProject.donate.UnauthDonateProjectListService;
 import vo.ActionForward;
 import vo.PageInfo;

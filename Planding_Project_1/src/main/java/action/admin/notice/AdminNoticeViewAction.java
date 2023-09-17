@@ -7,10 +7,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import action.Action;
 import svc.notice.NoticeViewService;
-import svc.qna.QnaViewService;
 import vo.ActionForward;
 import vo.NoticeBean;
-import vo.QnaBean;
 
 public class AdminNoticeViewAction implements Action {
 

@@ -9,7 +9,6 @@ import javax.servlet.http.HttpSession;
 
 import action.Action;
 import svc.user.UserUploadProjectListService;
-import svc.user.UserBookmarkListService;
 import vo.ActionForward;
 import vo.ProjectBean;
 
@@ -36,13 +35,11 @@ public class UserUploadProjectListAction implements Action {
 			UserUploadProjectListService uploadProjectListService = new UserUploadProjectListService();
 			//[순서-1] 사용자ID로 기획한 프로젝트 ID를 가져와서
 			ArrayList<Integer> uploadProjectIdList = uploadProjectListService.getProjectIdList(u_id);
-			System.out.println("UserUploadProjectListAction"+uploadProjectIdList.toString());
+			
 			//[순서-2] 프로젝트ID로 프로젝트 정보를 가져옴
 			ArrayList<ProjectBean> uploadProjectList = null;
 			if(uploadProjectIdList != null) {
-				uploadProjectList=uploadProjectListService.getProjectList(uploadProjectIdList);
-				System.out.println("UserUploadProjectListAction"+uploadProjectList.toString());
-
+				uploadProjectList = uploadProjectListService.getProjectList(uploadProjectIdList);
 			}					
 			
 			request.setAttribute("uploadProjectList", uploadProjectList);

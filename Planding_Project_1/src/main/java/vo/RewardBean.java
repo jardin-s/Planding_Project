@@ -2,53 +2,61 @@ package vo;
 
 public class RewardBean {
 
-	private int reward_id;
+	private String reward_id;
 	private String r_name;
 	private String r_content;
 	private int r_price;
 	
 	public RewardBean () {}
 
-	public RewardBean(int reward_id, String name, String desc, int price) {
+	//모든 필드를 사용한 생성자 (DB 등록용)
+	public RewardBean(String reward_id, String r_name, String r_content, int r_price) {
 		super();
 		this.reward_id = reward_id;
-		this.r_name = name;
-		this.r_content = desc;
-		this.r_price = price;
+		this.r_name = r_name;
+		this.r_content = r_content;
+		this.r_price = r_price;
+	}
+	
+	//폼에서 입력받은 값을 사용한 생성자 (session 저장용)
+	public RewardBean(String r_name, String r_content, int r_price) {
+		super();
+		this.r_name = r_name;
+		this.r_content = r_content;
+		this.r_price = r_price;
 	}
 
-	public int getReward_id() {
+	public String getReward_id() {
 		return reward_id;
 	}
 
-	public void setReward_id(int reward_id) {
+	public void setReward_id(String reward_id) {
 		this.reward_id = reward_id;
 	}
 
-	public String getName() {
+	public String getR_name() {
 		return r_name;
 	}
 
-	public void setName(String name) {
-		this.r_name = name;
+	public void setR_name(String r_name) {
+		this.r_name = r_name;
 	}
 
-	public String getDesc() {
+	public String getR_content() {
 		return r_content;
 	}
 
-	public void setDesc(String desc) {
-		this.r_content = desc;
+	public void setR_content(String r_content) {
+		this.r_content = r_content;
 	}
 
-	public int getPrice() {
+	public int getR_price() {
 		return r_price;
 	}
 
-	public void setPrice(int price) {
-		this.r_price = price;
+	public void setR_price(int r_price) {
+		this.r_price = r_price;
 	}
-	
 	
 	
 }

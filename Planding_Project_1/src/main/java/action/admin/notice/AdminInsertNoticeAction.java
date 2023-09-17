@@ -24,7 +24,7 @@ public class AdminInsertNoticeAction implements Action {
 		
 		//이미지 파일을 업로드할 위치
 		ServletContext context = request.getServletContext();
-		String uploadPath = context.getRealPath("/images/notice");
+		String uploadPath = context.getRealPath("images/notice");
 		System.out.println("서버상의 실제 경로(절대경로) = "+uploadPath);
 		
 		//업로드할 절대경로로 파일객체를 얻음

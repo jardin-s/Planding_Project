@@ -1,6 +1,5 @@
 package vo;
 
-import java.util.Date;
 
 public class ProjectBean {
 	
@@ -193,6 +192,28 @@ public class ProjectBean {
 	
 	public void setRegdate(String regdate) {
 		this.regdate = regdate;
+	}
+
+	public double getProgress() {
+		return progress;
+	}
+
+	public void setProgress(double progress) {
+		this.progress = progress;
+	}
+	
+	//★★모금액 달성률 계산을 위한 get, set 메서드 생성
+	//현재모금액과 목표모금액으로 계산되어 소수첫째자리까지 표시된 달성률을 get
+	public double getProgressFormat() {
+		double d = (double) this.curr_amount / this.goal_amount;
+		d = Math.floor((d*10)/10.0);//둘째자리에서 반올림
+		
+		return d;
+	}
+	//현재모금액과 목표모금액을 매개값으로 달성률을 set
+	public void setProgressFormatWithCurrGoal(int curr_amount, int goal_amount) {
+		double d = (double) curr_amount / goal_amount;
+		this.progress = Math.floor((d*10)/10.0);//둘째자리에서 반올림
 	}
 
 }

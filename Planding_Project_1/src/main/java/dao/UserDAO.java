@@ -593,7 +593,7 @@ public class UserDAO {
 	}
 
 	/** 회원ID로 회원이 기획한 프로젝트ID리스트를 알아냄 */
-	public ArrayList<Integer> selectUploadProjectIdList(String p_id) {
+	public ArrayList<Integer> selectUploadProjectIdList(String member_id) {
 		
 		ArrayList<Integer> uploadProjectIdList = null;
 		
@@ -604,7 +604,7 @@ public class UserDAO {
 		try {
 			
 			pstmt = con.prepareStatement(sql);
-			pstmt.setString(1, p_id);
+			pstmt.setString(1, member_id);
 			
 			rs = pstmt.executeQuery();
 			
@@ -613,6 +613,8 @@ public class UserDAO {
 				
 				do {
 					uploadProjectIdList.add(rs.getInt("project_id"));
+					System.out.println("[UserDAO] selectUploadProjectIdList() 값 확인 : "+rs.getInt("project_id"));
+					
 				}while(rs.next());
 			}
 			

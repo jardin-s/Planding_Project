@@ -2,7 +2,6 @@ package action.user.qna;
 
 import java.io.File;
 import java.io.PrintWriter;
-import java.util.Enumeration;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -24,7 +23,7 @@ public class UserInsertQnaQAction implements Action {
 		
 		//이미지 파일을 업로드할 위치
 		ServletContext context = request.getServletContext();
-		String uploadPath = context.getRealPath("/images/qna");
+		String uploadPath = context.getRealPath("images/qna");
 		System.out.println("서버상의 실제 경로(절대경로) = "+uploadPath);
 		
 		//업로드할 절대경로로 파일객체를 얻음

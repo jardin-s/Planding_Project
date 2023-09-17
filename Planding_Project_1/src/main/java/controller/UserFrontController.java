@@ -22,10 +22,13 @@ import action.user.account.UserUpdateFormAction;
 import action.user.notice.UserNoticeListAction;
 import action.user.qna.SearchQnaListAction;
 import action.user.qna.UserDeleteQnaAction;
+import action.user.qna.UserDeleteQnaListAction;
 import action.user.qna.UserInsertQnaQAction;
 import action.user.qna.UserInsertQnaQFormAction;
 import action.user.qna.UserModifyQnaQAction;
 import action.user.qna.UserModifyQnaQFormAction;
+import action.user.qna.UserMyQnaListAction;
+import action.user.qna.UserMyQnaViewAction;
 import action.user.qna.UserQnaListAction;
 import action.user.qna.UserQnaViewAction;
 import action.user.UserBookmarkDeleteAction;
@@ -313,7 +316,8 @@ public class UserFrontController extends HttpServlet {
 			}
 		}
 		
-		else if(command.equals("/userBookmarkDelete.usr")) {//'후원한 프로젝트 목록 보기' 요청이면
+		/*------- '선택한 관심 프로젝트 삭제하기' -------------------------------*/
+		else if(command.equals("/userBookmarkDelete.usr")) {//'관심프로젝트 삭제' 요청이면
 			//action:부모인터페이스 = UserHashPwChangeAction:구현한자식객체;
 			action = new UserBookmarkDeleteAction();
 			try {
@@ -324,8 +328,17 @@ public class UserFrontController extends HttpServlet {
 			}
 		}
 		
-		
-		
+		/*------- '나의 문의글 목록 보기' -------------------------------*/
+		else if(command.equals("/userMyQnaList.usr")) {//'관심프로젝트 삭제' 요청이면
+			//action:부모인터페이스 = UserHashPwChangeAction:구현한자식객체;
+			action = new UserMyQnaListAction();
+			try {
+				forward = action.execute(request, response);
+			} catch (Exception e) {
+				// TODO 자동 생성된 catch 블록
+				e.printStackTrace();
+			}
+		}	
 		
 		
 		/***************************************************************************************
@@ -426,6 +439,32 @@ public class UserFrontController extends HttpServlet {
 			
 			action = new UserDeleteQnaAction();
 
+			try {
+				forward = action.execute(request, response);
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+			
+		}
+		
+		/*-- '내가 작성한 문의글 상세보기' 요청 -> 처리 --------------------------------------*/
+		else if(command.equals("/userMyQnaView.usr")) {//여러 문의글 삭제하기 요청
+			
+			action = new UserMyQnaViewAction();
+			
+			try {
+				forward = action.execute(request, response);
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+			
+		}
+		
+		/*-- '내가 작성한 문의글 여러 개 삭제하기' 요청 -> 처리 --------------------------------------*/
+		else if(command.equals("/userDeleteQnaList.usr")) {//여러 문의글 삭제하기 요청
+			
+			action = new UserDeleteQnaListAction();
+			
 			try {
 				forward = action.execute(request, response);
 			} catch(Exception e) {

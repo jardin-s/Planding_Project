@@ -9,7 +9,6 @@ import javax.servlet.http.HttpSession;
 import action.Action;
 import svc.qna.DeleteQnaService;
 import vo.ActionForward;
-import vo.QnaBean;
 
 public class UserDeleteQnaAction implements Action {
 
@@ -54,7 +53,7 @@ public class UserDeleteQnaAction implements Action {
 				out.println("</script>");			
 			}else {
 				
-				forward = new ActionForward("qnaList.qna?page="+page, true);
+				forward = new ActionForward("userQnaList.usr?page="+page, true);
 				
 			}
 		}

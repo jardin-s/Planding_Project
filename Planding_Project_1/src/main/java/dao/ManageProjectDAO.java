@@ -1290,10 +1290,17 @@ public class ManageProjectDAO {
 	}
 	
 	/** 프로젝트 승인 거절 시 (2) - (기본리워드 제외) 프로젝트에 등록된 리워드 삭제 */
-	public int deleteReward(int reward_id) {
+	public int deleteReward(String reward_id) {
 		int deleteRewardCount = 0;
 		
+		String sql = "delete from reward_tbl where reward_id = ?";
+		
 		try {
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, reward_id);
+			
+			deleteRewardCount = pstmt.executeUpdate();
 			
 		} catch(Exception e) {
 			System.out.println("[ManageProjectDAO] deleteReward() 에러 : "+e);//예외객체종류 + 예외메시지
