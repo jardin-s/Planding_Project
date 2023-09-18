@@ -1,6 +1,8 @@
 package vo;
 
 import java.text.DecimalFormat;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 
 public class ProjectBean {
 	
@@ -232,6 +234,16 @@ public class ProjectBean {
 
 	public void setDeadline(int deadline) {
 		this.deadline = deadline;
+	}
+	
+	//남은일수 계산 : 오늘날짜-종료일
+	public void setDeadline_exc(String enddate) {
+		LocalDate today = LocalDate.now();
+		LocalDate enddate_date = LocalDate.parse(enddate.replace(".", "-"));
+		
+		long deadline = ChronoUnit.DAYS.between(today, enddate_date);//두 날짜 사이 일수차이를 구함
+		
+		this.deadline = (int) deadline;
 	}
 
 	
