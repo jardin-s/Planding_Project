@@ -1,5 +1,6 @@
 package vo;
 
+import java.text.DecimalFormat;
 
 public class ProjectBean {
 	
@@ -24,9 +25,14 @@ public class ProjectBean {
 	
 	private String regdate;//등록일자 (SQL 자동 현재시간 세팅)
 	
-	private double progress;//달성률 (DB에 없음. 조회시, 현재모금액/목표모금액 계산하여 세팅)
+	//----------------------------------------------------- 아래는 DB에 없음
 	
-	private int deadline;//남은일수
+	private double progress;//달성률 (조회시, 현재모금액/목표모금액 계산하여 세팅)
+	
+	private int deadline;//남은일수 (조회시, 오늘날짜-마감일 계산하여 세팅)
+	
+	private String goal_amount_df; //목표모금액 포맷 (천단위 구분자 넣어서 세팅)
+	private String curr_amount_df; //현재모금액 포맷 (천단위 구분자 넣어서 세팅)
 	
 	
 	
@@ -227,5 +233,38 @@ public class ProjectBean {
 	public void setDeadline(int deadline) {
 		this.deadline = deadline;
 	}
+
+	
+	//기본 getter & setter
+	public String getGoal_amount_df() {
+		return goal_amount_df;
+	}
+
+	public void setGoal_amount_df(String goal_amount_df) {
+		this.goal_amount_df = goal_amount_df;
+	}
+
+	public String getCurr_amount_df() {
+		return curr_amount_df;
+	}
+
+	public void setCurr_amount_df(String curr_amount_df) {
+		this.curr_amount_df = curr_amount_df;
+	}
+
+	//set메서드에서 포맷으로 천단위구분자 넣기
+	public void setGoal_amount_df_exc(int goal_amount) {
+		DecimalFormat df = new DecimalFormat("###,###");
+		this.goal_amount_df = df.format(goal_amount);
+	}
+
+	//set메서드에서 포맷으로 천단위구분자 넣기
+	public void setCurr_amount_df_exc(int curr_amount) {
+		DecimalFormat df = new DecimalFormat("###,###");
+		this.curr_amount_df = df.format(curr_amount);
+	}
+	
+	
+	
 	
 }

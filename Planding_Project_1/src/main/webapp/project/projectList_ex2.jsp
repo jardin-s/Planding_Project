@@ -38,11 +38,18 @@
 	
 	<!-- Main Section -->
 	<!-- Page Header Start -->
-    <div class="container-fluid page-header py-5 mb-5 wow fadeIn" data-wow-delay="0.1s">
-        <div class="container text-center py-5">
-            <div class="text-center mx-auto wow fadeInUp" data-wow-delay="0.1s" style="max-width: 500px;">
-                <p class="fs-5 fw-bold text-primary">프로젝트 둘러보기</p>
-                <h1 class="display-5 mb-5">기부 프로젝트</h1>
+    <div class="container-fluid page-header pt-5 mb-5">
+        <div class="container text-center pt-5">
+            <div class="text-center mx-auto" style="max-width: 500px;">
+                <p class="fs-5 fw-bold text-white">프로젝트 둘러보기</p>
+                <h1 class="display-5 mb-5 text-white">기부 프로젝트</h1>
+                <div class="row justify-content-center">
+	            <ul class="col-12 col-lg-8 nav nav-pills justify-content-center mt-5 mb-0">
+					<li class="col-4 nav-item"><a class="nav-link active text-primary fw-bold bg-light" aria-current="page" href="#">진행중</a></li>
+					<li class="col-4 nav-item"><a class="nav-link text-white" href="unauthFundProjectList.mngp">공개예정</a></li>
+					<li class="col-4 nav-item"><a class="nav-link text-white" href="authFundProjectList.mngp">종료</a></li>
+	            </ul>
+            </div>
             </div>
         </div>
     </div>
@@ -51,25 +58,45 @@
        
         
 	<%-- Search Tab Start --%>
-    <div class="container-fluid pt-4 pb-3">
-    	<div class="container col-lg-8 px-0">
-    		<div class="d-flex justify-content-end">
-				<form action="searchQnaList.usr" method="post" name="fsearch">
-	    			<div class="btn btn-outline-light py-1 px-2 me-1">
-		    			<input type="text" name="q_title" id="q_title" class="border-0 me-2" placeholder="제목으로 검색">
-		    			<a href="javascript:searchQnaList();"><i class="fas fa-search"></i></a>
+	    <div class="container-fluid pt-4 pb-3">
+	    	<div class="container col-lg-8 px-3">
+	    		<div class="row">
+					
+					<%-- Order --%>
+					<div class="col-4 col-md-3">
+						<div class="d-flex justify-content-start">
+							<form action="orderFundProjectList.mngp" method="post" name="forder">
+				    			<select class="form-select py-1" name="selectOrder" id="selectOrder" aria-label="selectOrder" onchange="changeOrder()">
+									<option value="default" selected>-- 정렬하기 --</option>
+									<option value="ready">최신순</option>
+									<option value="ongoing">오래된순</option>
+									<option value="done">높은 관심순</option>
+								</select>
+							</form>
+		    			</div>
+		    		</div>
+		    		
+		    		<%-- Search --%>
+		    		<div class="col auto">
+			    		<div class="d-flex justify-content-end">
+			    			<form action="searchFundProjectList.mngp" method="post" name="fsearch">
+				    			<div class="btn btn-outline-light py-1 px-2 me-1">
+					    			<input type="text" name="title" id="title" class="border-0" placeholder="제목으로 검색">
+					    			<a href="javascript:searchProjectList();"><i class="fas fa-search"></i></a>
+				    			</div>
+			    			</form>
+		    			</div>
 	    			</div>
-	    		</form>
-    		</div>
-    	</div>
-    </div>
-    <%-- Search Tab End --%>
+    			</div>
+	    	</div>
+	    </div>
+	    <%-- Search Tab End --%>
 	
 	<%-- Table Start --%>
 	<div class="container-fluid pt-0 pb-2">
 		<div class="container col-lg-8">
 			<div class="row justify-content-center">
-				<div class="col-12 col-md-6 col-lg-4">
+				<div class="col-12 col-md-6 col-lg-4 mb-5">
 					<table class="table table-borderless">
 						<thead>
 							<tr>
@@ -79,7 +106,10 @@
 							</tr>
 							<tr>
 								<td colspan="2">
-									<span style="font-size:0.8rem">기부 프로젝트</span><br>
+									<span style="font-size:0.7rem">기부</span>
+									<span class="mx-1" style="color:#ccc;font-size:0.7rem">|</span>
+									<span style="font-size:0.7rem">언더 더 파고라</span>
+									<br>
 									<strong>풍요로운 대자연의 선물 : 흙</strong><br>
 									<span style="color:#ccc;font-size:0.8rem">풍요로운 대자연의 선물 : 흙</span>
 								</td>
@@ -88,7 +118,7 @@
 						<tbody>
 							<tr>
 								<td class="text-start">
-									<span class="me-3 text-danger fw-bold">2307%</span>
+									<span class="me-2 text-danger fw-bold">2307%</span>
 									<span style="font-size:0.8rem">11,535,400원</span>
 								</td>
 								<td class="text-end">
@@ -105,7 +135,7 @@
 						</tbody>
 					</table>
 				</div>
-				<div class="col-12 col-md-6 col-lg-4">
+				<div class="col-12 col-md-6 col-lg-4 mb-5">
 					<table class="table table-borderless">
 						<thead>
 							<tr>
@@ -115,16 +145,19 @@
 							</tr>
 							<tr>
 								<td colspan="2">
-								<span style="font-size:0.8rem">기부 프로젝트</span><br>
-								<strong>풍요로운 대자연의 선물 : 흙</strong><br>
-								<span style="color:#ccc;font-size:0.8rem">풍요로운 대자연의 선물 : 흙</span>
+									<span style="font-size:0.7rem">기부</span>
+									<span class="mx-1" style="color:#ccc;font-size:0.7rem">|</span>
+									<span style="font-size:0.7rem">언더 더 파고라</span>
+									<br>
+									<strong>풍요로운 대자연의 선물 : 흙</strong><br>
+									<span style="color:#ccc;font-size:0.8rem">풍요로운 대자연의 선물 : 흙</span>
 								</td>
 							</tr>
 						</thead>
 						<tbody>
 							<tr>
 								<td class="text-start">
-									<span class="me-3 text-black fw-bold">57%</span>
+									<span class="me-2 text-black fw-bold">57%</span>
 									<span style="font-size:0.8rem">285,000원</span>								
 								</td>
 								<td class="text-end">
@@ -141,7 +174,7 @@
 						</tbody>					
 					</table>
 				</div>
-				<div class="col-12 col-md-6 col-lg-4">
+				<div class="col-12 col-md-6 col-lg-4 mb-5">
 					<table class="table table-borderless">
 						<thead>
 							<tr>
@@ -151,7 +184,10 @@
 							</tr>
 							<tr>
 								<td colspan="2">
-									<span style="font-size:0.8rem">기부 프로젝트</span><br>
+									<span style="font-size:0.7rem">기부</span>
+									<span class="mx-1" style="color:#ccc;font-size:0.7rem">|</span>
+									<span style="font-size:0.7rem">언더 더 파고라</span>
+									<br>
 									<strong>풍요로운 대자연의 선물 : 흙</strong><br>
 									<span style="color:#ccc;font-size:0.8rem">풍요로운 대자연의 선물 : 흙</span>
 								</td>
@@ -160,7 +196,124 @@
 						<tbody>
 							<tr>
 								<td class="text-start">
-									<span class="me-3 text-black fw-bold">2307%</span>
+									<span class="me-2 text-black fw-bold">2307%</span>
+									<span style="font-size:0.8rem">11,535,400원</span>
+								</td>
+								<td class="text-end">
+									<span style="font-size:0.8rem"><b>성공</b></span>
+								</td>
+							</tr>
+							<tr>
+								<td colspan="2" class="px-2 pt-0">
+									<div class="progress col-12" role="progressbar" aria-label="Basic example" aria-valuenow="2307" aria-valuemin="0" aria-valuemax="100" style="height:2px">
+										<div class="progress-bar bg-secondary" style="width: 2307%"></div>
+									</div>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div class="col-12 col-md-6 col-lg-4 mb-5">
+					<table class="table table-borderless">
+						<thead>
+							<tr>
+								<td colspan="2">
+									<img src="../resources/img/service-1.jpg" style="width:100%">
+								</td>
+							</tr>
+							<tr>
+								<td colspan="2">
+									<span style="font-size:0.7rem">기부</span>
+									<span class="mx-1" style="color:#ccc;font-size:0.7rem">|</span>
+									<span style="font-size:0.7rem">언더 더 파고라</span>
+									<br>
+									<strong>풍요로운 대자연의 선물 : 흙</strong><br>
+									<span style="color:#ccc;font-size:0.8rem">풍요로운 대자연의 선물 : 흙</span>
+								</td>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td class="text-start">
+									<span class="me-2 text-danger fw-bold">2307%</span>
+									<span style="font-size:0.8rem">11,535,400원</span>
+								</td>
+								<td class="text-end">
+									<span style="font-size:0.8rem"><b>9일 남음</b></span>
+								</td>
+							</tr>
+							<tr>
+								<td colspan="2" class="px-2 pt-0">
+									<div class="progress col-12" role="progressbar" aria-label="Basic example" aria-valuenow="2307" aria-valuemin="0" aria-valuemax="100" style="height:2px">
+										<div class="progress-bar bg-danger" style="width: 2307%"></div>
+									</div>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div class="col-12 col-md-6 col-lg-4 mb-5">
+					<table class="table table-borderless">
+						<thead>
+							<tr>
+								<td colspan="2">
+									<img src="../resources/img/service-1.jpg" style="width:100%">
+								</td>
+							</tr>
+							<tr>
+								<td colspan="2">
+									<span style="font-size:0.7rem">기부</span>
+									<span class="mx-1" style="color:#ccc;font-size:0.7rem">|</span>
+									<span style="font-size:0.7rem">언더 더 파고라</span>
+									<br>
+									<strong>풍요로운 대자연의 선물 : 흙</strong><br>
+									<span style="color:#ccc;font-size:0.8rem">풍요로운 대자연의 선물 : 흙</span>
+								</td>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td class="text-start">
+									<span class="me-2 text-black fw-bold">57%</span>
+									<span style="font-size:0.8rem">285,000원</span>								
+								</td>
+								<td class="text-end">
+									<span style="font-size:0.8rem"><b>종료</b></span>
+								</td>
+							</tr>
+							<tr>
+								<td colspan="2" class="px-2 pt-0">
+									<div class="progress col-12" role="progressbar" aria-label="Basic example" aria-valuenow="57" aria-valuemin="0" aria-valuemax="100" style="height:2px">
+										<div class="progress-bar bg-secondary" style="width: 57%"></div>
+									</div>
+								</td>
+							</tr>
+						</tbody>					
+					</table>
+				</div>
+				<div class="col-12 col-md-6 col-lg-4 mb-5">
+					<table class="table table-borderless">
+						<thead>
+							<tr>
+								<td colspan="2">
+									<img src="../resources/img/service-1.jpg" style="width:100%">
+								</td>
+							</tr>
+							<tr>
+								<td colspan="2">
+									<span style="font-size:0.7rem">기부</span>
+									<span class="mx-1" style="color:#ccc;font-size:0.7rem">|</span>
+									<span style="font-size:0.7rem">언더 더 파고라</span>
+									<br>
+									<strong>풍요로운 대자연의 선물 : 흙</strong><br>
+									<span style="color:#ccc;font-size:0.8rem">풍요로운 대자연의 선물 : 흙</span>
+								</td>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td class="text-start">
+									<span class="me-2 text-black fw-bold">2307%</span>
 									<span style="font-size:0.8rem">11,535,400원</span>
 								</td>
 								<td class="text-end">

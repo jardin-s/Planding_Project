@@ -17,6 +17,7 @@ import action.project.InsertFundProjectRewardFormAction;
 import action.project.InsertFundProjectTempAction;
 import action.project.SubmitDonateProjectAction;
 import action.project.SubmitFundProjectAction;
+import action.project.UserDonateProjectListAction;
 import action.project.UserProjectViewAction;
 import vo.ActionForward;
 
@@ -191,6 +192,17 @@ public class ProjectFrontController extends HttpServlet {
 		/*-- '[사용자] 프로젝트 상세보기' 요청 -> 처리 --------------------------------------*/
 		else if(command.equals("/userProjectView.pj")) {
 			action = new UserProjectViewAction();
+			try {
+				forward = action.execute(request, response);
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+		
+		/*-- '[사용자] 기부 프로젝트 목록 보기' 요청 -> 처리 --------------------------------------*/
+		else if(command.equals("/userDonateProjectList.pj")) {
+			action = new UserDonateProjectListAction();
 			try {
 				forward = action.execute(request, response);
 			}catch(Exception e) {
