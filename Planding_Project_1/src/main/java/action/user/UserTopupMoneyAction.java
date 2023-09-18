@@ -18,7 +18,7 @@ public class UserTopupMoneyAction implements Action {
 		
 		//파라미터 값을 가져옴
 		String topUpMoney_str = request.getParameter("topUpMoney");
-		if(topUpMoney_str.equals("")) {//직접입력 선택 시
+		if(topUpMoney_str.equals("on")) {//직접입력 선택 시
 			topUpMoney_str = request.getParameter("topUpMoneyText");//입력한 숫자금액을 가져와 대입
 		}
 		

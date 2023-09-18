@@ -61,6 +61,9 @@ public class UserProjectViewAction implements Action {
             projectInfo.setDeadline((int)deadline);
         }
 		
+		//★★[사용자모드] 현재모금액, 목표모금액 천단위구분자 넣어서 세팅
+		projectInfo.setCurr_amount_df_exc(projectInfo.getCurr_amount());
+		projectInfo.setGoal_amount_df_exc(projectInfo.getGoal_amount());
 		        
         //달성률, 남은일수까지 다 계산된 상태에서 request에 저장
 		request.setAttribute("projectInfo", projectInfo);

@@ -37,6 +37,7 @@
 </head>
 <%
 
+/* 
 ProjectBean projectInfo = (ProjectBean)request.getAttribute("projectInfo");
 int curr_amount = projectInfo.getCurr_amount();
 int goal_amount = projectInfo.getGoal_amount();
@@ -45,6 +46,7 @@ int goal_amount = projectInfo.getGoal_amount();
 DecimalFormat df = new DecimalFormat("###,###");
 String curr_amount_str = df.format(curr_amount);
 String goal_amount_str = df.format(goal_amount);
+*/
 
 %>
 
@@ -111,7 +113,7 @@ function checkDonate() {
 							<tr class="text-start">
 								<th class="py-2">
 									<span class="fw-normal">&nbsp;현재 모금액</span><br>
-									&nbsp;<span style="font-size:2rem; font-weight:normal"><%=curr_amount_str %></span>&nbsp;원
+									&nbsp;<span style="font-size:2rem; font-weight:normal">${projectInfo.curr_amount_df }</span>&nbsp;원
 								</th>					
 							</tr>
 							<tr class="text-start">
@@ -145,7 +147,7 @@ function checkDonate() {
 							</tr>
 							<tr class="text-start">
 								<th class="py-3">
-									&nbsp;목표 금액 <span class="fw-normal ms-2"><%=goal_amount_str %>원</span><br>
+									&nbsp;목표 금액 <span class="fw-normal ms-2">${projectInfo.goal_amount_df}원</span><br>
 									&nbsp;후원 기간 <span class="fw-normal ms-2">${projectInfo.startdate } ~ ${projectInfo.enddate }</span>
 								</th>					
 							</tr>
