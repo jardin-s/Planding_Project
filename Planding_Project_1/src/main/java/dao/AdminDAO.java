@@ -110,7 +110,7 @@ public class AdminDAO {
 				adminInfo.setName(rs.getString("name"));
 				adminInfo.setEmail(rs.getString("email"));
 				adminInfo.setPhone(rs.getString("phone"));
-				adminInfo.setAccount(rs.getInt("account"));
+				adminInfo.setMoney(rs.getInt("money"));
 				adminInfo.setAdmin_status(rs.getString("admin_status"));
 			}
 			
@@ -161,7 +161,7 @@ public class AdminDAO {
 		int insertAdminCount = 0;
 		
 		//joindate timestamp default now() -> joindate 생략
-		String sql = "insert into member_tbl(member_id, password, name, email, phone, account, admin_status) "
+		String sql = "insert into member_tbl(member_id, password, name, email, phone, money, admin_status) "
 					+ "values(?,?,?,?,?,?,?)";
 		
 		//joindate timestamp (디폴트값 없음) -> insert into member_tbl values(?,?,?,?,?,?,now());
@@ -179,7 +179,7 @@ public class AdminDAO {
 			pstmt.setString(3, admin.getName());
 			pstmt.setString(4, admin.getEmail());
 			pstmt.setString(5, admin.getPhone());
-			pstmt.setInt(6, admin.getAccount());
+			pstmt.setInt(6, admin.getMoney());
 			pstmt.setString(7, admin.getAdmin_status());
 			
 			insertAdminCount = pstmt.executeUpdate();

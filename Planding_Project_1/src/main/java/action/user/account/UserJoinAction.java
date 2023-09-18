@@ -25,7 +25,7 @@ public class UserJoinAction implements Action {
 		String u_name = request.getParameter("name");
 		String u_email = request.getParameter("email");
 		String u_phone = request.getParameter("phone");
-		int u_account = Integer.parseInt(request.getParameter("account"));
+		int u_money = Integer.parseInt(request.getParameter("money"));
 		String u_admin = request.getParameter("admin_status");
 		
 		int postcode = Integer.parseInt(request.getParameter("postcode"));
@@ -39,7 +39,7 @@ public class UserJoinAction implements Action {
 		System.out.println("name="+u_name);
 		System.out.println("email="+u_email);
 		System.out.println("phone="+u_phone);
-		System.out.println("account="+u_account);
+		System.out.println("money="+u_money);
 		System.out.println("admin_status="+u_admin);
 		System.out.println("postcode="+postcode);
 		System.out.println("address1="+address1);
@@ -58,7 +58,7 @@ public class UserJoinAction implements Action {
 		*/
 		
 		//비밀번호 암호화 방법-2 (매개변수가 있는 생성자)
-		MemberBean user = new MemberBean(u_id, u_password, u_name, u_email, u_phone, u_account, u_admin);
+		MemberBean user = new MemberBean(u_id, u_password, u_name, u_email, u_phone, u_money, u_admin);
 		
 		//주소ID 생성
 		Date now = new Date();

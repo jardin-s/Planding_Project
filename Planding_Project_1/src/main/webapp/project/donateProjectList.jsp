@@ -97,107 +97,133 @@
 	<div class="container-fluid pt-0 pb-2">
 		<div class="container col-lg-8">
 			<div class="row justify-content-center">
-				<div class="col-12 col-md-6 col-lg-4 mb-5">
-					<table class="table table-borderless">
-						<thead>
-							<tr>
-								<td colspan="2">
-									<a href="userProjectView.pj?project_id=${projectInfo.project_id }&page=${pageInfo.page}">
-										<img src="<%=request.getContextPath()%>/images/project_No_${projectInfo.project_id }/${projectInfo.project_id }_${projectInfo.thumbnail }" style="width:100%">
-									</a>
-								</td>
-							</tr>
-							<tr>
-								<td colspan="2">
-									<span style="font-size:0.7rem">
-										<c:if test="${projectInfo.kind eq 'donate'}">기부</c:if>
-										<c:if test="${projectInfo.kind eq 'fund'}">펀딩</c:if>
-									</span>
-									<span class="mx-1" style="color:#ccc;font-size:0.7rem">|</span>
-									<span style="font-size:0.7rem">${plannerInfo.planner_name}</span>
-									<br>
-									<a href="userProjectView.pj?project_id=${projectInfo.project_id }&page=${pageInfo.page}"><strong>${projectInfo.title }</strong></a><br>
-									<span style="color:#ccc;font-size:0.8rem">${projectInfo.summary }</span>
-								</td>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<c:if test="${projectInfo.status eq 'ongoing'}">
-									<td class="text-start">
-										<span class="me-2 text-danger fw-bold">${projectInfo.progress}%</span>
-										<span style="font-size:0.8rem">${projectInfo.curr_amount_df}원</span>
+				<c:forEach var="projectPlannerInfo" items="${projectPlannerList }">
+					<div class="col-12 col-md-6 col-lg-4 mb-5">
+						<table class="table table-borderless">
+							<thead>
+								<tr>
+									<td colspan="2">
+										<a href="userProjectView.pj?project_id=${projectPlannerInfo.project_id }&page=${projectPlannerInfo.page}">
+											<img src="<%=request.getContextPath()%>/images/project_No_${projectPlannerInfo.project_id }/${projectPlannerInfo.project_id }_${projectPlannerInfo.thumbnail }" style="width:100%">
+										</a>
 									</td>
-									<td class="text-end">
-										<span style="font-size:0.8rem"><b>${projectInfo.deadline }일 남음</b></span>
-									</td>
-								</c:if>
-								<c:if test="${projectInfo.status eq 'ready'}">
-									<td class="text-start">
-										공개예정
-									</td>
-									<td class="text-end">
-										<span style="font-size:0.8rem"><b>${projectInfo.deadline }일 남음</b></span>
-									</td>
-								</c:if>
-								<c:if test="${projectInfo.status eq 'done' || projectInfo.status eq 'success'}">
-									<td class="text-start">
-										<span class="me-2 text-secondary fw-bold">${projectInfo.progress}%</span>
-										<span style="font-size:0.8rem">${projectInfo.curr_amount_df}원</span>
-									</td>
-									<td class="text-end">
-										<span style="font-size:0.8rem">
-											<c:if test="${projectInfo.status eq 'done'}"><b>종료</b></c:if>
-											<c:if test="${projectInfo.status eq 'success'}"><b>성공</b></c:if>
+								</tr>
+								<tr>
+									<td colspan="2">
+										<span style="font-size:0.7rem">
+											<c:if test="${projectPlannerInfo.kind eq 'donate'}">기부</c:if>
+											<c:if test="${projectPlannerInfo.kind eq 'fund'}">펀딩</c:if>
 										</span>
+										<span class="mx-1" style="color:#ccc;font-size:0.7rem">|</span>
+										<span style="font-size:0.7rem">${projectPlannerInfo.planner_name}</span>
+										<br>
+										<a href="userProjectView.pj?project_id=${projectPlannerInfo.project_id }&page=${pageInfo.page}"><strong>${projectPlannerInfo.title }</strong></a><br>
+										<span style="color:#ccc;font-size:0.8rem">${projectPlannerInfo.summary }</span>
 									</td>
-								</c:if>
-							</tr>
-							<tr>
-								<td colspan="2" class="px-2 pt-0">
-									<div class="progress col-12" role="progressbar" aria-label="Basic example" aria-valuenow="${projectInfo.progress}" aria-valuemin="0" aria-valuemax="100" style="height:2px">
-										<c:choose>
-											<c:when test="${projectInfo.status eq 'ongoing' }">
-												<div class="progress-bar bg-danger" style="width: ${projectInfo.progress}%"></div>
-											</c:when>
-											<c:otherwise>
-												<div class="progress-bar bg-secondary" style="width: ${projectInfo.progress}%"></div>
-											</c:otherwise>
-										</c:choose>
-									</div>
-								</td>
-							</tr>
-						</tbody>
-					</table>
-				</div>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<c:if test="${projectPlannerInfo.status eq 'ongoing'}">
+										<td class="text-start">
+											<span class="me-2 text-danger fw-bold">${projectPlannerInfo.progress}%</span>
+											<span style="font-size:0.8rem">${projectPlannerInfo.curr_amount_df}원</span>
+										</td>
+										<td class="text-end">
+											<span style="font-size:0.8rem"><b>${projectPlannerInfo.deadline }일 남음</b></span>
+										</td>
+									</c:if>
+									<c:if test="${projectPlannerInfo.status eq 'ready'}">
+										<td class="text-start">
+											공개예정
+										</td>
+										<td class="text-end">
+											<span style="font-size:0.8rem"><b>${projectPlannerInfo.deadline }일 남음</b></span>
+										</td>
+									</c:if>
+									<c:if test="${projectPlannerInfo.status eq 'done' || projectPlannerInfo.status eq 'success'}">
+										<td class="text-start">
+											<span class="me-2 text-secondary fw-bold">${projectPlannerInfo.progress}%</span>
+											<span style="font-size:0.8rem">${projectPlannerInfo.curr_amount_df}원</span>
+										</td>
+										<td class="text-end">
+											<span style="font-size:0.8rem">
+												<c:if test="${projectPlannerInfo.status eq 'done'}"><b>종료</b></c:if>
+												<c:if test="${projectPlannerInfo.status eq 'success'}"><b>성공</b></c:if>
+											</span>
+										</td>
+									</c:if>
+								</tr>
+								<tr>
+									<td colspan="2" class="px-2 pt-0">
+										<div class="progress col-12" role="progressbar" aria-label="Basic example" aria-valuenow="${projectPlannerInfo.progress}" aria-valuemin="0" aria-valuemax="100" style="height:2px">
+											<c:choose>
+												<c:when test="${projectPlannerInfo.status eq 'ongoing' }">
+													<div class="progress-bar bg-danger" style="width: ${projectPlannerInfo.progress}%"></div>
+												</c:when>
+												<c:otherwise>
+													<div class="progress-bar bg-secondary" style="width: ${projectPlannerInfo.progress}%"></div>
+												</c:otherwise>
+											</c:choose>
+										</div>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</c:forEach>
 			</div>
 		</div>		
 	</div>
 	<%-- Table End --%>
 	
 	<%-- Pagination Start --%>
-	<div class="container-fluid mt-0 pt-0 pb-5">
-    	<div class="container col-lg-4">
-	    	<div class="row">
-				<ul class="pagination justify-content-center">
-					<li class="page-item">
-						<a class="page-link" href="#" aria-label="Previous">
-							<span aria-hidden="true">&laquo;</span>
-						</a>
-					</li>
-					<li class="page-item"><a class="page-link" href="#">1</a></li>
-					<li class="page-item"><a class="page-link" href="#">2</a></li>
-					<li class="page-item"><a class="page-link" href="#">3</a></li>
-					<li class="page-item">
-						<a class="page-link" href="#" aria-label="Next">
-							<span aria-hidden="true">&raquo;</span>
-					    </a>
-					</li>
-				</ul>
-			</div>
-		</div>
-	</div>
-	<%-- Pagination Start --%>       
+	    <div class="container-fluid mt-0 pt-0 pb-5">
+	    	<div class="container col-lg-4">
+		    	<div class="row">
+					<ul class="pagination justify-content-center">
+						<%-- 이전버튼 --%>
+						<li class="page-item">
+							<c:if test="${pageInfo.page <= 1}">
+								<a class="page-link" aria-label="Previous">
+									<span aria-hidden="true">&laquo;</span>
+								</a>	
+							</c:if>
+							<c:if test="${pageInfo.page > 1}">
+								<a class="page-link" href="userQnaList.usr?page=${pageInfo.page -1 }" aria-label="Previous">
+									<span aria-hidden="true">&laquo;</span>
+								</a>	
+							</c:if>								
+						</li>
+						
+						<%-- 1~10까지 --%>
+						<c:forEach var="pNum" begin="${pageInfo.startPage }" end="${pageInfo.endPage}" step="1">
+							<c:if test="${pNum eq pageInfo.page }">
+								<li class="page-item active" aria-current="page"><a class="page-link">${pNum}</a></li>
+							</c:if>
+							<c:if test="${pNum ne pageInfo.page }">
+								<li class="page-item"><a class="page-link" href="userDonateProjectList.usr?page=${pNum}">${pNum}</a></li>
+							</c:if>
+						</c:forEach>
+						
+						<%-- 다음버튼 --%>
+						<li class="page-item">
+							<c:if test="${pageInfo.page >= pageInfo.maxPage }">
+								<a class="page-link" aria-label="Next">
+									<span aria-hidden="true">&raquo;</span>
+								</a>
+							</c:if>
+							<c:if test="${pageInfo.page < pageInfo.maxPage }">
+								<a class="page-link" href="userQnaList.usr?page=${pageInfo.page +1 }" aria-label="Next">
+									<span aria-hidden="true">&raquo;</span>
+								</a>
+							</c:if>							
+						</li>
+					</ul>
+		        </div>
+	        </div>
+	    </div>
+	    <%-- Pagination Start --%>          
 
     
 	

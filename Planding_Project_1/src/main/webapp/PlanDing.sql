@@ -82,6 +82,17 @@ values('donate','기부제목2','기부요약2','thumbnail2.jpg','프로젝트 �
 select * from project_tbl;
 delete from project_tbl;
 
+
+select project_id, kind, title, summary
+thumbnail, content, image,
+DATE_FORMAT(startdate,'%Y.%m.%d %H:%i:%S') as startdate,
+DATE_FORMAT(enddate,'%Y.%m.%d %H:%i:%S') as enddate,
+goal_amount, curr_amount,
+status, likes,
+DATE_FORMAT(regdate,'%Y.%m.%d') as regdate_F"
+				  + " from project_tbl where kind = ?"
+				  + " order by regdate desc
+
 -- -----------------------------------------------------
 -- Table `project`.`member_tbl`
 -- -----------------------------------------------------
@@ -91,7 +102,7 @@ CREATE TABLE IF NOT EXISTS `project`.`member_tbl` (
   `name` NVARCHAR(20) NOT NULL COMMENT '이름',
   `email` VARCHAR(45) NOT NULL COMMENT '이메일',
   `phone` VARCHAR(11) NOT NULL,
-  `account` INT NOT NULL COMMENT '가상계좌 (계좌잔액)',
+  `money` INT NOT NULL COMMENT '가상계좌 (계좌잔액)',
   `admin_status` VARCHAR(1) NOT NULL COMMENT '관리자 여부',
   `joindate` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP COMMENT '가입일',
   `delete_status` VARCHAR(1) NULL DEFAULT 'N' COMMENT '탈퇴회원 여부',
@@ -276,7 +287,7 @@ CREATE TABLE IF NOT EXISTS `project`.`project_planner_tbl` (
   `planner_name` NVARCHAR(20) NOT NULL COMMENT '기획자 이름 (개인 또는 기업, 단체)',
   `introduce` NVARCHAR(100) NOT NULL COMMENT '기획자 간단 소개글',
   `bank` NVARCHAR(20) NOT NULL COMMENT '입금계좌 은행',
-  `account` VARCHAR(45) NOT NULL COMMENT '입금계좌 계좌번호',
+  `account_num` VARCHAR(45) NOT NULL COMMENT '입금계좌 계좌번호',
   PRIMARY KEY (`project_id`, `member_id`),
   INDEX `fk_project_planner_tbl_member_tbl1_idx` (`member_id` ASC) VISIBLE,
   CONSTRAINT `fk_project_planner_tbl_project_tbl1`
@@ -359,6 +370,17 @@ CREATE TABLE IF NOT EXISTS `project`.`address_tbl` (
 ENGINE = InnoDB;
 
 select * from address_tbl;
+
+
+
+
+-- -----------------------------------------------------
+-- View `project`.`project_planner_view` 프로젝트-플래너 조인한 뷰 생성
+-- -----------------------------------------------------
+CREATE OR REPLACE VIEW `project_planner_view` AS
+select project_id, kind, title, summary, thumbnail, content, image, startdate, enddate, goal_amount, curr_amount, status, likes, regdate, member_id, planner_name, introduce, bank, account_num
+from project_tbl join project_planner_tbl
+using(project_id);
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;

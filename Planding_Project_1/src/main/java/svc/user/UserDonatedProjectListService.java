@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import dao.ProjectDAO;
 import dao.UserDAO;
 import vo.ProjectBean;
+import vo.ProjectPlannerBean;
 
 public class UserDonatedProjectListService {
 	//필드 없음
@@ -15,7 +16,7 @@ public class UserDonatedProjectListService {
 	//기본생성자
 	
 	//메서드
-	//1. 등록 프로젝트 id 리스트 얻어오기
+	//1. 후원 프로젝트 id 리스트 얻어오기
 	public ArrayList<Integer> getProjectIdList(String p_id) {
 		//1. 커넥션 풀에서 Connection객체를 얻어와
 		Connection con = getConnection(); //JdbcUtil. 생략(이유?import static 하여)
@@ -39,7 +40,7 @@ public class UserDonatedProjectListService {
 		return fundProjectIdList;
 	}
 	
-	//2. 등록 프로젝트 정보가 담긴 리스트 얻어오기
+	//2. 후원 프로젝트 정보가 담긴 리스트 얻어오기
 	public ArrayList<ProjectBean> getProjectList(ArrayList<Integer> fundProjectIdList) {
 		//1. 커넥션 풀에서 Connection객체를 얻어와
 		Connection con = getConnection(); //JdbcUtil. 생략(이유?import static 하여)
@@ -56,7 +57,7 @@ public class UserDonatedProjectListService {
 		for(int i=0; i<fundProjectIdList.size(); i++) {
 			
 			int p_id = fundProjectIdList.get(i);
-			projectInfo = projectDAO.selectProject(p_id);
+			projectInfo = projectDAO.selectProjectDate(p_id);
 			
 			//해당 아이디의 프로젝트가 없으면 반복문 종료
 			if(projectInfo == null) break; 
@@ -73,4 +74,5 @@ public class UserDonatedProjectListService {
 		
 		return projectList;		
 	}
+	
 }
