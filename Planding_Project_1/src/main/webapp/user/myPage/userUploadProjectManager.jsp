@@ -190,7 +190,7 @@
 
     	<div class="container-xxl py-5">
     		<div class="container col-lg-8 mb-5">
-   				<p class="text-center">$(planner.planner_name)의 ${pj.title } 프로젝트<br>리워드 관리 페이지</p>
+   				<h3 class="text-center">${planner.planner_name}의 ${pj.title } 프로젝트<br>리워드 관리 페이지</h3>
     		</div>
     	</div>
 
@@ -213,8 +213,8 @@
 							</tr>
 						</thead>
 						<tbody class="table-group-divider">
-							<c:forEach var="i" begin="0" end="${rewardList.size()-1 }" step="1" varStatus="count">
-							 <tr class="text-center" onclick="byRewardDonationList.pj?reward_id=${rewardList[i].reward_id }" data-bs-toggle="tooltip" data-bs-placement="top" title="클릭하여 리워드 수정">
+<%-- 							<c:forEach var="i" begin="0" end="${rewardList.size()-1 }" step="1" varStatus="count"> --%>
+							 <tr class="text-center" onclick="byRewardDonationList.pj?reward_id=${rewardList[i].reward_id }" data-bs-toggle="tooltip" data-bs-placement="top" title="클릭하여 리워드 후원목록 보기">
 						        <td>
 						            ${rewardList[i].reward_id }
 						        </td>
@@ -234,17 +234,29 @@
 						            ${byRewardTotalPrice[i]}
 						        </td>
 						     </tr>
-							</c:forEach>
+<%-- 							</c:forEach> --%>
 						</tbody>
 						<tfoot class="sticky-footer">
 							<tr class="text-center">
+							
 								<th scope="col" class="col-1" colspan="2">
-								리워드를 클릭하여 수정하기
+								<!-- 미승인 상태이거나 공개예정이라면 리워드를 수정할 수 있도록 -->
+									<c:if test="${pj.status eq 'unauthorized' || pj.status eq 'ready'}">
+						<button class="btn btn-outline-primary py-1" type="button" id="answerBtn" 
+						onclick="editProjectRewardList.pj?project_id=${pj.project_id}">리워드 수정</button>	
+									</c:if>
+								<!-- 미승인 상태이거나 공개예정이아니라면 도네이션목록을 볼 수 있도록 -->
+									<c:if test="${pj.status ne 'unauthorized' and pj.status ne 'ready'}">
+						<button class="btn btn-outline-primary py-1" type="button" id="answerBtn" 
+						onclick="userProjectDonationListALL.pj?project_id=${pj.project_id}">전체 후원목록보기</button>
+									</c:if>
+								
+									
 								</th>
 								<th scope="col" class="col-2">총신청자수</th>
-								<th scope="col" class="col-2">10000명</th>
+								<th scope="col" class="col-2">${totalCount}명</th>
 								<th scope="col" class="col-2">전체총액</th>
-								<th scope="col" class="col-2">1000만원</th>
+								<th scope="col" class="col-2">${totalPrice}원</th>
 							</tr>
 						</tfoot>
 					</table>
@@ -252,135 +264,9 @@
 	        </div>		
 	    </div>
 	    <%-- Table End --%>
-	    <br> <br> <br> <br> <br>
 
-	<div><!-- 테이블과 필터 묶기 -->
-<!-- 	    필터링 div -->
-		<div  class="container col-lg-8" align="right">
-				<div class="form-group"  style="width: 150px;">
-				    <label for="filterSelect">r_id 필터</label>
-				    <select class="form-control" id="filterSelect" onchange="filterTable()">
-				        <option value="">전체</option>
-				        <option value="r_id1">r_id1(건수)</option>
-				        <option value="r_id2">r_id2(130)</option>
-				        <option value="r_id3">r_id3(12)</option>
-				        <!-- 등록된 r_id 옵션을 추가합니다. -->
-				    </select>
-				</div>
-		</div>		
-	    <!-- Table Start -->
-	    <div class="container-fluid pt-0 pb-2">
-	        <div class="container col-lg-8">
-	            <div class="row justify-content-center" style="height:400px; overflow-y:auto">
-					<table class="table table-hover" id="donation_tbl">
-						<thead class="sticky-header">
-							<tr class="text-center">
-								<th scope="col" class="col-1" onclick="sortTable(0)">후원id</th>
-								<th scope="col" class="col-auto" onclick="sortTable(1)">r_id</th>
-								<th scope="col" class="col-2" onclick="sortTable(2)">멤버_id</th>
-								<th scope="col" class="col-2" onclick="sortTable(3)">금액</th>
-								<th scope="col" class="col-2" onclick="sortTable(4)">추가금액</th>
-								<th scope="col" class="col-2" onclick="sortTable(5)">신청일</th>
-							</tr>
-						</thead>
-						<tbody class="table-group-divider">
-							 <tr class="text-center" onclick="redirectToPage('your_page_url')" data-bs-toggle="tooltip" data-bs-placement="top" title="클릭하여 상세정보보기 누르면 송장같은 정보나오도록">
-						        <td>
-						            후원_id1
-						        </td>
-						        <td>
-						            r_id2
-						        </td>
-						        <td>
-									멤버_id7
-						        </td>
-						        <td>
-						            금액321
-						        </td>
-						        <td>
-						            추가금액32132
-						        </td>
-						        <td>
-						            신청일43243223
-						        </td>
-						    </tr>
-							 <tr class="text-center" onclick="redirectToPage('your_page_url')" data-bs-toggle="tooltip" data-bs-placement="top" title="클릭하여 상세정보보기 누르면 송장같은 정보나오도록">
-						        <td>
-						            후원_id2
-						        </td>
-						        <td>
-						            r_id1
-						        </td>
-						        <td>
-									멤버_id8
-						        </td>
-						        <td>
-						            금액321
-						        </td>
-						        <td>
-						            추가금액3213
-						        </td>
-						        <td>
-						            신청일432
-						        </td>
-						    </tr>
-							 <tr class="text-center" onclick="redirectToPage('your_page_url')" data-bs-toggle="tooltip" data-bs-placement="top" title="클릭하여 상세정보보기 누르면 송장같은 정보나오도록">
-						        <td>
-						            후원_id3
-						        </td>
-						        <td>
-						            r_id2
-						        </td>
-						        <td>
-									멤버_id9
-						        </td>
-						        <td>
-						            금액21
-						        </td>
-						        <td>
-						            추가금액321
-						        </td>
-						        <td>
-						            신청일423
-						        </td>
-						    </tr>
-							 <tr class="text-center" onclick="redirectToPage('your_page_url')" data-bs-toggle="tooltip" data-bs-placement="top" title="클릭하여 상세정보보기 누르면 송장같은 정보나오도록">
-						        <td>
-						            후원_id4
-						        </td>
-						        <td>
-						            r_id3
-						        </td>
-						        <td>
-									멤버_id4
-						        </td>
-						        <td>
-						            금액32
-						        </td>
-						        <td>
-						            추가금액4534
-						        </td>
-						        <td>
-						            신청일324
-						        </td>
-						    </tr>
-						</tbody>
-						<tfoot class="sticky-footer">
-							<tr class="text-center">
-								<th scope="col" class="col-1">뭐</th>
-								<th scope="col" class="col-auto">넣을지</th>
-								<th scope="col" class="col-2">아직</th>
-								<th scope="col" class="col-2">잘</th>
-								<th scope="col" class="col-2">모르</th>
-								<th scope="col" class="col-2">겠어요</th>
-							</tr>
-						</tfoot>
-					</table>
-				</div>
-	        </div>		
-	    </div>
-	</div>
-	    <%-- Table End --%>
+	
+	   
 	    
 	<!-- JavaScript Libraries -->
 	<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>

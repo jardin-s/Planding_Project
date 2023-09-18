@@ -107,6 +107,7 @@ public class ProjectPageViewService {
 		
 		return reward;
 	}
+	/**프로젝트 아이디로 리워드 가져오기*/
 	public ArrayList<DonationBean> getDonationList(int project_id) {
 		//1. 커넥션 풀에서 Connection객체를 얻어와
 		Connection con = getConnection(); //JdbcUtil. 생략(이유?import static 하여)
@@ -128,6 +129,7 @@ public class ProjectPageViewService {
 		
 		return donationList;
 	}
+	/**리워드 아이디로 후원 목록 얻어오기*/
 	public ArrayList<DonationBean> getByRewardDonationList(String reward_id) {
 		//1. 커넥션 풀에서 Connection객체를 얻어와
 		Connection con = getConnection(); //JdbcUtil. 생략(이유?import static 하여)
@@ -149,7 +151,7 @@ public class ProjectPageViewService {
 		
 		return donationList;
 	}
-
+	/**리워드에 후원한 후원건수 가져오기*/
 	public int getByRewardDonateCount(String reward_id) {
 		//1. 커넥션 풀에서 Connection객체를 얻어와
 			Connection con = getConnection(); //JdbcUtil. 생략(이유?import static 하여)
@@ -171,7 +173,7 @@ public class ProjectPageViewService {
 			
 			return donationCount;
 		}
-
+	/**후원정보와 주소정보를 하나의 객체로 가져오기*/
 	public ArrayList<DonationBean> getDonation_addrList(ArrayList<DonationBean> donationList) {
 		//1. 커넥션 풀에서 Connection객체를 얻어와
 		Connection con = getConnection(); //JdbcUtil. 생략(이유?import static 하여)
@@ -193,7 +195,7 @@ public class ProjectPageViewService {
 		
 		return getDonation_addrList;
 	}
-
+	/**리워드에 후원한 목록을 한 페이지 씩 불러오기*/
 	public ArrayList<DonationBean> getDonationList_page(String reward_id, int page, int limit) {
 		//1. 커넥션 풀에서 Connection객체를 얻어와
 		Connection con = getConnection(); //JdbcUtil. 생략(이유?import static 하여)

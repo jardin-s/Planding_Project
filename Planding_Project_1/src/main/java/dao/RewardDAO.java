@@ -328,6 +328,33 @@ public class RewardDAO {
 		return donationList;
 	}
 
+	public int editReward(RewardBean rewardInfo) {//reward_id//r_name//r_content//r_price
+		int editRewardCount = 0;
+		
+		String sql = "UPDATE reward_tbl SET r_name = ?, r_content = ?, r_price=? WHERE reward_id = ?";
+		
+		try {
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, rewardInfo.getR_name());
+			pstmt.setString(2, rewardInfo.getR_content());
+			pstmt.setInt(3, rewardInfo.getR_price());
+			pstmt.setString(4, rewardInfo.getReward_id());
+			
+			editRewardCount = pstmt.executeUpdate();
+			
+		} catch(Exception e) {
+			System.out.println("[RewardDAO] editReward() 에러 : "+e);//예외객체종류 + 예외메시지
+			e.printStackTrace();
+		} finally {
+			close(pstmt); //JdbcUtil.생략가능
+			//close(rs); //JdbcUtil.생략가능
+			//connection 객체에 대한 해제는 DogListService에서 이루어짐
+		}
+		
+		return editRewardCount;
+	}
+
 	
 
 	

@@ -10,7 +10,7 @@ import action.Action;
 import svc.project.ProjectPageViewService;
 import vo.*;
 
-public class manageProjectAction implements Action {
+public class ManageProjectAction implements Action {
 
 	@Override
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -29,7 +29,8 @@ public class manageProjectAction implements Action {
         String pj_title = pj.getTitle();
         PlannerBean planner = projectPageViewService.getPlannerInfo(project_id, member_id);
         String planner_name = planner.getPlanner_name();
-      //세션에 기획자명과 프로젝트명 저장
+        
+        //세션에 기획자명과 프로젝트명 저장
 	    session.setAttribute("pj_title", pj_title);
 	    session.setAttribute("planner_name", planner_name);
         
@@ -40,10 +41,13 @@ public class manageProjectAction implements Action {
         for(int i=0;i<reward_id_list.size();i++) {
         	rewardList.add(projectPageViewService.getRewardInfo(reward_id_list.get(i)));
         }
-	    //세션에 리워드리스트 저장
-	    session.setAttribute("rewardList", rewardList);
         
-	    
+	    //세션에 리워드리스트 저장
+        int rewardListSize = rewardList.size();
+	    session.setAttribute("rewardList", rewardList);
+	    session.setAttribute("rewardListSize", rewardListSize);
+        
+	   
 	    
 	    
 	    
@@ -55,7 +59,8 @@ public class manageProjectAction implements Action {
 	    //리워드별 총액을 넣을 배열을 리워드리스트 크기로 초기화
 	    int[] byRewardTotalPrice=new int[rewardList.size()];
 	    
-	    
+	    int totalCount=0;
+	    int totalPrice=0;
 	    //각 리워드 아이디별로 카운트 계산
 	    for (int i = 0; i < rewardList.size(); i++) {
 	        RewardBean reward = rewardList.get(i);
@@ -66,10 +71,11 @@ public class manageProjectAction implements Action {
 	        for (int j = 0; j < donationList.size(); j++) {
 	            DonationBean donation = donationList.get(j);
 	            if (rewardId.equals(donation.getReward_id())) {
-	                rewardCount++;
+	                rewardCount++;	//리워드별 후원 수 합계
 	            }
-	            rewardTotalPrice+=donation.getTotalDonation();
-	            
+	            totalCount++;	//총 후원 수 합계
+	            rewardTotalPrice+=donation.getTotalDonation();	//리워드별 후원금합계
+	            totalPrice+=donation.getTotalDonation(); //총 후원금합계
 	        }
 	        byRewardTotalPrice[i]=rewardTotalPrice; //배열에 리워드별 총액 저장 
 	        byRewardCount[i] = rewardCount; //배열에 리워드별 카운트 저장
@@ -78,6 +84,8 @@ public class manageProjectAction implements Action {
 	    //세션에 리워드별 총액과 카운트 저장
 	    session.setAttribute("byRewardCount", byRewardCount);
 	    session.setAttribute("byRewardTotalPrice", byRewardTotalPrice);
+	    session.setAttribute("totalCount", totalCount);
+	    session.setAttribute("totalPrice", totalPrice);
 	    
 	    
 	    
@@ -102,7 +110,7 @@ public class manageProjectAction implements Action {
 		
 					
 		//미리보기 페이지로 이동
-		request.setAttribute("showPage", "project/insertProjectTempView.jsp");
+		request.setAttribute("showPage", "project/userUploadProjectManager.jsp");
 		forward = new ActionForward("userTemplate.jsp", false);
 			
 		
