@@ -1,6 +1,8 @@
 package action.project;
 
 import java.io.File;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.Enumeration;
 
 import javax.servlet.ServletContext;
@@ -97,20 +99,33 @@ public class InsertFundProjectRewardFormAction implements Action {
         /* 파라미터값(입력한 프로젝트 내용들)으로 생성한 ProjectBean객체를 세션에 저장 -------------------------------------------------------------------*/
         System.out.println("[InsertFundProjectRewardFormAction] hidden으로 넘어온 kind값 = "+multi.getParameter("kind"));
         
-        HttpSession session = request.getSession();
+        String startdate_str = multi.getParameter("startdate");
+        String enddate_str = multi.getParameter("enddate");
+        
+        
         ProjectBean projectInfo = new ProjectBean(multi.getParameter("kind"),
 	        									  multi.getParameter("title"),
 	        									  multi.getParameter("summary"),
 	        									  thumbnailSysName,
 	        									  multi.getParameter("content"),
 	        									  contentImgSysNames,
-	        									  multi.getParameter("startdate"),
-	        									  multi.getParameter("enddate"),
+	        									  startdate_str,
+	        									  enddate_str,
 	        									  Integer.parseInt(multi.getParameter("goal_amount").replace(",", "")),
 	        									  0);
-        //달성률 세팅
-        projectInfo.setProgressFormatWithCurrGoal(0, Integer.parseInt(multi.getParameter("goal_amount").replace(",", "")));
+        //달성률 세팅 (미리보기는 항상 75%로 고정)
+        //projectInfo.setProgressFormatWithCurrGoal(0, Integer.parseInt(multi.getParameter("goal_amount").replace(",", "")));
+       
+        //남은일수 세팅
+        LocalDate startdate_date = LocalDate.parse(startdate_str);//날짜로 변환
+        LocalDate enddate_date = LocalDate.parse(enddate_str);
+        				
+        long deadline = ChronoUnit.DAYS.between(startdate_date, enddate_date);//두 날짜 사이 일수차이를 구함
+        projectInfo.setDeadline((int)deadline);
+        
+        
         //세션에 저장
+        HttpSession session = request.getSession();
         session.setAttribute("projectInfo", projectInfo);
         
         //리워드 입력 폼으로 이동

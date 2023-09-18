@@ -96,20 +96,20 @@
 							<tr class="text-start">
 								<th class="py-2">
 									<span class="fw-normal">&nbsp;현재 모금액</span><br>
-									&nbsp;<span style="font-size:2rem; font-weight:normal">11,535,400</span>&nbsp;원
+									&nbsp;<span style="font-size:2rem; font-weight:normal">0</span>&nbsp;원
 								</th>					
 							</tr>
 							<tr class="text-start">
 								<th class="py-2">
 									<span class="fw-normal">&nbsp;달성률</span>
-									<div class="progress col-10 mt-2" role="progressbar" aria-label="Basic example" aria-valuenow="2307" aria-valuemin="0" aria-valuemax="100" style="height:20px">
-										<div class="progress-bar" style="width: 2307%">2307%</div>
+									<div class="progress col-10 mt-2" role="progressbar" aria-label="Basic example" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="height:20px">
+										<div class="progress-bar" style="width: 0%">0%</div>
 									</div>
 								</th>					
 							</tr>
 							<tr class="text-start">
 								<th class="py-2">
-									<span class="fw-normal">&nbsp;남은 시간</span><br>
+									<span class="fw-normal">&nbsp;공개일까지</span><br>
 									&nbsp;<span style="font-size:2rem; font-weight:normal">9</span>&nbsp;일
 								</th>					
 							</tr>
@@ -121,40 +121,11 @@
 							</tr>
 						</thead>
 						<tbody>
-							<form>
-								<tr>
-									<td class="pt-3">
-										<div class="row">
-											<div class="col-8 my-auto">
-											<select class="form-select form-select-lg mb-3">
-												<option selected>리워드 선택</option>
-												<optgroup label="1,000원">
-													<option value="1">리워드 없이 후원하기</option>
-												</optgroup>
-												<optgroup label="39,800원">
-													<option value="1">[얼리버드] '흙' 향수 1개 (2차)</option>
-												</optgroup>
-												<optgroup label="76,600원">
-													<option value="1">[얼리버드] '흙' 향수 1개 + 이전향수(흙 포함) 1개 골라담기 (3차)</option>
-												</optgroup>
-												<optgroup label="113,400원">
-													<option value="1">[얼리버드] '흙' 향수 1개 + 이전향수(흙 포함) 2개 골라담기 (2차)</option>
-												</optgroup>
-											</select>
-											</div>
-											<div class="col-4">
-												<button type="submit" class="btn btn-primary btn-lg px-4 d-block d-md-none d-xl-block" onclick="checkDonate(); return false;">
-													<i class="fas fa-donate py-1 d-block d-xxl-none"></i><span class="d-none d-xxl-block">후원하기</span>
-												</button>
-												<button type="submit" class="btn btn-primary py-2 px-4 d-none d-md-block d-xl-none" onclick="checkDonate(); return false;">
-													<i class="fas fa-donate"></i>
-												</button>
-											</div>
-										</div>
-										<input class="form-control" type="text" placeholder="추가 후원금 (선택)">	
-									</td>
-								</tr>
-							</form>
+							<tr>
+								<td class="py-3">
+									<button type="button" class="btn btn-light" style="width:100%" disabled>9일 이후부터 후원가능</button>	
+								</td>
+							</tr>
 							<tr class="text-center">
 								<td class="py-3">
 									<button type="button" class="btn btn-light" style="width:100%"><i class="fas fa-heart me-2"></i>관심프로젝트 추가</button>

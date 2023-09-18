@@ -106,7 +106,7 @@ function checkTopup(){
 		}	
 	}
 	
-	f.submit();
+	document.f.submit();
 }
 
 //결과값을 마이페이지에 세팅

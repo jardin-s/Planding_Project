@@ -11,6 +11,7 @@ import action.Action;
 import action.admin.manageProject.AuthorizeProjectAction;
 import action.admin.manageProject.CancelProjectAction;
 import action.admin.manageProject.CancelProjectFormAction;
+import action.admin.manageProject.ManageProjectViewAction;
 import action.admin.manageProject.UnauthorizeProjectAction;
 import action.admin.manageProject.donate.AuthDonateProjectListAction;
 import action.admin.manageProject.donate.DoneDonateProjectListAction;
@@ -420,6 +421,19 @@ public class MngProjectFrontController extends HttpServlet {
 			
 		}
 		
+		
+		/*-- '관리자모드에서 프로젝트 상세보기' 요청 --------------------------------------*/
+		else if(command.equals("/manageProjectView.mngp")) {
+			
+			action = new ManageProjectViewAction();
+			
+			try {
+				forward = action.execute(request, response);
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+			
+		}
 		
 		/*-- '미승인 프로젝트를 승인하기' 요청 --------------------------------------*/
 		else if(command.equals("/authorizeProject.mngp")) {

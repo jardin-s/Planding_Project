@@ -104,6 +104,59 @@ public class ProjectDAO {
 		
 		return projectInfo;
 	}
+	
+	/** 프로젝트 ID로 프로젝트 정보를 얻어옴 (날짜 연월일만)*/
+	public ProjectBean selectProjectDate(int project_id) {
+		ProjectBean projectInfo = null;
+		
+		String sql = "select project_id, kind, title,"
+				+ " summary, thumbnail, content, image,"
+				+ " DATE_FORMAT(startdate,'%Y.%m.%d') as startdate,"
+				+ " DATE_FORMAT(enddate,'%Y.%m.%d') as enddate,"
+				+ " goal_amount, curr_amount, status, likes,"
+				+ " DATE_FORMAT(regdate,'%Y.%m.%d') as regdate"
+				+ " from project_tbl"
+				+ " where project_id=?";
+		
+		try {
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, project_id);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				projectInfo = new ProjectBean(rs.getInt("project_id"),
+						rs.getString("kind"),
+						rs.getString("title"),
+						rs.getString("summary"),
+						rs.getString("thumbnail"),
+						rs.getString("content"),
+						rs.getString("image"),
+						rs.getString("startdate"),
+						rs.getString("enddate"),
+						rs.getInt("goal_amount"),
+						rs.getInt("curr_amount"),
+						rs.getString("status"),
+						rs.getInt("likes"),
+						rs.getString("regdate")
+						);
+				//현재모금액과 목표모금액으로 달성률 세팅
+				projectInfo.setProgressFormatWithCurrGoal(rs.getInt("curr_amount"), rs.getInt("goal_amount"));
+			}
+			
+			System.out.println("[ProjectDAO] selectProject() - rs값이 있는지 확인(title) : "+rs.getString("title"));
+			
+		} catch(Exception e) {
+			System.out.println("[ProjectDAO] selectProject() 에러 : "+e);//예외객체종류 + 예외메시지
+		} finally {
+			close(pstmt); //JdbcUtil.생략가능
+			close(rs); //JdbcUtil.생략가능
+			//connection 객체에 대한 해제는 DogListService에서 이루어짐
+		}
+		
+		return projectInfo;
+	}
 
 	/** 특정 회원의 후원기록을 가져오기 */
 	public ArrayList<DonationBean> selectDonationList(String u_id) {
@@ -287,7 +340,7 @@ public class ProjectDAO {
 		return plannerInfo;
 	}
 
-	/** 프로젝트ID로 리워드ID 리스트 얻어오기 */
+	/** 프로젝트ID로 리워드ID 리스트 얻어오기 (기본리워드 제외) */
 	public ArrayList<String> selectRewardIdList(int project_id) {
 		ArrayList<String> rewardList = null;
 		
@@ -323,7 +376,7 @@ public class ProjectDAO {
 		
 		return rewardList;
 	}
-
+	
 	/** 특정 프로젝트의 후원기록 리스트 가져오기 */
 	public ArrayList<DonationBean> selectProjectDonationList(int project_id) {
 		ArrayList<DonationBean> donationList = null;

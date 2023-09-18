@@ -197,7 +197,7 @@ function cancelProject(project_id, status){
    				<table class="table table-bordered mb-5">
 			    	<tr>
 			    		<th colspan="2" class="text-center">
-			    			<img src="${pageContext.request.contextPath}/images/project/${projectInfo.thumbnail}">
+			    			<img src="<%=request.getContextPath()%>/images/project_No_${projectInfo.project_id }/${projectInfo.project_id }_${projectInfo.thumbnail }" style="width:80%">
 			    		</th>
 			    	</tr>
 			    	<tr>
@@ -270,9 +270,9 @@ function cancelProject(project_id, status){
 			    	</tr>
 			    	<tr>
 			    		<td colspan="2" class="text-center">
-			    			<c:forEach var="p_image" items="projectImgList">
-			    				<img src="${pageContext.request.contextPath}/images/project/${p_image}">
-			    			</c:forEach>
+			    			<c:forTokens var="image" items="${projectInfo.image }" delims=";">
+								<img src="<%=request.getContextPath()%>/images/project_No_${projectInfo.project_id }/${projectInfo.project_id }_${image}" style="width:60%; margin-bottom: 2rem">
+							</c:forTokens>
 			    		</td>
 			    	</tr>
 			    </table>
@@ -281,7 +281,7 @@ function cancelProject(project_id, status){
    				<table class="table table-bordered mb-5">
 			    	<tr class="text-center">
 			    		<th>기획자 ID</th>
-			    		<td>${plannerInfo.planner_id}</td>
+			    		<td>${plannerInfo.member_id}</td>
 			    		<th>기획자 이름</th>
 			    		<td>${plannerInfo.planner_name}</td>
 			    	</tr>
@@ -307,14 +307,14 @@ function cancelProject(project_id, status){
 			    		<th>리워드 내용</th>
 			    		<th>리워드 가격</th>
 			    	</tr>
-			    	<c:forEach var="reward" items="rewardList">
+			    	<c:forEach var="reward" items="${rewardList}">
+			    		<tr class="text-center">
+				    		<td>${reward.reward_id }</td>
+				    		<td>${reward.r_name }</td>
+				    		<td>${reward.r_content }</td>
+				    		<td>${reward.r_price}원</td>
+				    	</tr>
 			    	</c:forEach>
-			    	<tr class="text-center">
-			    		<td>${reward.reward_id }</td>
-			    		<td>${reward.r_name }</td>
-			    		<td>${reward.r_content }</td>
-			    		<td>${reward.r_price}원</td>
-			    	</tr>
 			    </table>
 			    
 			   
@@ -326,11 +326,12 @@ function cancelProject(project_id, status){
 			    	<c:if test="${projectInfo.status eq 'ready' or projectInfo.status eq 'ongoing'}">
 	    				<button class="btn btn-outline-primary py-1" type="button" id="cancelBtn" onclick="cancelProject(${projectInfo.project_id}, '${projectInfo.status }');">프로젝트 취소</button>
 	    			</c:if>
+	    			<br><br>
 			    	<c:if test="${projectInfo.kind eq 'donate' }">
-			    		<button class="btn btn-light" onclick="location.href='manageDonateProjectList.mngp'">프로젝트 목록</button>
+			    		<button class="btn btn-light" onclick="location.href='manageDonateProjectList.mngp?page=${page}'">프로젝트 목록</button>
 			    	</c:if>
 			    	<c:if test="${projectInfo.kind eq 'fund' }">
-			    		<button class="btn btn-light" onclick="location.href='manageFundProjectList.mngp'">프로젝트 목록</button>
+			    		<button class="btn btn-light" onclick="location.href='manageFundProjectList.mngppage=${page}'">프로젝트 목록</button>
 			    	</c:if>			    	
 			    </div>
    			</div>

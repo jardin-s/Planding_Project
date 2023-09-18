@@ -170,7 +170,7 @@ if(session.getAttribute("contentImgs") != null){
 				<textarea class="form-control" id="summary" name="summary" rows="3" maxlength="1000" required>${sessionScope.projectInfo.summary}</textarea>
 			</div>
 			<div class="mb-3">
-				<label for="thumbnail" class="form-label">썸네일 이미지</label>
+				<label for="thumbnail" class="form-label">썸네일 이미지 (권장 사이즈 : 550*550(px))</label>
 				<!-- image_tbl -->
 				<input type="file" class="form-control" id="thumbnail" name="thumbnail" required value="${sessionScope.projectInfo.thumbnail }" accept="image/*"  onchange="validateImageFile(this)">
 			</div>

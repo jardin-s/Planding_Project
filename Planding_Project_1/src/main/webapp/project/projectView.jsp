@@ -51,8 +51,29 @@ String goal_amount_str = df.format(goal_amount);
 <script>
 //후원하기 폼 유효성 체크
 function checkDonate() {
+	
+	//숫자 정규식 (직접입력 시)
+	const regNum = /^[0-9]+$/;
+	
+	
 	//리워드 선택여부 체크 (무조건 하나는 선택)
-	//추가후원금 입력시 숫자 입력했는지 체크
+	if(document.f.reward_id.value == ''){
+		alert('리워드를 선택해주세요.');
+		document.f.reward_id.focus();
+		return false;
+	}else{
+		if(document.f.add_donation.value != ''){
+			
+			//추가후원금 숫자입력 검사
+			if(!regNum.test(document.f.add_donation.value)){
+				alert('추가후원금은 숫자만 입력가능합니다.');
+				document.f.add_donation.select();
+				return false;
+			}
+		}
+	}
+	
+	document.f.submit();
 }
 
 
@@ -90,21 +111,36 @@ function checkDonate() {
 							<tr class="text-start">
 								<th class="py-2">
 									<span class="fw-normal">&nbsp;현재 모금액</span><br>
-									<span style="font-size:2rem; font-weight:normal"><%=curr_amount_str %></span>&nbsp;원
+									&nbsp;<span style="font-size:2rem; font-weight:normal"><%=curr_amount_str %></span>&nbsp;원
 								</th>					
 							</tr>
 							<tr class="text-start">
 								<th class="py-2">
 									<span class="fw-normal">&nbsp;달성률</span>
-									<div class="progress col-10 mt-2" role="progressbar" aria-label="Basic example" aria-valuenow="${projectInfo.process }" aria-valuemin="0" aria-valuemax="100" style="height:20px">
-										<div class="progress-bar" style="width: ${projectInfo.process }%">${projectInfo.process }%</div>
+									<div class="progress col-10 mt-2" role="progressbar" aria-label="Basic example" aria-valuenow="${projectInfo.progress }" aria-valuemin="0" aria-valuemax="100" style="height:20px">
+										<div class="progress-bar" style="width: ${projectInfo.progress }%">${projectInfo.progress }%</div>
 									</div>
 								</th>					
 							</tr>
 							<tr class="text-start">
 								<th class="py-2">
-									<span class="fw-normal">&nbsp;남은 시간</span><br>
-									&nbsp;<span style="font-size:2rem; font-weight:normal">${projectInfo.deadline }</span>&nbsp;일
+									<c:choose>
+										<c:when test="${projectInfo.status eq 'ongoing' }">
+											<span class="fw-normal">&nbsp;남은 시간</span><br>
+											&nbsp;<span style="font-size:2rem; font-weight:normal">${projectInfo.deadline }</span>&nbsp;일
+										</c:when>
+										<c:when test="${projectInfo.status eq 'done' }">
+											<span class="fw-normal" style="font-size:0.8rem">&nbsp;종료되었습니다.</span><br>
+										</c:when>
+										<c:when test="${projectInfo.status eq 'success' }">
+											<span class="fw-normal" style="font-size:0.8rem">&nbsp;여러분들의 소중한 후원으로 프로젝트가 성공적으로 마감했습니다.</span><br>
+										</c:when>
+										<%-- 미승인 또는 공개예정의 경우 --%>
+										<c:otherwise>
+											<span class="fw-normal">&nbsp;공개일까지</span><br>
+											&nbsp;<span style="font-size:2rem; font-weight:normal">${projectInfo.deadline }</span>&nbsp;일
+										</c:otherwise>
+									</c:choose>
 								</th>					
 							</tr>
 							<tr class="text-start">
@@ -116,44 +152,81 @@ function checkDonate() {
 						</thead>
 						<tbody>
 							<tr>
-								<form action="userDonateProjectForm.pj" method="post" name="f">
-									<input type="hidden" name="project_id" value="${projectInfo.project_id }">
-									
-									<td class="pt-3">
-										<div class="row">
-											<div class="col-8 my-auto">
-												<c:if test="${projectInfo.kind eq 'donate' }">
-													<select class="form-select form-select-lg mb-3" name="reward_id">
-														<option value="default" selected>1000원 (최소후원금)</option>
-													</select>
-												</c:if>
-												<c:if test="${projectInfo.kind eq 'fund' }">
-													<select class="form-select form-select-lg mb-3" name="reward_id">
-														<option selected>리워드 선택</option>
-														<optgroup label="1,000원">
-															<option value="default">리워드 없이 후원하기</option>
-														</optgroup>
-														<c:forEach var="reward" items="rewardList">
-															<optgroup label="${reward.r_price}원">
-																<option value="${reward.reward_id }">${reward.r_name }</option>
+								<!-- 진행중인 프로젝트만 후원하기 표시 -->
+								<c:if test="${projectInfo.status eq 'ongoing' }">
+									<form action="userDonateProjectForm.pj" method="post" name="f">
+										<input type="hidden" name="project_id" value="${projectInfo.project_id }">
+										
+										<td class="pt-3">
+											<div class="row">
+												<div class="col-8 my-auto">
+													<%-- 기부 프로젝트는 기본리워드가 선택된 상태 --%>
+													<c:if test="${projectInfo.kind eq 'donate' }">
+														<select class="form-select form-select-lg mb-3" name="reward_id">
+															<option value="default" selected>1000원 (최소후원금)</option>
+														</select>
+													</c:if>
+													
+													<!-- 펀딩 프로젝트는 리워드목록에서 선택 -->
+													<c:if test="${projectInfo.kind eq 'fund' }">
+														<select class="form-select form-select-lg mb-3" name="reward_id">
+															<option selected>리워드 선택</option>
+															<optgroup label="1,000원">
+																<option value="default">리워드 없이 후원하기</option>
 															</optgroup>
-														</c:forEach>
-													</select>
-												</c:if>
+															<c:forEach var="reward" items="rewardList">
+																<optgroup label="${reward.r_price}원">
+																	<option value="${reward.reward_id }">${reward.r_name }</option>
+																</optgroup>
+															</c:forEach>
+														</select>
+													</c:if>
+												</div>
+												<div class="col-4">
+													<button type="submit" class="btn btn-primary btn-lg px-3 d-block d-md-none d-xl-block" onclick="checkDonate(); return false;">
+														<i class="fas fa-donate py-1 d-block d-xxl-none"></i><span class="d-none d-xxl-block">후원하기</span>
+													</button>
+													<button type="submit" class="btn btn-primary py-2 px-4 d-none d-md-block d-xl-none" onclick="checkDonate(); return false;">
+														<i class="fas fa-donate"></i>
+													</button>
+												</div>
 											</div>
-											<div class="col-4">
-												<button type="submit" class="btn btn-primary btn-lg px-4 d-block d-md-none d-xl-block" onclick="checkDonate(); return false;">
-													<i class="fas fa-donate py-1 d-block d-xxl-none"></i><span class="d-none d-xxl-block">후원하기</span>
-												</button>
-												<button type="submit" class="btn btn-primary py-2 px-4 d-none d-md-block d-xl-none" onclick="checkDonate(); return false;">
-													<i class="fas fa-donate"></i>
-												</button>
-											</div>
-										</div>
-										<input class="form-control" type="text" name="add_donation" id="add_donation" placeholder="추가 후원금 (선택)">	
+											<input class="form-control" type="text" name="add_donation" id="add_donation" placeholder="추가 후원금 (선택)">	
+										</td>
+									</form>
+								</c:if>
+								
+								<!-- status가 진행중이 아니라면 -->
+								<c:if test="${projectInfo.status ne 'ongoing' }">
+									<td class="py-3">
+										<button type="button" class="btn btn-light" style="width:100%" disabled>
+											<c:choose>
+												<%-- 공개예정 --%>
+												<c:when test="${projectInfo.status eq 'unauthorized'}">
+													프로젝트 검토 중
+												</c:when>
+												<c:when test="${projectInfo.status eq 'ready'}">
+													${projectInfo.deadline}일 이후부터 후원가능
+												</c:when>
+												<%-- 종료 또는 성공 --%>
+												<c:otherwise>
+													종료된 프로젝트입니다.
+												</c:otherwise>
+											</c:choose>
+										</button>	
 									</td>
-								</form>
+								</c:if>
+								
+								
 							</tr>
+							<!-- 공개예정, 진행중인 프로젝트만 '관심프로젝트 추가 버튼' 보이기 -->
+							<c:if test="${projectInfo.status eq 'ready' || projectInfo.status eq 'ongoing'}">
+								<tr class="text-center">
+									<td class="py-3">
+										<button type="button" class="btn btn-light" style="width:100%" onclick="location.href='userAddBookmark.pj?project_id=${projectInfo.project_id}'"><i class="fas fa-heart me-2"></i>관심프로젝트 추가</button>
+									</td>				
+								</tr>
+							</c:if>							
 						</tbody>
 					</table>
 				</div>
@@ -206,31 +279,38 @@ function checkDonate() {
 					</table>
 				</div>
 				
-				<!-- 리워드 세부사항 -->
-				<div class="col-12">
-					<table class="table">
-						<thead>
-							<tr>
-								<th>리워드 이름</th>
-								<th>세부내용</th>
-								<th>금액</th>
-							</tr>
-						</thead>
-						<tbody>
-							<c:forEach var="reward" items="rewardList">
+				<!-- 리워드 세부사항 (펀딩 프로젝트만 보임) -->
+				<c:if test="${projectInfo.kind eq 'fund' }">
+					<div class="col-12">
+						<table class="table">
+							<thead>
 								<tr>
-									<td class="col-4">${reward.r_name}</td>
-									<td class="col-auto">${reward.r_content }</td>
-									<td class="col-2">${reward.r_price }원</td>
+									<th>리워드 이름</th>
+									<th>세부내용</th>
+									<th>금액</th>
 								</tr>
-							</c:forEach>
-						</tbody>
-					</table>
-				</div>
+							</thead>
+							<tbody>
+								<c:forEach var="reward" items="rewardList">
+									<tr>
+										<td class="col-4">${reward.r_name}</td>
+										<td class="col-auto">${reward.r_content }</td>
+										<td class="col-2">${reward.r_price }원</td>
+									</tr>
+								</c:forEach>
+							</tbody>
+						</table>
+					</div>
+				</c:if>
 				
-				
+								
 				<div class="col-12 text-center">
-					<button class="btn btn-light" onclick="location.href='userProjectList.pj?page=${page}'">프로젝트 목록</button>
+					<c:if test="${projectInfo.kind eq 'donate' }">
+						<button class="btn btn-light" onclick="location.href='userDonateProjectList.pj?page=${page}'">목록보기</button>
+					</c:if>
+					<c:if test="${projectInfo.kind eq 'fund' }">
+						<button class="btn btn-light" onclick="location.href='userFundProjectList.pj?page=${page}'">목록보기</button>
+					</c:if>					
 				</div>
 			</div>
 		</div>

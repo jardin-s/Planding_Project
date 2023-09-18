@@ -96,7 +96,7 @@
 							<tr class="text-start">
 								<th class="py-2">
 									<span class="fw-normal">&nbsp;현재 모금액</span><br>
-									<span style="font-size:2rem; font-weight:normal">11,535,400</span>&nbsp;원
+									&nbsp;<span style="font-size:2rem; font-weight:normal">11,535,400</span>&nbsp;원
 								</th>					
 							</tr>
 							<tr class="text-start">
@@ -141,6 +141,11 @@
 									</td>
 								</tr>
 							</form>
+							<tr class="text-center">
+								<td class="py-3">
+									<button type="button" class="btn btn-light" style="width:100%"><i class="fas fa-heart me-2"></i>관심프로젝트 추가</button>
+								</td>					
+							</tr>
 						</tbody>
 					</table>
 				</div>
