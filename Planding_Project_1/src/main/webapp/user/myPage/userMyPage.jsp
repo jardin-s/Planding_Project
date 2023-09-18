@@ -43,6 +43,16 @@
 	}
     </style>
 </head>
+
+<script>
+function topUpOpen(member_id){
+	var popupX = (document.body.offsetWidth/2) - (500/2); 
+	var popupY = (window.screen.height/2) - (420/2);
+	
+	window.open('user/myPage/topUp/topUp.jsp?member_id='+member_id,'금액 충전하기','top='+popupY+', left='+popupX+', width=500, height=420');
+}
+</script>
+
 <body>
 	
 	<!-- Main Section -->
@@ -71,14 +81,18 @@
             		<img class="img-thumbnail" src="resources/img/mypage_sample.jpg" style="width:15rem">
             	</div>
                 <div class="col-md-8 col-lg-4 py-5 py-lg-0">
-                    <div class="bg-primary rounded py-3 px-5 mb-5 text-center">
+                    <div class="rounded py-3 px-5 mb-5 text-center" style="background-color:#86B381">
                     	<div class="row justify-content-center">
-                    		<div class="col-7">
-		                    	<span class="fw-bold fs-5 text-white">플랜딩 계좌 잔액<br>
-		                    	50000원</span>
+                    		<div class="col-6">
+		                    	<span class="fs-6 text-white">잔여금액</span><br>
+		                    	<form name="f">
+	                    			<input type="text" class="form-control fw-bold text-center text-dark py-0 mx-auto" name="account" value="${sessionScope.u_account}" style="width:100px" readonly/>
+			                    </form>
 	                    	</div>
-	                    	<div class="col-5 my-auto">
-	                    		<button type="button" class="btn btn-light" id="topUpBtn">충전하기</button>
+	                    	<div class="col-6 my-auto">
+	                    		<div class="col mb-1">
+	                    			<button type="button" class="btn btn-light fw-bold px-md-0 px-lg-2 py-0 m-0" id="topUpBtn" onclick="topUpOpen('${sessionScope.u_id}');">충전하기</button>
+	                    		</div>
 	                    	</div>
                     	</div>                    	
                     </div>

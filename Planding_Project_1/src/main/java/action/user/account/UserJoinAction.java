@@ -62,7 +62,7 @@ public class UserJoinAction implements Action {
 		
 		//주소ID 생성
 		Date now = new Date();
-		SimpleDateFormat format = new SimpleDateFormat("yyMMddHHmmssZ");
+		SimpleDateFormat format = new SimpleDateFormat("yyMMddHHmmss");
 		String address_id = format.format(now);
 		address_id = u_id+address_id;
 		System.out.println("생성된 address_id = "+address_id);

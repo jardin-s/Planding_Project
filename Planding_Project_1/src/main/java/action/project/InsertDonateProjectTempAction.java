@@ -2,6 +2,8 @@ package action.project;
 
 import java.io.File;
 import java.io.PrintWriter;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.Enumeration;
 
 import javax.servlet.ServletContext;
@@ -102,18 +104,41 @@ public class InsertDonateProjectTempAction implements Action {
         //[손정원] 위의 소스를 수정함
         System.out.println("[InsertDonateProjectTempAction] hidden으로 넘어온 kind값 = "+multi.getParameter("kind"));
         
+        String startdate_str = multi.getParameter("startdate");
+        String enddate_str = multi.getParameter("enddate");
+        
         ProjectBean projectInfo = new ProjectBean(multi.getParameter("kind"),
 						        				  multi.getParameter("title"),
 						        				  multi.getParameter("summary"),
 						        				  thumbnailSysName,
 						        				  multi.getParameter("content"),
 						        				  contentImgSysNames,
-						        				  multi.getParameter("startdate"),
-						        				  multi.getParameter("enddate"),
+						        				  startdate_str,
+						        				  enddate_str,
 						        				  Integer.parseInt(multi.getParameter("goal_amount").replace(",", "")),
 						        				  0);
-        //달성률 세팅
-        projectInfo.setProgressFormatWithCurrGoal(0, Integer.parseInt(multi.getParameter("goal_amount").replace(",", "")));
+        //달성률 세팅 (미리보기 페이지는 항상 달성률 75%로 고정)
+        //projectInfo.setProgressFormatWithCurrGoal(0, Integer.parseInt(multi.getParameter("goal_amount").replace(",", "")));
+        
+        //남은일수 세팅 (미리보기에서는 오늘-종료일이 아니라 시작일-종료일로 계산해둠)
+        LocalDate startdate_date = LocalDate.parse(startdate_str);//날짜로 변환
+        LocalDate enddate_date = LocalDate.parse(enddate_str);
+        				
+        long deadline = ChronoUnit.DAYS.between(startdate_date, enddate_date);//두 날짜 사이 일수차이를 구함
+        projectInfo.setDeadline((int)deadline);
+        
+        System.out.println("[InsertDonateProjectTempAction] 생성된 ProjectBean객체");
+        System.out.println("kind = "+projectInfo.getKind());
+        System.out.println("title = "+projectInfo.getTitle());
+        System.out.println("summary = "+projectInfo.getSummary());
+        System.out.println("thumbnail = "+projectInfo.getThumbnail());
+        System.out.println("content = "+projectInfo.getContent());
+        System.out.println("image = "+projectInfo.getImage());
+        System.out.println("startdate = "+projectInfo.getStartdate());
+        System.out.println("enddate = "+projectInfo.getEnddate());
+        System.out.println("deadline = "+projectInfo.getDeadline());
+        System.out.println("goal_amount = "+projectInfo.getGoal_amount());
+        
         
         //세션에 project이름으로 ProjectBean객체 저장
         HttpSession session = request.getSession();

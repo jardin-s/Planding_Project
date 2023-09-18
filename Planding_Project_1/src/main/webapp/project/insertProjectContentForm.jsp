@@ -167,10 +167,10 @@ if(session.getAttribute("contentImgs") != null){
 			</div>
 			<div class="mb-3">
 				<label for="summary" class="form-label">프로젝트 요약</label>
-				<textarea class="form-control" id="summary" name="summary" rows="3" maxlength="100" required>${sessionScope.projectInfo.summary}</textarea>
+				<textarea class="form-control" id="summary" name="summary" rows="3" maxlength="1000" required>${sessionScope.projectInfo.summary}</textarea>
 			</div>
 			<div class="mb-3">
-				<label for="thumbnail" class="form-label">썸네일 이미지</label>
+				<label for="thumbnail" class="form-label">썸네일 이미지 (권장 사이즈 : 550*550(px))</label>
 				<!-- image_tbl -->
 				<input type="file" class="form-control" id="thumbnail" name="thumbnail" required value="${sessionScope.projectInfo.thumbnail }" accept="image/*"  onchange="validateImageFile(this)">
 			</div>
@@ -195,7 +195,7 @@ if(session.getAttribute("contentImgs") != null){
 	       
 			<div class="mb-3">
 				<label for="content" class="form-label">프로젝트 내용</label>
-				<textarea class="form-control" id="content" name="content" rows="3" maxlength="500" required>${sessionScope.projectInfo.content}</textarea>
+				<textarea class="form-control" id="content" name="content" rows="3" maxlength="5000" required placeholder="줄바꿈 할 시 직접 &lt;br&gt;을 입력해주세요. 해당 기능이 개발 중에 있습니다.">${sessionScope.projectInfo.content}</textarea>
 			</div>
 			
 			<div class="mb-3">

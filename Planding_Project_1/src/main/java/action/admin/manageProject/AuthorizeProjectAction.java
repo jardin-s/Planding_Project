@@ -44,7 +44,7 @@ public class AuthorizeProjectAction implements Action {
 				out.println("</script>");
 			}else {
 				//다시 해당 프로젝트 상세보기 요청
-				forward = new ActionForward("projectView.mngp?project_id="+project_id, true);
+				forward = new ActionForward("manageProjectView.mngp?project_id="+project_id, true);
 			}
 		}		
 		

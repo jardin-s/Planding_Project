@@ -80,7 +80,7 @@ public class CancelProjectAction implements Action {
 				//2. 진행중이라면? 환불처리 후, 기획자, 회원북마크(프로젝트 삭제 시 자동삭제), 후원기록, 리워드, 리워드매핑, 프로젝트 데이터 삭제
 				
 				//프로젝트ID로 리워드ID리스트를 얻어옴
-				ArrayList<RewardBean> rewardIdList = cancelProjectService.getProjectRewardIdList(project_id);
+				ArrayList<String> rewardIdList = cancelProjectService.getProjectRewardIdList(project_id);
 				
 				boolean isCancelProject = false;
 				if(status.equalsIgnoreCase("ready")) {//공개예정

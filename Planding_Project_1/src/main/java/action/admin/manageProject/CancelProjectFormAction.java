@@ -37,8 +37,8 @@ public class CancelProjectFormAction implements Action {
 			
 			request.setAttribute("showAdmin", "cancelProjectForm.jsp");
 			forward = new ActionForward("adminTemplate.jsp", false);
-			
 		}
+		
 		return forward;
 	}
 

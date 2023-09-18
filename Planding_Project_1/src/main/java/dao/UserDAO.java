@@ -746,6 +746,34 @@ public class UserDAO {
 		return deleteBookmarkCount;
 	}
 
+	/** 사용자ID로 현재 계좌잔액을 가져옴 */
+	public int getUserMoney(String member_id) {
+		int userMoney = 0;
+		
+		String sql = "select account from member_tbl where member_id = ?";
+		
+		try {
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, member_id);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				userMoney = rs.getInt("account");
+			}
+			
+		} catch(Exception e) {
+			System.out.println("[UserDAO] getUserMoney() 에러 : "+e);//예외객체종류 + 예외메시지
+		} finally {
+			close(pstmt); //JdbcUtil.생략가능
+			//close(rs); //JdbcUtil.생략가능
+			//connection 객체에 대한 해제는 DogListService에서 이루어짐
+		}
+		
+		return userMoney;
+	}
+
 	
 
 	

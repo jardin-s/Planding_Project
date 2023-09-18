@@ -64,7 +64,7 @@ public class AdminJoinAction implements Action {
 		
 		//주소ID 생성
 		Date now = new Date();
-		SimpleDateFormat format = new SimpleDateFormat("yyMMddHHmmssZ");
+		SimpleDateFormat format = new SimpleDateFormat("yyMMddHHmmss");
 		String address_id = format.format(now);
 		System.out.println("생성된 address_id = "+address_id);
 		//주소 객체 생성

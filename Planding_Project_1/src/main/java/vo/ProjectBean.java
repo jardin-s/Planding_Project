@@ -26,11 +26,13 @@ public class ProjectBean {
 	
 	private double progress;//달성률 (DB에 없음. 조회시, 현재모금액/목표모금액 계산하여 세팅)
 	
+	private int deadline;//남은일수
+	
 	
 	
 	public ProjectBean() {}
 	
-	//프로젝트 모든 정보
+	//프로젝트 모든 정보 (남은일수 제외)
 	public ProjectBean(int project_id, String kind, String title, String summary, String thumbnail, String content,
 			String image, String startdate, String enddate, int goal_amount, int curr_amount, String status, int likes,
 			String regdate) {
@@ -69,6 +71,7 @@ public class ProjectBean {
 		//this.status = status; //등록시 항상 처음은 unauthorized(미승인)
 		//this.likes = likes; //등록시 항상 처음은 0으로 시작
 		//this.regdate = regdate; //SQL에서 현재시간으로 자동세팅
+		//this.deadline = deadline; //나중에 조회하여 세팅
 	}
 	
 	//관리자모드 - 프로젝트 목록 조회 시
@@ -215,5 +218,14 @@ public class ProjectBean {
 		double d = (double) curr_amount / goal_amount;
 		this.progress = Math.floor((d*10)/10.0);//둘째자리에서 반올림
 	}
+	
 
+	public int getDeadline() {
+		return deadline;
+	}
+
+	public void setDeadline(int deadline) {
+		this.deadline = deadline;
+	}
+	
 }

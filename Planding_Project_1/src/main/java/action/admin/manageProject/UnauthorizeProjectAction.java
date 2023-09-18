@@ -73,11 +73,11 @@ public class UnauthorizeProjectAction implements Action {
 				 * 4. 프로젝트 테이블에서 프로젝트 데이터 삭제
 				 * */
 				
-				//프로젝트-리워드 매핑테이블에서 리워드 목록 얻어오기
-				ArrayList<RewardBean> rewardList = unauthorizeProjectService.getProjectRewardIdList(project_id);
+				//프로젝트-리워드 매핑테이블에서 리워드ID 목록 얻어오기
+				ArrayList<String> rewardIdList = unauthorizeProjectService.getProjectRewardIdList(project_id);
 				
 				//프로젝트 기획자, 프로젝트 리워드, 리워드 매핑, 프로젝트 데이터까지 모든 삭제 작업
-				boolean isUnauthorizeSuccess = unauthorizeProjectService.unautorizeProject(project_id, rewardList);
+				boolean isUnauthorizeSuccess = unauthorizeProjectService.unautorizeProject(project_id, rewardIdList);
 				
 				if(!isUnauthorizeSuccess) {//모든 삭제 작업에 실패하면
 					PrintWriter out = response.getWriter();
