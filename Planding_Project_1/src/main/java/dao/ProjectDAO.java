@@ -425,9 +425,7 @@ public class ProjectDAO {
 		return donationList;
 	}
 	
-	/**플래너가 최종적으로 프로젝트 제출하면 unauthorized 등록대기상태로 변경
-	 * status 입력값 조정으로 관리자가 요구하는 상태로 변경가능
-	 * */
+	/** status 입력값 조정으로 관리자가 요구하는 상태로 변경가능 */
 	public int updateProjectStatus(int project_id, String status) {
 		int updateProjectStatusCount = 0;
 		
@@ -452,6 +450,63 @@ public class ProjectDAO {
 		}
 		
 		return updateProjectStatusCount;
+	}
+
+	/** 프로젝트 종류별(기부/펀딩) 전체 개수를 얻어옴  */
+	public int selectProjectKindCount(String kind) {
+		int projectKindCount = 0;
+		
+		String sql = "select count(*) from project_tbl where kind = ?";
+		
+		try {
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, kind);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				projectKindCount = rs.getInt(1);
+			}
+			
+		} catch(Exception e) {
+			System.out.println("[ProjectDAO] selectProjectKindCount() 에러 : "+e);//예외객체종류 + 예외메시지
+		} finally {
+			close(pstmt); //JdbcUtil.생략가능
+			close(rs); //JdbcUtil.생략가능
+			//connection 객체에 대한 해제는 DogListService에서 이루어짐
+		}
+		
+		return projectKindCount;
+	}
+
+	
+	/** 원하는 페이지의 원하는 개수만큼 기부/펀딩 프로젝트 목록을 얻어옴 (진행중) */
+	public ArrayList<ProjectBean> selectProjectOngoingList(String string, int page, int limit) {
+		ArrayList<ProjectBean> projectList = null;
+		
+		String sql = "select project_id, kind, title, summary"
+				  + " thumbnail, content, image,"
+				  + " DATE_FORMAT(startdate,'%Y.%m.%d') as startdate,"
+				  + " DATE_FORMAT(enddate,'%Y.%m.%d') as enddate,"
+				  + " goal_amount, curr_amount,"
+				  + " status, likes,"
+				  + " regdate"
+				  + " from project_tbl where kind = ?";
+		
+		try {
+			
+			
+			
+		} catch(Exception e) {
+			System.out.println("[ProjectDAO] selectProjectKindCount() 에러 : "+e);//예외객체종류 + 예외메시지
+		} finally {
+			close(pstmt); //JdbcUtil.생략가능
+			close(rs); //JdbcUtil.생략가능
+			//connection 객체에 대한 해제는 DogListService에서 이루어짐
+		}
+		
+		return projectList;
 	}
 	
 	
