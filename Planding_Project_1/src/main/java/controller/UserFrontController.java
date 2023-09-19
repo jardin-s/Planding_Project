@@ -34,7 +34,7 @@ import action.user.qna.UserQnaListAction;
 import action.user.qna.UserQnaViewAction;
 import action.user.UserBookmarkDeleteAction;
 import action.user.UserBookmarkListAction;
-import action.user.UserDonatedProjectListAction;
+import action.user.UserDonationHistoryAction;
 import action.user.UserTopupMoneyAction;
 import vo.ActionForward;
 
@@ -306,10 +306,10 @@ public class UserFrontController extends HttpServlet {
 			}
 		}
 		
-		/*------- '후원한 프로젝트 목록 보기' -------------------------------*/
-		else if(command.equals("/userDonatedProjectList.usr")) {//'후원한 프로젝트 목록 보기' 요청이면
+		/*------- '나의 후원내역 보기' -------------------------------*/
+		else if(command.equals("/userDonationHistory.usr")) {//'후원내역 보기' 요청이면
 			//action:부모인터페이스 = UserHashPwChangeAction:구현한자식객체;
-			action = new UserDonatedProjectListAction();
+			action = new UserDonationHistoryAction();
 			try {
 				forward = action.execute(request, response);
 			} catch (Exception e) {

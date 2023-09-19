@@ -1,3 +1,6 @@
+show tables;
+
+
 /* 테이블 일괄삭제 (순서대로)
 drop table former_member_tbl;
 
@@ -73,12 +76,16 @@ CREATE TABLE IF NOT EXISTS `project`.`project_tbl` (
 ENGINE = InnoDB;
 
 /* 테스트를 위해 데이터 1개 등록 */
-insert into project_tbl(kind, title, summary, thumbnail, content, image, startdate, enddate, goal_amount, curr_amount, status, likes)
+insert into project_tbl(kind, title, summary, thumbnail, content, image, startdate, enddate, goal_amount, curr_amount, status, likes, regdate)
 values('donate','기부제목','기부요약','thumbnail.jpg','프로젝트 내용','content_image.jpg',
-		'2023-09-11', '2023-09-15', 1000000, 100000, 'unauthorized', 0);
+		'2023-09-11', '2023-09-15', 5000, 0, 'ongoing', 0, '2023-09-11');
 insert into project_tbl(kind, title, summary, thumbnail, content, image, startdate, enddate, goal_amount, curr_amount, status, likes)
 values('donate','기부제목2','기부요약2','thumbnail2.jpg','프로젝트 내용2','content_image2.jpg',
 		'2023-09-11', '2023-09-15', 1000000, 200000, 'unauthorized', 0);
+
+update project_tbl
+set enddate = '2023-09-20'
+where project_id = 2;
 		
 select * from project_tbl;
 delete from project_tbl;
@@ -159,6 +166,7 @@ CREATE TABLE IF NOT EXISTS `project`.`donation_tbl` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
+select * from donation_tbl;
 
 -- -----------------------------------------------------
 -- Table `project`.`admin_income_tbl`
@@ -208,6 +216,9 @@ ENGINE = InnoDB;
 select * from reward_tbl;
 select * from project_reward_tbl;
 insert into project_reward_tbl values(1, 'default');
+
+
+insert into project_reward_tbl values(2, 'default');
 
 delete from project_reward_tbl;
 
@@ -309,6 +320,8 @@ delete from project_planner_tbl;
 
 select * from project_planner_tbl;
 
+insert into project_planner_tbl values(2, 'testuser0002','기획자2','후원테스트용기획자','woori','20230920');
+
 
 -- -----------------------------------------------------
 -- Table `project`.`bookmark_tbl`
@@ -385,6 +398,21 @@ from project_tbl join project_planner_tbl
 using(project_id);
 
 select startdate from project_planner_view;
+
+
+drop view project_donation_reward_view;
+-- -----------------------------------------------------
+-- View `project`.`project_donation_reward_view`
+-- -----------------------------------------------------
+CREATE  OR REPLACE VIEW `project_donation_reward_view` AS
+select project_id, kind, title, summary, thumbnail, content, image, startdate, enddate, goal_amount, curr_amount, status, likes, regdate,
+donation_id, member_id, reward_id, r_price, add_donation, address_id, donatedate,
+r_name, r_content
+from project_tbl join (select donation_id, project_id, member_id, reward_id, r_price, add_donation, address_id, donatedate, r_name, r_content
+						from donation_tbl natural join reward_tbl) donate_reward
+using(project_id);
+
+select * from project_donation_reward_view;
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;

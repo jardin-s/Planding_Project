@@ -44,13 +44,16 @@ public class UserDonateProjectFormAction implements Action {
 		
 		}else if(u_id != null) {//로그인 시에만 후원하기 폼으로 넘어감
 			
+			int u_money = (int) session.getAttribute("u_money");
+			
+			
 			//후원하기 클릭 시 => 프로젝트 ID, 리워드 ID, 추가후원금액 
 			int project_id = Integer.parseInt(request.getParameter("project_id"));
 			String reward_id = request.getParameter("reward_id");
-			int add_donation = 0;
+			int add_donation = 0;//추가후원금 없을 시 0
 			
 			if(!(request.getParameter("add_donation").equals("") || request.getParameter("add_donation") == null)) {
-				add_donation = Integer.parseInt(request.getParameter("add_donation"));
+				add_donation = Integer.parseInt(request.getParameter("add_donation"));//추가후원금이 있으면 그 값으로 교체
 			}
 			
 			//프로젝트 정보 불러오기
@@ -80,54 +83,57 @@ public class UserDonateProjectFormAction implements Action {
 					out.println("</script>");
 				}else {//리워드 정보 얻어오기 성공
 					
-					if(projectInfo.getKind().equalsIgnoreCase("donate")) {//후원 프로젝트의 경우
+					if(reward_id.equalsIgnoreCase("default")) {//만약 기본리워드만 선택했다면
+						
+						System.out.println("[UserDonateProjectFormAction] 기본리워드만 선택");
+						System.out.println("project_id = "+ project_id);
+						System.out.println("reward_id = "+ reward_id);
+						System.out.println("add_donation = "+ add_donation);
+						System.out.println("member_id = "+ u_id);
+						System.out.println("money = "+ u_money);
 						
 						request.setAttribute("projectInfo", projectInfo);
 						request.setAttribute("rewardInfo", rewardInfo);
 						request.setAttribute("add_donation", add_donation);
 						request.setAttribute("member_id", u_id);//주문 시 필요
+						request.setAttribute("money", u_money);//주문 시 필요
 						
 						//기본리워드로 세팅된 후원하기 폼으로 이동 (배송지 입력칸 없음)
-						request.setAttribute("showPage", "user/project/userDonateProject_DonateForm.jsp");
+						request.setAttribute("showPage", "user/project/userDonateProjectForm_Default.jsp");
 						forward = new ActionForward("userTemplate.jsp", false);
 						
-					}else if(projectInfo.getKind().equalsIgnoreCase("fund")) {//펀딩 프로젝트의 경우
+					}else {//리워드 목록 중 선택했다면
+						//회원의 기본 주소지 가져오기
+						AddressBean addressInfo = userDonateProjectFormService.getBasicAddress(u_id);
 						
-						if(reward_id.equalsIgnoreCase("default")) {//만약 기본리워드만 선택했다면
-							
-							request.setAttribute("projectInfo", projectInfo);
-							request.setAttribute("rewardInfo", rewardInfo);
-							request.setAttribute("add_donation", add_donation);
-							request.setAttribute("member_id", u_id);//주문 시 필요
-							
-							//기본리워드로 세팅된 후원하기 폼으로 이동 (배송지 입력칸 없음)
-							request.setAttribute("showPage", "user/project/userDonateProject_DonateForm.jsp");
-							forward = new ActionForward("userTemplate.jsp", false);
-							
-						}else {//리워드 목록 중 선택했다면
-							//회원의 기본 주소지 가져오기
-							AddressBean addressInfo = userDonateProjectFormService.getBasicAddress(u_id);
-							
-							//request속성값으로 저장
-							request.setAttribute("projectInfo", projectInfo);
-							request.setAttribute("rewardInfo", rewardInfo);
-							request.setAttribute("addressInfo", addressInfo);
-							request.setAttribute("add_donation", add_donation);
-							request.setAttribute("member_id", u_id);//주문 시 필요
-							
-							//선택리워드로 세팅된 후원하기 폼으로 이동 (배송지 입력칸 있음)
-							request.setAttribute("showPage", "user/project/userDonateProject_FundForm.jsp");
-							forward = new ActionForward("userTemplate.jsp", false);
-						}
+						System.out.println("[UserDonateProjectFormAction] 펀딩에서 리워드 선택");
+						System.out.println("project_id = "+ project_id);
+						System.out.println("reward_id = "+ reward_id);
+						System.out.println("add_donation = "+ add_donation);
+						System.out.println("member_id = "+ u_id);
+						System.out.println("money = "+ u_money);
+						System.out.println("address = "+ addressInfo.getAddress1());
 						
-					}
+						
+						//request속성값으로 저장
+						request.setAttribute("projectInfo", projectInfo);
+						request.setAttribute("rewardInfo", rewardInfo);
+						request.setAttribute("addressInfo", addressInfo);
+						request.setAttribute("add_donation", add_donation);
+						request.setAttribute("member_id", u_id);//주문 시 필요
+						request.setAttribute("money", u_money);//주문 시 필요
+						
+						//선택리워드로 세팅된 후원하기 폼으로 이동 (배송지 입력칸 있음)
+						request.setAttribute("showPage", "user/project/userDonateProjectForm_Select.jsp");
+						forward = new ActionForward("userTemplate.jsp", false);
 					
+					}//기본리워드 선택여부					
 					
-				}
+				}//리워드 정보 불러오기 성공여부
 				
-			}		
+			}//프로젝트 정보 불러오기 성공여부
 					
-		}
+		}//계정확인 (로그인 여부, 관리자 여부)
 		
 		return forward;
 	}

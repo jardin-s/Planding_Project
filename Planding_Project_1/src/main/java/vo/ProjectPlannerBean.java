@@ -246,15 +246,17 @@ public class ProjectPlannerBean {
 	//★★모금액 달성률 계산을 위한 get, set 메서드 생성
 	//현재모금액과 목표모금액으로 계산되어 소수첫째자리까지 표시된 달성률을 get
 	public double getProgressFormat() {
-		double d = (double) this.curr_amount / this.goal_amount;
+		double d = (double) this.curr_amount / this.goal_amount * 100;
 		d = Math.floor((d*10)/10.0);//둘째자리에서 반올림
 		
 		return d;
 	}
 	//현재모금액과 목표모금액을 매개값으로 달성률을 set
 	public void setProgressFormatWithCurrGoal(int curr_amount, int goal_amount) {
-		double d = (double) curr_amount / goal_amount;
-		this.progress = Math.floor((d*10)/10.0);//둘째자리에서 반올림
+		double d = (double) curr_amount / goal_amount * 100;
+		d = Math.floor((d*10)/10.0);//둘째자리에서 반올림
+		System.out.println("[ProjectPlannerBean] setProgressFormatWithCurrGoal 테스트 : 달성률? = "+d);
+		this.progress = d;
 	}
 	
 
@@ -271,18 +273,23 @@ public class ProjectPlannerBean {
 		LocalDate today = LocalDate.now();
 		LocalDate enddate_date = LocalDate.parse(enddate.replace(".", "-"));
 		
-		long deadline = ChronoUnit.DAYS.between(today, enddate_date);//두 날짜 사이 일수차이를 구함
+		long deadline_long = ChronoUnit.DAYS.between(today, enddate_date);//두 날짜 사이 일수차이를 구함
 		
-		this.deadline = (int) deadline;
+		System.out.println("[ProjectPlannerBean] setDeadline_exc 마감일까지 남은일수 : "+(int)deadline_long);
+		
+		
+		this.deadline = (int) deadline_long;
 	}
 	//남은일수 계산 : 오늘날짜-시작일 (공개예정)
 	public void setDeadline_start_exc(String startdate) {
 		LocalDate today = LocalDate.now();
 		LocalDate startdate_date = LocalDate.parse(startdate.replace(".", "-"));
 		
-		long deadline = ChronoUnit.DAYS.between(today, startdate_date);//두 날짜 사이 일수차이를 구함
+		long deadline_long = ChronoUnit.DAYS.between(today, startdate_date);//두 날짜 사이 일수차이를 구함
 		
-		this.deadline = (int) deadline;
+		System.out.println("[ProjectPlannerBean] setDeadline_start_exc 시작일까지 남은일수 : "+(int)deadline_long);
+		
+		this.deadline = (int) deadline_long;
 	}
 
 	

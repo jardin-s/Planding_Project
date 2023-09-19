@@ -102,8 +102,6 @@ function searchProjectList() {
 								<c:if test="${orderKeyword ne 'new' }"><option value="new">최신순</option></c:if>
 								<c:if test="${orderKeyword eq 'old' }"><option value="old" selected>오래된순</option></c:if>
 								<c:if test="${orderKeyword ne 'old' }"><option value="old">오래된순</option></c:if>
-								<c:if test="${orderKeyword eq 'deadline' }"><option value="deadline" selected>마감임박순</option></c:if>
-								<c:if test="${orderKeyword ne 'deadline' }"><option value="deadline">마감임박순</option></c:if>
 								<c:if test="${orderKeyword eq 'popular' }"><option value="popular" selected>높은 관심순</option></c:if>
 								<c:if test="${orderKeyword ne 'popular' }"><option value="popular">높은 관심순</option></c:if>
 							</select>
