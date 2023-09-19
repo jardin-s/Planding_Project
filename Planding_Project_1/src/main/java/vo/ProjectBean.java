@@ -284,6 +284,15 @@ public class ProjectBean {
 		DecimalFormat df = new DecimalFormat("###,###");
 		this.curr_amount_df = df.format(curr_amount);
 	}
+
+	@Override
+	public String toString() {
+		return "ProjectBean [project_id=" + project_id + ", kind=" + kind + ", title=" + title + ", summary=" + summary
+				+ ", thumbnail=" + thumbnail + ", content=" + content + ", image=" + image + ", startdate=" + startdate
+				+ ", enddate=" + enddate + ", goal_amount=" + goal_amount + ", curr_amount=" + curr_amount + ", status="
+				+ status + ", likes=" + likes + ", regdate=" + regdate + ", progress=" + progress + ", deadline="
+				+ deadline + ", goal_amount_df=" + goal_amount_df + ", curr_amount_df=" + curr_amount_df + "]";
+	}
 	
 	
 	

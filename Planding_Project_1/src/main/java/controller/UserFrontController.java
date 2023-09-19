@@ -20,6 +20,7 @@ import action.user.account.UserLogoutAction;
 import action.user.account.UserUpdateAction;
 import action.user.account.UserUpdateFormAction;
 import action.user.notice.UserNoticeListAction;
+import action.user.notice.UserNoticeViewtAction;
 import action.user.qna.SearchQnaListAction;
 import action.user.qna.UserDeleteQnaAction;
 import action.user.qna.UserDeleteQnaListAction;
@@ -494,6 +495,18 @@ public class UserFrontController extends HttpServlet {
 			
 			action = new UserNoticeListAction();
 
+			try {
+				forward = action.execute(request, response);
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+			
+		}
+		/*-- [사용자모드] '공지사항 글 상세 보기' 요청 --------------------------------------*/
+		else if(command.equals("/userNoticeView.usr")) {//'공지사항 글 보기' 요청
+			
+			action = new UserNoticeViewtAction();
+			
 			try {
 				forward = action.execute(request, response);
 			} catch(Exception e) {

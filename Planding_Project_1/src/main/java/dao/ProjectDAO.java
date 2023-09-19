@@ -341,14 +341,13 @@ public class ProjectDAO {
 		return plannerInfo;
 	}
 
-	/** 프로젝트ID로 리워드ID 리스트 얻어오기 (기본리워드 제외) */
-	public ArrayList<String> selectRewardIdList(int project_id) {
-		ArrayList<String> rewardList = null;
+	/** 프로젝트ID로 리워드ID 리스트 얻어오기 (기본리워드 포함) */
+	public ArrayList<String> selectAllRewardIdList(int project_id) {
+		ArrayList<String> rewardIdList = null;
 		
 		String sql = "select reward_id"
 				  + " from project_reward_tbl"
-				  + " where project_id = ?"
-				  + " and reward_id is not 'default'";
+				  + " where project_id = ?";
 		
 		try {
 			
@@ -358,11 +357,49 @@ public class ProjectDAO {
 			rs = pstmt.executeQuery();
 			
 			if(rs.next()) {
-				rewardList = new ArrayList<>();
+				rewardIdList = new ArrayList<>();
 				
 				do {
 					
-					rewardList.add(rs.getString("reward_id"));
+					rewardIdList.add(rs.getString("reward_id"));
+					
+				}while(rs.next());
+			}
+			
+		} catch(Exception e) {
+			System.out.println("[ProjectDAO] selectAllRewardIdList() 에러 : "+e);//예외객체종류 + 예외메시지
+		} finally {
+			close(pstmt); //JdbcUtil.생략가능
+			close(rs); //JdbcUtil.생략가능
+			//connection 객체에 대한 해제는 DogListService에서 이루어짐
+		}
+		
+		return rewardIdList;
+	}
+	
+	
+	/** 프로젝트ID로 리워드ID 리스트 얻어오기 (기본리워드 제외) */
+	public ArrayList<String> selectRewardIdList(int project_id) {
+		ArrayList<String> rewardIdList = null;
+		
+		String sql = "select reward_id"
+				  + " from project_reward_tbl"
+				  + " where project_id = ?"
+				  + " and reward_id != 'default'";
+		
+		try {
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, project_id);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				rewardIdList = new ArrayList<>();
+				
+				do {
+					
+					rewardIdList.add(rs.getString("reward_id"));
 					
 				}while(rs.next());
 			}
@@ -375,7 +412,7 @@ public class ProjectDAO {
 			//connection 객체에 대한 해제는 DogListService에서 이루어짐
 		}
 		
-		return rewardList;
+		return rewardIdList;
 	}
 	
 	/** 특정 프로젝트의 후원기록 리스트 가져오기 */
@@ -645,13 +682,14 @@ public class ProjectDAO {
 		
 		int startrow = (page-1)*limit;
 		
-		String sql = "select project_id, kind, title, summary"
+		String sql = "select project_id, kind, title, summary,"
 				  + " thumbnail, content, image,"
 				  + " DATE_FORMAT(startdate,'%Y.%m.%d') as startdate_F,"
 				  + " DATE_FORMAT(enddate,'%Y.%m.%d') as enddate,"
 				  + " goal_amount, curr_amount,"
 				  + " status, likes,"
-				  + " DATE_FORMAT(enddate,'%Y.%m.%d') as regdate"
+				  + " DATE_FORMAT(enddate,'%Y.%m.%d') as regdate,"
+				  + " planner_name"
 				  + " from project_planner_view"
 				  + " where kind = ? and status='ongoing'"
 				  + " order by startdate desc"
@@ -723,13 +761,14 @@ public class ProjectDAO {
 		
 		int startrow = (page-1)*limit;
 		
-		String sql = "select project_id, kind, title, summary"
+		String sql = "select project_id, kind, title, summary,"
 				  + " thumbnail, content, image,"
 				  + " DATE_FORMAT(startdate,'%Y.%m.%d') as startdate_F,"
 				  + " DATE_FORMAT(enddate,'%Y.%m.%d') as enddate,"
 				  + " goal_amount, curr_amount,"
 				  + " status, likes,"
-				  + " DATE_FORMAT(enddate,'%Y.%m.%d') as regdate"
+				  + " DATE_FORMAT(enddate,'%Y.%m.%d') as regdate,"
+				  + " planner_name"
 				  + " from project_planner_view"
 				  + " where kind = ? and status='ongoing'"
 				  + " order by startdate asc"
@@ -801,13 +840,14 @@ public class ProjectDAO {
 		
 		int startrow = (page-1)*limit;
 		
-		String sql = "select project_id, kind, title, summary"
+		String sql = "select project_id, kind, title, summary,"
 				  + " thumbnail, content, image,"
-				  + " DATE_FORMAT(startdate,'%Y.%m.%d') as startdate_F,"
-				  + " DATE_FORMAT(enddate,'%Y.%m.%d') as enddate,"
+				  + " DATE_FORMAT(startdate,'%Y.%m.%d') as startdate,"
+				  + " DATE_FORMAT(enddate,'%Y.%m.%d') as enddate_F,"
 				  + " goal_amount, curr_amount,"
 				  + " status, likes,"
-				  + " DATE_FORMAT(enddate,'%Y.%m.%d') as regdate"
+				  + " DATE_FORMAT(enddate,'%Y.%m.%d') as regdate."
+				  + " planner_name"
 				  + " from project_planner_view"
 				  + " where kind = ? and status='ongoing'"
 				  + " order by enddate asc"
@@ -835,8 +875,8 @@ public class ProjectDAO {
 																				rs.getString("thumbnail"),
 																				rs.getString("content"),
 																				rs.getString("image"),
-																				rs.getString("startdate_F"),
-																				rs.getString("enddate"),
+																				rs.getString("startdate"),
+																				rs.getString("enddate_F"),
 																				rs.getInt("goal_amount"),
 																				rs.getInt("curr_amount"),
 																				rs.getString("status"),
@@ -848,7 +888,7 @@ public class ProjectDAO {
 					projectPlanner.setProgressFormatWithCurrGoal(rs.getInt("curr_amount"), rs.getInt("goal_amount"));
 					
 					//남은일수 세팅 (0이면 오늘마감 표시)
-					projectPlanner.setDeadline_exc(rs.getString("enddate"));
+					projectPlanner.setDeadline_exc(rs.getString("enddate_F"));
 					
 					//현재모금액, 목표모금액 천단위 구분자 세팅
 					projectPlanner.setCurr_amount_df_exc(rs.getInt("curr_amount"));
@@ -879,13 +919,14 @@ public class ProjectDAO {
 		
 		int startrow = (page-1)*limit;
 		
-		String sql = "select project_id, kind, title, summary"
+		String sql = "select project_id, kind, title, summary,"
 				  + " thumbnail, content, image,"
-				  + " DATE_FORMAT(startdate,'%Y.%m.%d') as startdate_F,"
+				  + " DATE_FORMAT(startdate,'%Y.%m.%d') as startdate,"
 				  + " DATE_FORMAT(enddate,'%Y.%m.%d') as enddate,"
 				  + " goal_amount, curr_amount,"
 				  + " status, likes,"
-				  + " DATE_FORMAT(enddate,'%Y.%m.%d') as regdate"
+				  + " DATE_FORMAT(enddate,'%Y.%m.%d') as regdate."
+				  + " planner_name"
 				  + " from project_planner_view"
 				  + " where kind = ? and status='ongoing'"
 				  + " order by likes desc"
@@ -913,7 +954,7 @@ public class ProjectDAO {
 																				rs.getString("thumbnail"),
 																				rs.getString("content"),
 																				rs.getString("image"),
-																				rs.getString("startdate_F"),
+																				rs.getString("startdate"),
 																				rs.getString("enddate"),
 																				rs.getInt("goal_amount"),
 																				rs.getInt("curr_amount"),
@@ -960,13 +1001,14 @@ public class ProjectDAO {
 		
 		int startrow = (page-1)*limit;
 		
-		String sql = "select project_id, kind, title, summary"
+		String sql = "select project_id, kind, title, summary,"
 				  + " thumbnail, content, image,"
 				  + " DATE_FORMAT(startdate,'%Y.%m.%d') as startdate_F,"
 				  + " DATE_FORMAT(enddate,'%Y.%m.%d') as enddate,"
 				  + " goal_amount, curr_amount,"
 				  + " status, likes,"
-				  + " DATE_FORMAT(enddate,'%Y.%m.%d') as regdate"
+				  + " DATE_FORMAT(enddate,'%Y.%m.%d') as regdate,"
+				  + " planner_name"
 				  + " from project_planner_view"
 				  + " where status='ongoing'"
 				  + " and kind = ? and title regexp ?"
@@ -1040,13 +1082,14 @@ public class ProjectDAO {
 		
 		int startrow = (page-1)*limit;
 		
-		String sql = "select project_id, kind, title, summary"
+		String sql = "select project_id, kind, title, summary,"
 				  + " thumbnail, content, image,"
 				  + " DATE_FORMAT(startdate,'%Y.%m.%d') as startdate_F,"
 				  + " DATE_FORMAT(enddate,'%Y.%m.%d') as enddate,"
 				  + " goal_amount, curr_amount,"
 				  + " status, likes,"
-				  + " DATE_FORMAT(enddate,'%Y.%m.%d') as regdate"
+				  + " DATE_FORMAT(enddate,'%Y.%m.%d') as regdate,"
+				  + " planner_name"
 				  + " from project_planner_view"
 				  + " where kind = ? and status='ready'"
 				  + " order by startdate desc"
@@ -1087,7 +1130,7 @@ public class ProjectDAO {
 					projectPlanner.setProgressFormatWithCurrGoal(rs.getInt("curr_amount"), rs.getInt("goal_amount"));
 					
 					//남은일수 세팅 (공개일까지 남은 일수)
-					projectPlanner.setDeadline_start_exc(rs.getString("startdate"));
+					projectPlanner.setDeadline_start_exc(rs.getString("startdate_F"));
 					
 					//현재모금액, 목표모금액 천단위 구분자 세팅
 					projectPlanner.setCurr_amount_df_exc(rs.getInt("curr_amount"));
@@ -1118,13 +1161,14 @@ public class ProjectDAO {
 		
 		int startrow = (page-1)*limit;
 		
-		String sql = "select project_id, kind, title, summary"
+		String sql = "select project_id, kind, title, summary,"
 				  + " thumbnail, content, image,"
 				  + " DATE_FORMAT(startdate,'%Y.%m.%d') as startdate_F,"
 				  + " DATE_FORMAT(enddate,'%Y.%m.%d') as enddate,"
 				  + " goal_amount, curr_amount,"
 				  + " status, likes,"
-				  + " DATE_FORMAT(enddate,'%Y.%m.%d') as regdate"
+				  + " DATE_FORMAT(enddate,'%Y.%m.%d') as regdate,"
+				  + " planner_name"
 				  + " from project_planner_view"
 				  + " where kind = ? and status='ready'"
 				  + " order by startdate asc"
@@ -1165,7 +1209,7 @@ public class ProjectDAO {
 					projectPlanner.setProgressFormatWithCurrGoal(rs.getInt("curr_amount"), rs.getInt("goal_amount"));
 					
 					//남은일수 세팅 (공개일까지 남은 일수)
-					projectPlanner.setDeadline_start_exc(rs.getString("startdate"));
+					projectPlanner.setDeadline_start_exc(rs.getString("startdate_F"));
 					
 					//현재모금액, 목표모금액 천단위 구분자 세팅
 					projectPlanner.setCurr_amount_df_exc(rs.getInt("curr_amount"));
@@ -1196,13 +1240,14 @@ public class ProjectDAO {
 		
 		int startrow = (page-1)*limit;
 		
-		String sql = "select project_id, kind, title, summary"
+		String sql = "select project_id, kind, title, summary,"
 				  + " thumbnail, content, image,"
 				  + " DATE_FORMAT(startdate,'%Y.%m.%d') as startdate_F,"
 				  + " DATE_FORMAT(enddate,'%Y.%m.%d') as enddate,"
 				  + " goal_amount, curr_amount,"
 				  + " status, likes,"
-				  + " DATE_FORMAT(enddate,'%Y.%m.%d') as regdate"
+				  + " DATE_FORMAT(enddate,'%Y.%m.%d') as regdate,"
+				  + " planner_name"
 				  + " from project_planner_view"
 				  + " where kind = ? and status='ready'"
 				  + " order by likes desc"
@@ -1243,7 +1288,7 @@ public class ProjectDAO {
 					projectPlanner.setProgressFormatWithCurrGoal(rs.getInt("curr_amount"), rs.getInt("goal_amount"));
 					
 					//남은일수 세팅 (공개일까지 남은 일수)
-					projectPlanner.setDeadline_start_exc(rs.getString("startdate"));
+					projectPlanner.setDeadline_start_exc(rs.getString("startdate_F"));
 					
 					//현재모금액, 목표모금액 천단위 구분자 세팅
 					projectPlanner.setCurr_amount_df_exc(rs.getInt("curr_amount"));
@@ -1275,13 +1320,14 @@ public class ProjectDAO {
 		
 		int startrow = (page-1)*limit;
 		
-		String sql = "select project_id, kind, title, summary"
+		String sql = "select project_id, kind, title, summary,"
 				  + " thumbnail, content, image,"
 				  + " DATE_FORMAT(startdate,'%Y.%m.%d') as startdate_F,"
 				  + " DATE_FORMAT(enddate,'%Y.%m.%d') as enddate,"
 				  + " goal_amount, curr_amount,"
 				  + " status, likes,"
-				  + " DATE_FORMAT(enddate,'%Y.%m.%d') as regdate"
+				  + " DATE_FORMAT(enddate,'%Y.%m.%d') as regdate,"
+				  + " planner_name"
 				  + " from project_planner_view"
 				  + " where status='ready'"
 				  + " and kind = ? and title regexp ?"
@@ -1324,7 +1370,7 @@ public class ProjectDAO {
 					projectPlanner.setProgressFormatWithCurrGoal(rs.getInt("curr_amount"), rs.getInt("goal_amount"));
 					
 					//남은일수 세팅 (공개일까지 남은 일수)
-					projectPlanner.setDeadline_start_exc(rs.getString("startdate"));
+					projectPlanner.setDeadline_start_exc(rs.getString("startdate_F"));
 					
 					//현재모금액, 목표모금액 천단위 구분자 세팅
 					projectPlanner.setCurr_amount_df_exc(rs.getInt("curr_amount"));
@@ -1355,13 +1401,14 @@ public class ProjectDAO {
 		
 		int startrow = (page-1)*limit;
 		
-		String sql = "select project_id, kind, title, summary"
+		String sql = "select project_id, kind, title, summary,"
 				  + " thumbnail, content, image,"
-				  + " DATE_FORMAT(startdate,'%Y.%m.%d') as startdate_F,"
-				  + " DATE_FORMAT(enddate,'%Y.%m.%d') as enddate,"
+				  + " DATE_FORMAT(startdate,'%Y.%m.%d') as startdate,"
+				  + " DATE_FORMAT(enddate,'%Y.%m.%d') as enddate_F,"
 				  + " goal_amount, curr_amount,"
 				  + " status, likes,"
-				  + " DATE_FORMAT(enddate,'%Y.%m.%d') as regdate"
+				  + " DATE_FORMAT(enddate,'%Y.%m.%d') as regdate,"
+				  + " planner_name"
 				  + " from project_planner_view"
 				  + " where kind = ? and (status='done' or status='success')"
 				  + " order by enddate desc"
@@ -1389,8 +1436,8 @@ public class ProjectDAO {
 																				rs.getString("thumbnail"),
 																				rs.getString("content"),
 																				rs.getString("image"),
-																				rs.getString("startdate_F"),
-																				rs.getString("enddate"),
+																				rs.getString("startdate"),
+																				rs.getString("enddate_F"),
 																				rs.getInt("goal_amount"),
 																				rs.getInt("curr_amount"),
 																				rs.getString("status"),
@@ -1402,7 +1449,7 @@ public class ProjectDAO {
 					projectPlanner.setProgressFormatWithCurrGoal(rs.getInt("curr_amount"), rs.getInt("goal_amount"));
 					
 					//남은일수 세팅 (0이면 오늘마감 표시)
-					projectPlanner.setDeadline_exc(rs.getString("enddate"));
+					projectPlanner.setDeadline_exc(rs.getString("enddate_F"));
 					
 					//현재모금액, 목표모금액 천단위 구분자 세팅
 					projectPlanner.setCurr_amount_df_exc(rs.getInt("curr_amount"));
@@ -1433,13 +1480,14 @@ public class ProjectDAO {
 		
 		int startrow = (page-1)*limit;
 		
-		String sql = "select project_id, kind, title, summary"
+		String sql = "select project_id, kind, title, summary,"
 				  + " thumbnail, content, image,"
 				  + " DATE_FORMAT(startdate,'%Y.%m.%d') as startdate_F,"
-				  + " DATE_FORMAT(enddate,'%Y.%m.%d') as enddate,"
+				  + " DATE_FORMAT(enddate,'%Y.%m.%d') as enddate_F,"
 				  + " goal_amount, curr_amount,"
 				  + " status, likes,"
-				  + " DATE_FORMAT(enddate,'%Y.%m.%d') as regdate"
+				  + " DATE_FORMAT(enddate,'%Y.%m.%d') as regdate,"
+				  + " planner_name"
 				  + " from project_planner_view"
 				  + " where kind = ? and (status='done' or status='success')"
 				  + " order by enddate asc"
@@ -1468,7 +1516,7 @@ public class ProjectDAO {
 																				rs.getString("content"),
 																				rs.getString("image"),
 																				rs.getString("startdate_F"),
-																				rs.getString("enddate"),
+																				rs.getString("enddate_F"),
 																				rs.getInt("goal_amount"),
 																				rs.getInt("curr_amount"),
 																				rs.getString("status"),
@@ -1480,7 +1528,7 @@ public class ProjectDAO {
 					projectPlanner.setProgressFormatWithCurrGoal(rs.getInt("curr_amount"), rs.getInt("goal_amount"));
 					
 					//남은일수 세팅 (0이면 오늘마감 표시)
-					projectPlanner.setDeadline_exc(rs.getString("enddate"));
+					projectPlanner.setDeadline_exc(rs.getString("enddate_F"));
 					
 					//현재모금액, 목표모금액 천단위 구분자 세팅
 					projectPlanner.setCurr_amount_df_exc(rs.getInt("curr_amount"));
@@ -1511,13 +1559,14 @@ public class ProjectDAO {
 		
 		int startrow = (page-1)*limit;
 		
-		String sql = "select project_id, kind, title, summary"
+		String sql = "select project_id, kind, title, summary,"
 				  + " thumbnail, content, image,"
 				  + " DATE_FORMAT(startdate,'%Y.%m.%d') as startdate_F,"
 				  + " DATE_FORMAT(enddate,'%Y.%m.%d') as enddate,"
 				  + " goal_amount, curr_amount,"
 				  + " status, likes,"
-				  + " DATE_FORMAT(enddate,'%Y.%m.%d') as regdate"
+				  + " DATE_FORMAT(enddate,'%Y.%m.%d') as regdate,"
+				  + " planner_name"
 				  + " from project_planner_view"
 				  + " where kind = ? and (status='done' or status='success')"
 				  + " order by likes desc"
@@ -1590,13 +1639,14 @@ public class ProjectDAO {
 		
 		int startrow = (page-1)*limit;
 		
-		String sql = "select project_id, kind, title, summary"
+		String sql = "select project_id, kind, title, summary,"
 				  + " thumbnail, content, image,"
-				  + " DATE_FORMAT(startdate,'%Y.%m.%d') as startdate_F,"
-				  + " DATE_FORMAT(enddate,'%Y.%m.%d') as enddate,"
+				  + " DATE_FORMAT(startdate,'%Y.%m.%d') as startdate,"
+				  + " DATE_FORMAT(enddate,'%Y.%m.%d') as enddate_F,"
 				  + " goal_amount, curr_amount,"
 				  + " status, likes,"
-				  + " DATE_FORMAT(enddate,'%Y.%m.%d') as regdate"
+				  + " DATE_FORMAT(enddate,'%Y.%m.%d') as regdate,"
+				  + " planner_name"
 				  + " from project_planner_view"
 				  + " where (status='done' or status='success')"
 				  + " and kind = ? and title regexp ?"
@@ -1626,8 +1676,8 @@ public class ProjectDAO {
 																				rs.getString("thumbnail"),
 																				rs.getString("content"),
 																				rs.getString("image"),
-																				rs.getString("startdate_F"),
-																				rs.getString("enddate"),
+																				rs.getString("startdate"),
+																				rs.getString("enddate_F"),
 																				rs.getInt("goal_amount"),
 																				rs.getInt("curr_amount"),
 																				rs.getString("status"),
@@ -1639,7 +1689,7 @@ public class ProjectDAO {
 					projectPlanner.setProgressFormatWithCurrGoal(rs.getInt("curr_amount"), rs.getInt("goal_amount"));
 					
 					//남은일수 세팅 (0이면 오늘마감 표시)
-					projectPlanner.setDeadline_exc(rs.getString("enddate"));
+					projectPlanner.setDeadline_exc(rs.getString("enddate_F"));
 					
 					//현재모금액, 목표모금액 천단위 구분자 세팅
 					projectPlanner.setCurr_amount_df_exc(rs.getInt("curr_amount"));

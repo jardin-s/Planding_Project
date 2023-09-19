@@ -192,11 +192,13 @@ public class InsertProjectService {
 			String reward_id = rewardList.get(i).getReward_id();
 			insertProjectRewardCount += rewardDAO.insertProjectReward(project_id, reward_id);
 		}
+		//입력한 리워드 모두 매핑한 후, 기본리워드도 매핑하기
+		insertProjectRewardCount += rewardDAO.insertProjectReward(project_id, "default");
 		
 		boolean isMapProjectRewardListResult = false;
 		/*-------(insert, update, delete) 성공하면 commit(), 실패하면 rollback() 호출
 		 * 		 단, select는 이런 작업을 제외 ------------------*/
-		if(insertProjectRewardCount == rewardList.size()) {
+		if(insertProjectRewardCount == (rewardList.size()+1)) {//리워드개수 + 기본리워드 1개
 			isMapProjectRewardListResult = true;
 			commit(con);
 		}else {

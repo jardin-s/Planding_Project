@@ -152,24 +152,21 @@ function selectDelete(){
     </div>
     <!-- Page Header End -->
     
-    
-    
-    
-	    
-    <%-- Search Tab Start --%>
-    <div class="container-fluid pt-4 pb-3">
-    	<div class="container col-lg-8 px-0">
-    		<div class="d-flex justify-content-end">
-				<form action="searchNoticeList.adm" method="post" name="fsearch">
-	    			<div class="btn btn-outline-light py-1 px-2 me-1">
-		    			<input type="text" name="n_title" id="n_title" class="border-0 me-2" placeholder="제목으로 검색">
-		    			<a href="javascript:searchNoticeList();"><i class="fas fa-search"></i></a>
-	    			</div>
-	    		</form>
-    		</div>
-    	</div>
-    </div>
-    <%-- Search Tab End --%>
+        
+	    <%-- Search Tab Start --%>
+	    <div class="container-fluid pt-4 pb-3">
+	    	<div class="container col-lg-8 px-0">
+	    		<div class="d-flex justify-content-end">
+					<form action="searchNoticeList.adm" method="post" name="fsearch">
+		    			<div class="btn btn-outline-light py-1 px-2 me-1">
+			    			<input type="text" name="n_title" id="n_title" class="border-0 me-2" placeholder="제목으로 검색">
+			    			<a href="javascript:searchNoticeList();"><i class="fas fa-search"></i></a>
+		    			</div>
+		    		</form>
+	    		</div>
+	    	</div>
+	    </div>
+	    <%-- Search Tab End --%>
 	
 	<c:if test="${pageInfo.listCount == 0 }">
     	<div class="container-xxl py-5">

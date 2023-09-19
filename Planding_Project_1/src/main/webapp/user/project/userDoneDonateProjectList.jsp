@@ -71,6 +71,7 @@ function searchProjectList() {
             <div class="text-center mx-auto" style="max-width: 500px;">
                 <p class="fs-5 fw-bold text-white">프로젝트 둘러보기</p>
                 <h1 class="display-5 mb-5 text-white">기부 프로젝트</h1>
+                <p class="text-white shadow">환경보호, 인명구호, 동물보호 등 어려움을 극복하기 위해<br>도움의 손길을 필요로 하는 프로젝트 목록</p>
                 <div class="row justify-content-center">
 	            <ul class="col-12 col-lg-8 nav nav-pills justify-content-center mt-5 mb-0">
 					<li class="col-4 nav-item"><a class="nav-link text-white" href="userOngoingDonateProjectList.pj">진행중</a></li>
@@ -127,7 +128,12 @@ function searchProjectList() {
 	<c:if test="${pageInfo.listCount == 0 }">
     	<div class="container-xxl py-5">
     		<div class="container col-lg-8 mb-5">
-   				<p class="text-center">종료된 기부 프로젝트가 없습니다.</p>
+   				<c:if test="${searchKeyword eq null }">
+   					<p class="text-center">종료된 기부 프로젝트가 없습니다.</p>
+   				</c:if>
+   				<c:if test="${searchKeyword ne null }">
+   					<p class="text-center">검색어에 해당하는 프로젝트가 없습니다.</p>
+   				</c:if>
     		</div>
     	</div>
     </c:if>
@@ -146,17 +152,17 @@ function searchProjectList() {
 										<td colspan="2">
 											<c:choose>
 												<c:when test="${orderKeyword ne null}">
-													<a href="userProjectView.pj?project_id=${projectPlannerInfo.project_id }&page=${projectPlannerInfo.page}&selectOrder=${orderKeyword}">
+													<a href="userProjectView.pj?project_id=${projectPlannerInfo.project_id }&page=${pageInfo.page}&selectOrder=${orderKeyword}">
 														<img src="<%=request.getContextPath()%>/images/project_No_${projectPlannerInfo.project_id }/${projectPlannerInfo.project_id }_${projectPlannerInfo.thumbnail }" style="width:100%">
 													</a>
 												</c:when>
 												<c:when test="${searchKeyword ne null}">
-													<a href="userProjectView.pj?project_id=${projectPlannerInfo.project_id }&page=${projectPlannerInfo.page}&searchTitle=${searchKeyword}">
+													<a href="userProjectView.pj?project_id=${projectPlannerInfo.project_id }&page=${pageInfo.page}&searchTitle=${searchKeyword}">
 														<img src="<%=request.getContextPath()%>/images/project_No_${projectPlannerInfo.project_id }/${projectPlannerInfo.project_id }_${projectPlannerInfo.thumbnail }" style="width:100%">
 													</a>
 												</c:when>
 												<c:otherwise>
-													<a href="userProjectView.pj?project_id=${projectPlannerInfo.project_id }&page=${projectPlannerInfo.page}">
+													<a href="userProjectView.pj?project_id=${projectPlannerInfo.project_id }&page=${pageInfo.page}">
 														<img src="<%=request.getContextPath()%>/images/project_No_${projectPlannerInfo.project_id }/${projectPlannerInfo.project_id }_${projectPlannerInfo.thumbnail }" style="width:100%">
 													</a>
 												</c:otherwise>
@@ -286,6 +292,9 @@ function searchProjectList() {
 					</li>
 					
 					<%-- 1~10까지 --%>
+					<c:if test="${pageInfo.listCount == 0 }">
+						<li class="page-item active" aria-current="page"><a class="page-link">1</a></li>
+					</c:if>
 					<c:forEach var="pNum" begin="${pageInfo.startPage }" end="${pageInfo.endPage}" step="1">
 						<c:if test="${pNum eq pageInfo.page }">
 							<li class="page-item active" aria-current="page"><a class="page-link">${pNum}</a></li>

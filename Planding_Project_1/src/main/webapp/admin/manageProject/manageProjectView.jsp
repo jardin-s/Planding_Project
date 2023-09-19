@@ -37,122 +37,7 @@
 
 <script type="text/javascript">
 
-//정렬 요청
-function changeOrder() {
-	
-	let selectedValue = document.getElementById("selectOrder").value;
-	
-	if(selectedValue != 'default'){
-		document.forder.submit();
-	}
-	
-}
-
-//검색어 유효성 검사 및 검색요청
-function searchMemberList() {
-	
-	let search_id = document.getElementById("member_id").value;
-	
-	if(search_id == ''){
-		alert('검색어를 입력하세요.');
-		return false;
-	}
-	
-	document.fsearch.submit();
-	
-}
-
-//편집을 취소버튼으로 변경하고 삭제버튼 보이기
-function switchEditCancel(){
-	
-	//편집 버튼 클릭 시 -> 편집버튼을 취소버튼으로 변경하고, 선택삭제버튼 보이기
-	switchBtn();
-	
-	//form-check클래스 div태그 안에 체크박스 태그 삽입
-	const checkElements = document.getElementsByClassName('remove-th');
-	for(let i=0; i<checkElements.length; i++){
-		
-		if(checkElements[i].classList.contains('d-none')){//숨김 상태면 보이기로 전환
-			checkElements[i].classList.remove('d-none');
-		}else{//보이기 상태면 숨김으로 전환
-			checkElements[i].classList.add('d-none');
-		}
-	}
-	
-}
-
-//편집을 취소로 변경. 삭제버튼 활성화
-function switchBtn(){
-	
-	//편집을 취소로 변경
-	//취소를 편집으로 변경
-	const editBtn = document.getElementById("editBtn");
-	const editBtnText = editBtn.innerText;
-	
-	if(editBtnText == "회원편집"){
-		editBtn.innerText = "취소";
-	}else if(editBtnText == "취소"){
-		editBtn.innerText = "회원편집";
-	}
-	
-	//삭제버튼 없으면 활성화
-	//삭제버튼 있으면 비활성화
-	const deleteBtn = document.getElementById("deleteBtn");
-	if(deleteBtn.classList.contains('d-none')){
-		deleteBtn.classList.remove('d-none');
-	}else{
-		deleteBtn.classList.add('d-none');
-	}
-	
-}
-
-//전체선택
-function checkAll(theForm){
-	
-	if(theForm.remove.length == undefined){//폼의 remove(체크박스)배열의 길이가 정의되어 있지 않다면 == 항목이 1개만 있다면
-		
-		theForm.remove.checked = theForm.allCheck.checked; //전체선택 체크하면, 모든 항목이 체크됨
-	
-	}else{//항목이 2개 이상 있다면 -> 배열로 생성(같은이름(remove)의 checkbox)
-	
-		for(var i=0; i<theForm.remove.length; i++){
-			theForm.remove[i].checked = theForm.allCheck.checked; //remove배열의 각 값 checked
-		}
-	}
-	
-}
-
-function selectDelete(){
-	
-	const checkElements = document.getElementsByClassName('form-check-input');
-	
-	let isCheckboxChecked = false;
-	for(let i=0; i<checkElements.length; i++){
-		
-		//하나라도 체크된 것이 있으면 체크여부 true로 변경하고 반복문 끝
-		if(checkElements[i].checked == true){
-			isCheckboxChecked = true;
-			break;
-		}		
-	}
-	
-	if(!isCheckboxChecked){//체크된 것이 없으면
-		return alert('선택된 항목이 없어 삭제할 수 없습니다.');
-	
-	}else{//체크된 것이 있으면
-		
-		if(confirm('회원을 삭제하면 회원 아이디를 제외한 모든 개인정보가 삭제됩니다. 정말로 삭제하시겠습니까?')){
-			document.dlt.submit();
-		}else{
-			alert('회원 삭제를 취소합니다.');
-			return false;
-		}		
-	}
-	
-	
-}
-
-
+//프로젝트 승인하기
 function authorizeProject(project_id){
 	if(confirm('이 프로젝트를 승인하시겠습니까?')){
 		location.href='authorizeProject.mngp?project_id='+project_id;
@@ -161,14 +46,16 @@ function authorizeProject(project_id){
 	}
 }
 
+//프로젝트 승인거절
 function unauthorizeProject(project_id){
-	if(confirm('이 프로젝트의 승인을 거부하시겠습니까?')){
+	if(confirm('이 프로젝트의 승인을 거절하시겠습니까?')){
 		location.href='unauthorizeProject.mngp?project_id='+project_id;
 	}else{
-		alert('승인거부가 취소되었습니다.');
+		alert('승인거절이 취소되었습니다.');
 	}
 }
 
+//프로젝트 진행 취소
 function cancelProject(project_id, status){
 	if(confirm('이 프로젝트의 진행을 취소하시겠습니까?')){
 		location.href='cancelProjectForm.mngp?project_id='+project_id+'&status='+status;

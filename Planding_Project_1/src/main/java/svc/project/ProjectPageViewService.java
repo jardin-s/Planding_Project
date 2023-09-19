@@ -105,7 +105,7 @@ public class ProjectPageViewService {
 		return reward;
 	}
 
-	/** 프로젝트ID로 리워드ID 리스트를 얻어옴 */
+	/** 프로젝트ID로 리워드ID 리스트를 얻어옴 (기본리워드 제외) */
 	public ArrayList<String> getRewardIdList(int project_id) {
 		//1. 커넥션 풀에서 Connection객체를 얻어와
 		Connection con = getConnection(); //JdbcUtil. 생략(이유?import static 하여)
@@ -128,48 +128,32 @@ public class ProjectPageViewService {
 		return rewardIdList;
 	}
 	
-	
-	/** 리워드ID 리스트로 리워드정보가 담긴 리워드리스트를 얻어옴 (기본리워드 포함 (관리자용)) */
-	public ArrayList<RewardBean> getRewardAllList(ArrayList<String> rewardIdList) {
+	/** 프로젝트ID로 리워드ID 리스트를 얻어옴 (기본리워드 포함) */
+	public ArrayList<String> getAllRewardIdList(int project_id) {
 		//1. 커넥션 풀에서 Connection객체를 얻어와
 		Connection con = getConnection(); //JdbcUtil. 생략(이유?import static 하여)
 		
 		//2. 싱글톤 패턴 : UserDAO 객체 생성 (DogDAO 객체를 하나만 만들어서 계속 사용)
-		RewardDAO rewardDAO = RewardDAO.getInstance();
+		ProjectDAO projectDAO = ProjectDAO.getInstance();
 		
 		//3. DB작업에 사용될 Connection객체를 DogDAO에 전달하여 DB연결하여 DAO에서 작업하도록 "서비스"해줌
-		rewardDAO.setConnection(con);
-				
+		projectDAO.setConnection(con);
+		
 		/*-------DAO의 해당 메서드를 호출하여 처리----------------------------------------------------*/
-		ArrayList<RewardBean> rewardList = new ArrayList<>();
-		for(int i=-1; i<rewardIdList.size(); i++) {
-			RewardBean reward = null;
-			
-			//기본리워드 정보를 먼저 담음
-			if(i == -1) {
-				reward = rewardDAO.selectReward("default");
-			}else {
-				//리워드ID로 각 리워드 정보를 얻어옴 (기본리워드 제외)
-				String reward_id = rewardIdList.get(i);
-				reward = rewardDAO.selectReward(reward_id);
-			}			
-			
-			rewardList.add(reward);
-		}
+		ArrayList<String> rewardIdList = projectDAO.selectAllRewardIdList(project_id);
 		
 		/*-------(insert, update, delete) 성공하면 commit(), 실패하면 rollback() 호출
 		 * 		 단, select는 이런 작업을 제외 ------------------*/
-		if(rewardList.size() == 0) {//만약 리워드 정보 담기에 실패한다면 null 대입
-			rewardList = null;
-		}
+		
 		//4. 해제
 		close(con); //JdbcUtil. 생략(이유?import static 하여)
 		
-		return rewardList;
+		return rewardIdList;
 	}
 	
 	
-	/** 리워드ID 리스트로 리워드정보가 담긴 리워드리스트를 얻어옴 (기본리워드 제외 (사용자용)) */
+	
+	/** 리워드ID 리스트로 리워드정보가 담긴 리워드리스트를 얻어옴 */
 	public ArrayList<RewardBean> getRewardList(ArrayList<String> rewardIdList) {
 		//1. 커넥션 풀에서 Connection객체를 얻어와
 		Connection con = getConnection(); //JdbcUtil. 생략(이유?import static 하여)

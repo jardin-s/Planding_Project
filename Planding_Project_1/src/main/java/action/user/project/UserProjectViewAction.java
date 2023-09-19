@@ -110,7 +110,7 @@ public class UserProjectViewAction implements Action {
 		//페이지넘버를 request속성으로 넘김
 		request.setAttribute("page", page);
 		
-		request.setAttribute("showPage", "project/projectView.jsp");
+		request.setAttribute("showPage", "user/project/projectView.jsp");
 		forward = new ActionForward("userTemplate.jsp", false);
 				
 		return forward;

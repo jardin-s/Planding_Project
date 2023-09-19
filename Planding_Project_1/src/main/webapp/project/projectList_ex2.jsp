@@ -43,6 +43,7 @@
             <div class="text-center mx-auto" style="max-width: 500px;">
                 <p class="fs-5 fw-bold text-white">프로젝트 둘러보기</p>
                 <h1 class="display-5 mb-5 text-white">기부 프로젝트</h1>
+                <p class="text-white shadow">지구를 돕는 여러 공익적인 제품을 개발하기 위해<br>후원이 필요한 프로젝트 목록</p>
                 <div class="row justify-content-center">
 	            <ul class="col-12 col-lg-8 nav nav-pills justify-content-center mt-5 mb-0">
 					<li class="col-4 nav-item"><a class="nav-link active text-primary fw-bold bg-light" aria-current="page" href="#">진행중</a></li>
