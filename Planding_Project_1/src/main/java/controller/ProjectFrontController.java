@@ -17,8 +17,16 @@ import action.project.InsertFundProjectRewardFormAction;
 import action.project.InsertFundProjectTempAction;
 import action.project.SubmitDonateProjectAction;
 import action.project.SubmitFundProjectAction;
-import action.project.UserDonateProjectListAction;
-import action.project.UserProjectViewAction;
+import action.user.UserDonatedProjectListAction;
+import action.user.project.UserDonateProjectAction;
+import action.user.project.UserDonateProjectFormAction;
+import action.user.project.UserDoneDonateProjectListAction;
+import action.user.project.UserDoneFundProjectListAction;
+import action.user.project.UserOngoingDonateProjectListAction;
+import action.user.project.UserOngoingFundProjectListAction;
+import action.user.project.UserProjectViewAction;
+import action.user.project.UserReadyDonateProjectListAction;
+import action.user.project.UserReadyFundProjectListAction;
 import vo.ActionForward;
 
 /**
@@ -200,9 +208,80 @@ public class ProjectFrontController extends HttpServlet {
 		}
 		
 		
-		/*-- '[사용자] 기부 프로젝트 목록 보기' 요청 -> 처리 --------------------------------------*/
-		else if(command.equals("/userDonateProjectList.pj")) {
-			action = new UserDonateProjectListAction();
+		/*-- '[사용자] (진행중인) 기부 프로젝트 목록 보기' 요청 -> 처리 --------------------------------------*/
+		else if(command.equals("/userOngoingDonateProjectList.pj")) {
+			action = new UserOngoingDonateProjectListAction();
+			try {
+				forward = action.execute(request, response);
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+		/*-- '[사용자] (공개예정) 기부 프로젝트 목록 보기' 요청 -> 처리 --------------------------------------*/
+		else if(command.equals("/userReadyDonateProjectList.pj")) {
+			action = new UserReadyDonateProjectListAction();
+			try {
+				forward = action.execute(request, response);
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+		/*-- '[사용자] (종료된) 기부 프로젝트 목록 보기' 요청 -> 처리 --------------------------------------*/
+		else if(command.equals("/userDoneDonateProjectList.pj")) {
+			action = new UserDoneDonateProjectListAction();
+			try {
+				forward = action.execute(request, response);
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+		/*-- '[사용자] (진행중인) 펀딩 프로젝트 목록 보기' 요청 -> 처리 --------------------------------------*/
+		else if(command.equals("/userOngoingFundProjectList.pj")) {
+			action = new UserOngoingFundProjectListAction();
+			try {
+				forward = action.execute(request, response);
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+		/*-- '[사용자] (공개예정) 펀딩 프로젝트 목록 보기' 요청 -> 처리 --------------------------------------*/
+		else if(command.equals("/userReadyFundProjectList.pj")) {
+			action = new UserReadyFundProjectListAction();
+			try {
+				forward = action.execute(request, response);
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+		/*-- '[사용자] (종료된) 펀딩 프로젝트 목록 보기' 요청 -> 처리 --------------------------------------*/
+		else if(command.equals("/userDoneFundProjectList.pj")) {
+			action = new UserDoneFundProjectListAction();
+			try {
+				forward = action.execute(request, response);
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+		/* ***************************************************************************************
+		 * 
+		 * 후원하기 기능
+		 * 
+		 * ***************************************************************************************/
+		
+		/*-- '[사용자] 프로젝트 후원 폼 보기' 요청 -> 처리 --------------------------------------*/
+		else if(command.equals("/userDonateProjectForm.pj")) {
+			action = new UserDonateProjectFormAction();
+			try {
+				forward = action.execute(request, response);
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+		/*-- '[사용자] 프로젝트 후원 폼 보기' 요청 -> 처리 --------------------------------------*/
+		else if(command.equals("/userDonateProjectAction.pj")) {
+			action = new UserDonateProjectAction();
 			try {
 				forward = action.execute(request, response);
 			}catch(Exception e) {

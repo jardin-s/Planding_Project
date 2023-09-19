@@ -112,7 +112,7 @@ public class NoticeDAO {
 		String sql = "select notice_id, member_id,"
 				  + " n_title, n_content, n_image, importance,"
 				  + " viewcount,"
-				  + " DATE_FORMAT(writetime,'%Y.%m.%d') as writetime"
+				  + " DATE_FORMAT(writetime,'%Y.%m.%d') as writetime_F"
 				  + " from notice_tbl"
 				  + " where importance = 'Y'"
 				  + " order by writetime desc";
@@ -133,7 +133,7 @@ public class NoticeDAO {
 													 rs.getString("importance"),
 													 rs.getString("n_image"),
 													 rs.getInt("viewcount"),
-													 rs.getString("writetime")
+													 rs.getString("writetime_F")
 													 )
 									 );
 					
@@ -166,7 +166,7 @@ public class NoticeDAO {
 		String sql = "select notice_id, member_id,"
 				  + " n_title, n_content, n_image, importance,"
 				  + " viewcount,"
-				  + " DATE_FORMAT(writetime,'%Y.%m.%d') as writetime"
+				  + " DATE_FORMAT(writetime,'%Y.%m.%d') as writetime_F"
 				  + " from notice_tbl"
 				  + " order by writetime desc"
 				  + " limit ?, ?";
@@ -191,7 +191,7 @@ public class NoticeDAO {
 					noticeInfo.setN_image(rs.getString("n_image"));
 					noticeInfo.setImportance(rs.getString("importance"));
 					noticeInfo.setViewcount(rs.getInt("viewcount"));
-					noticeInfo.setWritetime(rs.getString("writetime"));
+					noticeInfo.setWritetime(rs.getString("writetime_F"));
 				
 					noticeList.add(noticeInfo);
 					

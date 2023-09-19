@@ -245,6 +245,15 @@ public class ProjectBean {
 		
 		this.deadline = (int) deadline;
 	}
+	//남은일수 계산 : 오늘날짜-시작일 (공개예정 프로젝트)
+	public void setDeadline_start_exc(String startdate) {
+		LocalDate today = LocalDate.now();
+		LocalDate startdate_date = LocalDate.parse(startdate.replace(".", "-"));
+		
+		long deadline = ChronoUnit.DAYS.between(today, startdate_date);//두 날짜 사이 일수차이를 구함
+		
+		this.deadline = (int) deadline;
+	}
 
 	
 	//기본 getter & setter
@@ -274,6 +283,15 @@ public class ProjectBean {
 	public void setCurr_amount_df_exc(int curr_amount) {
 		DecimalFormat df = new DecimalFormat("###,###");
 		this.curr_amount_df = df.format(curr_amount);
+	}
+
+	@Override
+	public String toString() {
+		return "ProjectBean [project_id=" + project_id + ", kind=" + kind + ", title=" + title + ", summary=" + summary
+				+ ", thumbnail=" + thumbnail + ", content=" + content + ", image=" + image + ", startdate=" + startdate
+				+ ", enddate=" + enddate + ", goal_amount=" + goal_amount + ", curr_amount=" + curr_amount + ", status="
+				+ status + ", likes=" + likes + ", regdate=" + regdate + ", progress=" + progress + ", deadline="
+				+ deadline + ", goal_amount_df=" + goal_amount_df + ", curr_amount_df=" + curr_amount_df + "]";
 	}
 	
 	

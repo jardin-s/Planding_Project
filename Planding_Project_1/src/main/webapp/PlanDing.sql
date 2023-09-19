@@ -53,6 +53,7 @@ USE `project` ;
 -- -----------------------------------------------------
 -- Table `project`.`project_tbl`
 -- -----------------------------------------------------
+drop table project_tbl;
 CREATE TABLE IF NOT EXISTS `project`.`project_tbl` (
   `project_id` INT NOT NULL AUTO_INCREMENT COMMENT '프로젝트 ID',
   `kind` VARCHAR(10) NOT NULL COMMENT 'Donate or Funding',
@@ -205,6 +206,8 @@ CREATE TABLE IF NOT EXISTS `project`.`project_reward_tbl` (
 ENGINE = InnoDB;
 
 select * from reward_tbl;
+select * from project_reward_tbl;
+insert into project_reward_tbl values(1, 'default');
 
 delete from project_reward_tbl;
 
@@ -372,6 +375,7 @@ ENGINE = InnoDB;
 select * from address_tbl;
 
 
+drop view project_planner_view;
 -- -----------------------------------------------------
 -- View `project`.`project_planner_view` 프로젝트-플래너 조인한 뷰 생성
 -- -----------------------------------------------------
@@ -379,6 +383,8 @@ CREATE OR REPLACE VIEW `project_planner_view` AS
 select project_id, kind, title, summary, thumbnail, content, image, startdate, enddate, goal_amount, curr_amount, status, likes, regdate, member_id, planner_name, introduce, bank, account_num
 from project_tbl join project_planner_tbl
 using(project_id);
+
+select startdate from project_planner_view;
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;

@@ -123,6 +123,8 @@ public class RewardDAO {
 			
 			insertProjectRewardCount = pstmt.executeUpdate();
 			
+			System.out.println("[RewardDAO] insertProjectReward() "+reward_id+" 프로젝트-리워드 성공여부 = "+((insertProjectRewardCount>0)?"성공":"실패"));
+			
 		} catch(Exception e) {
 			System.out.println("[RewardDAO] insertProjectReward() 에러 : "+e);//예외객체종류 + 예외메시지
 		} finally {

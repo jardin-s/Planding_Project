@@ -15,6 +15,7 @@ import action.admin.account.AdminIdCheckAction;
 import action.admin.account.AdminIdFindAction;
 import action.admin.account.AdminJoinAction;
 import action.admin.account.AdminLoginAction;
+import action.admin.account.AdminLoginFormAction;
 import action.admin.account.AdminLogoutAction;
 import action.admin.account.AdminUpdateAction;
 import action.admin.account.AdminUpdateFormAction;
@@ -112,9 +113,15 @@ public class AdminFrontController extends HttpServlet {
 		/*-- '로그인 폼 보기' 요청 -> 처리 --------------------------------------*/
 		else if(command.equals("/adminLoginForm.adm")) {//'로그인 폼 보기' 요청이면
 			
-			request.setAttribute("showPage", "admin/account/loginForm.jsp");//어느 폼 보기인지 showAdmin이름 속성으로 저장
-			forward = new ActionForward("adminLoginTemplate.jsp",false);
-					
+			//부모인터페이스 = 구현한 자식객체
+			action = new AdminLoginFormAction();//부모인터페이스인 Action으로 받음 
+			
+			try {
+				forward = action.execute(request, response); //DogListAction의 execute()를 실행
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+								
 		}
 		
 		else if(command.equals("/adminLoginAction.adm")) {//'로그인 처리' 요청이면

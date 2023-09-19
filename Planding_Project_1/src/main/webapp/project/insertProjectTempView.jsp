@@ -97,6 +97,9 @@ if(project.getImage()!=null){//프로젝트 이미지가 있으면
 			<div class="row g-3 justify-content-center">
 				<!-- 제목 -->
 				<div class="col-12 text-center">
+					<span class="text-danger fw-bold">** 프로젝트 상세페이지 미리보기 **</span>
+				</div>
+				<div class="col-12 text-center">
 					<c:if test="${projectInfo.kind eq 'donate' }">기부 프로젝트</c:if>
 					<c:if test="${projectInfo.kind eq 'fund' }">펀딩 프로젝트</c:if>
 				</div>
@@ -159,7 +162,7 @@ if(project.getImage()!=null){//프로젝트 이미지가 있으면
 														<optgroup label="1,000원">
 															<option value="default">리워드 없이 후원하기</option>
 														</optgroup>
-														<c:forEach var="reward" items="rewardList">
+														<c:forEach var="reward" items="${rewardList}">
 															<optgroup label="${reward.r_price}원">
 																<option>${reward.r_name }</option>
 															</optgroup>
@@ -249,7 +252,7 @@ if(project.getImage()!=null){//프로젝트 이미지가 있으면
 								</tr>
 							</thead>
 							<tbody>
-								<c:forEach var="reward" items="rewardList">
+								<c:forEach var="reward" items="${rewardList}">
 									<tr>
 										<td class="col-4">${reward.r_name}</td>
 										<td class="col-auto">${reward.r_content }</td>
@@ -266,7 +269,12 @@ if(project.getImage()!=null){//프로젝트 이미지가 있으면
 					<p class="mb-2">제출하신 프로젝트는 검토 후 승인을 거쳐 최종적으로 등록이 됩니다.</p>
 					<button class="btn btn-light" onclick="history.back();">이전 단계로</button>
 					<button class="btn btn-light" onclick="location.href='deleteTempProject.pj'">등록 취소</button>
-					<button class="btn btn-light" onclick="location.href='submitDonateProjectAction.pj'">제출하기</button>
+					<c:if test="${projectInfo.kind eq 'donate' }">
+						<button class="btn btn-light" onclick="location.href='submitDonateProjectAction.pj'">제출하기</button>
+					</c:if>
+					<c:if test="${projectInfo.kind eq 'fund' }">
+						<button class="btn btn-light" onclick="location.href='submitFundProjectAction.pj'">제출하기</button>
+					</c:if>					
 				</div>
 			</div>
 		</div>

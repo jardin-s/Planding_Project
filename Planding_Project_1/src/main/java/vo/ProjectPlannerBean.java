@@ -266,12 +266,21 @@ public class ProjectPlannerBean {
 		this.deadline = deadline;
 	}
 	
-	//남은일수 계산 : 오늘날짜-종료일
+	//남은일수 계산 : 오늘날짜-종료일 (진행중)
 	public void setDeadline_exc(String enddate) {
 		LocalDate today = LocalDate.now();
 		LocalDate enddate_date = LocalDate.parse(enddate.replace(".", "-"));
 		
 		long deadline = ChronoUnit.DAYS.between(today, enddate_date);//두 날짜 사이 일수차이를 구함
+		
+		this.deadline = (int) deadline;
+	}
+	//남은일수 계산 : 오늘날짜-시작일 (공개예정)
+	public void setDeadline_start_exc(String startdate) {
+		LocalDate today = LocalDate.now();
+		LocalDate startdate_date = LocalDate.parse(startdate.replace(".", "-"));
+		
+		long deadline = ChronoUnit.DAYS.between(today, startdate_date);//두 날짜 사이 일수차이를 구함
 		
 		this.deadline = (int) deadline;
 	}

@@ -226,7 +226,7 @@ public class UserDAO {
 		return insertAddrCount;
 	}
 
-	public AddressBean selectBasicAddrInfo(String u_id) {
+	public AddressBean selectBasicAddrInfo(String member_id) {
 		AddressBean addrInfo = null;
 		
 		//해당 회원의 id 중, 기본주소의 정보만 가져옴
@@ -238,7 +238,7 @@ public class UserDAO {
 		try {
 			
 			pstmt = con.prepareStatement(sql);
-			pstmt.setString(1, u_id);
+			pstmt.setString(1, member_id);
 			
 			rs = pstmt.executeQuery();
 			

@@ -84,6 +84,12 @@ public class PlannerBean {//프로젝트 기획자
 	public void setAccount_num(String account_num) {
 		this.account_num = account_num;
 	}
+
+	@Override
+	public String toString() {
+		return "PlannerBean [project_id=" + project_id + ", member_id=" + member_id + ", planner_name=" + planner_name
+				+ ", introduce=" + introduce + ", bank=" + bank + ", account_num=" + account_num + "]";
+	}
 	
 	
 

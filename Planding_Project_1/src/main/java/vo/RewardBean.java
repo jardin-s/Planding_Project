@@ -57,6 +57,14 @@ public class RewardBean {
 	public void setR_price(int r_price) {
 		this.r_price = r_price;
 	}
+
+	//테스트용
+	@Override
+	public String toString() {
+		return "RewardBean [reward_id=" + reward_id + ", r_name=" + r_name + ", r_content=" + r_content + ", r_price="
+				+ r_price + "]";
+	}
+	
 	
 	
 }

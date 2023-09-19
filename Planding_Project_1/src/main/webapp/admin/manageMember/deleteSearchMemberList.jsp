@@ -79,7 +79,45 @@ function searchMemberList() {
     </div>
     <!-- Page Header End -->
     
-    <c:if test="${pageInfo.listCount == 0 }">
+    
+	    
+    <%-- Search Tab Start --%>
+    <div class="container-fluid pt-4 pb-3">
+    	<div class="container col-lg-8 px-0">
+    		<div class="row">
+				
+				<%-- Order --%>
+				<div class="col-4 col-md-3">
+					<div class="d-flex justify-content-start">
+						<form action="orderDeletedMemberList.mngm" method="post" name="forder">
+			    			<select class="form-select py-1" name="selectOrder" id="selectOrder" aria-label="selectOrder" onchange="changeOrder()">
+								<option value="default" selected>-- 정렬조건 --</option>
+								<option value="new">최근 가입순</option>
+								<option value="old">오래된 가입순</option>
+								<option value="az">가나다순</option>
+								<option value="za">역가나다순</option>
+							</select>
+						</form>
+	    			</div>
+	    		</div>
+	    		
+	    		<%-- Search --%>
+	    		<div class="col auto">
+		    		<div class="d-flex justify-content-end">
+		    			<form action="searchDeletedMemberList.mngm" method="post" name="fsearch">
+			    			<div class="btn btn-outline-light py-1 px-2 me-1">
+				    			<input type="text" name="member_id" value="${search_id}" id="member_id" class="border-0" placeholder="아이디로 검색">
+				    			<a href="javascript:searchMemberList();"><i class="fas fa-search"></i></a>
+			    			</div>
+		    			</form>
+	    			</div>
+    			</div>
+   			</div>
+    	</div>
+    </div>
+    <%-- Search Tab End --%>
+	
+	<c:if test="${pageInfo.listCount == 0 }">
     	<div class="container-xxl mb-5 py-5" style="height:30vh">
     		<div class="container col-10 col-md-6 col-lg-4">
     			<div class="col-12 mb-5">
@@ -93,45 +131,9 @@ function searchMemberList() {
     		</div>
     	</div>
     </c:if>
-    
-    <c:if test="${pageInfo.listCount != 0 }">
+	
+	<c:if test="${pageInfo.listCount != 0 }">
     	<c:set var="m_index" value="${(pageInfo.page-1)*10 +1 }" />
-	    
-	    <%-- Search Tab Start --%>
-	    <div class="container-fluid pt-4 pb-3">
-	    	<div class="container col-lg-8 px-0">
-	    		<div class="row">
-					
-					<%-- Order --%>
-					<div class="col-4 col-md-3">
-						<div class="d-flex justify-content-start">
-							<form action="orderDeletedMemberList.mngm" method="post" name="forder">
-				    			<select class="form-select py-1" name="selectOrder" id="selectOrder" aria-label="selectOrder" onchange="changeOrder()">
-									<option value="default" selected>-- 정렬조건 --</option>
-									<option value="new">최근 가입순</option>
-									<option value="old">오래된 가입순</option>
-									<option value="az">가나다순</option>
-									<option value="za">역가나다순</option>
-								</select>
-							</form>
-		    			</div>
-		    		</div>
-		    		
-		    		<%-- Search --%>
-		    		<div class="col auto">
-			    		<div class="d-flex justify-content-end">
-			    			<form action="searchDeletedMemberList.mngm" method="post" name="fsearch">
-				    			<div class="btn btn-outline-light py-1 px-2 me-1">
-					    			<input type="text" name="member_id" value="${search_id}" id="member_id" class="border-0" placeholder="아이디로 검색">
-					    			<a href="javascript:searchMemberList();"><i class="fas fa-search"></i></a>
-				    			</div>
-			    			</form>
-		    			</div>
-	    			</div>
-    			</div>
-	    	</div>
-	    </div>
-	    <%-- Search Tab End --%>
 	
 	    <%-- Table Start --%>
 	    <div class="container-fluid pt-0 pb-2">

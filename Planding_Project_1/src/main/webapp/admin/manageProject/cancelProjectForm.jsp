@@ -38,7 +38,7 @@
 function checkDeleteForm(){
 	
 	if(!document.f.confirm.checked){
-		alert('탈퇴 전 유의사항을 읽고 확인란에 체크해주세요.');
+		alert('프로젝트 취소 시 유의사항을 읽고 확인란에 체크해주세요.');
 		document.f.confirm.focus();
 		return false;
 	}

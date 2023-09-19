@@ -26,25 +26,51 @@ public class UserNoticeListAction implements Action {
 			page = Integer.parseInt(request.getParameter("page"));
 		}
 		
-		
+				
 		/* notice 테이블에서 글을 가져옴 */
 		NoticeListService noticeListService = new NoticeListService();
 		
-		int listCount = noticeListService.getListCount();//전체 글 개수를 얻어옴
-		System.out.println("[AdminNoticeListAction] notice_tbl의 전체 공지글 개수 = "+listCount);
+		//검색할 경우
+		String searchTitle = request.getParameter("searchTitle");
 		
-		//중요공지사항 글의 개수를 알아냄
-		int importantCount = noticeListService.getImportantCount();
-		System.out.println("[AdminNoticeListAction] notice_tbl의 중요 공지글 개수 = "+importantCount);
+		int listCount = 0;
+		ArrayList<NoticeBean> noticeList = null;
 		
-		//중요공지글을 제외하고 한 페이지에 출력할 글의 개수 (10 - 중요글개수)
-		limit = limit - importantCount;
-				
-		//중요공지글을 얻어옴
-		ArrayList<NoticeBean> importantList = noticeListService.getImportantList();
+		if(searchTitle != null) {//검색한 경우
+			
+			//검색어에 따른 글 개수
+			listCount = noticeListService.getSearchNoticeCount(searchTitle);
+			
+			//검색결과 글 리스트
+			noticeList = noticeListService.getSearchNoticeList(searchTitle, page, limit);
+			
+			request.setAttribute("searchKeyword", searchTitle);
+			
+		}else {//검색X
+			
+			listCount = noticeListService.getListCount();//전체 글 개수를 얻어옴
+			System.out.println("[AdminNoticeListAction] notice_tbl의 전체 공지글 개수 = "+listCount);
+			
+			//중요공지사항 글의 개수를 알아냄
+			int importantCount = noticeListService.getImportantCount();
+			System.out.println("[AdminNoticeListAction] notice_tbl의 중요 공지글 개수 = "+importantCount);
+			
+			//중요공지글을 제외하고 한 페이지에 출력할 글의 개수 (10 - 중요글개수)
+			limit = limit - importantCount;
+			
+			//중요공지글을 얻어옴
+			ArrayList<NoticeBean> importantList = noticeListService.getImportantList();
+			
+			//원하는 페이지의 넘버의 원하는 개수만큼 글을 얻어옴
+			noticeList = noticeListService.getNoticeList(page, limit);
+			
+			request.setAttribute("importantList", importantList);
+			
+		}
+		//얻어온 공지글 리스트를 request에 저장
+		request.setAttribute("noticeList", noticeList);
 		
-		//원하는 페이지의 넘버의 원하는 개수만큼 글을 얻어옴
-		ArrayList<NoticeBean> noticeList = noticeListService.getNoticeList(page, limit);
+		
 		
 		
 		/* 페이지네이션 */
@@ -73,8 +99,7 @@ public class UserNoticeListAction implements Action {
 		
 		//페이지네이션 정보와 해당 페이지 글목록을 request속성으로 저장
 		request.setAttribute("pageInfo", pageInfo);
-		request.setAttribute("importantList", importantList);
-		request.setAttribute("noticeList", noticeList);
+		
 		
 		request.setAttribute("showPage", "user/notice/noticeList.jsp");
 		forward = new ActionForward("userTemplate.jsp", false);
