@@ -86,7 +86,7 @@ function topUpOpen(member_id){
                     		<div class="col-6">
 		                    	<span class="fs-6 text-white">잔여금액</span><br>
 		                    	<form name="f">
-	                    			<input type="text" class="form-control fw-bold text-center text-dark py-0 mx-auto" name="account" value="${sessionScope.u_account}" style="width:100px" readonly/>
+	                    			<input type="text" class="form-control fw-bold text-center text-dark py-0 mx-auto" name="money" value="${sessionScope.u_money}" style="width:100px" readonly/>
 			                    </form>
 	                    	</div>
 	                    	<div class="col-6 my-auto">

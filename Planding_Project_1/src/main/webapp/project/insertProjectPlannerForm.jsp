@@ -55,7 +55,7 @@ function otherBank() {
 }
 //계좌번호 유효성 검사
 function validateAccountInput() {
-    var accountInput = document.getElementById("account");
+    var accountInput = document.getElementById("account_num");
     var inputValue = accountInput.value;
     var numericValue = inputValue.replace(/\D/g, ''); // 숫자가 아닌 문자 제거
 
@@ -108,8 +108,8 @@ function validateAccountInput() {
            		<input type="text" id="otherBankName" name="otherBankName" maxlength="20" value="${sessionScope.otherBankName}">
        		</div>
 			<div class="mb-3">
-				<label for="account" class="form-label">입금계좌번호</label> 
-				<input type="text" class="form-control" id="account" name="account" pattern="[0-9]+" maxlength="45" required placeholder="펀딩 성공 시 입금받을 계좌를 (-)하이푼 없이 숫자만 입력해주세요" value="${sessionScope.plannerInfo.account}" oninput="validateAccountInput()">
+				<label for="account_num" class="form-label">입금계좌번호</label> 
+				<input type="text" class="form-control" id="account_num" name="account_num" pattern="[0-9]+" maxlength="45" required placeholder="펀딩 성공 시 입금받을 계좌를 (-)하이푼 없이 숫자만 입력해주세요" value="${sessionScope.plannerInfo.account_num}" oninput="validateAccountInput()">
 			</div>
 		
 			<div align="center">

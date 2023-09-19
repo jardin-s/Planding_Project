@@ -56,7 +56,7 @@ public class UserUploadProjectListService {
 		for(int i=0; i<uploadProjectIdList.size(); i++) {
 			
 			int p_id = uploadProjectIdList.get(i);
-			projectInfo = projectDAO.selectProject(p_id);
+			projectInfo = projectDAO.selectProjectDate(p_id);
 			
 			//해당 아이디의 프로젝트가 없으면 반복문 종료
 			if(projectInfo == null) break; 

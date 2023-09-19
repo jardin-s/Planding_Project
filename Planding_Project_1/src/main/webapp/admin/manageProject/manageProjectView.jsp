@@ -289,7 +289,7 @@ function cancelProject(project_id, status){
 			    		<th>계좌 은행</th>
 			    		<td>${plannerInfo.bank }</td>
 			    		<th>계좌번호</th>
-			    		<td>${plannerInfo.account }</td>
+			    		<td>${plannerInfo.account_num }</td>
 			    	</tr>
 			    	<tr class="text-center">
 			    		<th colspan="4">소개글</th>

@@ -111,7 +111,7 @@ function checkTopup(){
 
 //결과값을 마이페이지에 세팅
 function confirmResult(){
-	opener.document.f.account.value = document.getElementById("finalTotalMoney").value;
+	opener.document.f.money.value = document.getElementById("finalTotalMoney").value;
 				
 	window.close();
 }
