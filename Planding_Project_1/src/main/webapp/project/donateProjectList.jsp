@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
-<%@taglib uri="http://java.sun.com/jstl/core" prefix="c" %>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -68,10 +68,14 @@
 						<div class="d-flex justify-content-start">
 							<form action="orderFundProjectList.mngp" method="post" name="forder">
 				    			<select class="form-select py-1" name="selectOrder" id="selectOrder" aria-label="selectOrder" onchange="changeOrder()">
-									<option value="default" selected>-- 정렬하기 --</option>
-									<option value="ready">최신순</option>
-									<option value="ongoing">오래된순</option>
-									<option value="done">높은 관심순</option>
+									<c:if test="${orderKeyword eq null }"><option value="default" selected>-- 정렬하기 --</option></c:if>
+									<c:if test="${orderKeyword ne null }"><option value="default">-- 정렬하기 --</option></c:if>
+									<c:if test="${orderKeyword eq 'ready' }"><option value="ready" selected>-- 최신순 --</option></c:if>
+									<c:if test="${orderKeyword ne 'ready' }"><option value="ready">-- 최신순 --</option></c:if>
+									<c:if test="${orderKeyword eq 'ongoing' }"><option value="ongoing" selected>-- 오래된순 --</option></c:if>
+									<c:if test="${orderKeyword ne 'ongoing' }"><option value="ongoing">-- 오래된순 --</option></c:if>
+									<c:if test="${orderKeyword eq 'done' }"><option value="done" selected>-- 높은 관심순 --</option></c:if>
+									<c:if test="${orderKeyword ne 'done' }"><option value="done">-- 높은 관심순 --</option></c:if>
 								</select>
 							</form>
 		    			</div>
@@ -82,7 +86,7 @@
 			    		<div class="d-flex justify-content-end">
 			    			<form action="searchFundProjectList.mngp" method="post" name="fsearch">
 				    			<div class="btn btn-outline-light py-1 px-2 me-1">
-					    			<input type="text" name="title" id="title" class="border-0" placeholder="제목으로 검색">
+					    			<input type="text" name="title" id="title" value=${searchKeyword } class="border-0" placeholder="제목으로 검색">
 					    			<a href="javascript:searchProjectList();"><i class="fas fa-search"></i></a>
 				    			</div>
 			    			</form>

@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import dao.ManageProjectDAO;
 import dao.ProjectDAO;
 import vo.ProjectBean;
+import vo.ProjectPlannerBean;
 
 public class UserDonateProjectListService {
 
@@ -42,7 +43,7 @@ public class UserDonateProjectListService {
 	}
 
 	/** 원하는 페이지의 원하는 개수만큼 진행중인 기부 프로젝트 목록 얻어오기 */
-	public ArrayList<ProjectBean> getDonateProjectOngoingList(int page, int limit) {
+	public ArrayList<ProjectPlannerBean> getDonateProjectPlannerOngoingList(int page, int limit) {
 		//1. 커넥션 풀에서 Connection객체를 얻어와
 		Connection con = getConnection(); //JdbcUtil. 생략(이유?import static 하여)
 		
@@ -54,7 +55,7 @@ public class UserDonateProjectListService {
 		
 		
 		/*-------DAO의 해당 메서드를 호출하여 처리----------------------------------------------------*/
-		ArrayList<ProjectBean> donateProjectList = projectDAO.selectProjectOngoingList("donate", page, limit);
+		ArrayList<ProjectPlannerBean> donateProjectPlannerList = projectDAO.selectProjectPlannerOngoingList("donate", page, limit);
 		
 		/*-------(insert, update, delete) 성공하면 commit(), 실패하면 rollback() 호출
 		 * 		 단, select는 이런 작업을 제외 ------------------*/
@@ -62,7 +63,7 @@ public class UserDonateProjectListService {
 		//4. 해제
 		close(con); //JdbcUtil. 생략(이유?import static 하여)
 		
-		return donateProjectList;
+		return donateProjectPlannerList;
 	}
 	
 }

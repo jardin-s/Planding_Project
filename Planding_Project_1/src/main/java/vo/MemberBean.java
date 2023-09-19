@@ -10,7 +10,7 @@ public class MemberBean {
 	private String name; //이름
 	private String email; //이메일
 	private String phone; //전화번호
-	private int account; //처음 가입한 회원은 0부터 시작
+	private int money; //처음 가입한 회원은 0부터 시작
 	private String admin_status; //Y관리자 N회원
 	
 	private String joindate; //SQL에서 가입일 자동세팅
@@ -26,20 +26,20 @@ public class MemberBean {
 	public MemberBean() {}
 
 	//회원가입 시 사용
-	public MemberBean(String member_id, String password, String name, String email, String phone, int account, String admin_status) {
+	public MemberBean(String member_id, String password, String name, String email, String phone, int money, String admin_status) {
 		super();
 		this.member_id = member_id;
 		this.password = SHA256.encodeSHA256(password);
 		this.name = name;
 		this.email = email;
 		this.phone = phone;
-		this.account = account;
+		this.money = money;
 		this.admin_status = admin_status;
 		//this.joindate = joindate;
 	}
 	
 	//탈퇴회원 조회시 사용
-	public MemberBean(String member_id, String password, String name, String email, String phone, int account,
+	public MemberBean(String member_id, String password, String name, String email, String phone, int money,
 			String admin_status, String joindate, String delete_status, String deletedate) {
 		super();
 		this.member_id = member_id;
@@ -47,7 +47,7 @@ public class MemberBean {
 		this.name = name;
 		this.email = email;
 		this.phone = phone;
-		this.account = account;
+		this.money = money;
 		this.admin_status = admin_status;
 		this.joindate = joindate;
 		this.delete_status = delete_status;
@@ -56,14 +56,14 @@ public class MemberBean {
 	
 
 	//회원목록 조회시 사용
-	public MemberBean(String member_id, String name, String email, String phone, int account,
+	public MemberBean(String member_id, String name, String email, String phone, int money,
 			String joindate, String delete_status, String deletedate) {
 		super();
 		this.member_id = member_id;
 		this.name = name;
 		this.email = email;
 		this.phone = phone;
-		this.account = account;
+		this.money = money;
 		this.joindate = joindate;
 		this.delete_status = delete_status;
 		this.deletedate = deletedate;
@@ -128,12 +128,12 @@ public class MemberBean {
 		this.admin_status = admin_status;
 	}
 
-	public int getAccount() {
-		return account;
+	public int getMoney() {
+		return money;
 	}
 
-	public void setAccount(int account) {
-		this.account = account;
+	public void setMoney(int money) {
+		this.money = money;
 	}
 	
 	public String getJoindate() {

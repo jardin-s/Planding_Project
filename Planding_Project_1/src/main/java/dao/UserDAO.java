@@ -110,7 +110,7 @@ public class UserDAO {
 				userInfo.setName(rs.getString("name"));
 				userInfo.setEmail(rs.getString("email"));
 				userInfo.setPhone(rs.getString("phone"));
-				userInfo.setAccount(rs.getInt("account"));
+				userInfo.setMoney(rs.getInt("money"));
 				userInfo.setAdmin_status(rs.getString("admin_status"));
 			}
 			
@@ -161,7 +161,7 @@ public class UserDAO {
 		int insertUserCount = 0;
 		
 		//joindate timestamp default now() -> joindate 생략
-		String sql = "insert into member_tbl(member_id, password, name, email, phone, account, admin_status) "
+		String sql = "insert into member_tbl(member_id, password, name, email, phone, money, admin_status) "
 					+ "values(?,?,?,?,?,?,?)";
 		
 		//joindate timestamp (디폴트값 없음) -> insert into member_tbl values(?,?,?,?,?,?,now());
@@ -179,7 +179,7 @@ public class UserDAO {
 			pstmt.setString(3, user.getName());
 			pstmt.setString(4, user.getEmail());
 			pstmt.setString(5, user.getPhone());
-			pstmt.setInt(6, user.getAccount());
+			pstmt.setInt(6, user.getMoney());
 			pstmt.setString(7, user.getAdmin_status());
 			
 			insertUserCount = pstmt.executeUpdate();
@@ -670,7 +670,7 @@ public class UserDAO {
 		int updateUserMoneyCount = 0;
 		
 		String sql = "update member_tbl"
-				  + " set account = account + ?"
+				  + " set money = money + ?"
 				  + " where member_id = ?";
 		
 		try {
@@ -750,7 +750,7 @@ public class UserDAO {
 	public int getUserMoney(String member_id) {
 		int userMoney = 0;
 		
-		String sql = "select account from member_tbl where member_id = ?";
+		String sql = "select money from member_tbl where member_id = ?";
 		
 		try {
 			
@@ -760,7 +760,7 @@ public class UserDAO {
 			rs = pstmt.executeQuery();
 			
 			if(rs.next()) {
-				userMoney = rs.getInt("account");
+				userMoney = rs.getInt("money");
 			}
 			
 		} catch(Exception e) {

@@ -12,6 +12,7 @@ import vo.ActionForward;
 import vo.MemberBean;
 import vo.PageInfo;
 import vo.ProjectBean;
+import vo.ProjectPlannerBean;
 
 public class UserDonateProjectListAction implements Action {
 
@@ -50,7 +51,7 @@ public class UserDonateProjectListAction implements Action {
 		int listCount = userDonateProjectListService.getDonateProjectCount();
 		
 		//기부 프로젝트 목록을 얻어옴 (기본값 : 진행중)
-		ArrayList<ProjectBean> projectList = userDonateProjectListService.getDonateProjectOngoingList(page, limit);
+		ArrayList<ProjectPlannerBean> projectPlannerList = userDonateProjectListService.getDonateProjectPlannerOngoingList(page, limit);
 		
 		
 		
