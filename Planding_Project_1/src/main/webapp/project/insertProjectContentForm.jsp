@@ -145,7 +145,23 @@ function validateImageFile(input) {
 
     return true;
 }
+// <textarea>에서 텍스트 입력 시 호출되는 함수
+function updateOutput() {
+    // <textarea>의 내용을 가져옴
+    var inputText = document.getElementById('content').value;
 
+    // 줄바꿈 문자(\n)를 <br> 태그로 변환하여 출력
+    var outputText = inputText.replace(/\n/g, '<br>');
+
+    // 출력할 <div> 업데이트
+    document.getElementById('outputText').innerHTML = outputText;
+}
+
+// <textarea>의 입력 이벤트에 함수 연결
+document.getElementById('content').addEventListener('input', updateOutput);
+
+// 초기화면에서 한 번 호출하여 초기 상태를 설정
+updateOutput();
 </script>
 </head>
 <body>

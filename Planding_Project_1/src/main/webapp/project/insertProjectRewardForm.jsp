@@ -116,7 +116,7 @@ function deleteReward(button) {
 	        <div class="mb-3">
 	            <label for="r_price" class="form-label">리워드 금액</label>
 	            <div class="input-group">
-	                <input type="text" class="form-control" name="r_price" required oninput="updateFormattedAmount(this);" value="${r_price }">
+	                <input type="text" class="form-control" name="r_price" required oninput="updateFormattedAmount(this);" value="${r_price}">
 	                <span class="input-group-text">원</span>
 	            </div>
 	        </div>
@@ -129,7 +129,7 @@ function deleteReward(button) {
 		        >
 		            <div class="mb-3">
 		                <label for="r_name${loop.index + 1}" class="form-label">리워드 이름</label>
-		                <input type="text" class="form-control" id="r_name${loop.index + 1}" name="r_name" value="${r_name[i] }">
+		                <input type="text" class="form-control" id="r_name${loop.index + 1}" name="r_name" value="${r_name[i]}">
 		            </div>
 		            <div class="mb-3">
 		                <label for="r_content${loop.index + 1}" class="form-label">리워드 설명</label>

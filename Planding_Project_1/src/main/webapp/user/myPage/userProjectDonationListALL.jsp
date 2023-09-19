@@ -190,7 +190,7 @@
 
     	<div class="container-xxl py-5">
     		<div class="container col-lg-8 mb-5">
-   				<h3 class="text-center">${planner.planner_name}의 ${pj.title } 프로젝트<br>리워드 관리 페이지</h3>
+   				<h3 class="text-center">${pj.title } 프로젝트<br>리워드 관리 페이지</h3>
     		</div>
     	</div>
 
@@ -198,12 +198,12 @@
 <!-- 	    필터링 div -->
 		<div  class="container col-lg-8" align="right">
 				<div class="form-group"  style="width: 150px;">
-				    <label for="filterSelect">r_id 필터</label>
+				    <label for="filterSelect">리워드별보기</label>
 				    <select class="form-control" id="filterSelect" onchange="filterTable()">
 				        <option value="">전체</option>
-<%-- 				      <c:forEach var="i" begin="0" end="${rewardListSize-1 }" step="1" varStatus="count"> --%>
-				      	<option value="${rewardList.get(i).getReward_id()}">${rewardList.get(i).getReward_id()}(${byRewardCount[i]})</option>
-<%-- 				      </c:forEach> --%>
+				      <c:forEach items="${reward_id_list}" var="reward">
+				      	<option value="${reward}">${reward}</option>
+				      </c:forEach>
 				        <!-- 등록된 rewardList를 기반으로 리워드 목록 옵션 생성 -->
 				    </select>
 				</div>
@@ -224,31 +224,39 @@
 							</tr>
 						</thead>
 						<tbody class="table-group-divider">
+					<c:if test="${donationList eq null}">
+						<tr class="text-center">
+					        <td>
+					            후원 목록이 비어있습니다.
+					        </td>
+						</tr>
+					</c:if>
 						
-						<c:forEach var="i" begin="0" end="${donationList.size()-1 }" step="1" varStatus="count">
+					<c:if test="${donationList ne null}">
+						<c:forEach items="${donationList}" var="donation">
 							 <tr class="text-center">
 <!-- 							  onclick="redirectToPage('your_page_url')" data-bs-toggle="tooltip" data-bs-placement="top" title="클릭하여 상세정보보기 누르면 송장같은 정보나오도록" -->
 						        <td>
-						            ${donationList.get(i).donation_id }
+						            ${donation.donation_id }
 						        </td>
 						        <td>
-						            ${donationList.get(i).reward_id }
+						            ${donation.reward_id }
 						        </td>
 						        <td>
-									${donationList.get(i).member_id }
+									${donation.member_id }
 						        </td>
 						        <td>
-						            ${donationList.get(i).r_price }
+						            ${donation.r_price }
 						        </td>
 						        <td>
-						            ${donationList.get(i).add_donation }
+						            ${donation.add_donation }
 						        </td>
 						        <td>
-						            ${donationList.get(i).donatedate }
+						            ${donation.donatedate }
 						        </td>
 						    </tr>
 						</c:forEach>
-							
+					</c:if>		
 						</tbody>
 					</table>
 				</div>

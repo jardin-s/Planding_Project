@@ -190,7 +190,7 @@
 
     	<div class="container-xxl py-5">
     		<div class="container col-lg-8 mb-5">
-   				<h3 class="text-center">${planner.planner_name}의 ${pj.title } 프로젝트<br>리워드 관리 페이지</h3>
+   				<h3 class="text-center">${pj_title} 프로젝트<br>리워드 관리 페이지</h3>
     		</div>
     	</div>
 
@@ -200,63 +200,57 @@
     	<!-- Table Start -->
 	    <div class="container-fluid pt-0 pb-2">
 	        <div class="container col-lg-8">
-	            <div class="row justify-content-center" style="height:400px; overflow-y:auto">
+	            <div class="table-responsive" style="height:400px; overflow-y:auto">
 					<table class="table table-hover">
 						<thead class="sticky-header">
-							<tr class="text-center">
-								<th scope="col" class="col-1">#</th>
-								<th scope="col" class="col-auto">리워드명</th>
-								<th scope="col" class="col-2">리워드설명</th>
-								<th scope="col" class="col-2">리워드금액</th>
+							<tr class="text-center" style="padding: 50px; white-space: nowrap;">
+								<th scope="col" class="col-1" >#</th>
+								<th scope="col" class="col-2">리워드명</th>
+								<th scope="col" class="col-3" colspan="2">리워드설명</th>
 								<th scope="col" class="col-2">신청자수</th>
+								<th scope="col" class="col-2">최소금액</th>
 								<th scope="col" class="col-2">총액</th>
 							</tr>
 						</thead>
 						<tbody class="table-group-divider">
-<%-- 							<c:forEach var="i" begin="0" end="${rewardList.size()-1 }" step="1" varStatus="count"> --%>
-							 <tr class="text-center" onclick="byRewardDonationList.pj?reward_id=${rewardList[i].reward_id }" data-bs-toggle="tooltip" data-bs-placement="top" title="클릭하여 리워드 후원목록 보기">
+							<c:forEach var="i" begin="0" end="${rewardList.size() }" step="1" varStatus="count">
+							 <tr class="text-center" onclick="window.location.href='byRewardDonationList.pj?reward_id=${rewardList[i].reward_id }'" data-bs-toggle="tooltip" data-bs-placement="top" title="클릭하여 리워드 후원목록 보기">
 						        <td>
 						            ${rewardList[i].reward_id }
 						        </td>
 						        <td>
 						            ${rewardList[i].r_name }
 						        </td>
-						        <td>
+						        <td style="text-overflow: ellipsis;" colspan="2">
 						            ${rewardList[i].r_content }
-						        </td>
-						        <td>
-						            ${rewardList[i].r_price }
 						        </td>
 						        <td>
 						            ${byRewardCount[i]}
 						        </td>
 						        <td>
+						            ${rewardList[i].r_price }
+						        </td>
+						        <td>
 						            ${byRewardTotalPrice[i]}
 						        </td>
 						     </tr>
-<%-- 							</c:forEach> --%>
+							</c:forEach>
 						</tbody>
 						<tfoot class="sticky-footer">
 							<tr class="text-center">
 							
 								<th scope="col" class="col-1" colspan="2">
-								<!-- 미승인 상태이거나 공개예정이라면 리워드를 수정할 수 있도록 -->
-									<c:if test="${pj.status eq 'unauthorized' || pj.status eq 'ready'}">
 						<button class="btn btn-outline-primary py-1" type="button" id="answerBtn" 
-						onclick="editProjectRewardList.pj?project_id=${pj.project_id}">리워드 수정</button>	
-									</c:if>
-								<!-- 미승인 상태이거나 공개예정이아니라면 도네이션목록을 볼 수 있도록 -->
-									<c:if test="${pj.status ne 'unauthorized' and pj.status ne 'ready'}">
-						<button class="btn btn-outline-primary py-1" type="button" id="answerBtn" 
-						onclick="userProjectDonationListALL.pj?project_id=${pj.project_id}">전체 후원목록보기</button>
-									</c:if>
-								
-									
+						onclick="window.location.href='editProjectRewardList.pj?project_id=${project_id}'">리워드 수정</button>	
 								</th>
-								<th scope="col" class="col-2">총신청자수</th>
-								<th scope="col" class="col-2">${totalCount}명</th>
-								<th scope="col" class="col-2">전체총액</th>
-								<th scope="col" class="col-2">${totalPrice}원</th>
+								<th scope="col" class="col-1" colspan="2">
+						<button class="btn btn-outline-primary py-1" type="button" id="answerBtn" 
+						onclick="window.location.href='userProjectDonationListALL.pj?project_id=${project_id}'">전체 후원목록보기</button>
+								</th>
+
+								<th>총${totalCount}명</th>
+								<th>전체총액</th>
+								<th>${totalPrice}원</th>
 							</tr>
 						</tfoot>
 					</table>

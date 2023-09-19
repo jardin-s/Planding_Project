@@ -102,8 +102,8 @@ function deleteReward(button) {
 			
 			<!-- 리워드 입력란 -->
 			<div class="mb-3">
-	            <label for="reward_id" class="form-label"></label>
-	            <input type="hidden" class="form-control" id="reward_id" name="reward_id" required value="${r_name }">
+	            <label for="project_id" class="form-label"></label>
+	            <input type="hidden" class="form-control" id="project_id" name="project_id" required value="${project_id}">
 	        </div>
 			<div class="mb-3">
 	            <label for="r_name" class="form-label">리워드 이름</label>

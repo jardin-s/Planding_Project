@@ -26,6 +26,7 @@ public class EditRewardAction implements Action {//reward_id//r_name//r_content/
 		String r_name = request.getParameter("r_name");
 		String r_content = request.getParameter("r_content");
 		int r_price = Integer.parseInt(request.getParameter("r_price"));
+		int project_id = Integer.parseInt(request.getParameter("project_id"));
 		
 		//파라미터값 확인
 		System.out.println("[EditRewardAction] 파라미터 값 확인");
@@ -60,7 +61,7 @@ public class EditRewardAction implements Action {//reward_id//r_name//r_content/
 			out.println("<script>");
 			out.println("alert('리워드 수정에 성공했습니다.');");
 			out.println("</script>");
-			forward = new ActionForward("editProjectRewardList.pj",true);
+			forward = new ActionForward("editProjectRewardList.pj?project_id="+project_id,true);
 		}
 			
 		

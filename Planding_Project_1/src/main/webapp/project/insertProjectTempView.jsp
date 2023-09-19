@@ -1,3 +1,4 @@
+<%@page import="java.util.ArrayList"%>
 <%@page import="java.text.DecimalFormat"%>
 <%@page import="vo.*"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -143,9 +144,10 @@ if(project.getImage()!=null){//프로젝트 이미지가 있으면
 						</thead>
 						<tbody>
 							<tr>
-								<form>
+								
 									
-									<td class="pt-3">
+								<td class="pt-3">
+									<form>
 										<div class="row">
 											<div class="col-8 my-auto">
 												<c:if test="${projectInfo.kind eq 'donate' }">
@@ -159,7 +161,7 @@ if(project.getImage()!=null){//프로젝트 이미지가 있으면
 														<optgroup label="1,000원">
 															<option value="default">리워드 없이 후원하기</option>
 														</optgroup>
-														<c:forEach var="reward" items="rewardList">
+														<c:forEach var="reward" items="${ rewardList}">
 															<optgroup label="${reward.r_price}원">
 																<option>${reward.r_name }</option>
 															</optgroup>
@@ -177,8 +179,9 @@ if(project.getImage()!=null){//프로젝트 이미지가 있으면
 											</div>
 										</div>
 										<input class="form-control" type="text" name="add_donation" id="add_donation" placeholder="추가 후원금 (선택)">	
-									</td>
-								</form>
+									</form>
+								</td>
+								
 							</tr>
 							<tr class="text-center">
 								<td class="py-3">
@@ -214,27 +217,27 @@ if(project.getImage()!=null){//프로젝트 이미지가 있으면
 				
 				<!-- 프로젝트 세부사항 -->
 				<div class="col-12">
-					<table class="table">
-						<thead>
-							<tr>
-								<th colspan="3">프로젝트 상세</th>
-							</tr>
-							<tr class="text-center">
-								<th>
-									<c:forTokens var="image" items="${projectInfo.image }" delims=";">
-										<img src="<%=request.getContextPath()%>/images/temp/${image}" style="width:60%; margin-bottom: 2rem">
-									</c:forTokens>
-								</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr class="text-center">
-								<td style="padding:50px">
-								${projectInfo.content }
+				    <table class="table">
+				        <thead>
+				            <tr>
+				                <th colspan="3">프로젝트 상세</th>
+				            </tr>
+				            <tr class="text-center">
+				                <th>
+				                    <c:forTokens var="image" items="${projectInfo.image }" delims=";">
+				                        <img src="<%=request.getContextPath()%>/images/temp/${image}" style="width:60%; margin-bottom: 2rem">
+				                    </c:forTokens>
+				                </th>
+				            </tr>
+				        </thead>
+				        <tbody>
+				            <tr class="text-center">
+				            	<td style="padding: 50px; word-wrap: break-word;">
+									${projectInfo.content }
 								</td>
-							</tr>
-						</tbody>
-					</table>
+				            </tr>
+				        </tbody>
+				    </table>
 				</div>
 				
 				<!-- 리워드 세부사항 (펀딩 프로젝트만 보임) -->
@@ -249,10 +252,10 @@ if(project.getImage()!=null){//프로젝트 이미지가 있으면
 								</tr>
 							</thead>
 							<tbody>
-								<c:forEach var="reward" items="rewardList">
+								<c:forEach var="reward" items="${rewardList}">
 									<tr>
 										<td class="col-4">${reward.r_name}</td>
-										<td class="col-auto">${reward.r_content }</td>
+										<td class="col-auto">${reward.r_content}</td>
 										<td class="col-2">${reward.r_price }원</td>
 									</tr>
 								</c:forEach>
@@ -266,7 +269,12 @@ if(project.getImage()!=null){//프로젝트 이미지가 있으면
 					<p class="mb-2">제출하신 프로젝트는 검토 후 승인을 거쳐 최종적으로 등록이 됩니다.</p>
 					<button class="btn btn-light" onclick="history.back();">이전 단계로</button>
 					<button class="btn btn-light" onclick="location.href='deleteTempProject.pj'">등록 취소</button>
-					<button class="btn btn-light" onclick="location.href='submitDonateProjectAction.pj'">제출하기</button>
+					<c:if test="${projectInfo.kind eq 'donate' }">
+                  <button class="btn btn-light" onclick="location.href='submitDonateProjectAction.pj'">제출하기</button>
+	               </c:if>
+	               <c:if test="${projectInfo.kind eq 'fund' }">
+                  <button class="btn btn-light" onclick="location.href='submitFundProjectAction.pj'">제출하기</button>
+               </c:if>   
 				</div>
 			</div>
 		</div>

@@ -31,6 +31,7 @@ public class ManageProjectAction implements Action {
         String planner_name = planner.getPlanner_name();
         
         //세션에 기획자명과 프로젝트명 저장
+	    session.setAttribute("project_id", project_id);
 	    session.setAttribute("pj_title", pj_title);
 	    session.setAttribute("planner_name", planner_name);
         
@@ -53,7 +54,7 @@ public class ManageProjectAction implements Action {
 	    
 	    //프로젝트 아이디로 도네이션 테이블에서 리스트 얻어옴
 	    ArrayList<DonationBean> donationList = projectPageViewService.getDonationList(project_id);
-	    
+	    if(donationList != null) {//후원기록이 있을 때
 	    //리워드별 카운트를 저장할 배열을 리워드 리스트의 크기로 초기화
 	    int[] byRewardCount = new int[rewardList.size()];
 	    //리워드별 총액을 넣을 배열을 리워드리스트 크기로 초기화
@@ -86,8 +87,34 @@ public class ManageProjectAction implements Action {
 	    session.setAttribute("byRewardTotalPrice", byRewardTotalPrice);
 	    session.setAttribute("totalCount", totalCount);
 	    session.setAttribute("totalPrice", totalPrice);
-	    
-	    
+	    }
+	    else {
+		    //리워드별 카운트를 저장할 배열을 리워드 리스트의 크기로 초기화
+		    int[] byRewardCount = new int[rewardList.size()];
+		    //리워드별 총액을 넣을 배열을 리워드리스트 크기로 초기화
+		    int[] byRewardTotalPrice=new int[rewardList.size()];
+		    //각 리워드 아이디별로 카운트 계산
+		    
+		    int totalCount=0;
+		    int totalPrice=0;
+		    
+		    for (int i = 0; i < rewardList.size(); i++) {
+		        RewardBean reward = rewardList.get(i);
+		        String rewardId = reward.getReward_id();
+		        int rewardCount = 0;
+		        int rewardTotalPrice=0;
+		        //기부 리스트를 돌리면서 현재 리워드 아이디와 일치하는 카운트 계산 + 리워드별 총액 계산
+
+		        byRewardTotalPrice[i]=rewardTotalPrice; //배열에 리워드별 총액 저장 
+		        byRewardCount[i] = rewardCount; //배열에 리워드별 카운트 저장
+		    }
+
+		    //세션에 리워드별 총액과 카운트 저장
+		    session.setAttribute("byRewardCount", byRewardCount);
+		    session.setAttribute("byRewardTotalPrice", byRewardTotalPrice);
+		    session.setAttribute("totalCount", totalCount);
+		    session.setAttribute("totalPrice", totalPrice);
+	    }
 	    
 	    
 	    
@@ -110,7 +137,7 @@ public class ManageProjectAction implements Action {
 		
 					
 		//미리보기 페이지로 이동
-		request.setAttribute("showPage", "project/userUploadProjectManager.jsp");
+		request.setAttribute("showPage", "user/myPage/userUploadProjectManager.jsp");
 		forward = new ActionForward("userTemplate.jsp", false);
 			
 		

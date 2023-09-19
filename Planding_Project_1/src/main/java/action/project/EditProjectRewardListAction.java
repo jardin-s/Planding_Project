@@ -20,6 +20,8 @@ public class EditProjectRewardListAction implements Action {
 		int project_id = Integer.parseInt(request.getParameter("project_id"));
 		ProjectPageViewService projectPageViewService = new ProjectPageViewService();
 		
+		
+		
 		ArrayList<String> reward_id_list = new ArrayList<>();
 		ArrayList<RewardBean> rewardList = new ArrayList<>();
 		//리워드 아이디 리스트 얻어오기
@@ -32,6 +34,7 @@ public class EditProjectRewardListAction implements Action {
 			
 			rewardList.add(projectPageViewService.getRewardInfo(reward_id_list.get(i)));
 		}
+		System.out.println("rewardList 확인 : "+ rewardList.toString());
 		request.setAttribute("rewardList", rewardList);
 		request.setAttribute("project_id", project_id);
 		

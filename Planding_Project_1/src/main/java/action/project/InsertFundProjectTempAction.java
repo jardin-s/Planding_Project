@@ -1,6 +1,6 @@
 package action.project;
 
-import java.io.PrintWriter;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -9,10 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import action.Action;
-import svc.project.InsertProjectService;
 import vo.ActionForward;
-import vo.PlannerBean;
-import vo.ProjectBean;
 import vo.RewardBean;
 
 //프로젝트 기획자 입력, 프로젝트 내용 입력 후 임시저장
@@ -30,10 +27,16 @@ public class InsertFundProjectTempAction implements Action {
         String[] r_names = request.getParameterValues("r_name");
 		String[] r_contents = request.getParameterValues("r_content");
 		String[] r_prices = request.getParameterValues("r_price");
-		String[] r_price = new String[r_prices.length];
+		int[] r_price = new int[r_prices.length];
 		
 		for(int i=0;i<r_prices.length;i++) {
-			r_price[i]=r_prices[i].replace(",", "");
+			r_prices[i]=r_prices[i].replace(",", "");
+			try {
+				r_price[i] = Integer.parseInt(r_prices[i]);
+			}catch(Exception e) {
+				System.out.println("InsertFundProjectTempAction error : ");
+				e.printStackTrace();
+			}
 		}
 		
 		//파라미터값들을 session에 저장 (이전단계 > 다음단계 클릭 시 세팅)
@@ -53,14 +56,18 @@ public class InsertFundProjectTempAction implements Action {
 		ArrayList<RewardBean> rewardList = new ArrayList<>();
 		for(int i=0; i<r_names.length; i++) {
 			
-			if(r_names[i].trim().equals("")) break;//만약 더이상 리워드배열의 칸이 null이면 반복문 끝
+			if(r_names[i].trim().equals("")) { break;}//만약 더이상 리워드배열의 칸이 null이면 반복문 끝
 			
-			rewardList.add(new RewardBean(r_names[i],
+			else{rewardList.add(new RewardBean(r_names[i],
 										  r_contents[i],
-										  Integer.parseInt(r_price[i])
+										  r_price[i]
 										  )
 						  );		
+			System.out.println("중간 rewardList.size() :" + rewardList.size());
+			}
+			
 		}
+		System.out.println("최종 rewardList.size() :" + rewardList.size());
 		//세션에 리워드 리스트를 저장하고
 		session.setAttribute("rewardList", rewardList);
 					

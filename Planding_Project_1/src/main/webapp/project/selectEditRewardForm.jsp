@@ -41,57 +41,7 @@
 <!-- Template Stylesheet -->
 <link href="../resources/css/style.css" rel="stylesheet">
 
-<script>
 
-//금액 천단위 구분쉼표
-function updateFormattedAmount(input) {
-    // 입력된 금액을 가져옵니다.
-    var amount = input.value.replace(/\D/g, ''); // 숫자 이외의 문자 제거
-
-    // 3자리마다 쉼표를 추가하여 포맷합니다.
-    var formattedAmount = amount.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-
-    // 포맷된 금액을 입력란에 설정합니다.
-    input.value = formattedAmount;
-}
-
-//리워드 추가 함수
-function addReward() {
-    var rewardFields = document.querySelectorAll('[id^=rewardField]');
-    for (var i = 0; i < rewardFields.length; i++) {
-        if (rewardFields[i].style.display === 'none') {
-            rewardFields[i].style.display = 'block';
-
-            // 추가한 리워드 필드의 input 요소들에 required 속성 추가
-            var inputs = rewardFields[i].querySelectorAll('input[type="text"], textarea');
-            for (var j = 0; j < inputs.length; j++) {
-                inputs[j].setAttribute('required', 'required');
-            }
-
-            return; // 이미 숨겨진 필드를 보이게 한 후 종료
-        }
-    }
-}
-
-//리워드 삭제 함수
-function deleteReward(button) {
-    var rewardFieldContainer = button.parentNode;
-    rewardFieldContainer.style.display = 'none';
-
-    // 필드의 값을 초기화
-    var inputs = rewardFieldContainer.querySelectorAll('input[type="text"], textarea');
-    for (var i = 0; i < inputs.length; i++) {
-        inputs[i].value = '';
-    }
-
-    // 필드의 required 속성 제거
-    var requiredInputs = rewardFieldContainer.querySelectorAll('input[required], textarea[required]');
-    for (var i = 0; i < requiredInputs.length; i++) {
-        requiredInputs[i].removeAttribute('required');
-    }
-}
-
-</script>
 </head>
 <body>
 
@@ -109,8 +59,14 @@ function deleteReward(button) {
 							</tr>
 						</thead>
 						<tbody class="table-group-divider">
-<%-- 							<c:forEach var="i" begin="0" end="${rewardList.size()-1 }" step="1" varStatus="count"> --%>
-							 <tr class="text-center" onclick="editProjectRewardForm.pj?reward_id=${rewardList[i].reward_id }&project_id=${project_id}" data-bs-toggle="tooltip" data-bs-placement="top" title="클릭하여 리워드 수정 및 삭제">
+						<c:if test="${rewardList eq null }">
+							<tr>
+								<th>등록된 리워드가 존재하지 않습니다.</th>
+							</tr>
+						</c:if>
+						<c:if test="${rewardList ne null }">
+							<c:forEach var="i" begin="0" end="${rewardList.size() }" step="1" varStatus="count">
+							 <tr class="text-center" onclick="window.location.href='editProjectRewardForm.pj?reward_id=${rewardList[i].reward_id }&project_id=${project_id}'" data-bs-toggle="tooltip" data-bs-placement="top" title="클릭하여 리워드 수정 및 삭제">
 						        <td>
 						            ${rewardList[i].reward_id }
 						        </td>
@@ -124,14 +80,15 @@ function deleteReward(button) {
 						            ${rewardList[i].r_price }
 						        </td>
 						     </tr>
-<%-- 							</c:forEach> --%>
+							</c:forEach>
+						</c:if>	
 						</tbody>
 						<tfoot class="sticky-footer">
 							<tr class="text-center">
 							
 								<th scope="col" class="col-1" colspan="4">
 						<button class="btn btn-outline-primary py-1" type="button" id="answerBtn" 
-						onclick="insertAddRewardForm.pj?project_id=${pj.project_id}&reward_Count=${rewardList.size()}">리워드 추가</button>
+						onclick="window.location.href='insertAddRewardForm.pj?project_id=${project_id}&reward_Count=${rewardList.size()}'">리워드 추가</button>
 								</th>
 							</tr>
 						</tfoot>

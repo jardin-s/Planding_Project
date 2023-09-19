@@ -139,7 +139,7 @@ public class RewardDAO {
 	public ArrayList<DonationBean> selectDonation(int project_id) {
 		DonationBean donationInfo = null;
 		ArrayList<DonationBean> donationList=new ArrayList<>();
-		String sql = "select donate_id,project_id,member_id,reward_id,r_price,add_donation,address_id,DATE_FORMAT(donatedate, %Y-%m-%d) as donatedate "
+		String sql = "select donation_id,project_id,member_id,reward_id,r_price,add_donation,address_id,DATE_FORMAT(donatedate, '%Y-%m-%d') as donatedate "
 				+ " from donation_tbl where project_id=?";
 		   	
 		try {
@@ -152,7 +152,7 @@ public class RewardDAO {
 			if(rs.next()) {
 				do{
 					donationInfo = new DonationBean(
-											rs.getInt("donate_id"),
+											rs.getInt("donation_id"),
 											rs.getInt("project_id"),
 											rs.getString("member_id"),
 											rs.getString("reward_id"),
@@ -181,7 +181,7 @@ public class RewardDAO {
 	public ArrayList<DonationBean> selectDonation(String reward_id) {
 		DonationBean donationInfo = null;
 		ArrayList<DonationBean> donationList=new ArrayList<>();
-		String sql = "select donate_id,project_id,member_id,reward_id,r_price,add_donation,address_id,DATE_FORMAT(donatedate, %Y-%m-%d) as donatedate "
+		String sql = "select donation_id,project_id,member_id,reward_id,r_price,add_donation,address_id,DATE_FORMAT(donatedate, %Y-%m-%d) as donatedate "
 				+ " from donation_tbl where reward_id=?";
 		   	
 		try {
@@ -194,7 +194,7 @@ public class RewardDAO {
 			if(rs.next()) {
 				do{
 					donationInfo = new DonationBean(
-											rs.getInt("donate_id"),
+											rs.getInt("donation_id"),
 											rs.getInt("project_id"),
 											rs.getString("member_id"),
 											rs.getString("reward_id"),
@@ -354,7 +354,78 @@ public class RewardDAO {
 		return editRewardCount;
 	}
 
-	
+	public int seleteDonation_Reward(String reward_id) {
+		int donationCount=0;
+		String sql = "SELECT IFNULL(COUNT(*), 0) as donationcount FROM donation_tbl WHERE reward_id = ?";   	
+		try {
+			
+				pstmt = con.prepareStatement(sql);
+				pstmt.setString(1, reward_id);
+				
+				rs = pstmt.executeQuery();
+				//바로 donation객체에 주소정보 추가함
+				if(rs.next()) {
+					donationCount=rs.getInt("donationcount");
+			}
+			
+			
+		} catch(Exception e) {
+			System.out.println("[RewardDAO] seleteDonation_Reward() 에러 : "+e);//예외객체종류 + 예외메시지
+		} finally {
+			close(pstmt); //JdbcUtil.생략가능
+			close(rs); //JdbcUtil.생략가능
+			//connection 객체에 대한 해제는 DogListService에서 이루어짐
+		}
+		
+		return donationCount;
+	}
+
+	public int deleteMapReward(int project_id, String reward_id) {
+		int deleteMapRewardCount = 0;
+		String sql="DELETE FROM project_reward_tbl WHERE project_id = ? AND reward_id = ?";
+		
+
+		
+		try {
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, project_id);
+			pstmt.setString(2, reward_id);
+			
+			deleteMapRewardCount = pstmt.executeUpdate();
+			
+		} catch(Exception e) {
+			System.out.println("[RewardDAO] deleteMapReward() 에러 : "+e);//예외객체종류 + 예외메시지
+		} finally {
+			close(pstmt); //JdbcUtil.생략가능
+			//close(rs); //JdbcUtil.생략가능
+			//connection 객체에 대한 해제는 DogListService에서 이루어짐
+		}
+		
+		return deleteMapRewardCount;
+	}
+
+	public int deleteReward(String reward_id) {
+		int deleteRewardCount = 0;
+		String sql="DELETE FROM reward_tbl WHERE reward_id = ?";
+		
+
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, reward_id);
+			
+			deleteRewardCount = pstmt.executeUpdate();
+			
+		} catch(Exception e) {
+			System.out.println("[RewardDAO] deleteReward() 에러 : "+e);//예외객체종류 + 예외메시지
+		} finally {
+			close(pstmt); //JdbcUtil.생략가능
+			//close(rs); //JdbcUtil.생략가능
+			//connection 객체에 대한 해제는 DogListService에서 이루어짐
+		}
+		
+		return deleteRewardCount;
+	}
 
 	
 }

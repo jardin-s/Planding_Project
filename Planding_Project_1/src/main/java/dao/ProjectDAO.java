@@ -348,7 +348,7 @@ public class ProjectDAO {
 		String sql = "select reward_id"
 				  + " from project_reward_tbl"
 				  + " where project_id = ?"
-				  + " and reward_id is not 'default'";
+				  + " and reward_id != 'default'";
 		
 		try {
 			
@@ -559,6 +559,8 @@ public class ProjectDAO {
 		
 		return projectPlannerList;
 	}
+
+
 	
 	
 }

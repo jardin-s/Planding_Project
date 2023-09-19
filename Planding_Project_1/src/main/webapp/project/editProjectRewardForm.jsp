@@ -54,7 +54,15 @@ function updateFormattedAmount(input) {
     // 포맷된 금액을 입력란에 설정합니다.
     input.value = formattedAmount;
 }
-
+function confirmDelete() {
+    if (confirm("정말로 삭제하시겠습니까? 삭제된 리워드는 다시 복구 할 수 없습니다.")) {
+        // 사용자가 확인을 선택한 경우
+        window.location.href = 'deleteReward.pj?reward_id=${rewardInfo.reward_id}&project_id=${project_id}';
+    } else {
+        // 사용자가 취소를 선택한 경우
+        // 아무 작업도 수행하지 않음
+    }
+}
 
 
 </script>
@@ -70,6 +78,10 @@ function updateFormattedAmount(input) {
 			<div class="mb-3">
 	            <label for="reward_id" class="form-label"></label>
 	            <input type="hidden" class="form-control" id="reward_id" name="reward_id" required value="${rewardInfo.reward_id }">
+	        </div>
+			<div class="mb-3">
+	            <label for="project_id" class="form-label"></label>
+	            <input type="hidden" class="form-control" id="project_id" name="project_id" required value="${project_id }">
 	        </div>
 			<div class="mb-3">
 	            <label for="r_name" class="form-label">리워드 이름</label>
@@ -90,11 +102,11 @@ function updateFormattedAmount(input) {
 			<br>
 		   
 			<!-- 최종 submit 버튼 -->
-			<div align="center">
+			<div align="center">				
+				<input class="btn btn-primary" type="button" value="삭제하기" onclick="confirmDelete()">
 				<input class="btn btn-primary" type="button" value="취소하고 돌아가기" onclick="history.back();">
 				<input class="btn btn-primary" id="submit" type="submit" value="제출하기"><!-- 유효성 검사는 모든 항목에 required를 입력하여 대체함 -->
 				<br>
-				<p>※주의 : 리워드를 수정하면 프로젝트가 승인 대기 상태로 변경됩니다.</p>
 			</div>
 			
 		</form>

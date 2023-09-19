@@ -1,20 +1,19 @@
 /* 테이블 일괄삭제 (순서대로)
-drop table former_member_tbl;
+USE `project` ;
+drop table project.project_reward_tbl;
+drop table project.donation_tbl;
+drop table project.reward_tbl;
 
-drop table project_reward_tbl;
-drop table donation_tbl;
-drop table reward_tbl;
+drop table project.project_review_tbl;
+drop table project.bookmark_tbl;
+drop table project.project_planner_tbl;
+drop table project.admin_income_tbl;
+drop table project.project_tbl;
 
-drop table project_review_tbl;
-drop table bookmark_tbl;
-drop table project_planner_tbl;
-drop table admin_income_tbl;
-drop table project_tbl;
-
-drop table address_tbl;
-drop table qna_tbl;
-drop table notice_tbl;
-drop table member_tbl;
+drop table project.address_tbl;
+drop table project.qna_tbl;
+drop table project.notice_tbl;
+drop table project.member_tbl;
 */
 
 /*
@@ -30,6 +29,8 @@ drop table member_tbl;
  drop table project_tbl;
  
  
+ USE `project` ;
+ show tables;
  
    
  */
@@ -79,7 +80,7 @@ insert into project_tbl(kind, title, summary, thumbnail, content, image, startda
 values('donate','기부제목2','기부요약2','thumbnail2.jpg','프로젝트 내용2','content_image2.jpg',
 		'2023-09-11', '2023-09-15', 1000000, 200000, 'unauthorized', 0);
 		
-select * from project_tbl;
+select * from project.project_tbl;
 delete from project_tbl;
 
 
@@ -133,9 +134,9 @@ CREATE TABLE IF NOT EXISTS `project`.`reward_tbl` (
   PRIMARY KEY (`reward_id`))
 ENGINE = InnoDB;
 
-insert into reward_tbl values('default','donate','최소 후원금액',1000);
+insert into `project`.reward_tbl values('default','donate','최소 후원금액',1000);
 
-select * from reward_tbl;
+select * from project.reward_tbl;
 
 -- -----------------------------------------------------
 -- Table `project`.`donation_tbl`
@@ -208,7 +209,7 @@ select * from reward_tbl;
 
 delete from project_reward_tbl;
 
-
+select reward_id from project.project_reward_tbl where project_id = 1 and reward_id != 'default';
 -- -----------------------------------------------------
 -- Table `project`.`notice_tbl`
 -- -----------------------------------------------------
@@ -375,9 +376,9 @@ select * from address_tbl;
 -- -----------------------------------------------------
 -- View `project`.`project_planner_view` 프로젝트-플래너 조인한 뷰 생성
 -- -----------------------------------------------------
-CREATE OR REPLACE VIEW `project_planner_view` AS
+CREATE OR REPLACE VIEW `project`.`project_planner_view` AS
 select project_id, kind, title, summary, thumbnail, content, image, startdate, enddate, goal_amount, curr_amount, status, likes, regdate, member_id, planner_name, introduce, bank, account_num
-from project_tbl join project_planner_tbl
+from project.project_tbl join project.project_planner_tbl
 using(project_id);
 
 SET SQL_MODE=@OLD_SQL_MODE;
