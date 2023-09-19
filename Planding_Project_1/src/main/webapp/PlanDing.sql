@@ -71,6 +71,27 @@ CREATE TABLE IF NOT EXISTS `project`.`project_tbl` (
   PRIMARY KEY (`project_id`))
 ENGINE = InnoDB;
 
+/* 테스트를 위해 데이터 1개 등록 */
+insert into project_tbl(kind, title, summary, thumbnail, content, image, startdate, enddate, goal_amount, curr_amount, status, likes)
+values('donate','기부제목','기부요약','thumbnail.jpg','프로젝트 내용','content_image.jpg',
+		'2023-09-11', '2023-09-15', 1000000, 100000, 'unauthorized', 0);
+insert into project_tbl(kind, title, summary, thumbnail, content, image, startdate, enddate, goal_amount, curr_amount, status, likes)
+values('donate','기부제목2','기부요약2','thumbnail2.jpg','프로젝트 내용2','content_image2.jpg',
+		'2023-09-11', '2023-09-15', 1000000, 200000, 'unauthorized', 0);
+		
+select * from project_tbl;
+delete from project_tbl;
+
+
+select project_id, kind, title, summary
+thumbnail, content, image,
+DATE_FORMAT(startdate,'%Y.%m.%d %H:%i:%S') as startdate,
+DATE_FORMAT(enddate,'%Y.%m.%d %H:%i:%S') as enddate,
+goal_amount, curr_amount,
+status, likes,
+DATE_FORMAT(regdate,'%Y.%m.%d') as regdate_F"
+				  + " from project_tbl where kind = ?"
+				  + " order by regdate desc
 
 -- -----------------------------------------------------
 -- Table `project`.`member_tbl`
@@ -81,7 +102,7 @@ CREATE TABLE IF NOT EXISTS `project`.`member_tbl` (
   `name` NVARCHAR(20) NOT NULL COMMENT '이름',
   `email` VARCHAR(45) NOT NULL COMMENT '이메일',
   `phone` VARCHAR(11) NOT NULL,
-  `account` INT NOT NULL COMMENT '가상계좌 (계좌잔액)',
+  `money` INT NOT NULL COMMENT '가상계좌 (계좌잔액)',
   `admin_status` VARCHAR(1) NOT NULL COMMENT '관리자 여부',
   `joindate` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP COMMENT '가입일',
   `delete_status` VARCHAR(1) NULL DEFAULT 'N' COMMENT '탈퇴회원 여부',
@@ -90,6 +111,31 @@ CREATE TABLE IF NOT EXISTS `project`.`member_tbl` (
   UNIQUE INDEX `email_UNIQUE` (`email` ASC) VISIBLE)
 ENGINE = InnoDB;
 
+select * from member_tbl;
+
+update member_tbl
+set password='delete', name='delete',
+email='delete', phone='delete',
+delete_status='Y',
+deletedate=current_timestamp
+where member_id='testuser0009';
+
+
+
+-- -----------------------------------------------------
+-- Table `project`.`reward_tbl`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `project`.`reward_tbl` (
+  `reward_id` VARCHAR(100) NOT NULL COMMENT '리워드 ID',
+  `r_name` NVARCHAR(30) NOT NULL COMMENT '리워드 이름',
+  `r_content` NVARCHAR(100) NOT NULL COMMENT '리워드 설명',
+  `r_price` INT NOT NULL COMMENT '리워드 금액',
+  PRIMARY KEY (`reward_id`))
+ENGINE = InnoDB;
+
+insert into reward_tbl values('default','donate','최소 후원금액',1000);
+
+select * from reward_tbl;
 
 -- -----------------------------------------------------
 -- Table `project`.`donation_tbl`
@@ -128,18 +174,15 @@ CREATE TABLE IF NOT EXISTS `project`.`admin_income_tbl` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
+insert into admin_income_tbl(project_id, fee_income) values(1, 50000);
+insert into admin_income_tbl(project_id, fee_income) values(2, 30000);
 
--- -----------------------------------------------------
--- Table `project`.`reward_tbl`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `project`.`reward_tbl` (
-  `reward_id` VARCHAR(100) NOT NULL COMMENT '리워드 ID',
-  `r_name` NVARCHAR(30) NOT NULL COMMENT '리워드 이름',
-  `r_content` NVARCHAR(100) NOT NULL COMMENT '리워드 설명',
-  `r_price` INT NOT NULL COMMENT '리워드 금액',
-  PRIMARY KEY (`reward_id`))
-ENGINE = InnoDB;
+select * from admin_income_tbl;
 
+select project_id, fee_income,
+DATE_FORMAT(incomedate,'%Y.%m.%d') as incomedate
+from admin_income_tbl
+where incomedate between '2023-9-1' and '2023-9-30';
 
 -- -----------------------------------------------------
 -- Table `project`.`project_reward_tbl`
@@ -160,6 +203,10 @@ CREATE TABLE IF NOT EXISTS `project`.`project_reward_tbl` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
+
+select * from reward_tbl;
+
+delete from project_reward_tbl;
 
 
 -- -----------------------------------------------------
@@ -184,6 +231,7 @@ CREATE TABLE IF NOT EXISTS `project`.`notice_tbl` (
 ENGINE = InnoDB;
 
 
+drop table qna_tbl;
 -- -----------------------------------------------------
 -- Table `project`.`qna_tbl`
 -- -----------------------------------------------------
@@ -213,6 +261,22 @@ CREATE TABLE IF NOT EXISTS `project`.`qna_tbl` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
+select * from qna_tbl;
+
+select count(*) from qna_tbl;
+
+delete from qna_tbl;
+
+select qna_id, member_id, q_title, q_content, q_image, isPrivate
+from qna_tbl;
+
+select qna_id, member_id, q_title, q_content, q_image, isPrivate,
+DATE_FORMAT(q_time,'%Y.%m.%d %H:%i') as q_time,
+a_content,
+DATE_FORMAT(a_time,'%Y.%m.%d %H:%i') as a_time
+from qna_tbl;
+
+select count(*) from qna_tbl where q_title regexp '제목';
 
 -- -----------------------------------------------------
 -- Table `project`.`project_planner_tbl`
@@ -223,7 +287,7 @@ CREATE TABLE IF NOT EXISTS `project`.`project_planner_tbl` (
   `planner_name` NVARCHAR(20) NOT NULL COMMENT '기획자 이름 (개인 또는 기업, 단체)',
   `introduce` NVARCHAR(100) NOT NULL COMMENT '기획자 간단 소개글',
   `bank` NVARCHAR(20) NOT NULL COMMENT '입금계좌 은행',
-  `account` VARCHAR(45) NOT NULL COMMENT '입금계좌 계좌번호',
+  `account_num` VARCHAR(45) NOT NULL COMMENT '입금계좌 계좌번호',
   PRIMARY KEY (`project_id`, `member_id`),
   INDEX `fk_project_planner_tbl_member_tbl1_idx` (`member_id` ASC) VISIBLE,
   CONSTRAINT `fk_project_planner_tbl_project_tbl1`
@@ -237,6 +301,10 @@ CREATE TABLE IF NOT EXISTS `project`.`project_planner_tbl` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
+
+delete from project_planner_tbl;
+
+select * from project_planner_tbl;
 
 
 -- -----------------------------------------------------
@@ -301,6 +369,16 @@ CREATE TABLE IF NOT EXISTS `project`.`address_tbl` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
+select * from address_tbl;
+
+
+-- -----------------------------------------------------
+-- View `project`.`project_planner_view` 프로젝트-플래너 조인한 뷰 생성
+-- -----------------------------------------------------
+CREATE OR REPLACE VIEW `project_planner_view` AS
+select project_id, kind, title, summary, thumbnail, content, image, startdate, enddate, goal_amount, curr_amount, status, likes, regdate, member_id, planner_name, introduce, bank, account_num
+from project_tbl join project_planner_tbl
+using(project_id);
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;

@@ -1226,6 +1226,7 @@ public class ManageProjectDAO {
 		try {
 			
 			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, project_id);
 			authorizeProjectCount = pstmt.executeUpdate();
 			
 		} catch(Exception e) {

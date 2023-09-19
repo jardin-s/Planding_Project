@@ -93,7 +93,7 @@
 								<tr class="text-center">
 									<th scope="row" class="text-center">${status.count}</th>
 									<td>
-										<a href="projectView.pj?project_id=${uploadProject.project_id}">${uploadProject.title}</a>
+										<a href="userProjectView.pj?project_id=${uploadProject.project_id}">${uploadProject.title}</a>
 									</td>
 									<td>
 										<button class="btn btn-outline-primary py-1" type="button" id="editBtn" onclick="location.href='editProject.pj?project_id=${uploadProject.project_id}'">수정</button>

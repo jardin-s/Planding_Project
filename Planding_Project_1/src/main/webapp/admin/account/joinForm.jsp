@@ -250,7 +250,7 @@ function idCheckOpen(){
 	                            <!-- 주소 : 기본주소 여부 -->
 	                            <input type="hidden" class="form-control" name="basic_status" id="basic_status" value="Y">
 	                            <!-- 사용자 가상계좌 -->
-	                            <input type="hidden" class="form-control" name="account" id="account" value="0">
+	                            <input type="hidden" class="form-control" name="money" id="money" value="0">
 	                            <!-- 관리자 여부 : true -->
 	                            <input type="hidden" class="form-control" name="admin_status" id="admin_status" value="Y">								    
 	                                                        

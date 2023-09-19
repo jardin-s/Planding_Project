@@ -27,7 +27,7 @@ public class ManageProjectAction implements Action {
         //페이지 상단에 띄울 기획자명과 프로젝트명 가져옴 생략해도 무방할듯
         ProjectBean pj = projectPageViewService.getProjectInfo(project_id);
         String pj_title = pj.getTitle();
-        PlannerBean planner = projectPageViewService.getPlannerInfo(project_id, member_id);
+        PlannerBean planner = projectPageViewService.getPlannerInfo(project_id);
         String planner_name = planner.getPlanner_name();
         
         //세션에 기획자명과 프로젝트명 저장

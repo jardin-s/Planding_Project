@@ -45,17 +45,17 @@ public class InsertProjectPlannerAction implements Action {
 		String planner_name = request.getParameter("planner_name");
 		String introduce = request.getParameter("introduce").trim();
 		String bank = (request.getParameter("bank") != null) ? request.getParameter("bank") : ((request.getParameter("otherBankName") != null) ? request.getParameter("otherBankName") : null);				
-		String account = request.getParameter("account");
+		String account_num = request.getParameter("account_num");
 		
 		System.out.println("[InsertProjectPlannerAction] 파라미터값");
 		System.out.println("member_id = "+ member_id);
 		System.out.println("planner_name = "+ planner_name);
 		System.out.println("introduce = "+ introduce);
 		System.out.println("bank = "+ bank);
-		System.out.println("account = "+ account);
+		System.out.println("account_num = "+ account_num);
 		
 		//파라미터값으로 PlannerBean객체 생성
-		PlannerBean plannerInfo = new PlannerBean(member_id, planner_name, introduce, bank, account);
+		PlannerBean plannerInfo = new PlannerBean(member_id, planner_name, introduce, bank, account_num);
 		
 		//세션에 planner이름으로 PlannerBean객체 저장
 		HttpSession session = request.getSession();

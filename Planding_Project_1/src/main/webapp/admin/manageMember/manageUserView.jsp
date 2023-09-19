@@ -186,7 +186,7 @@ function selectDelete(){
 			    		<th class="text-center">가입일</th>
 			    		<td>${memberInfo.joindate }</td>
 			    		<th class="text-center">계좌잔액</th>
-			    		<td>${memberInfo.account }원</td>
+			    		<td>${memberInfo.money }원</td>
 			    	</tr>
 			    </table>
 			    

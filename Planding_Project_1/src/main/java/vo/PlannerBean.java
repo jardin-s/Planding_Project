@@ -7,7 +7,7 @@ public class PlannerBean {//프로젝트 기획자
 	private String planner_name;//기획자 이름
 	private String introduce;//기획자 소개
 	private String bank;//계좌은행
-	private String account;//계좌번호
+	private String account_num;//계좌번호
 
 	
 	//기본 생성자
@@ -15,24 +15,24 @@ public class PlannerBean {//프로젝트 기획자
 
 	//모든 필드를 사용하는 생성자
 	public PlannerBean(int project_id, String member_id, String planner_name, String introduce, String bank,
-			String account) {
+			String account_num) {
 		super();
 		this.project_id = project_id;
 		this.member_id = member_id;
 		this.planner_name = planner_name;
 		this.introduce = introduce;
 		this.bank = bank;
-		this.account = account;
+		this.account_num = account_num;
 	}
 	
 	//폼에서 입력받은 값으로만 채우는 생성자 (세션 저장용)
-	public PlannerBean(String member_id, String planner_name, String introduce, String bank, String account) {
+	public PlannerBean(String member_id, String planner_name, String introduce, String bank, String account_num) {
 		super();
 		this.member_id = member_id;
 		this.planner_name = planner_name;
 		this.introduce = introduce;
 		this.bank = bank;
-		this.account = account;
+		this.account_num = account_num;
 	}
 
 	
@@ -77,12 +77,12 @@ public class PlannerBean {//프로젝트 기획자
 		this.bank = bank;
 	}
 
-	public String getAccount() {
-		return account;
+	public String getAccount_num() {
+		return account_num;
 	}
 
-	public void setAccount(String account) {
-		this.account = account;
+	public void setAccount_num(String account_num) {
+		this.account_num = account_num;
 	}
 	
 	

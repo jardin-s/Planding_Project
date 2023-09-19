@@ -25,7 +25,7 @@ public class AdminJoinAction implements Action {
 		String a_name = request.getParameter("name");
 		String a_email = request.getParameter("email");
 		String a_phone = request.getParameter("phone");
-		int a_account = Integer.parseInt(request.getParameter("account"));
+		int a_money = Integer.parseInt(request.getParameter("money"));
 		String a_admin_status = request.getParameter("admin_status");
 		
 		int postcode = Integer.parseInt(request.getParameter("postcode"));
@@ -40,7 +40,7 @@ public class AdminJoinAction implements Action {
 		System.out.println("name="+a_name);
 		System.out.println("email="+a_email);
 		System.out.println("phone="+a_phone);
-		System.out.println("account="+a_account);
+		System.out.println("money="+a_money);
 		System.out.println("admin_status="+a_admin_status);
 		System.out.println("postcode="+postcode);
 		System.out.println("address1="+address1);
@@ -59,12 +59,12 @@ public class AdminJoinAction implements Action {
 		*/
 		
 		//비밀번호 암호화 방법-2 (매개변수가 있는 생성자)
-		MemberBean admin = new MemberBean(a_id, a_password, a_name, a_email, a_phone, a_account, a_admin_status);
+		MemberBean admin = new MemberBean(a_id, a_password, a_name, a_email, a_phone, a_money, a_admin_status);
 		
 		
 		//주소ID 생성
 		Date now = new Date();
-		SimpleDateFormat format = new SimpleDateFormat("yyMMddHHmmssZ");
+		SimpleDateFormat format = new SimpleDateFormat("yyMMddHHmmss");
 		String address_id = format.format(now);
 		System.out.println("생성된 address_id = "+address_id);
 		//주소 객체 생성

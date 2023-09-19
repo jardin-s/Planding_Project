@@ -4,10 +4,21 @@ import java.io.IOException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.*;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import action.Action;
-import action.project.*;
+import action.project.InsertNewProjectFormAction;
+import action.project.InsertProjectPlannerAction;
+import action.project.InsertDonateProjectTempAction;
+import action.project.InsertFundProjectRewardFormAction;
+import action.project.InsertFundProjectTempAction;
+import action.project.SubmitDonateProjectAction;
+import action.project.SubmitFundProjectAction;
+import action.project.UserDonateProjectListAction;
+import action.project.UserProjectViewAction;
 import vo.ActionForward;
 
 /**
@@ -177,87 +188,28 @@ public class ProjectFrontController extends HttpServlet {
 				e.printStackTrace();
 			}
 		}
-		else if(command.equals("/manageProject.pj")) {
-			action = new ManageProjectAction();
+		
+		/*-- '[사용자] 프로젝트 상세보기' 요청 -> 처리 --------------------------------------*/
+		else if(command.equals("/userProjectView.pj")) {
+			action = new UserProjectViewAction();
 			try {
 				forward = action.execute(request, response);
 			}catch(Exception e) {
 				e.printStackTrace();
 			}
 		}
-		//리워드 별 후원자 목록 조회
-		else if(command.equals("/byRewardDonationList.pj")) {
-			
-			action = new byRewardDonationListAction();
-			
-			try {
-				forward = action.execute(request, response);
-			} catch(Exception e) {
-				e.printStackTrace();
-			}
-			
-		}
-		//리워드 리스트를 불러와서 수정할 리워드를 선택하는 페이지
-		else if(command.equals("/editProjectRewardList.pj")) {
-			
-			action = new EditProjectRewardListAction();
-			
-			try {
-				forward = action.execute(request, response);
-			} catch(Exception e) {
-				e.printStackTrace();
-			}
-			
-		}
-		//리워드 리스트 중 수정한 리워드를 클릭했을때 수정페이지로 넘어감
-		else if(command.equals("/editProjectRewardForm.pj")) {
-			
-			action = new EditProjectRewardFormAction();
-			
-			try {
-				forward = action.execute(request, response);
-			} catch(Exception e) {
-				e.printStackTrace();
-			}
-			
-		}
-		//플래너가 입력한 값을 받아서 sql에 업데이트함
-		else if(command.equals("/editReward.pj")) {
-			
-			action = new EditRewardAction();
-			
-			try {
-				forward = action.execute(request, response);
-			} catch(Exception e) {
-				e.printStackTrace();
-			}
-			
-		}
-		//입력받은 값을 리워드로 새로 추가 미완성
-		else if(command.equals("/editReward.pj")) {
-			
-			action = new EditRewardAction();
-			
-			try {
-				forward = action.execute(request, response);
-			} catch(Exception e) {
-				e.printStackTrace();
-			}
-			
-		}
 		
 		
-		
-		//리워드를 새로 추가 입력하는 폼으로 이동
-		else if(command.equals("/insertAddRewardForm.pj")) {
-			request.setAttribute("showPage", "project/insertAddReward.jsp");//어느 폼 보기인지 showPage이름 속성으로 저장
-			forward = new ActionForward("userTemplate.jsp",false);//반드시 디스패치 (request를 공유)
+		/*-- '[사용자] 기부 프로젝트 목록 보기' 요청 -> 처리 --------------------------------------*/
+		else if(command.equals("/userDonateProjectList.pj")) {
+			action = new UserDonateProjectListAction();
+			try {
+				forward = action.execute(request, response);
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
 		}
-		//리워드를 새로 추가 입력하는 폼으로 이동
-		else if(command.equals("/userProjectDonationListALL.pj")) {
-			request.setAttribute("showPage", "project/insertAddReward.jsp");//어느 폼 보기인지 showPage이름 속성으로 저장
-			forward = new ActionForward("userTemplate.jsp",false);//반드시 디스패치 (request를 공유)
-		}
+				
 		
 		
 		/***********************************************************

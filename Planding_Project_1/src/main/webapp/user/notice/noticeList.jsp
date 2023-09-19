@@ -163,7 +163,7 @@
 		        </div>
 	        </div>
 	    </div>
-	    <%-- Pagination End --%>       
+	    <%-- Pagination Start --%>       
     
     </c:if>
     

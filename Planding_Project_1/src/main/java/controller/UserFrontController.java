@@ -34,6 +34,7 @@ import action.user.qna.UserQnaViewAction;
 import action.user.UserBookmarkDeleteAction;
 import action.user.UserBookmarkListAction;
 import action.user.UserDonatedProjectListAction;
+import action.user.UserTopupMoneyAction;
 import vo.ActionForward;
 
 /**
@@ -329,9 +330,21 @@ public class UserFrontController extends HttpServlet {
 		}
 		
 		/*------- '나의 문의글 목록 보기' -------------------------------*/
-		else if(command.equals("/userMyQnaList.usr")) {//'관심프로젝트 삭제' 요청이면
+		else if(command.equals("/userMyQnaList.usr")) {//'나의 문의글 목록 보기' 요청이면
 			//action:부모인터페이스 = UserHashPwChangeAction:구현한자식객체;
 			action = new UserMyQnaListAction();
+			try {
+				forward = action.execute(request, response);
+			} catch (Exception e) {
+				// TODO 자동 생성된 catch 블록
+				e.printStackTrace();
+			}
+		}	
+		
+		/*------- '내 계좌 금액 충전하기' -------------------------------*/
+		else if(command.equals("/user/myPage/topUp/userTopupMoney.usr")) {//'내 계좌 금액 충전하기' 요청이면
+			//action:부모인터페이스 = UserHashPwChangeAction:구현한자식객체;
+			action = new UserTopupMoneyAction();
 			try {
 				forward = action.execute(request, response);
 			} catch (Exception e) {

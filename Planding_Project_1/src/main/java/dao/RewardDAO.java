@@ -8,7 +8,6 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 
 import vo.DonationBean;
-import vo.NoticeBean;
 import vo.RewardBean;
 
 public class RewardDAO {

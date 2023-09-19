@@ -244,7 +244,7 @@ function selectDelete(){
 							<c:forEach var="project" items="${projectList}">
 								<tr class="text-center">
 									<th scope="row">${p_index}</th>
-									<td><a href="projectView.mngp?project_id=${project.project_id}&page=${pageInfo.page}">${project.title}</a></td>
+									<td><a href="manageProjectView.mngp?project_id=${project.project_id}&page=${pageInfo.page}">${project.title}</a></td>
 									<td>
 										<c:if test="${project.status eq 'unauthorized'}">미승인</c:if>
 										<c:if test="${project.status eq 'ready'}">공개예정</c:if>
