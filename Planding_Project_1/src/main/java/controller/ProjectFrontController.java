@@ -18,6 +18,8 @@ import action.project.InsertFundProjectTempAction;
 import action.project.SubmitDonateProjectAction;
 import action.project.SubmitFundProjectAction;
 import action.user.UserDonatedProjectListAction;
+import action.user.project.UserDonateProjectAction;
+import action.user.project.UserDonateProjectFormAction;
 import action.user.project.UserDoneDonateProjectListAction;
 import action.user.project.UserDoneFundProjectListAction;
 import action.user.project.UserOngoingDonateProjectListAction;
@@ -255,6 +257,31 @@ public class ProjectFrontController extends HttpServlet {
 		/*-- '[사용자] (종료된) 펀딩 프로젝트 목록 보기' 요청 -> 처리 --------------------------------------*/
 		else if(command.equals("/userDoneFundProjectList.pj")) {
 			action = new UserDoneFundProjectListAction();
+			try {
+				forward = action.execute(request, response);
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+		/* ***************************************************************************************
+		 * 
+		 * 후원하기 기능
+		 * 
+		 * ***************************************************************************************/
+		
+		/*-- '[사용자] 프로젝트 후원 폼 보기' 요청 -> 처리 --------------------------------------*/
+		else if(command.equals("/userDonateProjectForm.pj")) {
+			action = new UserDonateProjectFormAction();
+			try {
+				forward = action.execute(request, response);
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+		/*-- '[사용자] 프로젝트 후원 폼 보기' 요청 -> 처리 --------------------------------------*/
+		else if(command.equals("/userDonateProjectAction.pj")) {
+			action = new UserDonateProjectAction();
 			try {
 				forward = action.execute(request, response);
 			}catch(Exception e) {

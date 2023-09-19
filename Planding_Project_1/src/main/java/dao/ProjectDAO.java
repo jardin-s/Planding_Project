@@ -128,22 +128,30 @@ public class ProjectDAO {
 			
 			if(rs.next()) {
 				projectInfo = new ProjectBean(rs.getInt("project_id"),
-						rs.getString("kind"),
-						rs.getString("title"),
-						rs.getString("summary"),
-						rs.getString("thumbnail"),
-						rs.getString("content"),
-						rs.getString("image"),
-						rs.getString("startdate"),
-						rs.getString("enddate"),
-						rs.getInt("goal_amount"),
-						rs.getInt("curr_amount"),
-						rs.getString("status"),
-						rs.getInt("likes"),
-						rs.getString("regdate")
-						);
+												rs.getString("kind"),
+												rs.getString("title"),
+												rs.getString("summary"),
+												rs.getString("thumbnail"),
+												rs.getString("content"),
+												rs.getString("image"),
+												rs.getString("startdate"),
+												rs.getString("enddate"),
+												rs.getInt("goal_amount"),
+												rs.getInt("curr_amount"),
+												rs.getString("status"),
+												rs.getInt("likes"),
+												rs.getString("regdate")
+												);
 				//현재모금액과 목표모금액으로 달성률 세팅
 				projectInfo.setProgressFormatWithCurrGoal(rs.getInt("curr_amount"), rs.getInt("goal_amount"));
+				
+				//현재모금액, 목표모금액 천단위 구분자 세팅
+				projectInfo.setCurr_amount_df_exc(rs.getInt("curr_amount"));
+				projectInfo.setGoal_amount_df_exc(rs.getInt("goal_amount"));
+				
+				//남은 일수 세팅
+				projectInfo.setDeadline_exc(rs.getString("enddate"));
+				
 			}
 			
 			System.out.println("[ProjectDAO] selectProject() - rs값이 있는지 확인(title) : "+rs.getString("title"));
