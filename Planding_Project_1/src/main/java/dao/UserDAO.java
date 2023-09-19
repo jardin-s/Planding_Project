@@ -13,6 +13,7 @@ import vo.AddressBean;
 import vo.BookmarkBean;
 import vo.MemberBean;
 import vo.MemberPwChangeBean;
+import vo.ProjectDonationRewardBean;
 
 public class UserDAO {
 	
@@ -226,6 +227,7 @@ public class UserDAO {
 		return insertAddrCount;
 	}
 
+	/** 해당 회원의 id 중, 기본주소의 정보만 가져옴 */
 	public AddressBean selectBasicAddrInfo(String member_id) {
 		AddressBean addrInfo = null;
 		
@@ -682,7 +684,36 @@ public class UserDAO {
 			updateUserMoneyCount = pstmt.executeUpdate();
 			
 		} catch(Exception e) {
-			System.out.println("[UserDAO] updateUserMoney() 에러 : "+e);//예외객체종류 + 예외메시지
+			System.out.println("[UserDAO] updateUserPlusMoney() 에러 : "+e);//예외객체종류 + 예외메시지
+		} finally {
+			close(pstmt); //JdbcUtil.생략가능
+			//close(rs); //JdbcUtil.생략가능
+			//connection 객체에 대한 해제는 DogListService에서 이루어짐
+		}
+		
+		return updateUserMoneyCount;
+	}
+	
+	
+	/** 회원의 계좌 잔액을 업데이트 (빼기) */
+	public int updateUserMinusMoney(String member_id, int money) {
+		
+		int updateUserMoneyCount = 0;
+		
+		String sql = "update member_tbl"
+				+ " set money = money - ?"
+				+ " where member_id = ?";
+		
+		try {
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, money);
+			pstmt.setString(2, member_id);
+			
+			updateUserMoneyCount = pstmt.executeUpdate();
+			
+		} catch(Exception e) {
+			System.out.println("[UserDAO] updateUserMinusMoney() 에러 : "+e);//예외객체종류 + 예외메시지
 		} finally {
 			close(pstmt); //JdbcUtil.생략가능
 			//close(rs); //JdbcUtil.생략가능
@@ -767,15 +798,196 @@ public class UserDAO {
 			System.out.println("[UserDAO] getUserMoney() 에러 : "+e);//예외객체종류 + 예외메시지
 		} finally {
 			close(pstmt); //JdbcUtil.생략가능
-			//close(rs); //JdbcUtil.생략가능
+			close(rs); //JdbcUtil.생략가능
 			//connection 객체에 대한 해제는 DogListService에서 이루어짐
 		}
 		
 		return userMoney;
 	}
 
-	
+	/** 입력한 정보에 해당하는 주소ID를 가져옴 */
+	public AddressBean selectAddrInfo(AddressBean address) {
+		AddressBean addressInfo = null;
+		
+		String sql = "select * from address_tbl"
+				  + " where member_id = ?"
+				  + " and receiver_name = ? and receiver_phone = ?"
+				  + " and postcode = ? and address1 = ? and address2 = ?";				
+				
+		try {
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, address.getMember_id());
+			pstmt.setString(2, address.getReceiver_name());
+			pstmt.setString(3, address.getReceiver_phone());
+			pstmt.setInt(4, address.getPostcode());
+			pstmt.setString(5, address.getAddress1());
+			pstmt.setString(6, address.getAddress2());
+						
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				
+				addressInfo = new AddressBean(rs.getString("address_id"),
+											  rs.getString("member_id"),
+											  rs.getString("receiver_name"),
+											  rs.getString("receiver_phone"),
+											  rs.getInt("postcode"),
+											  rs.getString("address1"),
+											  rs.getString("address2"),
+											  rs.getString("basic_status")
+											  );
+				
+			}
+			
+			
+		} catch(Exception e) {
+			System.out.println("[UserDAO] selectAddrInfo() 에러 : "+e);//예외객체종류 + 예외메시지
+		} finally {
+			close(pstmt); //JdbcUtil.생략가능
+			close(rs); //JdbcUtil.생략가능
+			//connection 객체에 대한 해제는 DogListService에서 이루어짐
+		}
+				
+		return addressInfo;
+	}
 
+	/** 사용자의 모든 후원내역을 가져옴 */
+	public ArrayList<ProjectDonationRewardBean> selectUserDonationList(String member_id) {
+		ArrayList<ProjectDonationRewardBean> userDonationList = null;
+		
+		String sql = "select donation_id, title, status, reward_id, r_name, r_price, add_donation,"
+				  + " DATE_FORMAT(donatedate,'%Y.%m.%d %H:%i') as donatedate"
+				  + " from project_donation_reward_view"
+				  + " where member_id = ?"
+				  + " order by donatedate desc";
+		
+		try {
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, member_id);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				
+				userDonationList = new ArrayList<>();
+				
+				do {
+					
+					ProjectDonationRewardBean userDonate = new ProjectDonationRewardBean(rs.getInt("donation_id"),
+																						 rs.getString("title"),
+																						 rs.getString("status"),
+																						 rs.getString("reward_id"),
+																						 rs.getString("r_name"),
+																						 rs.getInt("r_price"),
+																						 rs.getInt("add_donation"),
+																						 rs.getInt("r_price") + rs.getInt("add_donation"),
+																						 rs.getString("donatedate")
+																						 );
+					
+					userDonationList.add(userDonate);
+					
+				}while(rs.next());
+				
+			}
+			
+			
+		} catch(Exception e) {
+			System.out.println("[UserDAO] selectUserDonationList() 에러 : "+e);//예외객체종류 + 예외메시지
+		} finally {
+			close(pstmt); //JdbcUtil.생략가능
+			close(rs); //JdbcUtil.생략가능
+			//connection 객체에 대한 해제는 DogListService에서 이루어짐
+		}
+		
+		return userDonationList;
+	}
 	
-	
+	/** 원하는 페이지의 원하는 개수만큼 사용자의 후원내역을 가져옴 */
+	public ArrayList<ProjectDonationRewardBean> selectPageUserDonationList(String member_id, int page, int limit) {
+		ArrayList<ProjectDonationRewardBean> userDonationList = null;
+		
+		int startrow = (page-1)*limit;
+		
+		String sql = "select donation_id, title, status, reward_id, r_name, r_price, add_donation,"
+				  + " DATE_FORMAT(donatedate,'%Y.%m.%d %H:%i') as donatedate"
+				  + " from project_donation_reward_view"
+				  + " where member_id = ?"
+				  + " order by donatedate desc"
+				  + " limit ?,?";
+		
+		try {
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, member_id);
+			pstmt.setInt(2, startrow);
+			pstmt.setInt(3, limit);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				
+				userDonationList = new ArrayList<>();
+				
+				do {
+					
+					ProjectDonationRewardBean userDonate = new ProjectDonationRewardBean(rs.getInt("donation_id"),
+																						rs.getString("title"),
+																						rs.getString("status"),
+																						rs.getString("reward_id"),
+																						rs.getString("r_name"),
+																						rs.getInt("r_price"),
+																						rs.getInt("add_donation"),
+																						rs.getInt("r_price") + rs.getInt("add_donation"),
+																						rs.getString("donatedate")
+																						);
+					
+					userDonationList.add(userDonate);
+					
+				}while(rs.next());
+				
+			}
+			
+			
+		} catch(Exception e) {
+			System.out.println("[UserDAO] selectPageUserDonationList() 에러 : "+e);//예외객체종류 + 예외메시지
+		} finally {
+			close(pstmt); //JdbcUtil.생략가능
+			close(rs); //JdbcUtil.생략가능
+			//connection 객체에 대한 해제는 DogListService에서 이루어짐
+		}
+		
+		return userDonationList;
+	}
+
+	/** 사용자의 전체 후원내역 수를 알아냄 */
+	public int selectUserDonationCount(String member_id) {
+		int donationCount = 0;
+		
+		String sql = "select count(*) from donation_tbl"
+				  + " where member_id = ?";
+		
+		try {
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, member_id);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				donationCount = rs.getInt(1);
+			}
+			
+		} catch(Exception e) {
+			System.out.println("[UserDAO] selectUserDonationCount() 에러 : "+e);//예외객체종류 + 예외메시지
+		} finally {
+			close(pstmt); //JdbcUtil.생략가능
+			close(rs); //JdbcUtil.생략가능
+			//connection 객체에 대한 해제는 DogListService에서 이루어짐
+		}
+		
+		return donationCount;
+	}
+
 }

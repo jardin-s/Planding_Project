@@ -854,7 +854,7 @@ public class ProjectDAO {
 				  + " DATE_FORMAT(enddate,'%Y.%m.%d') as enddate_F,"
 				  + " goal_amount, curr_amount,"
 				  + " status, likes,"
-				  + " DATE_FORMAT(enddate,'%Y.%m.%d') as regdate."
+				  + " DATE_FORMAT(enddate,'%Y.%m.%d') as regdate,"
 				  + " planner_name"
 				  + " from project_planner_view"
 				  + " where kind = ? and status='ongoing'"
@@ -933,7 +933,7 @@ public class ProjectDAO {
 				  + " DATE_FORMAT(enddate,'%Y.%m.%d') as enddate,"
 				  + " goal_amount, curr_amount,"
 				  + " status, likes,"
-				  + " DATE_FORMAT(enddate,'%Y.%m.%d') as regdate."
+				  + " DATE_FORMAT(enddate,'%Y.%m.%d') as regdate,"
 				  + " planner_name"
 				  + " from project_planner_view"
 				  + " where kind = ? and status='ongoing'"
@@ -1721,5 +1721,128 @@ public class ProjectDAO {
 		
 		return projectPlannerList;
 	}
+
+	/** 회원의 계좌 잔액을 업데이트 (빼기) */
+	public int updateUserMinusMoney(String member_id, int money) {
+		
+		int updateUserMoneyCount = 0;
+		
+		String sql = "update member_tbl"
+				+ " set money = money - ?"
+				+ " where member_id = ?";
+		
+		try {
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, money);
+			pstmt.setString(2, member_id);
+			
+			updateUserMoneyCount = pstmt.executeUpdate();
+			
+		} catch(Exception e) {
+			System.out.println("[UserDAO] updateUserMinusMoney() 에러 : "+e);//예외객체종류 + 예외메시지
+		} finally {
+			close(pstmt); //JdbcUtil.생략가능
+			//close(rs); //JdbcUtil.생략가능
+			//connection 객체에 대한 해제는 DogListService에서 이루어짐
+		}
+		
+		return updateUserMoneyCount;
+	}
+	
+	/** 후원된 금액만큼 프로젝트 현재모금액 추가 */
+	public int updateProjectCurrAmount(int project_id, int d_money) {
+		int updateProjectCurrAmountCount = 0;
+		
+		String sql = "update project_tbl"
+				  + " set curr_amount = curr_amount + ?"
+				  + " where project_id = ?";
+		
+		try {
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, d_money);
+			pstmt.setInt(2, project_id);
+			
+			updateProjectCurrAmountCount = pstmt.executeUpdate();
+			
+		} catch(Exception e) {
+			System.out.println("[ProjectDAO] updateProjectCurrAmount() 에러 : "+e);//예외객체종류 + 예외메시지
+		} finally {
+			close(pstmt); //JdbcUtil.생략가능
+			close(rs); //JdbcUtil.생략가능
+			//connection 객체에 대한 해제는 DogListService에서 이루어짐
+		}
+		
+		
+		return updateProjectCurrAmountCount;
+	}
+
+	
+	/** 후원기록 테이블에 후원기록 insert (주소제외) */
+	public int insertDonationNotAddr(DonationBean donation) {
+		int insertDonationCount = 0;
+		
+		String sql = "insert into donation_tbl(project_id, member_id, reward_id, r_price, add_donation) values(?,?,?,?,?)";
+		
+		try {
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, donation.getProject_id());
+			pstmt.setString(2, donation.getMember_id());
+			pstmt.setString(3, donation.getReward_id());
+			pstmt.setInt(4, donation.getR_price());
+			pstmt.setInt(5, donation.getAdd_donation());
+			//후원기록ID 자동1씩 증가
+			//주소ID null 허용
+			//donatedate 현재서버시간으로 자동세팅
+			
+			insertDonationCount = pstmt.executeUpdate();
+			
+		} catch(Exception e) {
+			System.out.println("[ProjectDAO] insertDonationNotAddr() 에러 : "+e);//예외객체종류 + 예외메시지
+		} finally {
+			close(pstmt); //JdbcUtil.생략가능
+			close(rs); //JdbcUtil.생략가능
+			//connection 객체에 대한 해제는 DogListService에서 이루어짐
+		}
+		
+		
+		return insertDonationCount;
+	}
+	
+	
+	/** 후원기록 테이블에 후원기록 insert (주소 포함) */
+	public int insertDonationAddr(DonationBean donation) {
+		int insertDonationCount = 0;
+		
+		String sql = "insert into donation_tbl(project_id, member_id, reward_id, r_price, add_donation, address_id) values(?,?,?,?,?,?)";
+		
+		try {
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, donation.getProject_id());
+			pstmt.setString(2, donation.getMember_id());
+			pstmt.setString(3, donation.getReward_id());
+			pstmt.setInt(4, donation.getR_price());
+			pstmt.setInt(5, donation.getAdd_donation());
+			pstmt.setString(6, donation.getAddress_id());
+			//후원기록ID 자동1씩 증가
+			//donatedate 현재서버시간으로 자동세팅
+			
+			insertDonationCount = pstmt.executeUpdate();
+			
+		} catch(Exception e) {
+			System.out.println("[ProjectDAO] insertDonationAddr() 에러 : "+e);//예외객체종류 + 예외메시지
+		} finally {
+			close(pstmt); //JdbcUtil.생략가능
+			close(rs); //JdbcUtil.생략가능
+			//connection 객체에 대한 해제는 DogListService에서 이루어짐
+		}
+		
+		
+		return insertDonationCount;
+	}
+
 	
 }

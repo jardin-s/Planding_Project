@@ -39,62 +39,11 @@
     
 </head>
 
-<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+
 <script type="text/javascript">
-function findAddr(){
-	//카카오 지도 발생 -> 주소 입력 후 [검색] -> 찾는 주소 [선택] -> 우편번호와 주소 세팅
-	//postcode 객체 생성하여 바로 open
-	new daum.Postcode({
-		oncomplete : function(data) {//[선택] 시 입력값 세팅 (검색결과 중 선택한 주소)
-			console.log(data);
-			//alert(data);//테스트를 위해 값이 뜨도록 함
-			
-			document.getElementById("postcode").value = data.zonecode; //우편번호를 가져와 postcode에 넣음
-			
-			let roadAddr = data.roadAddress;//도로명 주소
-			let jibunAddr = data.jibunAddress;//지번 주소
-			
-			if(roadAddr != ''){//도로명 주소가 있으면 도로명 주소를 등록 ('': 자바스크립트 널)
-				document.getElementById("address1").value = roadAddr;	
-			}else if(jibunAddr != ''){//도로명 주소가 없고 지번 주소만 있으면 지번주소를 등록
-				document.getElementById("address1").value = jibunAddr;
-			}
-			
-			document.getElementById("address2").focus();//상세주소 입력창에 커서를 깜빡거리게 함
-			
-		}
-	}).open();
-}
 
 function checkForm(){
 	
-	//이름 정규화 공식
-	const regName = /^[가-힣a-zA-Z]{2,}$/;
-		
-	if(!document.f.receiver_name.value.trim()){
-		alert("수령인 이름을 입력해주세요.");
-		document.f.receiver_name.focus();
-		return false;
-	}else if(!regName.test(document.f.receiver_name)){
-		alert("이름을 한글 또는 영문으로만 입력해주세요.");
-		document.f.receiver_name.select();
-		return false;
-	}
-	
-	//휴대번호 정규화 공식
-	const regPhone = /^\d{3}\d{3,4}\d{4}$/; //-제외
-	
-	if(!document.f.receiver_phone.value.trim()){
-		alert("수령인 전화번호를 입력해주세요.");
-		document.f.receiver_phone.focus();
-		return false;
-	}else if(!regName.test(document.f.receiver_phone)){
-		alert("휴대전화번호를 (-)없이 숫자만 입력해주세요.");
-		document.f.receiver_phone.select();
-		return false;
-	}
-	
-		
 	//체크박스 체크여부 확인
 	if(!document.f.agree.checked){
 		alert('개인정보 제공 동의란에 체크해주세요.');
@@ -211,6 +160,7 @@ function checkForm(){
    				<input type="hidden" name="r_price" value="${rewardInfo.r_price }">
    				<input type="hidden" name="add_donation" value="${add_donation}">
    				<input type="hidden" name="member_id" value="${member_id}">	
+   				<input type="hidden" name="money" value="${money}">
    			</form>
    			
    			
@@ -221,19 +171,7 @@ function checkForm(){
    	
    	<!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="../../resources/lib/wow/wow.min.js"></script>
-    <script src="../../resources/lib/easing/easing.min.js"></script>
-    <script src="../../resources/lib/waypoints/waypoints.min.js"></script>
-    <script src="../../resources/lib/owlcarousel/owl.carousel.min.js"></script>
-    <script src="../../resources/lib/counterup/counterup.min.js"></script>
-    <script src="../../resources/lib/parallax/parallax.min.js"></script>
-    <script src="../../resources/lib/isotope/isotope.pkgd.min.js"></script>
-    <script src="../../resources/lib/lightbox/js/lightbox.min.js"></script>
-
-    <!-- Template Javascript -->
-    <script src="../../resources/js/main.js"></script>
-    	
+    
 	<!-- Agree Modal -->
 	<div class="modal fade" id="agreeModal" tabindex="-1" aria-labelledby="agreeModalLabel" aria-hidden="true">
 		<div class="modal-dialog modal-dialog-centered">

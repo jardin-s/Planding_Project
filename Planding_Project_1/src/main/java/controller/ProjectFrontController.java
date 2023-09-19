@@ -17,7 +17,7 @@ import action.project.InsertFundProjectRewardFormAction;
 import action.project.InsertFundProjectTempAction;
 import action.project.SubmitDonateProjectAction;
 import action.project.SubmitFundProjectAction;
-import action.user.UserDonatedProjectListAction;
+import action.user.UserDonationHistoryAction;
 import action.user.project.UserDonateProjectAction;
 import action.user.project.UserDonateProjectFormAction;
 import action.user.project.UserDoneDonateProjectListAction;

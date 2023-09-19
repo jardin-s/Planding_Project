@@ -205,10 +205,10 @@ function searchProjectList() {
 											<td class="text-end">
 												<span style="font-size:0.8rem">
 													<c:if test="${projectPlannerInfo.deadline == 0}">
-														<b>${projectPlannerInfo.deadline }일 남음</b>
+														<b>오늘 마감</b>
 													</c:if>
 													<c:if test="${projectPlannerInfo.deadline != 0}">
-														<b>오늘 마감</b>
+														<b>${projectPlannerInfo.deadline }일 남음</b>
 													</c:if>												
 												</span>
 											</td>
