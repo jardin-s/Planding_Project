@@ -453,11 +453,11 @@ public class ProjectDAO {
 		return updateProjectStatusCount;
 	}
 
-	/** 프로젝트 종류별(기부/펀딩) 전체 개수를 얻어옴  */
-	public int selectProjectKindCount(String kind) {
+	/** 프로젝트 종류별(기부/펀딩) 전체 진행중인 프로젝트 개수를 얻어옴  */
+	public int selectProjectKindOngoingCount(String kind) {
 		int projectKindCount = 0;
 		
-		String sql = "select count(*) from project_tbl where kind = ?";
+		String sql = "select count(*) from project_tbl where kind = ? and status = 'ongoing'";
 		
 		try {
 			
@@ -471,7 +471,39 @@ public class ProjectDAO {
 			}
 			
 		} catch(Exception e) {
-			System.out.println("[ProjectDAO] selectProjectKindCount() 에러 : "+e);//예외객체종류 + 예외메시지
+			System.out.println("[ProjectDAO] selectProjectKindOngoingCount() 에러 : "+e);//예외객체종류 + 예외메시지
+		} finally {
+			close(pstmt); //JdbcUtil.생략가능
+			close(rs); //JdbcUtil.생략가능
+			//connection 객체에 대한 해제는 DogListService에서 이루어짐
+		}
+		
+		return projectKindCount;
+	}
+	
+	/** 검색조건에 따른 진행중인 프로젝트(기부/펀딩) 목록 개수를 얻어옴 */
+	public int selectSearchProjectKindOngoingCount(String kind, String title) {
+		int projectKindCount = 0;
+		
+		String sql = "select count(*)"
+				  + " from project_tbl"
+				  + " where status = 'ongoing'"
+				  + " and kind = ? and title regexp ?";
+		
+		try {
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, kind);
+			pstmt.setString(2, title);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				projectKindCount = rs.getInt(1);
+			}
+			
+		} catch(Exception e) {
+			System.out.println("[ProjectDAO] selectSearchProjectKindOngoingCount() 에러 : "+e);//예외객체종류 + 예외메시지
 		} finally {
 			close(pstmt); //JdbcUtil.생략가능
 			close(rs); //JdbcUtil.생략가능
@@ -482,7 +514,132 @@ public class ProjectDAO {
 	}
 
 	
-	/** 원하는 페이지의 원하는 개수만큼 진행중인 프로젝트-기획자 리스트를 얻어옴 */
+	/** 공개예정인 기부/펀딩 프로젝트 수 얻어오기 */
+	public int selectProjectKindReadyCount(String kind) {
+		int projectKindCount = 0;
+		
+		String sql = "select count(*) "
+				  + " from project_tbl"
+				  + " where status = 'ready' and kind = ?";
+		
+		try {
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, kind);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				projectKindCount = rs.getInt(1);
+			}
+			
+		} catch(Exception e) {
+			System.out.println("[ProjectDAO] selectProjectKindReadyCount() 에러 : "+e);//예외객체종류 + 예외메시지
+		} finally {
+			close(pstmt); //JdbcUtil.생략가능
+			close(rs); //JdbcUtil.생략가능
+			//connection 객체에 대한 해제는 DogListService에서 이루어짐
+		}
+		
+		return projectKindCount;
+	}
+	
+	/** 검색어에 따른 공개예정인 기부/펀딩 프로젝트 수 얻어오기 */
+	public int selectSearchProjectKindReadyCount(String kind, String title) {
+		int projectKindCount = 0;
+		
+		String sql = "select count(*) "
+				+ " from project_tbl"
+				+ " where status = 'ready'"
+				+ " and kind = ? and title regexp ?";
+		
+		try {
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, kind);
+			pstmt.setString(2, title);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				projectKindCount = rs.getInt(1);
+			}
+			
+		} catch(Exception e) {
+			System.out.println("[ProjectDAO] selectSearchProjectKindReadyCount() 에러 : "+e);//예외객체종류 + 예외메시지
+		} finally {
+			close(pstmt); //JdbcUtil.생략가능
+			close(rs); //JdbcUtil.생략가능
+			//connection 객체에 대한 해제는 DogListService에서 이루어짐
+		}
+		
+		return projectKindCount;
+	}
+	
+	/** 종료된(성공) 기부/펀딩 프로젝트 수 얻어오기 */
+	public int selectProjectKindDoneCount(String kind) {
+		int projectKindCount = 0;
+		
+		String sql = "select count(*) "
+				+ " from project_tbl"
+				+ " where (status = 'done' or status = 'success')"
+				+ " and kind = ?";
+		
+		try {
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, kind);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				projectKindCount = rs.getInt(1);
+			}
+			
+		} catch(Exception e) {
+			System.out.println("[ProjectDAO] selectProjectKindDoneCount() 에러 : "+e);//예외객체종류 + 예외메시지
+		} finally {
+			close(pstmt); //JdbcUtil.생략가능
+			close(rs); //JdbcUtil.생략가능
+			//connection 객체에 대한 해제는 DogListService에서 이루어짐
+		}
+		
+		return projectKindCount;
+	}
+	
+	/** 검색어에 따른 (성공)종료된 기부/펀딩 프로젝트 수 얻어오기 */
+	public int selectSearchProjectKindDoneCount(String kind, String title) {
+		int projectKindCount = 0;
+		
+		String sql = "select count(*) "
+				+ " from project_tbl"
+				+ " where (status = 'done' or status = 'success')"
+				+ " and kind = ? and title regexp ?";
+		
+		try {
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, kind);
+			pstmt.setString(2, title);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				projectKindCount = rs.getInt(1);
+			}
+			
+		} catch(Exception e) {
+			System.out.println("[ProjectDAO] selectSearchProjectKindDoneCount() 에러 : "+e);//예외객체종류 + 예외메시지
+		} finally {
+			close(pstmt); //JdbcUtil.생략가능
+			close(rs); //JdbcUtil.생략가능
+			//connection 객체에 대한 해제는 DogListService에서 이루어짐
+		}
+		
+		return projectKindCount;
+	}
+	
+	/** 원하는 페이지의 원하는 개수만큼 진행중인 프로젝트-기획자 리스트를 얻어옴 (최근 런칭 순) */
 	public ArrayList<ProjectPlannerBean> selectProjectPlannerOngoingList(String kind, int page, int limit) {
 		ArrayList<ProjectPlannerBean> projectPlannerList = null;
 		
@@ -490,14 +647,14 @@ public class ProjectDAO {
 		
 		String sql = "select project_id, kind, title, summary"
 				  + " thumbnail, content, image,"
-				  + " DATE_FORMAT(startdate,'%Y.%m.%d') as startdate,"
+				  + " DATE_FORMAT(startdate,'%Y.%m.%d') as startdate_F,"
 				  + " DATE_FORMAT(enddate,'%Y.%m.%d') as enddate,"
 				  + " goal_amount, curr_amount,"
 				  + " status, likes,"
-				  + " DATE_FORMAT(enddate,'%Y.%m.%d') as regdate_F"
+				  + " DATE_FORMAT(enddate,'%Y.%m.%d') as regdate"
 				  + " from project_planner_view"
 				  + " where kind = ? and status='ongoing'"
-				  + " order by regdate desc"
+				  + " order by startdate desc"
 				  + " limit ?, ?";
 		
 		try {
@@ -522,13 +679,13 @@ public class ProjectDAO {
 																			   rs.getString("thumbnail"),
 																			   rs.getString("content"),
 																			   rs.getString("image"),
-																			   rs.getString("startdate"),
+																			   rs.getString("startdate_F"),
 																			   rs.getString("enddate"),
 																			   rs.getInt("goal_amount"),
 																			   rs.getInt("curr_amount"),
 																			   rs.getString("status"),
 																			   rs.getInt("likes"),
-																			   rs.getString("regdate_F"),
+																			   rs.getString("regdate"),
 																			   rs.getString("planner_name")
 																			   );
 					//달성률 세팅 (progress)
@@ -550,7 +707,85 @@ public class ProjectDAO {
 			
 			
 		} catch(Exception e) {
-			System.out.println("[ProjectDAO] selectProjectKindCount() 에러 : "+e);//예외객체종류 + 예외메시지
+			System.out.println("[ProjectDAO] selectProjectPlannerOngoingList() 에러 : "+e);//예외객체종류 + 예외메시지
+		} finally {
+			close(pstmt); //JdbcUtil.생략가능
+			close(rs); //JdbcUtil.생략가능
+			//connection 객체에 대한 해제는 DogListService에서 이루어짐
+		}
+		
+		return projectPlannerList;
+	}
+
+	/** (오래된공개순 정렬) 원하는 페이지의 원하는 개수만큼 진행중인 프로젝트-기획자 리스트를 얻어옴 */
+	public ArrayList<ProjectPlannerBean> selectOldProjectPlannerOngoingList(String kind, int page, int limit) {
+		ArrayList<ProjectPlannerBean> projectPlannerList = null;
+		
+		int startrow = (page-1)*limit;
+		
+		String sql = "select project_id, kind, title, summary"
+				  + " thumbnail, content, image,"
+				  + " DATE_FORMAT(startdate,'%Y.%m.%d') as startdate_F,"
+				  + " DATE_FORMAT(enddate,'%Y.%m.%d') as enddate,"
+				  + " goal_amount, curr_amount,"
+				  + " status, likes,"
+				  + " DATE_FORMAT(enddate,'%Y.%m.%d') as regdate"
+				  + " from project_planner_view"
+				  + " where kind = ? and status='ongoing'"
+				  + " order by startdate asc"
+				  + " limit ?, ?";
+		
+		try {
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, kind);
+			pstmt.setInt(2, startrow);
+			pstmt.setInt(3, limit);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				
+				projectPlannerList = new ArrayList<>();
+				
+				do {
+					
+					ProjectPlannerBean projectPlanner = new ProjectPlannerBean(rs.getInt("project_id"),
+																			   rs.getString("kind"),
+																			   rs.getString("title"),
+																			   rs.getString("summary"),
+																			   rs.getString("thumbnail"),
+																			   rs.getString("content"),
+																			   rs.getString("image"),
+																			   rs.getString("startdate_F"),
+																			   rs.getString("enddate"),
+																			   rs.getInt("goal_amount"),
+																			   rs.getInt("curr_amount"),
+																			   rs.getString("status"),
+																			   rs.getInt("likes"),
+																			   rs.getString("regdate"),
+																			   rs.getString("planner_name")
+																			   );
+					//달성률 세팅 (progress)
+					projectPlanner.setProgressFormatWithCurrGoal(rs.getInt("curr_amount"), rs.getInt("goal_amount"));
+					
+					//남은일수 세팅 (0이면 오늘마감 표시)
+					projectPlanner.setDeadline_exc(rs.getString("enddate"));
+					
+					//현재모금액, 목표모금액 천단위 구분자 세팅
+					projectPlanner.setCurr_amount_df_exc(rs.getInt("curr_amount"));
+					projectPlanner.setGoal_amount_df_exc(rs.getInt("goal_amount"));
+					
+					//리스트에 프로젝트-기획자 객체 추가
+					projectPlannerList.add(projectPlanner);
+					
+				}while(rs.next());
+				
+			}
+			
+			
+		} catch(Exception e) {
+			System.out.println("[ProjectDAO] selectOldProjectPlannerOngoingList() 에러 : "+e);//예외객체종류 + 예외메시지
 		} finally {
 			close(pstmt); //JdbcUtil.생략가능
 			close(rs); //JdbcUtil.생략가능
@@ -560,5 +795,873 @@ public class ProjectDAO {
 		return projectPlannerList;
 	}
 	
+	/** (마감임박순 정렬) 원하는 페이지의 원하는 개수만큼 진행중인 프로젝트-기획자 리스트를 얻어옴 */
+	public ArrayList<ProjectPlannerBean> selectDeadlineProjectPlannerOngoingList(String kind, int page, int limit) {
+		ArrayList<ProjectPlannerBean> projectPlannerList = null;
+		
+		int startrow = (page-1)*limit;
+		
+		String sql = "select project_id, kind, title, summary"
+				  + " thumbnail, content, image,"
+				  + " DATE_FORMAT(startdate,'%Y.%m.%d') as startdate_F,"
+				  + " DATE_FORMAT(enddate,'%Y.%m.%d') as enddate,"
+				  + " goal_amount, curr_amount,"
+				  + " status, likes,"
+				  + " DATE_FORMAT(enddate,'%Y.%m.%d') as regdate"
+				  + " from project_planner_view"
+				  + " where kind = ? and status='ongoing'"
+				  + " order by enddate asc"
+				  + " limit ?, ?";
+		
+		try {
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, kind);
+			pstmt.setInt(2, startrow);
+			pstmt.setInt(3, limit);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				
+				projectPlannerList = new ArrayList<>();
+				
+				do {
+					
+					ProjectPlannerBean projectPlanner = new ProjectPlannerBean(rs.getInt("project_id"),
+																				rs.getString("kind"),
+																				rs.getString("title"),
+																				rs.getString("summary"),
+																				rs.getString("thumbnail"),
+																				rs.getString("content"),
+																				rs.getString("image"),
+																				rs.getString("startdate_F"),
+																				rs.getString("enddate"),
+																				rs.getInt("goal_amount"),
+																				rs.getInt("curr_amount"),
+																				rs.getString("status"),
+																				rs.getInt("likes"),
+																				rs.getString("regdate"),
+																				rs.getString("planner_name")
+																				);
+					//달성률 세팅 (progress)
+					projectPlanner.setProgressFormatWithCurrGoal(rs.getInt("curr_amount"), rs.getInt("goal_amount"));
+					
+					//남은일수 세팅 (0이면 오늘마감 표시)
+					projectPlanner.setDeadline_exc(rs.getString("enddate"));
+					
+					//현재모금액, 목표모금액 천단위 구분자 세팅
+					projectPlanner.setCurr_amount_df_exc(rs.getInt("curr_amount"));
+					projectPlanner.setGoal_amount_df_exc(rs.getInt("goal_amount"));
+					
+					//리스트에 프로젝트-기획자 객체 추가
+					projectPlannerList.add(projectPlanner);
+					
+				}while(rs.next());
+				
+			}
+			
+			
+		} catch(Exception e) {
+			System.out.println("[ProjectDAO] selectDeadlineProjectPlannerOngoingList() 에러 : "+e);//예외객체종류 + 예외메시지
+		} finally {
+			close(pstmt); //JdbcUtil.생략가능
+			close(rs); //JdbcUtil.생략가능
+			//connection 객체에 대한 해제는 DogListService에서 이루어짐
+		}
+		
+		return projectPlannerList;
+	}
+	
+	/** (높은관심순 정렬) 원하는 페이지의 원하는 개수만큼 진행중인 프로젝트-기획자 리스트를 얻어옴 */
+	public ArrayList<ProjectPlannerBean> selectPopularProjectPlannerOngoingList(String kind, int page, int limit) {
+		ArrayList<ProjectPlannerBean> projectPlannerList = null;
+		
+		int startrow = (page-1)*limit;
+		
+		String sql = "select project_id, kind, title, summary"
+				  + " thumbnail, content, image,"
+				  + " DATE_FORMAT(startdate,'%Y.%m.%d') as startdate_F,"
+				  + " DATE_FORMAT(enddate,'%Y.%m.%d') as enddate,"
+				  + " goal_amount, curr_amount,"
+				  + " status, likes,"
+				  + " DATE_FORMAT(enddate,'%Y.%m.%d') as regdate"
+				  + " from project_planner_view"
+				  + " where kind = ? and status='ongoing'"
+				  + " order by likes desc"
+				  + " limit ?, ?";
+		
+		try {
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, kind);
+			pstmt.setInt(2, startrow);
+			pstmt.setInt(3, limit);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				
+				projectPlannerList = new ArrayList<>();
+				
+				do {
+					
+					ProjectPlannerBean projectPlanner = new ProjectPlannerBean(rs.getInt("project_id"),
+																				rs.getString("kind"),
+																				rs.getString("title"),
+																				rs.getString("summary"),
+																				rs.getString("thumbnail"),
+																				rs.getString("content"),
+																				rs.getString("image"),
+																				rs.getString("startdate_F"),
+																				rs.getString("enddate"),
+																				rs.getInt("goal_amount"),
+																				rs.getInt("curr_amount"),
+																				rs.getString("status"),
+																				rs.getInt("likes"),
+																				rs.getString("regdate"),
+																				rs.getString("planner_name")
+																				);
+					//달성률 세팅 (progress)
+					projectPlanner.setProgressFormatWithCurrGoal(rs.getInt("curr_amount"), rs.getInt("goal_amount"));
+					
+					//남은일수 세팅 (0이면 오늘마감 표시)
+					projectPlanner.setDeadline_exc(rs.getString("enddate"));
+					
+					//현재모금액, 목표모금액 천단위 구분자 세팅
+					projectPlanner.setCurr_amount_df_exc(rs.getInt("curr_amount"));
+					projectPlanner.setGoal_amount_df_exc(rs.getInt("goal_amount"));
+					
+					//리스트에 프로젝트-기획자 객체 추가
+					projectPlannerList.add(projectPlanner);
+					
+				}while(rs.next());
+				
+			}
+			
+			
+		} catch(Exception e) {
+			System.out.println("[ProjectDAO] selectPopularProjectPlannerOngoingList() 에러 : "+e);//예외객체종류 + 예외메시지
+		} finally {
+			close(pstmt); //JdbcUtil.생략가능
+			close(rs); //JdbcUtil.생략가능
+			//connection 객체에 대한 해제는 DogListService에서 이루어짐
+		}
+		
+		return projectPlannerList;
+	}
+	
+	
+	
+	
+	/** (검색어에 따른) 원하는 페이지의 원하는 개수만큼 진행중인 프로젝트-기획자 리스트를 얻어옴 */
+	public ArrayList<ProjectPlannerBean> selectSearchProjectPlannerOngoingList(String kind, String title, int page, int limit) {
+		ArrayList<ProjectPlannerBean> projectPlannerList = null;
+		
+		int startrow = (page-1)*limit;
+		
+		String sql = "select project_id, kind, title, summary"
+				  + " thumbnail, content, image,"
+				  + " DATE_FORMAT(startdate,'%Y.%m.%d') as startdate_F,"
+				  + " DATE_FORMAT(enddate,'%Y.%m.%d') as enddate,"
+				  + " goal_amount, curr_amount,"
+				  + " status, likes,"
+				  + " DATE_FORMAT(enddate,'%Y.%m.%d') as regdate"
+				  + " from project_planner_view"
+				  + " where status='ongoing'"
+				  + " and kind = ? and title regexp ?"
+				  + " order by startdate desc"
+				  + " limit ?, ?";
+		
+		try {
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, kind);
+			pstmt.setString(2, title);
+			pstmt.setInt(3, startrow);
+			pstmt.setInt(4, limit);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				
+				projectPlannerList = new ArrayList<>();
+				
+				do {
+					
+					ProjectPlannerBean projectPlanner = new ProjectPlannerBean(rs.getInt("project_id"),
+																				rs.getString("kind"),
+																				rs.getString("title"),
+																				rs.getString("summary"),
+																				rs.getString("thumbnail"),
+																				rs.getString("content"),
+																				rs.getString("image"),
+																				rs.getString("startdate_F"),
+																				rs.getString("enddate"),
+																				rs.getInt("goal_amount"),
+																				rs.getInt("curr_amount"),
+																				rs.getString("status"),
+																				rs.getInt("likes"),
+																				rs.getString("regdate"),
+																				rs.getString("planner_name")
+																				);
+					//달성률 세팅 (progress)
+					projectPlanner.setProgressFormatWithCurrGoal(rs.getInt("curr_amount"), rs.getInt("goal_amount"));
+					
+					//남은일수 세팅 (0이면 오늘마감 표시)
+					projectPlanner.setDeadline_exc(rs.getString("enddate"));
+					
+					//현재모금액, 목표모금액 천단위 구분자 세팅
+					projectPlanner.setCurr_amount_df_exc(rs.getInt("curr_amount"));
+					projectPlanner.setGoal_amount_df_exc(rs.getInt("goal_amount"));
+					
+					//리스트에 프로젝트-기획자 객체 추가
+					projectPlannerList.add(projectPlanner);
+					
+				}while(rs.next());
+				
+			}
+			
+			
+		} catch(Exception e) {
+			System.out.println("[ProjectDAO] selectSearchProjectPlannerOngoingList() 에러 : "+e);//예외객체종류 + 예외메시지
+		} finally {
+			close(pstmt); //JdbcUtil.생략가능
+			close(rs); //JdbcUtil.생략가능
+			//connection 객체에 대한 해제는 DogListService에서 이루어짐
+		}
+		
+		return projectPlannerList;
+	}
+	
+	/** 원하는 페이지의 원하는 개수만큼 공개예정인 프로젝트-기획자 리스트를 얻어옴 (최근 런칭 순) */
+	public ArrayList<ProjectPlannerBean> selectProjectPlannerReadyList(String kind, int page, int limit) {
+		ArrayList<ProjectPlannerBean> projectPlannerList = null;
+		
+		int startrow = (page-1)*limit;
+		
+		String sql = "select project_id, kind, title, summary"
+				  + " thumbnail, content, image,"
+				  + " DATE_FORMAT(startdate,'%Y.%m.%d') as startdate_F,"
+				  + " DATE_FORMAT(enddate,'%Y.%m.%d') as enddate,"
+				  + " goal_amount, curr_amount,"
+				  + " status, likes,"
+				  + " DATE_FORMAT(enddate,'%Y.%m.%d') as regdate"
+				  + " from project_planner_view"
+				  + " where kind = ? and status='ready'"
+				  + " order by startdate desc"
+				  + " limit ?, ?";
+		
+		try {
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, kind);
+			pstmt.setInt(2, startrow);
+			pstmt.setInt(3, limit);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				
+				projectPlannerList = new ArrayList<>();
+				
+				do {
+					
+					ProjectPlannerBean projectPlanner = new ProjectPlannerBean(rs.getInt("project_id"),
+																				rs.getString("kind"),
+																				rs.getString("title"),
+																				rs.getString("summary"),
+																				rs.getString("thumbnail"),
+																				rs.getString("content"),
+																				rs.getString("image"),
+																				rs.getString("startdate_F"),
+																				rs.getString("enddate"),
+																				rs.getInt("goal_amount"),
+																				rs.getInt("curr_amount"),
+																				rs.getString("status"),
+																				rs.getInt("likes"),
+																				rs.getString("regdate"),
+																				rs.getString("planner_name")
+																				);
+					//달성률 세팅 (progress)
+					projectPlanner.setProgressFormatWithCurrGoal(rs.getInt("curr_amount"), rs.getInt("goal_amount"));
+					
+					//남은일수 세팅 (공개일까지 남은 일수)
+					projectPlanner.setDeadline_start_exc(rs.getString("startdate"));
+					
+					//현재모금액, 목표모금액 천단위 구분자 세팅
+					projectPlanner.setCurr_amount_df_exc(rs.getInt("curr_amount"));
+					projectPlanner.setGoal_amount_df_exc(rs.getInt("goal_amount"));
+					
+					//리스트에 프로젝트-기획자 객체 추가
+					projectPlannerList.add(projectPlanner);
+					
+				}while(rs.next());
+				
+			}
+			
+			
+		} catch(Exception e) {
+			System.out.println("[ProjectDAO] selectProjectPlannerReadyList() 에러 : "+e);//예외객체종류 + 예외메시지
+		} finally {
+			close(pstmt); //JdbcUtil.생략가능
+			close(rs); //JdbcUtil.생략가능
+			//connection 객체에 대한 해제는 DogListService에서 이루어짐
+		}
+		
+		return projectPlannerList;
+	}
+	
+	/** (오래된공개순 정렬) 원하는 페이지의 원하는 개수만큼 공개예정 프로젝트-기획자 리스트를 얻어옴 */
+	public ArrayList<ProjectPlannerBean> selectOldProjectPlannerReadyList(String kind, int page, int limit) {
+		ArrayList<ProjectPlannerBean> projectPlannerList = null;
+		
+		int startrow = (page-1)*limit;
+		
+		String sql = "select project_id, kind, title, summary"
+				  + " thumbnail, content, image,"
+				  + " DATE_FORMAT(startdate,'%Y.%m.%d') as startdate_F,"
+				  + " DATE_FORMAT(enddate,'%Y.%m.%d') as enddate,"
+				  + " goal_amount, curr_amount,"
+				  + " status, likes,"
+				  + " DATE_FORMAT(enddate,'%Y.%m.%d') as regdate"
+				  + " from project_planner_view"
+				  + " where kind = ? and status='ready'"
+				  + " order by startdate asc"
+				  + " limit ?, ?";
+		
+		try {
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, kind);
+			pstmt.setInt(2, startrow);
+			pstmt.setInt(3, limit);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				
+				projectPlannerList = new ArrayList<>();
+				
+				do {
+					
+					ProjectPlannerBean projectPlanner = new ProjectPlannerBean(rs.getInt("project_id"),
+																				rs.getString("kind"),
+																				rs.getString("title"),
+																				rs.getString("summary"),
+																				rs.getString("thumbnail"),
+																				rs.getString("content"),
+																				rs.getString("image"),
+																				rs.getString("startdate_F"),
+																				rs.getString("enddate"),
+																				rs.getInt("goal_amount"),
+																				rs.getInt("curr_amount"),
+																				rs.getString("status"),
+																				rs.getInt("likes"),
+																				rs.getString("regdate"),
+																				rs.getString("planner_name")
+																				);
+					//달성률 세팅 (progress)
+					projectPlanner.setProgressFormatWithCurrGoal(rs.getInt("curr_amount"), rs.getInt("goal_amount"));
+					
+					//남은일수 세팅 (공개일까지 남은 일수)
+					projectPlanner.setDeadline_start_exc(rs.getString("startdate"));
+					
+					//현재모금액, 목표모금액 천단위 구분자 세팅
+					projectPlanner.setCurr_amount_df_exc(rs.getInt("curr_amount"));
+					projectPlanner.setGoal_amount_df_exc(rs.getInt("goal_amount"));
+					
+					//리스트에 프로젝트-기획자 객체 추가
+					projectPlannerList.add(projectPlanner);
+					
+				}while(rs.next());
+				
+			}
+			
+			
+		} catch(Exception e) {
+			System.out.println("[ProjectDAO] selectOldProjectPlannerReadyList() 에러 : "+e);//예외객체종류 + 예외메시지
+		} finally {
+			close(pstmt); //JdbcUtil.생략가능
+			close(rs); //JdbcUtil.생략가능
+			//connection 객체에 대한 해제는 DogListService에서 이루어짐
+		}
+		
+		return projectPlannerList;
+	}
+	
+	/** (높은관심순 정렬) 원하는 페이지의 원하는 개수만큼 공개예정 프로젝트-기획자 리스트를 얻어옴 */
+	public ArrayList<ProjectPlannerBean> selectPopularProjectPlannerReadyList(String kind, int page, int limit) {
+		ArrayList<ProjectPlannerBean> projectPlannerList = null;
+		
+		int startrow = (page-1)*limit;
+		
+		String sql = "select project_id, kind, title, summary"
+				  + " thumbnail, content, image,"
+				  + " DATE_FORMAT(startdate,'%Y.%m.%d') as startdate_F,"
+				  + " DATE_FORMAT(enddate,'%Y.%m.%d') as enddate,"
+				  + " goal_amount, curr_amount,"
+				  + " status, likes,"
+				  + " DATE_FORMAT(enddate,'%Y.%m.%d') as regdate"
+				  + " from project_planner_view"
+				  + " where kind = ? and status='ready'"
+				  + " order by likes desc"
+				  + " limit ?, ?";
+		
+		try {
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, kind);
+			pstmt.setInt(2, startrow);
+			pstmt.setInt(3, limit);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				
+				projectPlannerList = new ArrayList<>();
+				
+				do {
+					
+					ProjectPlannerBean projectPlanner = new ProjectPlannerBean(rs.getInt("project_id"),
+																				rs.getString("kind"),
+																				rs.getString("title"),
+																				rs.getString("summary"),
+																				rs.getString("thumbnail"),
+																				rs.getString("content"),
+																				rs.getString("image"),
+																				rs.getString("startdate_F"),
+																				rs.getString("enddate"),
+																				rs.getInt("goal_amount"),
+																				rs.getInt("curr_amount"),
+																				rs.getString("status"),
+																				rs.getInt("likes"),
+																				rs.getString("regdate"),
+																				rs.getString("planner_name")
+																				);
+					//달성률 세팅 (progress)
+					projectPlanner.setProgressFormatWithCurrGoal(rs.getInt("curr_amount"), rs.getInt("goal_amount"));
+					
+					//남은일수 세팅 (공개일까지 남은 일수)
+					projectPlanner.setDeadline_start_exc(rs.getString("startdate"));
+					
+					//현재모금액, 목표모금액 천단위 구분자 세팅
+					projectPlanner.setCurr_amount_df_exc(rs.getInt("curr_amount"));
+					projectPlanner.setGoal_amount_df_exc(rs.getInt("goal_amount"));
+					
+					//리스트에 프로젝트-기획자 객체 추가
+					projectPlannerList.add(projectPlanner);
+					
+				}while(rs.next());
+				
+			}
+			
+			
+		} catch(Exception e) {
+			System.out.println("[ProjectDAO] selectPopularProjectPlannerReadyList() 에러 : "+e);//예외객체종류 + 예외메시지
+		} finally {
+			close(pstmt); //JdbcUtil.생략가능
+			close(rs); //JdbcUtil.생략가능
+			//connection 객체에 대한 해제는 DogListService에서 이루어짐
+		}
+		
+		return projectPlannerList;
+	}
+	
+	
+	/** (검색어에 따른) 원하는 페이지의 원하는 개수만큼 공개예정 프로젝트-기획자 리스트를 얻어옴 */
+	public ArrayList<ProjectPlannerBean> selectSearchProjectPlannerReadyList(String kind, String title, int page, int limit) {
+		ArrayList<ProjectPlannerBean> projectPlannerList = null;
+		
+		int startrow = (page-1)*limit;
+		
+		String sql = "select project_id, kind, title, summary"
+				  + " thumbnail, content, image,"
+				  + " DATE_FORMAT(startdate,'%Y.%m.%d') as startdate_F,"
+				  + " DATE_FORMAT(enddate,'%Y.%m.%d') as enddate,"
+				  + " goal_amount, curr_amount,"
+				  + " status, likes,"
+				  + " DATE_FORMAT(enddate,'%Y.%m.%d') as regdate"
+				  + " from project_planner_view"
+				  + " where status='ready'"
+				  + " and kind = ? and title regexp ?"
+				  + " order by startdate desc"
+				  + " limit ?, ?";
+		
+		try {
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, kind);
+			pstmt.setString(2, title);
+			pstmt.setInt(3, startrow);
+			pstmt.setInt(4, limit);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				
+				projectPlannerList = new ArrayList<>();
+				
+				do {
+					
+					ProjectPlannerBean projectPlanner = new ProjectPlannerBean(rs.getInt("project_id"),
+																				rs.getString("kind"),
+																				rs.getString("title"),
+																				rs.getString("summary"),
+																				rs.getString("thumbnail"),
+																				rs.getString("content"),
+																				rs.getString("image"),
+																				rs.getString("startdate_F"),
+																				rs.getString("enddate"),
+																				rs.getInt("goal_amount"),
+																				rs.getInt("curr_amount"),
+																				rs.getString("status"),
+																				rs.getInt("likes"),
+																				rs.getString("regdate"),
+																				rs.getString("planner_name")
+																				);
+					//달성률 세팅 (progress)
+					projectPlanner.setProgressFormatWithCurrGoal(rs.getInt("curr_amount"), rs.getInt("goal_amount"));
+					
+					//남은일수 세팅 (공개일까지 남은 일수)
+					projectPlanner.setDeadline_start_exc(rs.getString("startdate"));
+					
+					//현재모금액, 목표모금액 천단위 구분자 세팅
+					projectPlanner.setCurr_amount_df_exc(rs.getInt("curr_amount"));
+					projectPlanner.setGoal_amount_df_exc(rs.getInt("goal_amount"));
+					
+					//리스트에 프로젝트-기획자 객체 추가
+					projectPlannerList.add(projectPlanner);
+					
+				}while(rs.next());
+				
+			}
+			
+			
+		} catch(Exception e) {
+			System.out.println("[ProjectDAO] selectSearchProjectPlannerReadyList() 에러 : "+e);//예외객체종류 + 예외메시지
+		} finally {
+			close(pstmt); //JdbcUtil.생략가능
+			close(rs); //JdbcUtil.생략가능
+			//connection 객체에 대한 해제는 DogListService에서 이루어짐
+		}
+		
+		return projectPlannerList;
+	}
+	
+	/** 원하는 페이지의 원하는 개수만큼 성공/종료된 프로젝트-기획자 리스트를 얻어옴 (최근 종료 순) */
+	public ArrayList<ProjectPlannerBean> selectProjectPlannerDoneList(String kind, int page, int limit) {
+		ArrayList<ProjectPlannerBean> projectPlannerList = null;
+		
+		int startrow = (page-1)*limit;
+		
+		String sql = "select project_id, kind, title, summary"
+				  + " thumbnail, content, image,"
+				  + " DATE_FORMAT(startdate,'%Y.%m.%d') as startdate_F,"
+				  + " DATE_FORMAT(enddate,'%Y.%m.%d') as enddate,"
+				  + " goal_amount, curr_amount,"
+				  + " status, likes,"
+				  + " DATE_FORMAT(enddate,'%Y.%m.%d') as regdate"
+				  + " from project_planner_view"
+				  + " where kind = ? and (status='done' or status='success')"
+				  + " order by enddate desc"
+				  + " limit ?, ?";
+		
+		try {
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, kind);
+			pstmt.setInt(2, startrow);
+			pstmt.setInt(3, limit);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				
+				projectPlannerList = new ArrayList<>();
+				
+				do {
+					
+					ProjectPlannerBean projectPlanner = new ProjectPlannerBean(rs.getInt("project_id"),
+																				rs.getString("kind"),
+																				rs.getString("title"),
+																				rs.getString("summary"),
+																				rs.getString("thumbnail"),
+																				rs.getString("content"),
+																				rs.getString("image"),
+																				rs.getString("startdate_F"),
+																				rs.getString("enddate"),
+																				rs.getInt("goal_amount"),
+																				rs.getInt("curr_amount"),
+																				rs.getString("status"),
+																				rs.getInt("likes"),
+																				rs.getString("regdate"),
+																				rs.getString("planner_name")
+																				);
+					//달성률 세팅 (progress)
+					projectPlanner.setProgressFormatWithCurrGoal(rs.getInt("curr_amount"), rs.getInt("goal_amount"));
+					
+					//남은일수 세팅 (0이면 오늘마감 표시)
+					projectPlanner.setDeadline_exc(rs.getString("enddate"));
+					
+					//현재모금액, 목표모금액 천단위 구분자 세팅
+					projectPlanner.setCurr_amount_df_exc(rs.getInt("curr_amount"));
+					projectPlanner.setGoal_amount_df_exc(rs.getInt("goal_amount"));
+					
+					//리스트에 프로젝트-기획자 객체 추가
+					projectPlannerList.add(projectPlanner);
+					
+				}while(rs.next());
+				
+			}
+			
+			
+		} catch(Exception e) {
+			System.out.println("[ProjectDAO] selectProjectPlannerDoneList() 에러 : "+e);//예외객체종류 + 예외메시지
+		} finally {
+			close(pstmt); //JdbcUtil.생략가능
+			close(rs); //JdbcUtil.생략가능
+			//connection 객체에 대한 해제는 DogListService에서 이루어짐
+		}
+		
+		return projectPlannerList;
+	}
+	
+	/** (오래된마감순 정렬) 원하는 페이지의 원하는 개수만큼 성공/종료된 프로젝트-기획자 리스트를 얻어옴 */
+	public ArrayList<ProjectPlannerBean> selectOldProjectPlannerDoneList(String kind, int page, int limit) {
+		ArrayList<ProjectPlannerBean> projectPlannerList = null;
+		
+		int startrow = (page-1)*limit;
+		
+		String sql = "select project_id, kind, title, summary"
+				  + " thumbnail, content, image,"
+				  + " DATE_FORMAT(startdate,'%Y.%m.%d') as startdate_F,"
+				  + " DATE_FORMAT(enddate,'%Y.%m.%d') as enddate,"
+				  + " goal_amount, curr_amount,"
+				  + " status, likes,"
+				  + " DATE_FORMAT(enddate,'%Y.%m.%d') as regdate"
+				  + " from project_planner_view"
+				  + " where kind = ? and (status='done' or status='success')"
+				  + " order by enddate asc"
+				  + " limit ?, ?";
+		
+		try {
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, kind);
+			pstmt.setInt(2, startrow);
+			pstmt.setInt(3, limit);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				
+				projectPlannerList = new ArrayList<>();
+				
+				do {
+					
+					ProjectPlannerBean projectPlanner = new ProjectPlannerBean(rs.getInt("project_id"),
+																				rs.getString("kind"),
+																				rs.getString("title"),
+																				rs.getString("summary"),
+																				rs.getString("thumbnail"),
+																				rs.getString("content"),
+																				rs.getString("image"),
+																				rs.getString("startdate_F"),
+																				rs.getString("enddate"),
+																				rs.getInt("goal_amount"),
+																				rs.getInt("curr_amount"),
+																				rs.getString("status"),
+																				rs.getInt("likes"),
+																				rs.getString("regdate"),
+																				rs.getString("planner_name")
+																				);
+					//달성률 세팅 (progress)
+					projectPlanner.setProgressFormatWithCurrGoal(rs.getInt("curr_amount"), rs.getInt("goal_amount"));
+					
+					//남은일수 세팅 (0이면 오늘마감 표시)
+					projectPlanner.setDeadline_exc(rs.getString("enddate"));
+					
+					//현재모금액, 목표모금액 천단위 구분자 세팅
+					projectPlanner.setCurr_amount_df_exc(rs.getInt("curr_amount"));
+					projectPlanner.setGoal_amount_df_exc(rs.getInt("goal_amount"));
+					
+					//리스트에 프로젝트-기획자 객체 추가
+					projectPlannerList.add(projectPlanner);
+					
+				}while(rs.next());
+				
+			}
+			
+			
+		} catch(Exception e) {
+			System.out.println("[ProjectDAO] selectOldProjectPlannerDoneList() 에러 : "+e);//예외객체종류 + 예외메시지
+		} finally {
+			close(pstmt); //JdbcUtil.생략가능
+			close(rs); //JdbcUtil.생략가능
+			//connection 객체에 대한 해제는 DogListService에서 이루어짐
+		}
+		
+		return projectPlannerList;
+	}
+	
+	/** (높은관심순 정렬) 원하는 페이지의 원하는 개수만큼 성공/종료된 프로젝트-기획자 리스트를 얻어옴 */
+	public ArrayList<ProjectPlannerBean> selectPopularProjectPlannerDoneList(String kind, int page, int limit) {
+		ArrayList<ProjectPlannerBean> projectPlannerList = null;
+		
+		int startrow = (page-1)*limit;
+		
+		String sql = "select project_id, kind, title, summary"
+				  + " thumbnail, content, image,"
+				  + " DATE_FORMAT(startdate,'%Y.%m.%d') as startdate_F,"
+				  + " DATE_FORMAT(enddate,'%Y.%m.%d') as enddate,"
+				  + " goal_amount, curr_amount,"
+				  + " status, likes,"
+				  + " DATE_FORMAT(enddate,'%Y.%m.%d') as regdate"
+				  + " from project_planner_view"
+				  + " where kind = ? and (status='done' or status='success')"
+				  + " order by likes desc"
+				  + " limit ?, ?";
+		
+		try {
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, kind);
+			pstmt.setInt(2, startrow);
+			pstmt.setInt(3, limit);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				
+				projectPlannerList = new ArrayList<>();
+				
+				do {
+					
+					ProjectPlannerBean projectPlanner = new ProjectPlannerBean(rs.getInt("project_id"),
+																				rs.getString("kind"),
+																				rs.getString("title"),
+																				rs.getString("summary"),
+																				rs.getString("thumbnail"),
+																				rs.getString("content"),
+																				rs.getString("image"),
+																				rs.getString("startdate_F"),
+																				rs.getString("enddate"),
+																				rs.getInt("goal_amount"),
+																				rs.getInt("curr_amount"),
+																				rs.getString("status"),
+																				rs.getInt("likes"),
+																				rs.getString("regdate"),
+																				rs.getString("planner_name")
+																				);
+					//달성률 세팅 (progress)
+					projectPlanner.setProgressFormatWithCurrGoal(rs.getInt("curr_amount"), rs.getInt("goal_amount"));
+					
+					//남은일수 세팅 (0이면 오늘마감 표시)
+					projectPlanner.setDeadline_exc(rs.getString("enddate"));
+					
+					//현재모금액, 목표모금액 천단위 구분자 세팅
+					projectPlanner.setCurr_amount_df_exc(rs.getInt("curr_amount"));
+					projectPlanner.setGoal_amount_df_exc(rs.getInt("goal_amount"));
+					
+					//리스트에 프로젝트-기획자 객체 추가
+					projectPlannerList.add(projectPlanner);
+					
+				}while(rs.next());
+				
+			}
+			
+			
+		} catch(Exception e) {
+			System.out.println("[ProjectDAO] selectPopularProjectPlannerDoneList() 에러 : "+e);//예외객체종류 + 예외메시지
+		} finally {
+			close(pstmt); //JdbcUtil.생략가능
+			close(rs); //JdbcUtil.생략가능
+			//connection 객체에 대한 해제는 DogListService에서 이루어짐
+		}
+		
+		return projectPlannerList;
+	}
+	
+	
+	/** (검색어에 따른) 원하는 페이지의 원하는 개수만큼 성공/종료된 프로젝트-기획자 리스트를 얻어옴 */
+	public ArrayList<ProjectPlannerBean> selectSearchProjectPlannerDoneList(String kind, String title, int page, int limit) {
+		ArrayList<ProjectPlannerBean> projectPlannerList = null;
+		
+		int startrow = (page-1)*limit;
+		
+		String sql = "select project_id, kind, title, summary"
+				  + " thumbnail, content, image,"
+				  + " DATE_FORMAT(startdate,'%Y.%m.%d') as startdate_F,"
+				  + " DATE_FORMAT(enddate,'%Y.%m.%d') as enddate,"
+				  + " goal_amount, curr_amount,"
+				  + " status, likes,"
+				  + " DATE_FORMAT(enddate,'%Y.%m.%d') as regdate"
+				  + " from project_planner_view"
+				  + " where (status='done' or status='success')"
+				  + " and kind = ? and title regexp ?"
+				  + " order by enddate desc"
+				  + " limit ?, ?";
+		
+		try {
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, kind);
+			pstmt.setString(2, title);
+			pstmt.setInt(3, startrow);
+			pstmt.setInt(4, limit);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				
+				projectPlannerList = new ArrayList<>();
+				
+				do {
+					
+					ProjectPlannerBean projectPlanner = new ProjectPlannerBean(rs.getInt("project_id"),
+																				rs.getString("kind"),
+																				rs.getString("title"),
+																				rs.getString("summary"),
+																				rs.getString("thumbnail"),
+																				rs.getString("content"),
+																				rs.getString("image"),
+																				rs.getString("startdate_F"),
+																				rs.getString("enddate"),
+																				rs.getInt("goal_amount"),
+																				rs.getInt("curr_amount"),
+																				rs.getString("status"),
+																				rs.getInt("likes"),
+																				rs.getString("regdate"),
+																				rs.getString("planner_name")
+																				);
+					//달성률 세팅 (progress)
+					projectPlanner.setProgressFormatWithCurrGoal(rs.getInt("curr_amount"), rs.getInt("goal_amount"));
+					
+					//남은일수 세팅 (0이면 오늘마감 표시)
+					projectPlanner.setDeadline_exc(rs.getString("enddate"));
+					
+					//현재모금액, 목표모금액 천단위 구분자 세팅
+					projectPlanner.setCurr_amount_df_exc(rs.getInt("curr_amount"));
+					projectPlanner.setGoal_amount_df_exc(rs.getInt("goal_amount"));
+					
+					//리스트에 프로젝트-기획자 객체 추가
+					projectPlannerList.add(projectPlanner);
+					
+				}while(rs.next());
+				
+			}
+			
+			
+		} catch(Exception e) {
+			System.out.println("[ProjectDAO] selectSearchProjectPlannerDoneList() 에러 : "+e);//예외객체종류 + 예외메시지
+		} finally {
+			close(pstmt); //JdbcUtil.생략가능
+			close(rs); //JdbcUtil.생략가능
+			//connection 객체에 대한 해제는 DogListService에서 이루어짐
+		}
+		
+		return projectPlannerList;
+	}
 	
 }

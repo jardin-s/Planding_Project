@@ -14,7 +14,7 @@
 
     <!-- Favicon -->
     <link href="../resources/img/favicon.ico" rel="icon">
-
+	
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -128,8 +128,13 @@ function checkDonate() {
 								<th class="py-2">
 									<c:choose>
 										<c:when test="${projectInfo.status eq 'ongoing' }">
-											<span class="fw-normal">&nbsp;남은 시간</span><br>
-											&nbsp;<span style="font-size:2rem; font-weight:normal">${projectInfo.deadline }</span>&nbsp;일
+											<c:if test="${projectInfo.deadline == 0 }">
+												&nbsp;<span style="font-size:1.2rem; font-weight:normal">오늘 자정 마감</span>&nbsp;
+											</c:if>
+											<c:if test="${projectInfo.deadline != 0 }">
+												<span class="fw-normal">&nbsp;남은 시간</span><br>
+												&nbsp;<span style="font-size:2rem; font-weight:normal">${projectInfo.deadline }</span>&nbsp;일
+											</c:if>
 										</c:when>
 										<c:when test="${projectInfo.status eq 'done' }">
 											<span class="fw-normal" style="font-size:0.8rem">&nbsp;종료되었습니다.</span><br>
@@ -307,12 +312,76 @@ function checkDonate() {
 				
 								
 				<div class="col-12 text-center">
-					<c:if test="${projectInfo.kind eq 'donate' }">
-						<button class="btn btn-light" onclick="location.href='userDonateProjectList.pj?page=${page}'">목록보기</button>
+					<%-- 진행중인 프로젝트 목록에서 클릭해서 들어왔다면 --%>
+					<c:if test="${projectInfo.status eq 'ongoing' }">
+						<%-- 기부 프로젝트 --%>
+						<c:if test="${projectInfo.kind eq 'donate' && orderKeyword ne null}">
+							<button class="btn btn-light" onclick="location.href='userOngoingDonateProjectList.pj?page=${page}&selectOrder=${orderKeyword }'">목록보기</button>
+						</c:if>
+						<c:if test="${projectInfo.kind eq 'donate' && searchKeyword ne null}">
+							<button class="btn btn-light" onclick="location.href='userOngoingDonateProjectList.pj?page=${page}&searchTitler=${searchKeyword }'">목록보기</button>
+						</c:if>
+						<c:if test="${projectInfo.kind eq 'donate' && searchKeyword eq null && orderKeyword eq null}">
+							<button class="btn btn-light" onclick="location.href='userOngoingDonateProjectList.pj?page=${page}'">목록보기</button>
+						</c:if>
+						<%-- 펀딩 프로젝트 --%>
+						<c:if test="${projectInfo.kind eq 'fund' && orderKeyword ne null}">
+							<button class="btn btn-light" onclick="location.href='userOngoingFundProjectList.pj?page=${page}&selectOrder=${orderKeyword }'">목록보기</button>
+						</c:if>
+						<c:if test="${projectInfo.kind eq 'fund' && searchKeyword ne null}">
+							<button class="btn btn-light" onclick="location.href='userOngoingFundProjectList.pj?page=${page}&searchTitler=${searchKeyword }'">목록보기</button>
+						</c:if>
+						<c:if test="${projectInfo.kind eq 'fund' && searchKeyword eq null && orderKeyword eq null}">
+							<button class="btn btn-light" onclick="location.href='userOngoingFundProjectList.pj?page=${page}'">목록보기</button>
+						</c:if>
 					</c:if>
-					<c:if test="${projectInfo.kind eq 'fund' }">
-						<button class="btn btn-light" onclick="location.href='userFundProjectList.pj?page=${page}'">목록보기</button>
-					</c:if>					
+					<%-- 공개예정 프로젝트 목록에서 클릭해서 들어왔다면 --%>
+					<c:if test="${projectInfo.status eq 'ready' }">
+						<%-- 기부 프로젝트 --%>
+						<c:if test="${projectInfo.kind eq 'donate' && orderKeyword ne null}">
+							<button class="btn btn-light" onclick="location.href='userReadyDonateProjectList.pj?page=${page}&selectOrder=${orderKeyword }'">목록보기</button>
+						</c:if>
+						<c:if test="${projectInfo.kind eq 'donate' && searchKeyword ne null}">
+							<button class="btn btn-light" onclick="location.href='userReadyDonateProjectList.pj?page=${page}&searchTitler=${searchKeyword }'">목록보기</button>
+						</c:if>
+						<c:if test="${projectInfo.kind eq 'donate' && searchKeyword eq null && orderKeyword eq null}">
+							<button class="btn btn-light" onclick="location.href='userReadyDonateProjectList.pj?page=${page}'">목록보기</button>
+						</c:if>
+						<%-- 펀딩 프로젝트 --%>
+						<c:if test="${projectInfo.kind eq 'fund' && orderKeyword ne null}">
+							<button class="btn btn-light" onclick="location.href='userReadyFundProjectList.pj?page=${page}&selectOrder=${orderKeyword }'">목록보기</button>
+						</c:if>
+						<c:if test="${projectInfo.kind eq 'fund' && searchKeyword ne null}">
+							<button class="btn btn-light" onclick="location.href='userReadyFundProjectList.pj?page=${page}&searchTitler=${searchKeyword }'">목록보기</button>
+						</c:if>
+						<c:if test="${projectInfo.kind eq 'fund' && searchKeyword eq null && orderKeyword eq null}">
+							<button class="btn btn-light" onclick="location.href='userReadyFundProjectList.pj?page=${page}'">목록보기</button>
+						</c:if>
+					</c:if>
+					<%-- 종료된 프로젝트 목록에서 클릭해서 들어왔다면 --%>
+					<c:if test="${projectInfo.status eq 'done' || projectInfo.status eq 'success'}">
+						<%-- 기부 프로젝트 --%>
+						<c:if test="${projectInfo.kind eq 'donate' && orderKeyword ne null}">
+							<button class="btn btn-light" onclick="location.href='userDoneDonateProjectList.pj?page=${page}&selectOrder=${orderKeyword }'">목록보기</button>
+						</c:if>
+						<c:if test="${projectInfo.kind eq 'donate' && searchKeyword ne null}">
+							<button class="btn btn-light" onclick="location.href='userDoneDonateProjectList.pj?page=${page}&searchTitler=${searchKeyword }'">목록보기</button>
+						</c:if>
+						<c:if test="${projectInfo.kind eq 'donate' && searchKeyword eq null && orderKeyword eq null}">
+							<button class="btn btn-light" onclick="location.href='userDoneDonateProjectList.pj?page=${page}'">목록보기</button>
+						</c:if>
+						<%-- 펀딩 프로젝트 --%>
+						<c:if test="${projectInfo.kind eq 'fund' && orderKeyword ne null}">
+							<button class="btn btn-light" onclick="location.href='userDoneFundProjectList.pj?page=${page}&selectOrder=${orderKeyword }'">목록보기</button>
+						</c:if>
+						<c:if test="${projectInfo.kind eq 'fund' && searchKeyword ne null}">
+							<button class="btn btn-light" onclick="location.href='userDoneFundProjectList.pj?page=${page}&searchTitler=${searchKeyword }'">목록보기</button>
+						</c:if>
+						<c:if test="${projectInfo.kind eq 'fund' && searchKeyword eq null && orderKeyword eq null}">
+							<button class="btn btn-light" onclick="location.href='userDoneFundProjectList.pj?page=${page}'">목록보기</button>
+						</c:if>
+					</c:if>
+										
 				</div>
 			</div>
 		</div>

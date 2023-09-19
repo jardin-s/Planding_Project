@@ -185,7 +185,44 @@ function selectDelete(){
     </div>
     <!-- Page Header End -->
     
-    <c:if test="${pageInfo.listCount == 0 }">
+    
+    <%-- Search Tab Start --%>
+    <div class="container-fluid pt-4 pb-3">
+    	<div class="container col-lg-8 px-0">
+    		<div class="row">
+				
+				<%-- Order --%>
+				<div class="col-4 col-md-3">
+					<div class="d-flex justify-content-start">
+						<form action="orderDonateProjectList.mngp" method="post" name="forder">
+			    			<select class="form-select py-1" name="selectOrder" id="selectOrder" aria-label="selectOrder" onchange="changeOrder()">
+								<option value="default" selected>-- 정렬조건 --</option>
+								<option value="new">최근 등록순</option>
+								<option value="old">오래된 등록순</option>
+								<option value="az">가나다순</option>
+								<option value="za">역가나다순</option>
+							</select>
+						</form>
+	    			</div>
+	    		</div>
+	    		
+	    		<%-- Search --%>
+	    		<div class="col auto">
+		    		<div class="d-flex justify-content-end">
+		    			<form action="searchDonateProjectList.mngp" method="post" name="fsearch">
+			    			<div class="btn btn-outline-light py-1 px-2 me-1">
+				    			<input type="text" name="title" value="${searchKeyword}" id="title" class="border-0" placeholder="제목으로 검색">
+				    			<a href="javascript:searchProjectList();"><i class="fas fa-search"></i></a>
+			    			</div>
+		    			</form>
+	    			</div>
+    			</div>
+   			</div>
+    	</div>
+    </div>
+    <%-- Search Tab End --%>
+	
+	<c:if test="${pageInfo.listCount == 0 }">
     	<div class="container-xxl mb-5 py-5" style="height:30vh">
     		<div class="container col-10 col-md-6 col-lg-4">
     			<div class="col-12 mb-5">
@@ -199,45 +236,9 @@ function selectDelete(){
     		</div>
     	</div>
     </c:if>
-    
-    <c:if test="${pageInfo.listCount != 0 }">
+	
+	<c:if test="${pageInfo.listCount != 0 }">
     	<c:set var="p_index" value="${(pageInfo.page-1)*10 +1}" />
-	    
-	    <%-- Search Tab Start --%>
-	    <div class="container-fluid pt-4 pb-3">
-	    	<div class="container col-lg-8 px-0">
-	    		<div class="row">
-					
-					<%-- Order --%>
-					<div class="col-4 col-md-3">
-						<div class="d-flex justify-content-start">
-							<form action="orderDonateProjectList.mngp" method="post" name="forder">
-				    			<select class="form-select py-1" name="selectOrder" id="selectOrder" aria-label="selectOrder" onchange="changeOrder()">
-									<option value="default" selected>-- 정렬조건 --</option>
-									<option value="new">최근 등록순</option>
-									<option value="old">오래된 등록순</option>
-									<option value="az">가나다순</option>
-									<option value="za">역가나다순</option>
-								</select>
-							</form>
-		    			</div>
-		    		</div>
-		    		
-		    		<%-- Search --%>
-		    		<div class="col auto">
-			    		<div class="d-flex justify-content-end">
-			    			<form action="searchDonateProjectList.mngp" method="post" name="fsearch">
-				    			<div class="btn btn-outline-light py-1 px-2 me-1">
-					    			<input type="text" name="title" value="${searchKeyword}" id="title" class="border-0" placeholder="제목으로 검색">
-					    			<a href="javascript:searchProjectList();"><i class="fas fa-search"></i></a>
-				    			</div>
-			    			</form>
-		    			</div>
-	    			</div>
-    			</div>
-	    	</div>
-	    </div>
-	    <%-- Search Tab End --%>
 	
 	    <%-- Table Start --%>
 	    <form action="deleteMember.mngm" method="post" name="dlt">

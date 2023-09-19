@@ -152,7 +152,26 @@ function selectDelete(){
     </div>
     <!-- Page Header End -->
     
-    <c:if test="${pageInfo.listCount == 0 }">
+    
+    
+    
+	    
+    <%-- Search Tab Start --%>
+    <div class="container-fluid pt-4 pb-3">
+    	<div class="container col-lg-8 px-0">
+    		<div class="d-flex justify-content-end">
+				<form action="searchNoticeList.adm" method="post" name="fsearch">
+	    			<div class="btn btn-outline-light py-1 px-2 me-1">
+		    			<input type="text" name="n_title" id="n_title" class="border-0 me-2" placeholder="제목으로 검색">
+		    			<a href="javascript:searchNoticeList();"><i class="fas fa-search"></i></a>
+	    			</div>
+	    		</form>
+    		</div>
+    	</div>
+    </div>
+    <%-- Search Tab End --%>
+	
+	<c:if test="${pageInfo.listCount == 0 }">
     	<div class="container-xxl py-5">
     		<div class="container col-10 col-md-6 col-lg-4">
     			<div class="col-12 mb-5">
@@ -164,24 +183,9 @@ function selectDelete(){
     		</div>
     	</div>
     </c:if>
-    
-    <c:if test="${pageInfo.listCount != 0 }">
+	
+	<c:if test="${pageInfo.listCount != 0 }">
     	<c:set var="n_index" value="${pageInfo.listCount - (pageInfo.page-1)*10 }" />
-	    
-	    <%-- Search Tab Start --%>
-	    <div class="container-fluid pt-4 pb-3">
-	    	<div class="container col-lg-8 px-0">
-	    		<div class="d-flex justify-content-end">
-					<form action="searchNoticeList.adm" method="post" name="fsearch">
-		    			<div class="btn btn-outline-light py-1 px-2 me-1">
-			    			<input type="text" name="n_title" id="n_title" class="border-0 me-2" placeholder="제목으로 검색">
-			    			<a href="javascript:searchNoticeList();"><i class="fas fa-search"></i></a>
-		    			</div>
-		    		</form>
-	    		</div>
-	    	</div>
-	    </div>
-	    <%-- Search Tab End --%>
 	
 	    <%-- Table Start --%>
 	    <form action="adminDeleteNoticeList.adm" method="post" name="dlt">

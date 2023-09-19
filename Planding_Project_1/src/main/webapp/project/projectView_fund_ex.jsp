@@ -109,8 +109,11 @@
 							</tr>
 							<tr class="text-start">
 								<th class="py-2">
+									&nbsp;<span style="font-size:1.2rem; font-weight:normal">오늘 자정 마감</span>&nbsp;
+									<!-- 
 									<span class="fw-normal">&nbsp;남은 시간</span><br>
 									&nbsp;<span style="font-size:2rem; font-weight:normal">9</span>&nbsp;일
+									 -->
 								</th>					
 							</tr>
 							<tr class="text-start">

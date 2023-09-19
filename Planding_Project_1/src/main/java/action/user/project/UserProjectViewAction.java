@@ -1,4 +1,4 @@
-package action.project;
+package action.user.project;
 
 import java.io.PrintWriter;
 import java.time.LocalDate;
@@ -26,7 +26,19 @@ public class UserProjectViewAction implements Action {
 		int page = 1;
 		if(request.getParameter("page") != null) {
 			page = Integer.parseInt(request.getParameter("page"));
-		}		
+		}
+		
+		
+		String orderKeyword = request.getParameter("selectOrder");
+		String searchKeyword = request.getParameter("searchTitle");
+		
+		if(orderKeyword != null) {
+			request.setAttribute("orderKeyword", orderKeyword);
+		}
+		if(searchKeyword != null) {
+			request.setAttribute("searchKeyword", searchKeyword);
+		}
+		
 		
 		System.out.println("[UserProjectViewAction] 파라미터값 확인");
 		System.out.println("project_id = "+project_id);
