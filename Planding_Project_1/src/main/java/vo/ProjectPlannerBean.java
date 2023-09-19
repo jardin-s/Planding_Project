@@ -4,19 +4,13 @@ import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
-//프로젝트-플래너 뷰 조회용
+//프로젝트-기획자 뷰 (프로젝트 리스트 조회용)
 public class ProjectPlannerBean {
+
+	//[ProjectBean의 필드] -------------------------------------------------------------------
 	
-private int project_id;//SQL 자동 1씩 증가
+	private int project_id;//SQL 자동 1씩 증가
 	
-
-	/* *********************************************************
-	 * 
-	 *  ProjectBean의 필드
-	 * 
-	 * *********************************************************/
-
-
 	private String kind;
 	private String title;
 	private String summary;
@@ -46,32 +40,29 @@ private int project_id;//SQL 자동 1씩 증가
 	private String curr_amount_df; //현재모금액 포맷 (천단위 구분자 넣어서 세팅)
 	
 	
-	/* *********************************************************
-	 * 
-	 *  PlannerBean의 필드
-	 * 
-	 * *********************************************************/
 	
+	//[PlannerBean의 필드] -------------------------------------------------------------------
 	
 	private String member_id;//기획자 ID
 	private String planner_name;//기획자 이름
 	private String introduce;//기획자 소개
 	private String bank;//계좌은행
 	private String account_num;//계좌번호
-
 	
-	/* *********************************************************
+	
+	
+	/* **************************************************************************************
 	 * 
-	 *  생성자
+	 * 생성자
 	 * 
-	 * *********************************************************/
-	//1. 기본 생성자
+	 * **************************************************************************************/
+
+	//기본생성자
 	public ProjectPlannerBean() {
 		super();
 	}
-		
-
-	//2. 모든 필드를 사용하는 생성자
+	
+	//모든 필드를 사용하는 생성자
 	public ProjectPlannerBean(int project_id, String kind, String title, String summary, String thumbnail,
 			String content, String image, String startdate, String enddate, int goal_amount, int curr_amount,
 			String status, int likes, String regdate, double progress, int deadline, String goal_amount_df,
@@ -103,8 +94,7 @@ private int project_id;//SQL 자동 1씩 증가
 		this.account_num = account_num;
 	}
 	
-	
-	//3. 프로젝트 기본컬럼 + 기획자 이름 (프로젝트 리스트 용)
+	//모든 프로젝트 DB필드 + 기획자는 이름만 ([사용자모드] 프로젝트 리스트 용)
 	public ProjectPlannerBean(int project_id, String kind, String title, String summary, String thumbnail,
 			String content, String image, String startdate, String enddate, int goal_amount, int curr_amount,
 			String status, int likes, String regdate, String planner_name) {
@@ -126,56 +116,13 @@ private int project_id;//SQL 자동 1씩 증가
 		this.planner_name = planner_name;
 	}
 	
+	/* **************************************************************************************
+	 * 
+	 * ProjectBean의 메서드
+	 * 
+	 * **************************************************************************************/
 	
 
-	/* *********************************************************
-	 * 
-	 *  ProjectBean의 추가된 메서드
-	 * 
-	 * *********************************************************/
-	
-	//★★모금액 달성률 계산을 위한 get, set 메서드 생성
-	//현재모금액과 목표모금액으로 계산되어 소수첫째자리까지 표시된 달성률을 get
-	public double getProgressFormat() {
-		double d = (double) this.curr_amount / this.goal_amount;
-		d = Math.floor((d*10)/10.0);//둘째자리에서 반올림
-		
-		return d;
-	}
-
-	//현재모금액과 목표모금액을 매개값으로 달성률을 set
-	public void setProgressFormatWithCurrGoal(int curr_amount, int goal_amount) {
-		double d = (double) curr_amount / goal_amount;
-		this.progress = Math.floor((d*10)/10.0);//둘째자리에서 반올림
-	}
-	
-	//남은일수 계산 : 오늘날짜-종료일
-	public void setDeadline_exc(String enddate) {
-		LocalDate today = LocalDate.now();
-		LocalDate enddate_date = LocalDate.parse(enddate.replace(".", "-"));
-		
-		long deadline = ChronoUnit.DAYS.between(today, enddate_date);//두 날짜 사이 일수차이를 구함
-		
-		this.deadline = (int) deadline;
-	}
-	
-	//set메서드에서 포맷으로 천단위구분자 넣기
-	public void setGoal_amount_df_exc(int goal_amount) {
-		DecimalFormat df = new DecimalFormat("###,###");
-		this.goal_amount_df = df.format(goal_amount);
-	}
-
-	//set메서드에서 포맷으로 천단위구분자 넣기
-	public void setCurr_amount_df_exc(int curr_amount) {
-		DecimalFormat df = new DecimalFormat("###,###");
-		this.curr_amount_df = df.format(curr_amount);
-	}
-	
-	/* *********************************************************
-	 * 
-	 *  Getter & Setter
-	 * 
-	 * *********************************************************/
 	public int getProject_id() {
 		return project_id;
 	}
@@ -296,6 +243,21 @@ private int project_id;//SQL 자동 1씩 증가
 		this.progress = progress;
 	}
 	
+	//★★모금액 달성률 계산을 위한 get, set 메서드 생성
+	//현재모금액과 목표모금액으로 계산되어 소수첫째자리까지 표시된 달성률을 get
+	public double getProgressFormat() {
+		double d = (double) this.curr_amount / this.goal_amount;
+		d = Math.floor((d*10)/10.0);//둘째자리에서 반올림
+		
+		return d;
+	}
+	//현재모금액과 목표모금액을 매개값으로 달성률을 set
+	public void setProgressFormatWithCurrGoal(int curr_amount, int goal_amount) {
+		double d = (double) curr_amount / goal_amount;
+		this.progress = Math.floor((d*10)/10.0);//둘째자리에서 반올림
+	}
+	
+
 	public int getDeadline() {
 		return deadline;
 	}
@@ -304,6 +266,18 @@ private int project_id;//SQL 자동 1씩 증가
 		this.deadline = deadline;
 	}
 	
+	//남은일수 계산 : 오늘날짜-종료일
+	public void setDeadline_exc(String enddate) {
+		LocalDate today = LocalDate.now();
+		LocalDate enddate_date = LocalDate.parse(enddate.replace(".", "-"));
+		
+		long deadline = ChronoUnit.DAYS.between(today, enddate_date);//두 날짜 사이 일수차이를 구함
+		
+		this.deadline = (int) deadline;
+	}
+
+	
+	//기본 getter & setter
 	public String getGoal_amount_df() {
 		return goal_amount_df;
 	}
@@ -320,7 +294,24 @@ private int project_id;//SQL 자동 1씩 증가
 		this.curr_amount_df = curr_amount_df;
 	}
 
-	//--------------------------------------------------------
+	//set메서드에서 포맷으로 천단위구분자 넣기
+	public void setGoal_amount_df_exc(int goal_amount) {
+		DecimalFormat df = new DecimalFormat("###,###");
+		this.goal_amount_df = df.format(goal_amount);
+	}
+
+	//set메서드에서 포맷으로 천단위구분자 넣기
+	public void setCurr_amount_df_exc(int curr_amount) {
+		DecimalFormat df = new DecimalFormat("###,###");
+		this.curr_amount_df = df.format(curr_amount);
+	}
+	
+	
+	/* **************************************************************************************
+	 * 
+	 * PlannerBean의 메서드
+	 * 
+	 * **************************************************************************************/
 	
 	public String getMember_id() {
 		return member_id;
@@ -358,7 +349,9 @@ private int project_id;//SQL 자동 1씩 증가
 		return account_num;
 	}
 
-	public void setAccount_numt(String account_num) {
+	public void setAccount_num(String account_num) {
 		this.account_num = account_num;
 	}
+	
+	
 }

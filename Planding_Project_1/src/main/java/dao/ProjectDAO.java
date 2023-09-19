@@ -54,7 +54,7 @@ public class ProjectDAO {
 	}
 
 	/** 프로젝트 ID로 프로젝트 정보를 얻어옴 */
-	public ProjectBean selectProject(int project_id) {
+	public ProjectBean selectProjectTime(int project_id) {
 		ProjectBean projectInfo = null;
 		
 		String sql = "select project_id, kind, title,"
@@ -482,34 +482,6 @@ public class ProjectDAO {
 	}
 
 	
-	/** 원하는 페이지의 원하는 개수만큼 기부/펀딩 프로젝트 목록을 얻어옴 (진행중) */
-	public ArrayList<ProjectBean> selectProjectOngoingList(String string, int page, int limit) {
-		ArrayList<ProjectBean> projectList = null;
-		
-		String sql = "select project_id, kind, title, summary"
-				  + " thumbnail, content, image,"
-				  + " DATE_FORMAT(startdate,'%Y.%m.%d') as startdate,"
-				  + " DATE_FORMAT(enddate,'%Y.%m.%d') as enddate,"
-				  + " goal_amount, curr_amount,"
-				  + " status, likes,"
-				  + " regdate"
-				  + " from project_tbl where kind = ?";
-		
-		try {
-			
-			
-			
-		} catch(Exception e) {
-			System.out.println("[ProjectDAO] selectProjectKindCount() 에러 : "+e);//예외객체종류 + 예외메시지
-		} finally {
-			close(pstmt); //JdbcUtil.생략가능
-			close(rs); //JdbcUtil.생략가능
-			//connection 객체에 대한 해제는 DogListService에서 이루어짐
-		}
-		
-		return projectList;
-	}
-
 	/** 원하는 페이지의 원하는 개수만큼 진행중인 프로젝트-기획자 리스트를 얻어옴 */
 	public ArrayList<ProjectPlannerBean> selectProjectPlannerOngoingList(String kind, int page, int limit) {
 		ArrayList<ProjectPlannerBean> projectPlannerList = null;
@@ -587,7 +559,6 @@ public class ProjectDAO {
 		
 		return projectPlannerList;
 	}
-	
 	
 	
 }

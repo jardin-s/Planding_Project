@@ -36,24 +36,17 @@ public class UserDonateProjectListAction implements Action {
 		 * 3. 검색하여 조회하는 경우 (입력한 id값으로 검색하여 정렬)
 		 */
 		
-		//[순서-1] member 테이블에서 글을 가져옴 
+		//[순서-1] project_planner 뷰에서 프로젝트-기획자 목록을 가져옴 
 		UserDonateProjectListService userDonateProjectListService = new UserDonateProjectListService();
-		
-		//member_tbl에서 관리자가 아닌 회원 수를 얻어옴
-//		int	listCount = manageMemberListService.getMemberCount();
-//		System.out.println("[ManageMemberListAction] member_tbl 총 회원 수 = "+listCount);
-//		
-//		//회원목록을 얻어옴 (기본값 : 최근 가입순)
-//		ArrayList<MemberBean> memberList = manageMemberListService.getMemberList(page, limit);
-//		request.setAttribute("memberList", memberList);
 		
 		//project_tbl에서 기부 프로젝트 수를 얻어옴
 		int listCount = userDonateProjectListService.getDonateProjectCount();
+		System.out.println("[UserDonateProjectListAction] project_tbl 진행중인 기부 프로젝트 수 = "+listCount);
 		
-		//기부 프로젝트 목록을 얻어옴 (기본값 : 진행중)
+		//기부 프로젝트-기획자 목록을 얻어옴 (기본값 : 진행중, 최신순)
 		ArrayList<ProjectPlannerBean> projectPlannerList = userDonateProjectListService.getDonateProjectPlannerOngoingList(page, limit);
-		
-		
+		request.setAttribute("projectPlannerList", projectPlannerList);	
+
 		
 		
 		//[순서-2] 페이지네이션 설정
@@ -84,8 +77,8 @@ public class UserDonateProjectListAction implements Action {
 		request.setAttribute("pageInfo", pageInfo);
 		
 		
-		request.setAttribute("showAdmin", "admin/manageMember/manageMemberList.jsp");
-		forward = new ActionForward("adminTemplate.jsp", false);
+		request.setAttribute("showPage", "project/userDonateProjectList.jsp");
+		forward = new ActionForward("userTemplate.jsp", false);
 		
 		return forward;
 	}

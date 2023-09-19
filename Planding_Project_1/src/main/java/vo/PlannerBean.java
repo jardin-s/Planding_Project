@@ -81,7 +81,7 @@ public class PlannerBean {//프로젝트 기획자
 		return account_num;
 	}
 
-	public void setAccount_numt(String account_num) {
+	public void setAccount_num(String account_num) {
 		this.account_num = account_num;
 	}
 	

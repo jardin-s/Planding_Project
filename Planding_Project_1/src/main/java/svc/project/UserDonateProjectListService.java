@@ -6,9 +6,7 @@ import static db.JdbcUtil.getConnection;
 import java.sql.Connection;
 import java.util.ArrayList;
 
-import dao.ManageProjectDAO;
 import dao.ProjectDAO;
-import vo.ProjectBean;
 import vo.ProjectPlannerBean;
 
 public class UserDonateProjectListService {
@@ -42,7 +40,7 @@ public class UserDonateProjectListService {
 		return donateProjectCount;
 	}
 
-	/** 원하는 페이지의 원하는 개수만큼 진행중인 기부 프로젝트 목록 얻어오기 */
+	/** 원하는 페이지의 원하는 개수만큼 진행중인 기부 프로젝트-기획자 목록 얻어오기 */
 	public ArrayList<ProjectPlannerBean> getDonateProjectPlannerOngoingList(int page, int limit) {
 		//1. 커넥션 풀에서 Connection객체를 얻어와
 		Connection con = getConnection(); //JdbcUtil. 생략(이유?import static 하여)

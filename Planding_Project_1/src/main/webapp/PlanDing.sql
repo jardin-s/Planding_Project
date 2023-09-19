@@ -82,6 +82,17 @@ values('donate','기부제목2','기부요약2','thumbnail2.jpg','프로젝트 �
 select * from project_tbl;
 delete from project_tbl;
 
+
+select project_id, kind, title, summary
+thumbnail, content, image,
+DATE_FORMAT(startdate,'%Y.%m.%d %H:%i:%S') as startdate,
+DATE_FORMAT(enddate,'%Y.%m.%d %H:%i:%S') as enddate,
+goal_amount, curr_amount,
+status, likes,
+DATE_FORMAT(regdate,'%Y.%m.%d') as regdate_F"
+				  + " from project_tbl where kind = ?"
+				  + " order by regdate desc
+
 -- -----------------------------------------------------
 -- Table `project`.`member_tbl`
 -- -----------------------------------------------------
@@ -360,14 +371,14 @@ ENGINE = InnoDB;
 
 select * from address_tbl;
 
+
 -- -----------------------------------------------------
--- View `project`.`project_planner_view`
+-- View `project`.`project_planner_view` 프로젝트-플래너 조인한 뷰 생성
 -- -----------------------------------------------------
-CREATE  OR REPLACE VIEW `project_planner_view` AS
+CREATE OR REPLACE VIEW `project_planner_view` AS
 select project_id, kind, title, summary, thumbnail, content, image, startdate, enddate, goal_amount, curr_amount, status, likes, regdate, member_id, planner_name, introduce, bank, account_num
 from project_tbl join project_planner_tbl
 using(project_id);
-
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;

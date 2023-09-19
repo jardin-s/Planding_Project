@@ -53,7 +53,7 @@ public class UserTopupMoneyAction implements Action {
 			
 			//session의 u_account 재설정
 			HttpSession session = request.getSession();
-			session.setAttribute("u_account", userMoney);
+			session.setAttribute("u_money", userMoney);
 			
 			//다시 금액충전 팝업창으로 포워딩
 			forward = new ActionForward("topUp.jsp", false);
