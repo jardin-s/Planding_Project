@@ -85,7 +85,7 @@ public class UserProjectViewAction implements Action {
 		request.setAttribute("plannerInfo", plannerInfo);
 		
 		ArrayList<RewardBean> rewardList = null;
-		if(projectInfo.getKind().equals("kind")) {//펀딩 프로젝트라면 (기부 프로젝트는 아예 뷰페이지에서 기본리워드만 세팅해둠)
+		if(projectInfo.getKind().equals("fund")) {//펀딩 프로젝트라면 (기부 프로젝트는 아예 뷰페이지에서 기본리워드만 세팅해둠)
 			
 			//프로젝트-리워드 매핑 테이블에서 리워드ID리스트를 얻어옴
 			ArrayList<String> rewardIdList = projectPageViewService.getRewardIdList(project_id);

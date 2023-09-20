@@ -181,7 +181,7 @@ function checkDonate() {
 															<optgroup label="1,000원">
 																<option value="default">리워드 없이 후원하기</option>
 															</optgroup>
-															<c:forEach var="reward" items="rewardList">
+															<c:forEach var="reward" items="${rewardList }">
 																<optgroup label="${reward.r_price}원">
 																	<option value="${reward.reward_id }">${reward.r_name }</option>
 																</optgroup>
@@ -298,7 +298,7 @@ function checkDonate() {
 								</tr>
 							</thead>
 							<tbody>
-								<c:forEach var="reward" items="rewardList">
+								<c:forEach var="reward" items="${rewardList }">
 									<tr>
 										<td class="col-4">${reward.r_name}</td>
 										<td class="col-auto">${reward.r_content }</td>
