@@ -60,7 +60,7 @@ public class ProjectPageViewService {
 		return pj;
 	}
 	
-	/** 프로젝트ID, 사용자ID로 프로젝트 기획자 정보를 얻어옴 */
+	/** 프로젝트ID로 프로젝트 기획자 정보를 얻어옴 */
 	public PlannerBean getPlannerInfo(int project_id) {
 		//1. 커넥션 풀에서 Connection객체를 얻어와
 		Connection con = getConnection(); //JdbcUtil. 생략(이유?import static 하여)
@@ -214,7 +214,7 @@ public class ProjectPageViewService {
 		rewardDAO.setConnection(con);
 		
 		/*-------DAO의 해당 메서드를 호출하여 처리----------------------------------------------------*/
-		ArrayList<DonationBean> donationList = rewardDAO.selectDonation(project_id);
+		ArrayList<DonationBean> donationList = rewardDAO.selectDonationALL(project_id);
 		
 		/*-------(insert, update, delete) 성공하면 commit(), 실패하면 rollback() 호출
 		 * 		 단, select는 이런 작업을 제외 ------------------*/
@@ -269,7 +269,7 @@ public class ProjectPageViewService {
 			return donationCount;
 		}
 	/**후원정보와 주소정보를 하나의 객체로 가져오기*/
-	public ArrayList<DonationBean> getDonation_addrList(ArrayList<DonationBean> donationList) {
+	public DonationBean getDonation_addr(DonationBean donation) {
 		//1. 커넥션 풀에서 Connection객체를 얻어와
 		Connection con = getConnection(); //JdbcUtil. 생략(이유?import static 하여)
 		
@@ -280,7 +280,7 @@ public class ProjectPageViewService {
 		rewardDAO.setConnection(con);
 		
 		/*-------DAO의 해당 메서드를 호출하여 처리----------------------------------------------------*/
-		ArrayList<DonationBean> getDonation_addrList = rewardDAO.getDonation_addrList(donationList);
+		DonationBean getDonation_addr = rewardDAO.getDonation_addr(donation);
 		
 		/*-------(insert, update, delete) 성공하면 commit(), 실패하면 rollback() 호출
 		 * 		 단, select는 이런 작업을 제외 ------------------*/
@@ -288,7 +288,7 @@ public class ProjectPageViewService {
 		//4. 해제
 		close(con); //JdbcUtil. 생략(이유?import static 하여)
 		
-		return getDonation_addrList;
+		return getDonation_addr;
 	}
 	/**리워드에 후원한 목록을 한 페이지 씩 불러오기*/
 	public ArrayList<DonationBean> getDonationList_page(String reward_id, int page, int limit) {

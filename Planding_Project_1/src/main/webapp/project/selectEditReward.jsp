@@ -65,19 +65,19 @@
 							</tr>
 						</c:if>
 						<c:if test="${rewardList ne null }">
-							<c:forEach var="i" begin="0" end="${rewardList.size() }" step="1" varStatus="count">
-							 <tr class="text-center" onclick="window.location.href='editProjectRewardForm.pj?reward_id=${rewardList[i].reward_id }&project_id=${project_id}'" data-bs-toggle="tooltip" data-bs-placement="top" title="클릭하여 리워드 수정 및 삭제">
+							<c:forEach items="${rewardList}" var="reward">
+							 <tr class="text-center" onclick="window.location.href='editProjectRewardForm.pj?reward_id=${reward.reward_id }&project_id=${project_id}'" data-bs-toggle="tooltip" data-bs-placement="top" title="클릭하여 리워드 수정 및 삭제">
 						        <td>
-						            ${rewardList[i].reward_id }
+						            ${reward.reward_id }
 						        </td>
 						        <td>
-						            ${rewardList[i].r_name }
+						            ${reward.r_name }
 						        </td>
 						        <td>
-						            ${rewardList[i].r_content }
+						            ${reward.r_content }
 						        </td>
 						        <td>
-						            ${rewardList[i].r_price }
+						            ${reward.r_price }
 						        </td>
 						     </tr>
 							</c:forEach>

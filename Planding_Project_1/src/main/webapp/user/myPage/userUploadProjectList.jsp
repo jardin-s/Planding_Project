@@ -96,7 +96,7 @@
 										<a href="userProjectView.pj?project_id=${uploadProject.project_id}">${uploadProject.title}</a>
 									</td>
 									<td>
-										<button class="btn btn-outline-primary py-1" type="button" id="editBtn" onclick="location.href='editProject.pj?project_id=${uploadProject.project_id}'">수정</button>
+										<button class="btn btn-outline-primary py-1" type="button" id="editBtn" onclick="location.href='editProjectForm.pj?project_id=${uploadProject.project_id}'">수정</button>
 									</td>
 									<td>
 										<button class="btn btn-outline-primary py-1" type="button" id="mngBtn" onclick="location.href='manageProject.pj?project_id=${uploadProject.project_id}'">관리</button>

@@ -1,24 +1,17 @@
 package action.project;
 
-import java.io.File;
-import java.io.IOException;
 import java.io.PrintWriter;
-import java.nio.file.Files;
-import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import javax.servlet.ServletContext;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import action.Action;
 import svc.project.InsertProjectService;
 import svc.project.ProjectPageViewService;
 import vo.ActionForward;
-import vo.PlannerBean;
-import vo.ProjectBean;
 import vo.RewardBean;
 
 public class InsertAddReward implements Action {
@@ -63,12 +56,12 @@ public class InsertAddReward implements Action {
 		
 		//파라미터값들로 RewardBean객체들을 생성 ----------------------------------------------------------
 		ArrayList<RewardBean> rewardList = new ArrayList<>();
-		for(int i=0; i<r_names.length; i++) {//last_reward_id_num값을 통해 리워드아이디가 기존과 중복되지 않도록 설정
+		for(int i=0; i<r_names.length; i++) {//last_reward_id_num+1값을 통해 리워드아이디가 기존과 중복되지 않도록 설정
 			
 			if(r_names[i].trim().equals("")) { break;}//만약 더이상 리워드배열의 칸이 null이면 반복문 끝
 			
 			else{rewardList.add(new RewardBean(
-										  "pj"+project_id+"rwd"+(i+last_reward_id_num),
+										  "pj"+project_id+"rwd"+(i+last_reward_id_num+1),
 										  r_names[i],
 										  r_contents[i],
 										  r_price[i]
@@ -119,7 +112,7 @@ public class InsertAddReward implements Action {
 
         		
         		//내가 등록한 프로젝트 목록 보기 요청
-        		forward = new ActionForward("userUploadProjectList.usr", true);//반드시 디스패치 (request를 공유)
+        		forward = new ActionForward("editProjectRewardList.pj?project_id="+project_id, true);//반드시 디스패치 (request를 공유)
 	        	
 
 	        	        

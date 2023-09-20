@@ -19,11 +19,11 @@ public class byRewardDonationListAction implements Action {
 		
 		//처음 요청할 경우 조회하는 페이지넘버 기본값 1
 		int page = 1;
-		int limit = 20;//한 페이지 당 최대 회원 20명
+		int limit = 20;//한 페이지 당 최대 회원 10명
 		
 		//리워드 아이디 받기
 		String reward_id=request.getParameter("reward_id");
-		
+		request.setAttribute("reward_id", reward_id);
 		//페이지 넘버 클릭하여 조회하는 경우
 		if(request.getParameter("page") != null) {
 			page = Integer.parseInt(request.getParameter("page"));
@@ -39,8 +39,14 @@ public class byRewardDonationListAction implements Action {
 		//[순서-1] reward_id로 도네이션정보를 가져옴 
 		ProjectPageViewService projectPageViewService = new ProjectPageViewService();
 		ArrayList<DonationBean> donationList = projectPageViewService.getDonationList_page(reward_id, page, limit);
-		//RewardDAO에서 바로 주소정보 얻어옴
-		donationList=projectPageViewService.getDonation_addrList(donationList);
+		//주소아이디가 있을 경우 주소정보 얻어와 업데이트
+		for (int i = 0; i < donationList.size(); i++) {
+		    DonationBean donation = donationList.get(i);
+		    if (donation.getAddress_id() != null) {
+		        DonationBean updatedDonation = projectPageViewService.getDonation_addr(donation);
+		        donationList.set(i, updatedDonation);
+		    }
+		}
 		
 		//주소정보가 추가된 donation 객체를 보냄
 		request.setAttribute("donationList", donationList);

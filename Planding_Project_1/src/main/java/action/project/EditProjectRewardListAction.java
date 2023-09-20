@@ -39,7 +39,7 @@ public class EditProjectRewardListAction implements Action {
 		request.setAttribute("project_id", project_id);
 		
 		
-		request.setAttribute("showPage", "project/selectEditRewardForm.jsp");
+		request.setAttribute("showPage", "project/selectEditReward.jsp");
 		forward = new ActionForward("userTemplate.jsp", false);
 		
 		return forward;

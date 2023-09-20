@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import action.Action;
 import action.project.DeleteRewardAction;
+import action.project.EditProjectAction;
+import action.project.EditProjectFormAction;
 import action.project.EditProjectRewardFormAction;
 import action.project.EditProjectRewardListAction;
 import action.project.EditRewardAction;
@@ -307,6 +309,16 @@ public class ProjectFrontController extends HttpServlet {
 		//프로젝트id로 전체 후원목록 조회
 		else if(command.equals("/userProjectDonationListALL.pj")) {
 			action = new UserProjectDonationListALLAction();
+			
+			try {
+				forward = action.execute(request, response);
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+			
+		}
+		else if(command.equals("/editProjectForm.pj")) {
+			action = new EditProjectFormAction();
 			
 			try {
 				forward = action.execute(request, response);

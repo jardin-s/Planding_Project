@@ -76,7 +76,7 @@
     <c:if test="${pageInfo.listCount != 0 and pageInfo.listCount != null}">
 		<div class="container-xxl py-5">
     		<div class="container col-lg-8 mb-5">
-   				<h3 class="text-center">(reward_id)reward_name<br>후원목록</h3>
+   				<h3 class="text-center">(${reward_id})reward_name<br>후원목록</h3>
     		</div>
     	</div>
 	</c:if>
@@ -110,7 +110,9 @@
 								   	 	</tr>
 								</thead>
 								<tbody class="table-group-divider">
+							<c:if test="${donation.address_id ne null}">   
 								   	 	<tr class="text-center">
+	 	
 								   	 	<th colspan="6">주소정보</th>
 										</tr>
 										<tr class="text-center">
@@ -127,8 +129,10 @@
 											<td colspan="2">주소 : ${donation.address1 }</td>
 											<td colspan="3">상세주소 : ${donation.address2 }</td>
 										</tr>
-									
+							</c:if>		
+										
 								</tbody>
+								
 							</table>
 						</div>
 			        </div>		

@@ -136,7 +136,7 @@ public class RewardDAO {
 		return insertProjectRewardCount;
 	}
 	//리워드 아이디로 도네이션 정보 얻어오기
-	public ArrayList<DonationBean> selectDonation(int project_id) {
+	public ArrayList<DonationBean> selectDonationALL(int project_id) {
 		DonationBean donationInfo = null;
 		ArrayList<DonationBean> donationList=new ArrayList<>();
 		String sql = "select donation_id,project_id,member_id,reward_id,r_price,add_donation,address_id,DATE_FORMAT(donatedate, '%Y-%m-%d') as donatedate "
@@ -223,7 +223,7 @@ public class RewardDAO {
 	public int getDonationCount(String reward_id) {
 		int donationCount = 0;
 		
-		String sql = "select count(*) from donation_tbl where reward_id = ?";
+		String sql = "select IFNULL(COUNT(*), 0) as donationCount from donation_tbl where reward_id = ?";
 		
 		try {
 			
@@ -245,37 +245,37 @@ public class RewardDAO {
 		return donationCount;
 	}
 
-	public ArrayList<DonationBean> getDonation_addrList(ArrayList<DonationBean> donationList) {
+	public DonationBean getDonation_addr(DonationBean donation) {
 		
 		
 		String sql = "select receiver_name, receiver_phone, postcode, address1, address2 from address_tbl where address_id=? and member_id=?";   	
 		try {
-			for(int i=0;i<donationList.size();i++) {//주소정보를 바로 DonationBean 객체에 저장
+			
 				pstmt = con.prepareStatement(sql);
-				pstmt.setString(1, donationList.get(i).getAddress_id());
-				pstmt.setString(2, donationList.get(i).getMember_id());
+				pstmt.setString(1, donation.getAddress_id());
+				pstmt.setString(2, donation.getMember_id());
 				
 				rs = pstmt.executeQuery();
 				//바로 donation객체에 주소정보 추가함
 				if(rs.next()) {
-						donationList.get(i).setReceiver_name(rs.getString("receiver_name"));
-						donationList.get(i).setReceiver_phone(rs.getString("receiver_phone"));
-						donationList.get(i).setPostcode(rs.getInt("postcode"));
-						donationList.get(i).setAddress1(rs.getString("address1"));
-						donationList.get(i).setAddress2(rs.getString("address2"));
+					donation.setReceiver_name(rs.getString("receiver_name"));
+					donation.setReceiver_phone(rs.getString("receiver_phone"));
+					donation.setPostcode(rs.getInt("postcode"));
+					donation.setAddress1(rs.getString("address1"));
+					donation.setAddress2(rs.getString("address2"));
 				}
-			}
+			
 			
 			
 		} catch(Exception e) {
-			System.out.println("[RewardDAO] getDonation_addrList() 에러 : "+e);//예외객체종류 + 예외메시지
+			System.out.println("[RewardDAO] getDonation_addr() 에러 : "+e);//예외객체종류 + 예외메시지
 		} finally {
 			close(pstmt); //JdbcUtil.생략가능
 			close(rs); //JdbcUtil.생략가능
 			//connection 객체에 대한 해제는 DogListService에서 이루어짐
 		}
 		
-		return donationList;
+		return donation;
 	}
 
 	public ArrayList<DonationBean> getDonationList_page(String reward_id, int page, int limit) {
@@ -286,8 +286,8 @@ public class RewardDAO {
 		//1페이지 조회 -> 후원목록의 제일 윗 건은 sql에서 row index 0부터
 		//2페이지 조회 -> 후원목록의 제일 윗 건은 sql에서 row index 10부터
 		//3페이지 조회 -> 후원목록의 제일 윗 건은 sql에서 row index 20부터
-		String sql = "select donate_id,project_id,member_id,reward_id,r_price,add_donation,address_id,DATE_FORMAT(donatedate, %Y-%m-%d) as donatedate "
-				+ " from donation_tbl where reward_id=? order by donate_id desc limit ?, ?";
+		String sql = "select donation_id,project_id,member_id,reward_id,r_price,add_donation,address_id,DATE_FORMAT(donatedate, '%Y-%m-%d') as donatedate "
+				+ " from donation_tbl where reward_id=? order by donation_id desc limit ?, ?";
 		
 		try {
 			
@@ -301,7 +301,7 @@ public class RewardDAO {
 				donationList = new ArrayList<>();
 				do {
 					donationInfo = new DonationBean(
-							rs.getInt("donate_id"),
+							rs.getInt("donation_id"),
 							rs.getInt("project_id"),
 							rs.getString("member_id"),
 							rs.getString("reward_id"),

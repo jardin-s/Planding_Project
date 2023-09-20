@@ -159,7 +159,36 @@ CREATE TABLE IF NOT EXISTS `project`.`donation_tbl` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
-
+insert into project.donation_tbl(project_id,member_id,reward_id,r_price,add_donation) values(2,'tttttttt','pj2rwd1',1,32132);
+insert into project.donation_tbl(project_id,member_id,reward_id,r_price,add_donation) values(2,'tttttttt','pj2rwd2',5,321332);
+insert into project.donation_tbl(project_id,member_id,reward_id,r_price,add_donation) values(2,'tttttttt','pj2rwd3',213,321332);
+insert into project.donation_tbl(project_id,member_id,reward_id,r_price,add_donation) values(2,'tttttttt','pj2rwd3',213123,32342132);
+insert into project.donation_tbl(project_id,member_id,reward_id,r_price,add_donation) values(2,'tttttttt','pj2rwd3',3213213,32332132);
+insert into project.donation_tbl(project_id,member_id,reward_id,r_price,add_donation) values(2,'tttttttt','pj2rwd1',1,32132);
+insert into project.donation_tbl(project_id,member_id,reward_id,r_price,add_donation) values(2,'tttttttt','pj2rwd2',5,321332);
+insert into project.donation_tbl(project_id,member_id,reward_id,r_price,add_donation) values(2,'tttttttt','pj2rwd3',213,321332);
+insert into project.donation_tbl(project_id,member_id,reward_id,r_price,add_donation) values(2,'tttttttt','pj2rwd3',213123,32342132);
+insert into project.donation_tbl(project_id,member_id,reward_id,r_price,add_donation) values(2,'tttttttt','pj2rwd3',3213213,32332132);
+insert into project.donation_tbl(project_id,member_id,reward_id,r_price,add_donation) values(2,'tttttttt','pj2rwd1',1,32132);
+insert into project.donation_tbl(project_id,member_id,reward_id,r_price,add_donation) values(2,'tttttttt','pj2rwd2',5,321332);
+insert into project.donation_tbl(project_id,member_id,reward_id,r_price,add_donation) values(2,'tttttttt','pj2rwd3',213,321332);
+insert into project.donation_tbl(project_id,member_id,reward_id,r_price,add_donation) values(2,'tttttttt','pj2rwd3',213123,32342132);
+insert into project.donation_tbl(project_id,member_id,reward_id,r_price,add_donation) values(2,'tttttttt','pj2rwd3',3213213,32332132);
+insert into project.donation_tbl(project_id,member_id,reward_id,r_price,add_donation) values(2,'tttttttt','pj2rwd1',1,32132);
+insert into project.donation_tbl(project_id,member_id,reward_id,r_price,add_donation) values(2,'tttttttt','pj2rwd2',5,321332);
+insert into project.donation_tbl(project_id,member_id,reward_id,r_price,add_donation) values(2,'tttttttt','pj2rwd3',213,321332);
+insert into project.donation_tbl(project_id,member_id,reward_id,r_price,add_donation) values(2,'tttttttt','pj2rwd3',213123,32342132);
+insert into project.donation_tbl(project_id,member_id,reward_id,r_price,add_donation) values(2,'tttttttt','pj2rwd3',3213213,32332132);
+insert into project.donation_tbl(project_id,member_id,reward_id,r_price,add_donation) values(2,'tttttttt','pj2rwd1',1,32132);
+insert into project.donation_tbl(project_id,member_id,reward_id,r_price,add_donation) values(2,'tttttttt','pj2rwd2',5,321332);
+insert into project.donation_tbl(project_id,member_id,reward_id,r_price,add_donation) values(2,'tttttttt','pj2rwd3',213,321332);
+insert into project.donation_tbl(project_id,member_id,reward_id,r_price,add_donation) values(2,'tttttttt','pj2rwd3',213123,32342132);
+insert into project.donation_tbl(project_id,member_id,reward_id,r_price,add_donation) values(2,'tttttttt','pj2rwd3',3213213,32332132);
+insert into project.donation_tbl(project_id,member_id,reward_id,r_price,add_donation) values(2,'tttttttt','pj2rwd1',1,32132);
+insert into project.donation_tbl(project_id,member_id,reward_id,r_price,add_donation) values(2,'tttttttt','pj2rwd2',5,321332);
+insert into project.donation_tbl(project_id,member_id,reward_id,r_price,add_donation) values(2,'tttttttt','pj2rwd3',213,321332);
+insert into project.donation_tbl(project_id,member_id,reward_id,r_price,add_donation) values(2,'tttttttt','pj2rwd3',213123,32342132);
+insert into project.donation_tbl(project_id,member_id,reward_id,r_price,add_donation) values(2,'tttttttt','pj2rwd3',3213213,32332132);
 -- -----------------------------------------------------
 -- Table `project`.`admin_income_tbl`
 -- -----------------------------------------------------

@@ -67,14 +67,14 @@ public class DeleteRewardAction implements Action {
 					
 					
 					
-					request.setAttribute("showPage", "project/selectEditRewardForm.jsp");
+					request.setAttribute("showPage", "project/selectEditReward.jsp");
 					forward = new ActionForward("userTemplate.jsp", false);
 				}//deleteReward
 			}//deleteMapReward
 		}//seleteDonation_Reward
 		
 		//if 그럴리는 없지만 잘못빠져나왔을때
-		request.setAttribute("showPage", "project/selectEditRewardForm.jsp");
+		request.setAttribute("showPage", "project/selectEditReward.jsp");
 		forward = new ActionForward("userTemplate.jsp", false);		
         return forward;
     }
