@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import vo.DonationBean;
 import vo.PlannerBean;
 import vo.ProjectBean;
+import vo.ProjectDonationRewardBean;
 import vo.ProjectPlannerBean;
 import vo.RewardBean;
 
@@ -1751,7 +1752,7 @@ public class ProjectDAO {
 	}
 	
 	/** 후원된 금액만큼 프로젝트 현재모금액 추가 */
-	public int updateProjectCurrAmount(int project_id, int d_money) {
+	public int updateProjectCurrAmountPlus(int project_id, int d_money) {
 		int updateProjectCurrAmountCount = 0;
 		
 		String sql = "update project_tbl"
@@ -1767,10 +1768,10 @@ public class ProjectDAO {
 			updateProjectCurrAmountCount = pstmt.executeUpdate();
 			
 		} catch(Exception e) {
-			System.out.println("[ProjectDAO] updateProjectCurrAmount() 에러 : "+e);//예외객체종류 + 예외메시지
+			System.out.println("[ProjectDAO] updateProjectCurrAmountPlus() 에러 : "+e);//예외객체종류 + 예외메시지
 		} finally {
 			close(pstmt); //JdbcUtil.생략가능
-			close(rs); //JdbcUtil.생략가능
+			//close(rs); //JdbcUtil.생략가능
 			//connection 객체에 대한 해제는 DogListService에서 이루어짐
 		}
 		
@@ -1803,7 +1804,7 @@ public class ProjectDAO {
 			System.out.println("[ProjectDAO] insertDonationNotAddr() 에러 : "+e);//예외객체종류 + 예외메시지
 		} finally {
 			close(pstmt); //JdbcUtil.생략가능
-			close(rs); //JdbcUtil.생략가능
+			//close(rs); //JdbcUtil.생략가능
 			//connection 객체에 대한 해제는 DogListService에서 이루어짐
 		}
 		
@@ -1836,12 +1837,139 @@ public class ProjectDAO {
 			System.out.println("[ProjectDAO] insertDonationAddr() 에러 : "+e);//예외객체종류 + 예외메시지
 		} finally {
 			close(pstmt); //JdbcUtil.생략가능
-			close(rs); //JdbcUtil.생략가능
+			//close(rs); //JdbcUtil.생략가능
 			//connection 객체에 대한 해제는 DogListService에서 이루어짐
 		}
 		
 		
 		return insertDonationCount;
+	}
+
+	/** 후원취소 안내메일 발송을 위해 후원기록 정보를 얻어옴 */
+	public ProjectDonationRewardBean selectDonationInfo(int donation_id) {
+		ProjectDonationRewardBean donationInfo = null;
+		
+		String sql = "select donation_id, project_id, member_id, address_id, title, status, kind, reward_id, r_name, r_content, r_price, add_donation,"
+				  + " DATE_FORMAT(donatedate,'%Y.%m.%d %H:%i') as donatedate"
+				  + " from project_donation_reward_view"
+				  + " where donation_id = ?";
+		
+		try {
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, donation_id);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				donationInfo = new ProjectDonationRewardBean(rs.getInt("donation_id"),
+															 rs.getInt("project_id"), 
+															 rs.getString("member_id"), 
+															 rs.getString("address_id"), 
+															 rs.getString("title"),
+															 rs.getString("status"), 
+															 rs.getString("kind"), 
+															 rs.getString("reward_id"), 
+															 rs.getString("r_name"), 
+															 rs.getString("r_content"), 
+															 rs.getInt("r_price"), 
+															 rs.getInt("add_donation"), 
+															 rs.getInt("r_price")+rs.getInt("add_donation"), 
+															 rs.getString("donatedate")
+															 );
+			}
+			
+			
+		} catch(Exception e) {
+			System.out.println("[ProjectDAO] selectDonationInfo() 에러 : "+e);//예외객체종류 + 예외메시지
+		} finally {
+			close(pstmt); //JdbcUtil.생략가능
+			close(rs); //JdbcUtil.생략가능
+			//connection 객체에 대한 해제는 DogListService에서 이루어짐
+		}
+		
+		
+		return donationInfo;
+	}
+
+	/** 회원 후원취소 시, 후원금액만큼 프로젝트 현재모금액 빼기 */
+	public int updateProjectCurrAmountMinus(int project_id, int d_money) {
+		int updateProjectCurrAmountCount = 0;
+		
+		String sql = "update project_tbl"
+				  + " set curr_amount = curr_amount - ?"
+				  + " where project_id = ?";
+		
+		try {
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, d_money);
+			pstmt.setInt(2, project_id);
+			
+			updateProjectCurrAmountCount = pstmt.executeUpdate();
+			
+		} catch(Exception e) {
+			System.out.println("[ProjectDAO] updateProjectCurrAmountMinus() 에러 : "+e);//예외객체종류 + 예외메시지
+		} finally {
+			close(pstmt); //JdbcUtil.생략가능
+			//close(rs); //JdbcUtil.생략가능
+			//connection 객체에 대한 해제는 DogListService에서 이루어짐
+		}
+		
+		
+		return updateProjectCurrAmountCount;
+	}
+	
+	/** 후원취소 시, 후원금액만큼 회원의 계좌 잔액을 업데이트 (더하기) */
+	public int updateUserPlusMoney(String member_id, int d_money) {
+		
+		int updateUserMoneyCount = 0;
+		
+		String sql = "update member_tbl"
+				  + " set money = money + ?"
+				  + " where member_id = ?";
+		
+		try {
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, d_money);
+			pstmt.setString(2, member_id);
+			
+			updateUserMoneyCount = pstmt.executeUpdate();
+			
+		} catch(Exception e) {
+			System.out.println("[UserDAO] updateUserPlusMoney() 에러 : "+e);//예외객체종류 + 예외메시지
+		} finally {
+			close(pstmt); //JdbcUtil.생략가능
+			//close(rs); //JdbcUtil.생략가능
+			//connection 객체에 대한 해제는 DogListService에서 이루어짐
+		}
+		
+		return updateUserMoneyCount;
+	}
+
+	/** 후원취소 시, 후원기록 삭제 */
+	public int deleteDonation(int donation_id) {
+		int deleteDonationCount = 0;
+		
+		String sql = "delete from donation_tbl where donation_id = ?";
+		
+		try {
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, donation_id);
+			
+			deleteDonationCount = pstmt.executeUpdate();
+			
+		} catch(Exception e) {
+			System.out.println("[UserDAO] deleteDonation() 에러 : "+e);//예외객체종류 + 예외메시지
+		} finally {
+			close(pstmt); //JdbcUtil.생략가능
+			//close(rs); //JdbcUtil.생략가능
+			//connection 객체에 대한 해제는 DogListService에서 이루어짐
+		}
+		
+		return deleteDonationCount;
 	}
 
 	

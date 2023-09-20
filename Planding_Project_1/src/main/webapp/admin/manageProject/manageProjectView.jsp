@@ -47,18 +47,18 @@ function authorizeProject(project_id){
 }
 
 //프로젝트 승인거절
-function unauthorizeProject(project_id){
+function unauthorizeProject(project_id, kind){
 	if(confirm('이 프로젝트의 승인을 거절하시겠습니까?')){
-		location.href='unauthorizeProject.mngp?project_id='+project_id;
+		location.href='unauthorizeProject.mngp?project_id='+project_id+'&kind='+kind;
 	}else{
 		alert('승인거절이 취소되었습니다.');
 	}
 }
 
 //프로젝트 진행 취소
-function cancelProject(project_id, status){
+function cancelProject(project_id, status, kind){
 	if(confirm('이 프로젝트의 진행을 취소하시겠습니까?')){
-		location.href='cancelProjectForm.mngp?project_id='+project_id+'&status='+status;
+		location.href='cancelProjectForm.mngp?project_id='+project_id+'&status='+status+'&kind='+kind;
 	}else{
 		alert('프로젝트를 계속 진행합니다.');
 	}
@@ -208,10 +208,10 @@ function cancelProject(project_id, status){
 			    <div class="col-12 text-center mx-auto">
 			    	<c:if test="${projectInfo.status eq 'unauthorized'}">
 	    				<button class="btn btn-outline-primary py-1" type="button" id="authBtn" onclick="authorizeProject(${projectInfo.project_id});">프로젝트 승인</button>
-	    				<button class="btn btn-outline-primary py-1" type="button" id="unauthBtn" onclick="unauthorizeProject(${projectInfo.project_id});">승인 거절</button>
+	    				<button class="btn btn-outline-primary py-1" type="button" id="unauthBtn" onclick="unauthorizeProject(${projectInfo.project_id}, '${projectInfo.kind }');">승인 거절</button>
 	    			</c:if>
 			    	<c:if test="${projectInfo.status eq 'ready' or projectInfo.status eq 'ongoing'}">
-	    				<button class="btn btn-outline-primary py-1" type="button" id="cancelBtn" onclick="cancelProject(${projectInfo.project_id}, '${projectInfo.status }');">프로젝트 취소</button>
+	    				<button class="btn btn-outline-primary py-1" type="button" id="cancelBtn" onclick="cancelProject(${projectInfo.project_id}, '${projectInfo.status }','${projectInfo.kind }');">프로젝트 취소</button>
 	    			</c:if>
 	    			<br><br>
 			    	<c:if test="${projectInfo.kind eq 'donate' }">

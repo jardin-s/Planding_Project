@@ -35,6 +35,7 @@ import action.user.qna.UserQnaViewAction;
 import action.user.UserBookmarkDeleteAction;
 import action.user.UserBookmarkListAction;
 import action.user.UserDonationHistoryAction;
+import action.user.UserMyPageAction;
 import action.user.UserTopupMoneyAction;
 import vo.ActionForward;
 
@@ -278,8 +279,14 @@ public class UserFrontController extends HttpServlet {
 				
 		/*------- '사용자 마이페이지 보기' -------------------------------*/
 		else if(command.equals("/userMyPage.usr")) {//'비밀번호 변경 폼 보기' 요청이면
-			request.setAttribute("showPage", "user/myPage/userMyPage.jsp");
-			forward = new ActionForward("userTemplate.jsp",false); //반드시 디스패치 방식으로 포워딩
+			
+			action = new UserMyPageAction();
+			try {
+				forward = action.execute(request, response);
+			} catch (Exception e) {
+				// TODO 자동 생성된 catch 블록
+				e.printStackTrace();
+			}
 		}
 		
 		/*------- '관심 프로젝트 목록 보기' -------------------------------*/

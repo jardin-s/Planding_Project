@@ -84,8 +84,8 @@ values('donate','기부제목2','기부요약2','thumbnail2.jpg','프로젝트 �
 		'2023-09-11', '2023-09-15', 1000000, 200000, 'unauthorized', 0);
 
 update project_tbl
-set status = 'ongoing'
-where project_id = 1;
+set status = 'ongoing', startdate='2023-09-20'
+where project_id = 5;
 		
 select * from project_tbl;
 delete from project_tbl;

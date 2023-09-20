@@ -44,9 +44,8 @@ public class UserDonateProjectFormAction implements Action {
 		
 		}else if(u_id != null) {//로그인 시에만 후원하기 폼으로 넘어감
 			
-			int u_money = (int) session.getAttribute("u_money");
-			
-			
+			UserDonateProjectFormService userDonateProjectFormService = new UserDonateProjectFormService();
+						
 			//후원하기 클릭 시 => 프로젝트 ID, 리워드 ID, 추가후원금액 
 			int project_id = Integer.parseInt(request.getParameter("project_id"));
 			String reward_id = request.getParameter("reward_id");
@@ -57,7 +56,6 @@ public class UserDonateProjectFormAction implements Action {
 			}
 			
 			//프로젝트 정보 불러오기
-			UserDonateProjectFormService userDonateProjectFormService = new UserDonateProjectFormService();
 			ProjectBean projectInfo = userDonateProjectFormService.getProjectInfo(project_id);
 			
 			if(projectInfo == null) {//프로젝트 정보 얻어오기 실패
@@ -90,13 +88,11 @@ public class UserDonateProjectFormAction implements Action {
 						System.out.println("reward_id = "+ reward_id);
 						System.out.println("add_donation = "+ add_donation);
 						System.out.println("member_id = "+ u_id);
-						System.out.println("money = "+ u_money);
 						
 						request.setAttribute("projectInfo", projectInfo);
 						request.setAttribute("rewardInfo", rewardInfo);
 						request.setAttribute("add_donation", add_donation);
 						request.setAttribute("member_id", u_id);//주문 시 필요
-						request.setAttribute("money", u_money);//주문 시 필요
 						
 						//기본리워드로 세팅된 후원하기 폼으로 이동 (배송지 입력칸 없음)
 						request.setAttribute("showPage", "user/project/userDonateProjectForm_Default.jsp");
@@ -111,7 +107,6 @@ public class UserDonateProjectFormAction implements Action {
 						System.out.println("reward_id = "+ reward_id);
 						System.out.println("add_donation = "+ add_donation);
 						System.out.println("member_id = "+ u_id);
-						System.out.println("money = "+ u_money);
 						System.out.println("address = "+ addressInfo.getAddress1());
 						
 						
@@ -121,7 +116,6 @@ public class UserDonateProjectFormAction implements Action {
 						request.setAttribute("addressInfo", addressInfo);
 						request.setAttribute("add_donation", add_donation);
 						request.setAttribute("member_id", u_id);//주문 시 필요
-						request.setAttribute("money", u_money);//주문 시 필요
 						
 						//선택리워드로 세팅된 후원하기 폼으로 이동 (배송지 입력칸 있음)
 						request.setAttribute("showPage", "user/project/userDonateProjectForm_Select.jsp");

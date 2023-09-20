@@ -24,8 +24,8 @@
 			}
 
 			//이전에 아이디 저장에 체크를 했다면, checked되도록 하기
-			if(cookieName.equals("checkbox")){ //쿠키 중 name이 remember인 쿠키가 있으면
-				checked = cookies[i].getValue();//쿠키 remember의 value를 String remember에 저장
+			if(cookieName.equals("a_checkbox")){ //쿠키 중 name이 a_checkbox인 쿠키가 있으면
+				checked = cookies[i].getValue();//쿠키 a_checkbox의 value를 String checked에 저장
 				System.out.println("checkbox쿠키값 : "+checked);
 			}
 		}

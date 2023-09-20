@@ -1324,6 +1324,7 @@ public class ManageProjectDAO {
 		try {
 			
 			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, project_id);
 			deleteProjectCount = pstmt.executeUpdate();
 			
 		} catch(Exception e) {
@@ -1343,7 +1344,7 @@ public class ManageProjectDAO {
 		int updateUserMoneyCount = 0;
 		
 		String sql = "update member_tbl"
-				  + " set account = account + ?"
+				  + " set money = money + ?"
 				  + " where member_id = ?";
 		
 		try {
@@ -1355,7 +1356,7 @@ public class ManageProjectDAO {
 			updateUserMoneyCount = pstmt.executeUpdate();
 			
 		} catch(Exception e) {
-			System.out.println("[UserDAO] updateUserMoney() 에러 : "+e);//예외객체종류 + 예외메시지
+			System.out.println("[UserDAO] updateUserPlusMoney() 에러 : "+e);//예외객체종류 + 예외메시지
 		} finally {
 			close(pstmt); //JdbcUtil.생략가능
 			//close(rs); //JdbcUtil.생략가능

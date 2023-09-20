@@ -270,8 +270,7 @@ function checkForm(){
    				<input type="hidden" name="reward_id" value="${rewardInfo.reward_id }">
    				<input type="hidden" name="r_price" value="${rewardInfo.r_price }">
    				<input type="hidden" name="add_donation" value="${add_donation}">
-   				<input type="hidden" name="member_id" value="${member_id}">   			
-   				<input type="hidden" name="money" value="${money}">   			
+   				<input type="hidden" name="member_id" value="${member_id}">   	
    			</form>
    			
    			

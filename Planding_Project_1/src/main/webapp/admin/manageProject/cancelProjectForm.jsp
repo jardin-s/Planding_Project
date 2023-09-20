@@ -83,9 +83,10 @@ function checkDeleteForm(){
 	                                </div>
 	                                <input type="hidden" name="project_id" value="${project_id}">
 	                                <input type="hidden" name="status" value="${status}">
+	                                <input type="hidden" name="kind" value="${kind}">
 	                            </div>
 	                            <div class="col-12 text-center">
-	                                <button class="btn btn-primary py-2 px-4" type="submit" onclick="checkDeleteForm();">프로젝트 진행 취소하기</button>
+	                                <button class="btn btn-primary py-2 px-4" type="submit" onclick="checkDeleteForm(); return false;">프로젝트 진행 취소하기</button>
 	                            </div>
 	                        </div>
 	                    </div>

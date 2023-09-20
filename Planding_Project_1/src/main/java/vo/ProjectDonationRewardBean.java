@@ -86,11 +86,12 @@ public class ProjectDonationRewardBean {
 		this.r_name = r_name;
 	}
 	
-	//후원내역
-	public ProjectDonationRewardBean(int donation_id, String title, String status, String reward_id, String r_name, int r_price,
+	//내 후원내역 조회시
+	public ProjectDonationRewardBean(int donation_id, int project_id, String title, String status, String reward_id, String r_name, int r_price,
 			int add_donation, int totalDonation, String donatedate) {
 		super();
 		this.donation_id = donation_id;
+		this.project_id = project_id;
 		this.title = title;
 		this.status = status;
 		this.r_name = r_name;
@@ -99,6 +100,26 @@ public class ProjectDonationRewardBean {
 		this.add_donation = add_donation;
 		this.donatedate = donatedate;
 		this.totalDonation = totalDonation;
+	}
+	
+	//회원 후원취소 시 메일에 정보 출력 
+	public ProjectDonationRewardBean(int donation_id, int project_id, String member_id, String address_id, String title, String status, String kind, String reward_id, String r_name, String r_content,
+			int r_price, int add_donation, int totalDonation, String donatedate) {
+		super();
+		this.donation_id = donation_id;
+		this.project_id = project_id;
+		this.member_id = member_id;
+		this.address_id = address_id;
+		this.title = title;
+		this.status = status;
+		this.kind = kind;
+		this.reward_id = reward_id;
+		this.r_name = r_name;
+		this.r_content = r_content;
+		this.r_price = r_price;
+		this.add_donation = add_donation;
+		this.totalDonation = totalDonation;
+		this.donatedate = donatedate;
 	}
 	
 	public ProjectDonationRewardBean(String title, String r_name, int r_price,
