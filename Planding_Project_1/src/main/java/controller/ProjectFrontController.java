@@ -12,12 +12,14 @@ import javax.servlet.http.HttpSession;
 import action.Action;
 import action.project.InsertNewProjectFormAction;
 import action.project.InsertProjectPlannerAction;
+import action.project.DeleteTempProjectAction;
 import action.project.InsertDonateProjectTempAction;
 import action.project.InsertFundProjectRewardFormAction;
 import action.project.InsertFundProjectTempAction;
 import action.project.SubmitDonateProjectAction;
 import action.project.SubmitFundProjectAction;
 import action.user.UserDonationHistoryAction;
+import action.user.project.UserCancelDonationAction;
 import action.user.project.UserDonateProjectAction;
 import action.user.project.UserDonateProjectFormAction;
 import action.user.project.UserDoneDonateProjectListAction;
@@ -175,6 +177,16 @@ public class ProjectFrontController extends HttpServlet {
 			}
 		}
 		
+		/*-- '프로젝트 등록 취소' 요청 -> 처리 --------------------------------------*/
+		else if(command.equals("/deleteTempProject.pj")) {
+			action = new DeleteTempProjectAction();
+			try {
+				forward = action.execute(request, response);
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
 		
 				
 		/*-- '기부 프로젝트를 실제로 등록' 요청 -> 처리 --------------------------------------*/
@@ -279,9 +291,19 @@ public class ProjectFrontController extends HttpServlet {
 				e.printStackTrace();
 			}
 		}
-		/*-- '[사용자] 프로젝트 후원 폼 보기' 요청 -> 처리 --------------------------------------*/
+		/*-- '[사용자] 프로젝트 후원하기' 요청 -> 처리 --------------------------------------*/
 		else if(command.equals("/userDonateProjectAction.pj")) {
 			action = new UserDonateProjectAction();
+			try {
+				forward = action.execute(request, response);
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+		/*-- '[사용자] 프로젝트 후원취소(환불) ' 요청 -> 처리 --------------------------------------*/
+		else if(command.equals("/userCancelDonation.pj")) {
+			action = new UserCancelDonationAction();
 			try {
 				forward = action.execute(request, response);
 			}catch(Exception e) {

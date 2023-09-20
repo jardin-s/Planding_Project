@@ -47,18 +47,18 @@ function authorizeProject(project_id){
 }
 
 //프로젝트 승인거절
-function unauthorizeProject(project_id){
+function unauthorizeProject(project_id, kind){
 	if(confirm('이 프로젝트의 승인을 거절하시겠습니까?')){
-		location.href='unauthorizeProject.mngp?project_id='+project_id;
+		location.href='unauthorizeProject.mngp?project_id='+project_id+'&kind='+kind;
 	}else{
 		alert('승인거절이 취소되었습니다.');
 	}
 }
 
 //프로젝트 진행 취소
-function cancelProject(project_id, status){
+function cancelProject(project_id, status, kind){
 	if(confirm('이 프로젝트의 진행을 취소하시겠습니까?')){
-		location.href='cancelProjectForm.mngp?project_id='+project_id+'&status='+status;
+		location.href='cancelProjectForm.mngp?project_id='+project_id+'&status='+status+'&kind='+kind;
 	}else{
 		alert('프로젝트를 계속 진행합니다.');
 	}
@@ -174,7 +174,29 @@ function cancelProject(project_id, status){
 			    	</tr>
 			    	<tr class="text-center">
 			    		<th>계좌 은행</th>
-			    		<td>${plannerInfo.bank }</td>
+			    		<td>
+			    			<c:choose>
+			    				<c:when test="${plannerInfo.bank eq 'shinhan' }">신한은행</c:when>
+			    				<c:when test="${plannerInfo.bank eq 'kb' }">국민은행</c:when>
+			    				<c:when test="${plannerInfo.bank eq 'woori' }">우리은행</c:when>
+			    				<c:when test="${plannerInfo.bank eq 'hana' }">하나은행</c:when>
+			    				<c:when test="${plannerInfo.bank eq 'ibk' }">기업은행</c:when>
+			    				<c:when test="${plannerInfo.bank eq 'nh' }">농협은행</c:when>
+			    				<c:when test="${plannerInfo.bank eq 'gn' }">경남은행</c:when>
+			    				<c:when test="${plannerInfo.bank eq 'kwangju' }">광주은행</c:when>
+			    				<c:when test="${plannerInfo.bank eq 'daegu' }">대구은행</c:when>
+			    				<c:when test="${plannerInfo.bank eq 'busan' }">부산은행</c:when>
+			    				<c:when test="${plannerInfo.bank eq 'kdb' }">산업은행</c:when>
+			    				<c:when test="${plannerInfo.bank eq 'suhyub' }">수협은행</c:when>
+			    				<c:when test="${plannerInfo.bank eq 'jb' }">전북은행</c:when>
+			    				<c:when test="${plannerInfo.bank eq 'jeju' }">제주은행</c:when>
+			    				<c:when test="${plannerInfo.bank eq 'keb' }">케이뱅크</c:when>
+			    				<c:when test="${plannerInfo.bank eq 'kakaobank' }">카카오뱅크</c:when>
+			    				<c:when test="${plannerInfo.bank eq 'shinhyup' }">신협은행</c:when>
+			    				<c:when test="${plannerInfo.bank eq 'upost' }">우체국은행</c:when>
+			    				<c:otherwise>${plannerInfo.bank }</c:otherwise>
+			    			</c:choose>
+			    		</td>
 			    		<th>계좌번호</th>
 			    		<td>${plannerInfo.account_num }</td>
 			    	</tr>
@@ -208,10 +230,10 @@ function cancelProject(project_id, status){
 			    <div class="col-12 text-center mx-auto">
 			    	<c:if test="${projectInfo.status eq 'unauthorized'}">
 	    				<button class="btn btn-outline-primary py-1" type="button" id="authBtn" onclick="authorizeProject(${projectInfo.project_id});">프로젝트 승인</button>
-	    				<button class="btn btn-outline-primary py-1" type="button" id="unauthBtn" onclick="unauthorizeProject(${projectInfo.project_id});">승인 거절</button>
+	    				<button class="btn btn-outline-primary py-1" type="button" id="unauthBtn" onclick="unauthorizeProject(${projectInfo.project_id}, '${projectInfo.kind }');">승인 거절</button>
 	    			</c:if>
 			    	<c:if test="${projectInfo.status eq 'ready' or projectInfo.status eq 'ongoing'}">
-	    				<button class="btn btn-outline-primary py-1" type="button" id="cancelBtn" onclick="cancelProject(${projectInfo.project_id}, '${projectInfo.status }');">프로젝트 취소</button>
+	    				<button class="btn btn-outline-primary py-1" type="button" id="cancelBtn" onclick="cancelProject(${projectInfo.project_id}, '${projectInfo.status }','${projectInfo.kind }');">프로젝트 취소</button>
 	    			</c:if>
 	    			<br><br>
 			    	<c:if test="${projectInfo.kind eq 'donate' }">

@@ -160,4 +160,13 @@ public class MemberBean {
 		this.deletedate = deletedate;
 	}
 
+	@Override
+	public String toString() {
+		return "MemberBean [member_id=" + member_id + ", password=" + password + ", name=" + name + ", email=" + email
+				+ ", phone=" + phone + ", money=" + money + ", admin_status=" + admin_status + ", joindate=" + joindate
+				+ ", delete_status=" + delete_status + ", deletedate=" + deletedate + "]";
+	}
+	
+	
+
 }

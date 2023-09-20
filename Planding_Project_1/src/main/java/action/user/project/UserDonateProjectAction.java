@@ -6,13 +6,16 @@ import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import action.Action;
 import svc.project.ProjectPageViewService;
 import svc.user.project.UserDonateProjectService;
+import util.SendMail;
 import vo.ActionForward;
 import vo.AddressBean;
 import vo.DonationBean;
+import vo.MemberBean;
 import vo.ProjectBean;
 import vo.RewardBean;
 
@@ -42,7 +45,6 @@ public class UserDonateProjectAction implements Action {
 		int r_price = Integer.parseInt(request.getParameter("r_price"));
 		int add_donation = Integer.parseInt(request.getParameter("add_donation"));//추가후원금액 없을 경우 이미 0으로 세팅된 상태
 		String member_id = request.getParameter("member_id");
-		int u_money = Integer.parseInt(request.getParameter("money"));//사용자 가상계좌 잔액
 		
 		System.out.println("[UserDonateProjectAction]");
 		System.out.println("project_id = "+project_id);
@@ -50,9 +52,12 @@ public class UserDonateProjectAction implements Action {
 		System.out.println("r_price = "+r_price);
 		System.out.println("add_donation = "+add_donation);
 		System.out.println("member_id = "+member_id);
-		System.out.println("u_money = "+u_money);
 		
 		
+		UserDonateProjectService userDonateProjectService = new UserDonateProjectService();
+		
+		//회원 계좌 잔액 조회
+		int u_money = userDonateProjectService.getUserMoney(member_id);
 		
 		if(u_money < (r_price + add_donation)) {//사용자 현재 잔액이 총후원금액보다 적을경우
 			response.setContentType("text/html; charset=UTF-8");
@@ -64,7 +69,7 @@ public class UserDonateProjectAction implements Action {
 			out.println("</script>");
 		}else {
 			
-			UserDonateProjectService userDonateProjectService = new UserDonateProjectService();
+			
 
 			boolean isDonateProjectSuccess = false;
 			AddressBean addressInfo = null;
@@ -153,12 +158,34 @@ public class UserDonateProjectAction implements Action {
 				request.setAttribute("rewardInfo", rewardInfo);
 				request.setAttribute("add_donation", add_donation);
 				
+				//후원내역 메일 전송을 위해 SendMail객체 생성, 사용자 정보를 가져옴
+				SendMail mail = new SendMail(); 
+				MemberBean userInfo = userDonateProjectService.getUserInfo(member_id);
+								
 				if(reward_id.equalsIgnoreCase("default")) {//기본리워드
+					//메일 내용 세팅
+					mail.setDonateSuccessMsgDefault(projectInfo, rewardInfo, userInfo, add_donation);
+					
+					response.setContentType("text/html; charset=UTF-8");
+					boolean isMailSendSuccess = mail.sendMailDonateSuccessDefault(userInfo);
+					
+					if(!isMailSendSuccess) {
+						System.out.println("[UserDonateProjectAction] 메일 전송에 실패했습니다.");
+					}
 					
 					request.setAttribute("showPage", "user/project/userDonateSuccess_Default.jsp");
 					forward = new ActionForward("userTemplate.jsp", false);
 					
 				}else {//리워드 선택
+					//메일 내용 세팅
+					mail.setDonateSuccessMsgSelect(projectInfo, rewardInfo, userInfo, add_donation, addressInfo);
+					
+					response.setContentType("text/html; charset=UTF-8");
+					boolean isMailSendSuccess = mail.sendMailDonateSuccessSelect(userInfo);
+					if(!isMailSendSuccess) {
+						System.out.println("[UserDonateProjectAction] 메일 전송에 실패했습니다.");
+					}
+
 					//주소를 request속성으로 저장
 					request.setAttribute("addressInfo", addressInfo);
 					

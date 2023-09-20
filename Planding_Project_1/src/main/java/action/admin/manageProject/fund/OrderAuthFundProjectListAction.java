@@ -77,7 +77,7 @@ public class OrderAuthFundProjectListAction implements Action {
 		request.setAttribute("pageInfo", pageInfo);
 		
 		
-		request.setAttribute("showAdmin", "admin/manageProject/fundList/searchOrderAuthFundProjectList.jsp");
+		request.setAttribute("showAdmin", "admin/manageProject/fundList/orderAuthFundProjectList.jsp");
 		forward = new ActionForward("adminTemplate.jsp", false);
 		
 		return forward;

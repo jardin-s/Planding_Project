@@ -201,13 +201,13 @@ function checkUpateForm(){
 	                            <div class="mb-3 row gx-3 justify-content-center">
 								    <label for="address1" class="col-3 col-form-label text-center">주소</label>
 								    <div class="col-9">
-								      <input type="text" class="form-control" name="address1" id="address1" value="${addr.address1}" maxlength="11" placeholder="주소">
+								      <input type="text" class="form-control" name="address1" id="address1" value="${addr.address1}" placeholder="주소">
 								    </div>
 	                            </div>
 	                            <div class="mb-3 row gx-3 justify-content-center">
 								    <label for="address2" class="col-3 col-form-label text-center">상세주소</label>
 								    <div class="col-9">
-								      <input type="text" class="form-control" name="address2" id="address2" value="${addr.address2}" maxlength="11" placeholder="직접 입력">
+								      <input type="text" class="form-control" name="address2" id="address2" value="${addr.address2}" placeholder="직접 입력">
 								    </div>
 	                            </div>
 	                            <!-- 주소 ID -->

@@ -66,6 +66,17 @@
    
 
 </head>
+
+<script>
+function confirmDeleteTemp(){
+	if(!confirm('지금까지 입력된 모든 정보가 삭제됩니다. 등록을 취소할까요?')){
+		alert('입력 정보를 유지합니다.');
+	}else{
+		location.href='deleteTempProject.pj';
+	}
+}
+</script>
+
 <body>
 <%
 
@@ -268,7 +279,7 @@ if(project.getImage()!=null){//프로젝트 이미지가 있으면
 				<div class="col-12 text-center">
 					<p class="mb-2">제출하신 프로젝트는 검토 후 승인을 거쳐 최종적으로 등록이 됩니다.</p>
 					<button class="btn btn-light" onclick="history.back();">이전 단계로</button>
-					<button class="btn btn-light" onclick="location.href='deleteTempProject.pj'">등록 취소</button>
+					<button class="btn btn-light" onclick="confirmDeleteTemp();">등록 취소</button>
 					<c:if test="${projectInfo.kind eq 'donate' }">
 						<button class="btn btn-light" onclick="location.href='submitDonateProjectAction.pj'">제출하기</button>
 					</c:if>

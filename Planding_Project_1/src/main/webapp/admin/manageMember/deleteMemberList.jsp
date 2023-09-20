@@ -149,7 +149,7 @@ function searchMemberList() {
 							<c:forEach var="member" items="${memberList}">
 								<tr class="text-center">
 									<th scope="row">${m_index}</th>
-									<td><a href="memberView.adm?member_id=${member.member_id}&page=${pageInfo.page}">${member.member_id }</a></td>
+									<td><a href="memberView.mngm?member_id=${member.member_id}&page=${pageInfo.page}">${member.member_id }</a></td>
 									<td>${member.joindate }</td>
 									<td>${member.delete_status }</td>
 								</tr>

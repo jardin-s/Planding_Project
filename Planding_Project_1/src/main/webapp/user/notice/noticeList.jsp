@@ -119,7 +119,7 @@ function searchNoticeList() {
 								<th scope="col" class="col-1 text-center">#</th>
 								<th scope="col" class="col-8">제목</th>
 								<th scope="col" class="col-2 text-center">날짜</th>
-								<th scope="col" class="col-1 text-center">조회수</th>
+								<th scope="col" class="col-1 text-center"><i class="far fa-eye"></i></th>
 							</tr>
 						</thead>
 						<tbody class="table-group-divider">

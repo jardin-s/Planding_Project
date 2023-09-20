@@ -86,7 +86,7 @@ public class AdminLoginAction implements Action {
 					System.out.println("cookieU_id의 Cookie 객체 생성");
 					
 					//체크박스 체크여부를 저장
-					Cookie cookieCheckbox = new Cookie("checkbox","checked");
+					Cookie cookieCheckbox = new Cookie("a_checkbox","checked");
 					cookieCheckbox.setMaxAge(24*60*60);//24시간
 					System.out.println("cookieCheckbox의 Cookie 객체 생성");
 					

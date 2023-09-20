@@ -80,8 +80,7 @@ function qnaFormCheck(){
                 <c:if test="${qnaInfo.q_image ne null }">
                 	<hr>
 	                <div>
-	                	<%-- <img src="qna/images/${qnaInfo.q_image}"> --%>
-	                	<span>첨부파일 : ${qnaInfo.q_image}</span>	                	
+	                	<img src="<%=request.getContextPath() %>/images/qna/${qnaInfo.q_image}">	                	
 	                </div>
 	                <hr>
                 </c:if>

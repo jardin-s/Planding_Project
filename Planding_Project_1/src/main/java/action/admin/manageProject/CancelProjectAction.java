@@ -32,6 +32,7 @@ public class CancelProjectAction implements Action {
 		
 		int project_id =  Integer.parseInt(request.getParameter("project_id"));
 		String status = request.getParameter("status");
+		String kind = request.getParameter("kind");
 		
 		HttpSession session =  request.getSession();
 		
@@ -70,8 +71,9 @@ public class CancelProjectAction implements Action {
 				
 				/* [프로젝트 삭제 과정]
 				 * 1. 프로젝트 기획자 삭제
-				 * 2. 프로젝트-리워드 매핑테이블에서 해당 프로젝트의 리워드를 얻어와 그 중 id가 1이 아닌 것만 리워드 테이블에서 삭제
-				 * 3. 프로젝트-리워드 매핑테이블의 데이터 삭제
+				 * 2. 프로젝트-리워드 매핑테이블에서 해당 프로젝트의 리워드를 얻어와
+				 * 2. 프로젝트-리워드 매핑테이블의 데이터 삭제 
+				 * 3. 해당 프로젝트의 리워드 중 id가 1이 아닌 것만 리워드 테이블에서 삭제
 				 * 4. 프로젝트 테이블에서 프로젝트 데이터 삭제
 				 * */
 				
@@ -212,8 +214,14 @@ public class CancelProjectAction implements Action {
 						e.printStackTrace(); //콘솔에 출력 : 개발자가 에러를 좀더 찾기 쉽게
 					}
 					
-					//다시 프로젝트 목록보기 요청
-					forward = new ActionForward("manageProjectList.mngp", true);
+					if(kind.equalsIgnoreCase("donate")) {
+						//다시 프로젝트 목록보기 요청
+						forward = new ActionForward("manageDonateProjectList.mngp", true);
+					}else if(kind.equalsIgnoreCase("fund")) {
+						//다시 프로젝트 목록보기 요청
+						forward = new ActionForward("manageFundProjectList.mngp", true);
+					}
+								
 				
 				}//모든 프로젝트 삭제, 취소 작업이 성공했는지 여부				
 			

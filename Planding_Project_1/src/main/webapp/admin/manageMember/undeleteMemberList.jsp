@@ -225,7 +225,7 @@ function selectDelete(){
     	<c:set var="m_index" value="${pageInfo.listCount - (pageInfo.page-1)*10 }" />
 	
 	    <%-- Table Start --%>
-	    <form action="deleteMember.mngm" method="post" name="dlt">
+	    <form action="deleteMemberList.mngm" method="post" name="dlt">
 	    <div class="container-fluid pt-0 pb-2">
 	        <div class="container col-lg-8">
 	            <div class="row justify-content-center">
@@ -246,7 +246,7 @@ function selectDelete(){
 										<input class="form-check-input" type="checkbox" name="remove" value="${member.member_id}">									
 									</th>
 									<th scope="row">${m_index}</th>
-									<td><a href="memberView.adm?member_id=${member.member_id}&page=${pageInfo.page}">${member.member_id }</a></td>
+									<td><a href="memberView.mngm?member_id=${member.member_id}&page=${pageInfo.page}">${member.member_id }</a></td>
 									<td>${member.joindate }</td>
 									<td>${member.delete_status }</td>
 								</tr>

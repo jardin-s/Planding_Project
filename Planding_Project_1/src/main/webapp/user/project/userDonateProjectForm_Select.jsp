@@ -75,7 +75,7 @@ function checkForm(){
 		alert("수령인 이름을 입력해주세요.");
 		document.f.receiver_name.focus();
 		return false;
-	}else if(!regName.test(document.f.receiver_name)){
+	}else if(!regName.test(document.f.receiver_name.value.trim())){
 		alert("이름을 한글 또는 영문으로만 입력해주세요.");
 		document.f.receiver_name.select();
 		return false;
@@ -88,7 +88,7 @@ function checkForm(){
 		alert("수령인 전화번호를 입력해주세요.");
 		document.f.receiver_phone.focus();
 		return false;
-	}else if(!regName.test(document.f.receiver_phone)){
+	}else if(!regName.test(document.f.receiver_phone.value().trim())){
 		alert("휴대전화번호를 (-)없이 숫자만 입력해주세요.");
 		document.f.receiver_phone.select();
 		return false;
@@ -204,13 +204,13 @@ function checkForm(){
 	                            <div class="mb-3 row gx-3 justify-content-center">
 									<label for="receiver_phone" class="col-3 col-form-label text-center">전화번호</label>
 									<div class="col-9">
-										<input type="text" class="form-control" name="receiver_phone" value=${addressInfo.receiver_phone } id="receiver_phone" placeholder="(-)없이 숫자만 입력">
+										<input type="text" class="form-control" name="receiver_phone" value="${addressInfo.receiver_phone }" id="receiver_phone" placeholder="(-)없이 숫자만 입력">
 									</div>
 								</div>
 								<div class="mb-3 row g-3 justify-content-center">
 									<label for="postcode" class="col-3 col-form-label text-center">우편번호</label>
 									<div class="col-6 me-0 pe-0">
-										<input type="text" class="form-control" name="postcode" value=${addressInfo.postcode } id="postcode" maxlength="20" placeholder="우편번호만 입력" required>
+										<input type="text" class="form-control" name="postcode" value="${addressInfo.postcode }" id="postcode" maxlength="20" placeholder="우편번호만 입력" required>
 									</div>
 									<div class="col-3 text-end">
 										<input type="button" class="btn btn-primary" type="button" name="addck" id="addck" value="번호검색" onclick="findAddr();" required>                                
@@ -219,13 +219,13 @@ function checkForm(){
 	                            <div class="mb-3 row gx-3 justify-content-center">
 									<label for="address1" class="col-3 col-form-label text-center">주소</label>
 									<div class="col-9">
-										<input type="text" class="form-control" name="address1" value=${addressInfo.address1 } id="address1" maxlength="11" placeholder="주소">
+										<input type="text" class="form-control" name="address1" value="${addressInfo.address1 }" id="address1" placeholder="주소">
 									</div>
 								</div>
 								<div class="mb-3 row gx-3 justify-content-center">
 									<label for="address2" class="col-3 col-form-label text-center">상세주소</label>
 									<div class="col-9">
-										<input type="text" class="form-control" name="address2" value=${addressInfo.address2 } id="address2" maxlength="11" placeholder="직접 입력">
+										<input type="text" class="form-control" name="address2" value="${addressInfo.address2 }" id="address2" placeholder="직접 입력">
 								    </div>
 	                            </div>
 	                        </div>
@@ -255,7 +255,7 @@ function checkForm(){
 										</div>	
 										
 										<div class="d-grid gap-2 col-10 mx-auto mt-5 mb-3">
-											<button class="btn btn-primary py-3" type="button" onclick="checkForm();"><b>후원하기</b></button>
+											<button class="btn btn-primary py-3" type="submit" onclick="checkForm(); return false;"><b>후원하기</b></button>
 										</div>						
 	                                </div>
 	                            </div>
@@ -270,8 +270,7 @@ function checkForm(){
    				<input type="hidden" name="reward_id" value="${rewardInfo.reward_id }">
    				<input type="hidden" name="r_price" value="${rewardInfo.r_price }">
    				<input type="hidden" name="add_donation" value="${add_donation}">
-   				<input type="hidden" name="member_id" value="${member_id}">   			
-   				<input type="hidden" name="money" value="${money}">   			
+   				<input type="hidden" name="member_id" value="${member_id}">   	
    			</form>
    			
    			

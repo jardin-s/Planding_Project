@@ -44,6 +44,20 @@
 	}
     </style>
 </head>
+
+<script>
+function confirmCancel(donation_id){
+	
+	if(!confirm('후원을 취소할까요? 확인 클릭 시 후원은 즉시 취소됩니다.')){
+		alert('후원을 취소하지 않습니다.');
+		return false;
+	}else{
+		location.href = 'userCancelDonation.pj?donation_id='+donation_id;
+	}
+	
+}
+</script>
+
 <body>
 	
 	<!-- Main Section -->
@@ -90,7 +104,7 @@
 						<tbody class="table-group-divider">
 							<c:forEach var="donation" items="${donationHistory}" varStatus="status">
 								<tr class="text-center">
-									<td>${donation.title }</td>
+									<td><a href="userProjectView.pj?project_id=${donation.project_id }">${donation.title }</a></td>
 									<td>
 										<c:if test="${donation.reward_id eq 'default'}">기본 리워드</c:if>
 										<c:if test="${donation.reward_id ne 'default'}">${donation.r_name }</c:if>
@@ -99,12 +113,12 @@
 									<td>${donation.donatedate }</td>
 									<td class="d-flex justify-content-center">
 										<c:if test="${donation.status eq 'ongoing' }">
-											<button class="btn btn-outline-primary py-1 px-1 d-none d-sm-block" type="button" onclick="location.href='cancelDonation.pj?donation_id=${donation.donation_id}'">취소</button>
-											<a href="cancelDonation.pj?donation_id=${donation.donation_id}" class="d-block d-sm-none"><i class="fas fa-window-close text-primary"></i></a>
+											<button class="btn btn-outline-primary py-1 px-1 d-none d-sm-block" type="button" onclick="confirmCancel(${donation.donation_id});">취소</button>
+											<a href="#" onclick="javascript:confirmCancel(${donation_id})" class="d-block d-sm-none"><i class="fas fa-window-close text-primary"></i></a>
 										</c:if>
 										<c:if test="${donation.status ne 'ongoing'}">
-											<button class="btn btn-outline-primary py-1 px-1 d-none d-sm-block" type="button" disabled>취소</button>
-											<a href="cancelDonation.pj?donation_id=${donation.donation_id}" class="d-block d-sm-none"><i class="far fa-window-close text-secondary"></i></a>
+											<button class="btn btn-outline-primary py-1 px-1 d-none d-sm-block" type="button" disabled>종료</button>
+											<i class="far fa-window-close text-secondary"></i>
 										</c:if>
 									</td>
 								</tr>
