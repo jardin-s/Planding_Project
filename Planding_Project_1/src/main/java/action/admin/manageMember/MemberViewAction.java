@@ -28,6 +28,7 @@ public class MemberViewAction implements Action {
 		MemberViewService memberViewService = new MemberViewService();
 		//1. 회원 정보를 가져옴		
 		MemberBean memberInfo = memberViewService.getMemberInfo(member_id);
+		System.out.println("[MemberViewAction] memberInfo = "+memberInfo);
 		request.setAttribute("memberInfo", memberInfo);
 		
 		//2. 회원 배송지 정보를 가져옴

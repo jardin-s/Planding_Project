@@ -174,7 +174,29 @@ function cancelProject(project_id, status, kind){
 			    	</tr>
 			    	<tr class="text-center">
 			    		<th>계좌 은행</th>
-			    		<td>${plannerInfo.bank }</td>
+			    		<td>
+			    			<c:choose>
+			    				<c:when test="${plannerInfo.bank eq 'shinhan' }">신한은행</c:when>
+			    				<c:when test="${plannerInfo.bank eq 'kb' }">국민은행</c:when>
+			    				<c:when test="${plannerInfo.bank eq 'woori' }">우리은행</c:when>
+			    				<c:when test="${plannerInfo.bank eq 'hana' }">하나은행</c:when>
+			    				<c:when test="${plannerInfo.bank eq 'ibk' }">기업은행</c:when>
+			    				<c:when test="${plannerInfo.bank eq 'nh' }">농협은행</c:when>
+			    				<c:when test="${plannerInfo.bank eq 'gn' }">경남은행</c:when>
+			    				<c:when test="${plannerInfo.bank eq 'kwangju' }">광주은행</c:when>
+			    				<c:when test="${plannerInfo.bank eq 'daegu' }">대구은행</c:when>
+			    				<c:when test="${plannerInfo.bank eq 'busan' }">부산은행</c:when>
+			    				<c:when test="${plannerInfo.bank eq 'kdb' }">산업은행</c:when>
+			    				<c:when test="${plannerInfo.bank eq 'suhyub' }">수협은행</c:when>
+			    				<c:when test="${plannerInfo.bank eq 'jb' }">전북은행</c:when>
+			    				<c:when test="${plannerInfo.bank eq 'jeju' }">제주은행</c:when>
+			    				<c:when test="${plannerInfo.bank eq 'keb' }">케이뱅크</c:when>
+			    				<c:when test="${plannerInfo.bank eq 'kakaobank' }">카카오뱅크</c:when>
+			    				<c:when test="${plannerInfo.bank eq 'shinhyup' }">신협은행</c:when>
+			    				<c:when test="${plannerInfo.bank eq 'upost' }">우체국은행</c:when>
+			    				<c:otherwise>${plannerInfo.bank }</c:otherwise>
+			    			</c:choose>
+			    		</td>
 			    		<th>계좌번호</th>
 			    		<td>${plannerInfo.account_num }</td>
 			    	</tr>

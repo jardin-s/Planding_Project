@@ -92,7 +92,7 @@ function validateAccountInput() {
 					<option value="kwangju" ${sessionScope.plannerInfo.bank == 'kwangju' ? 'selected' : ''}>광주은행</option>
 					<option value="daegu" ${sessionScope.plannerInfo.bank == 'daegu' ? 'selected' : ''}>대구은행</option>
 					<option value="busan" ${sessionScope.plannerInfo.bank == 'busan' ? 'selected' : ''}>부산은행</option>
-					<option value="ibk" ${sessionScope.plannerInfo.bank == 'ibk' ? 'selected' : ''}>산업은행</option>
+					<option value="kdb" ${sessionScope.plannerInfo.bank == 'kdb' ? 'selected' : ''}>산업은행</option>
 					<option value="suhyup" ${sessionScope.plannerInfo.bank == 'suhyup' ? 'selected' : ''}>수협은행</option>
 					<option value="jb" ${sessionScope.plannerInfo.bank == 'jb' ? 'selected' : ''}>전북은행</option>
 					<option value="jeju" ${sessionScope.plannerInfo.bank == 'jeju' ? 'selected' : ''}>제주은행</option>

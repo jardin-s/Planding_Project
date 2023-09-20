@@ -4,6 +4,7 @@ import java.io.PrintWriter;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import action.Action;
 import svc.admin.manageMember.DeleteMemberService;
@@ -13,27 +14,44 @@ public class DeleteMemberAction implements Action {
 
 	@Override
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
 		ActionForward forward = null;
 		
-		String[] memberArr = request.getParameterValues("remove");
+		HttpSession session = request.getSession();
 		
-		DeleteMemberService deleteMemberService = new DeleteMemberService();
-		boolean isDeleteMemberSuccess = deleteMemberService.deleteMember(memberArr);
-		
-		if(!isDeleteMemberSuccess) {
-			response.setContentType("text/html; charset=utf-8");
+		if(session.getAttribute("a_id") == null) {//로그인 풀린상태라면
+			response.setContentType("text/html; charset=UTF-8");
 			
 			PrintWriter out = response.getWriter();
 			out.println("<script>");
-			out.println("alert('회원 삭제가 실패했습니다.');");
-			out.println("history.back();");
+			out.println("alert('세션이 만료되었습니다. 메인으로 돌아갑니다.');");
+			out.println("location.href='userMain.usr';");
 			out.println("</script>");
 		}else {
-			//회원 삭제 후, 다시 회원관리 페이지를 로딩
-			forward = new ActionForward("manageMemberList.mngm",true);
+			
+			String member_id = request.getParameter("member_id");
+			
+			
+			DeleteMemberService deleteMemberService = new DeleteMemberService();
+			boolean isDeleteMemberSuccess = deleteMemberService.deleteMember(member_id);
+			
+			if(!isDeleteMemberSuccess) {
+				response.setContentType("text/html; charset=utf-8");
+				
+				PrintWriter out = response.getWriter();
+				out.println("<script>");
+				out.println("alert('회원 삭제가 실패했습니다.');");
+				out.println("history.back();");
+				out.println("</script>");
+			}else {
+				//회원 삭제 후, 탈퇴회원 목록보기
+				forward = new ActionForward("deletedMemberList.mngm",true);
+			}
+			
 		}
 		
 		return forward;
+		
 	}
 
 }

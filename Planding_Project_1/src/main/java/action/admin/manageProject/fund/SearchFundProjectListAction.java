@@ -76,7 +76,7 @@ public class SearchFundProjectListAction implements Action {
 		request.setAttribute("pageInfo", pageInfo);
 		
 		
-		request.setAttribute("showAdmin", "admin/manageProject/fundList/searchOrderFundProjectList.jsp");
+		request.setAttribute("showAdmin", "admin/manageProject/fundList/searchFundProjectList.jsp");
 		forward = new ActionForward("adminTemplate.jsp", false);
 		
 		return forward;

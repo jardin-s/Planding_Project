@@ -3,13 +3,13 @@ show tables;
 
 /* 테이블 일괄삭제 (순서대로)
 drop table former_member_tbl;
+drop table project_review_tbl;
+drop table bookmark_tbl;
 
 drop table project_reward_tbl;
 drop table donation_tbl;
 drop table reward_tbl;
 
-drop table project_review_tbl;
-drop table bookmark_tbl;
 drop table project_planner_tbl;
 drop table admin_income_tbl;
 drop table project_tbl;
@@ -323,6 +323,7 @@ select * from project_planner_tbl;
 insert into project_planner_tbl values(2, 'testuser0002','기획자2','후원테스트용기획자','woori','20230920');
 
 
+drop table bookmark_tbl;
 -- -----------------------------------------------------
 -- Table `project`.`bookmark_tbl`
 -- -----------------------------------------------------
@@ -377,7 +378,6 @@ CREATE TABLE IF NOT EXISTS `project`.`address_tbl` (
   `basic_status` VARCHAR(1) NOT NULL COMMENT '기본주소 여부 YN',
   PRIMARY KEY (`address_id`),
   INDEX `fk_address_tbl_member_tbl1_idx` (`member_id` ASC) VISIBLE,
-  UNIQUE INDEX `member_id_UNIQUE` (`member_id` ASC) VISIBLE,
   CONSTRAINT `fk_address_tbl_member_tbl1`
     FOREIGN KEY (`member_id`)
     REFERENCES `project`.`member_tbl` (`member_id`)
