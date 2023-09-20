@@ -96,12 +96,15 @@ function confirmDelete(member_id){
 			    	<c:if test="${memberInfo.deletedate ne null}">
 			    		<tr>
 				    		<th class="text-center" colspan="2">탈퇴일</th>
-				    		<td colspan="2">${memberInfo.deletedate }</td>
+				    		<td class="text-center" colspan="2">${memberInfo.deletedate }</td>
 				    	</tr>
 			    	</c:if>
 			    </table>
 			    
 			    <h4 class="text-center mb-4">등록된 배송지</h4>
+			    <c:if test="${memberInfo.deletedate ne null }">
+			   		<div class="text-center my-3">※리워드 배송을 위해 탈퇴 후 6개월 뒤 삭제됩니다.</div>
+			    </c:if>
    				<table class="table table-bordered mb-5">
 			    	<tr class="text-center">
 			    		<th>우편번호</th>
@@ -184,9 +187,9 @@ function confirmDelete(member_id){
 			    </table>
 			    
 			    <div class="col-12 text-center mt-5 mx-auto">
-			    	<button class="btn btn-light" onclick="location.href='manageMemberList.mngm'">회원 목록</button>
+			    	<button class="btn btn-light" type="button" onclick="location.href='manageMemberList.mngm'">회원 목록</button>
 			    	<c:if test="${memberInfo.delete_status eq 'N' }">
-			    		<button class="btn btn-light" onclick="confirmDelete('${memberInfo.member_id}');'">회원 삭제</button>
+			    		<button class="btn btn-light" type="button" onclick="confirmDelete('${memberInfo.member_id}');">회원 삭제</button>
 			    	</c:if>			    				    	
 			    </div>
    			</div>

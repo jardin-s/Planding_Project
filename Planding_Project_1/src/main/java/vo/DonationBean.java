@@ -17,6 +17,18 @@ public class DonationBean {
 	private int totalDonation;//리워드금액 + 추가후원금액 = 총 후원금액 (sql에는 없음)
 	
 	
+	//(이주헌) ByRewardDonationListAction
+	//DB과 상관 없이 후원정보에 종속된 주소를 가져오고자 함
+	private String receiver_name; //수령인 이름
+	private String receiver_phone; //연락처
+	
+	private int postcode; //우편번호
+	private String address1; //주소1 (자동세팅)
+	private String address2; //주소2 (상세주소 직접입력)
+	
+	
+	
+	
 	//생성자
 	
 	public DonationBean () {}
@@ -157,6 +169,53 @@ public class DonationBean {
 	public void setDonatedate(String donatedate) {
 		this.donatedate = donatedate;
 	}
+	
+	
+	
+	//------------------------------------------------------------------
+
+	public String getReceiver_name() {
+		return receiver_name;
+	}
+
+	public void setReceiver_name(String receiver_name) {
+		this.receiver_name = receiver_name;
+	}
+
+	public String getReceiver_phone() {
+		return receiver_phone;
+	}
+
+	public void setReceiver_phone(String receiver_phone) {
+		this.receiver_phone = receiver_phone;
+	}
+
+	public int getPostcode() {
+		return postcode;
+	}
+
+	public void setPostcode(int postcode) {
+		this.postcode = postcode;
+	}
+
+	public String getAddress1() {
+		return address1;
+	}
+
+	public void setAddress1(String address1) {
+		this.address1 = address1;
+	}
+
+	public String getAddress2() {
+		return address2;
+	}
+
+	public void setAddress2(String address2) {
+		this.address2 = address2;
+	}
+	
+	
+	
 
 	
 }

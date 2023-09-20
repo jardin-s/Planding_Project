@@ -289,6 +289,8 @@ public class QnaDAO {
 			pstmt.setString(4, qna.getQ_private());
 			pstmt.setInt(5, qna.getQna_id());
 			
+			updateQuestionImgCount = pstmt.executeUpdate();
+			
 						
 		} catch(Exception e) {
 			System.out.println("[QnaDAO] updateQuestionImg() 에러 : "+e);//예외객체종류 + 예외메시지

@@ -69,23 +69,23 @@ CREATE TABLE IF NOT EXISTS `project`.`project_tbl` (
   `enddate` DATETIME NOT NULL COMMENT '종료일',
   `goal_amount` INT NOT NULL COMMENT '목표 모금액',
   `curr_amount` INT NOT NULL COMMENT '현재 모금액',
-  `status` VARCHAR(30) NOT NULL COMMENT '상태',
+  `p_status` VARCHAR(30) NOT NULL COMMENT '상태',
   `likes` INT NOT NULL COMMENT '관심 수',
   `regdate` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`project_id`))
 ENGINE = InnoDB;
 
 /* 테스트를 위해 데이터 1개 등록 */
-insert into project_tbl(kind, title, summary, thumbnail, content, image, startdate, enddate, goal_amount, curr_amount, status, likes, regdate)
+insert into project_tbl(kind, title, summary, thumbnail, content, image, startdate, enddate, goal_amount, curr_amount, p_status, likes, regdate)
 values('donate','기부제목','기부요약','thumbnail.jpg','프로젝트 내용','content_image.jpg',
 		'2023-09-11', '2023-09-15', 5000, 0, 'ongoing', 0, '2023-09-11');
-insert into project_tbl(kind, title, summary, thumbnail, content, image, startdate, enddate, goal_amount, curr_amount, status, likes)
+insert into project_tbl(kind, title, summary, thumbnail, content, image, startdate, enddate, goal_amount, curr_amount, p_status, likes)
 values('donate','기부제목2','기부요약2','thumbnail2.jpg','프로젝트 내용2','content_image2.jpg',
 		'2023-09-11', '2023-09-15', 1000000, 200000, 'unauthorized', 0);
 
 update project_tbl
-set status = 'ongoing', startdate='2023-09-20'
-where project_id = 5;
+set p_status = 'success'
+where project_id = 2;
 		
 select * from project_tbl;
 delete from project_tbl;
@@ -96,7 +96,7 @@ thumbnail, content, image,
 DATE_FORMAT(startdate,'%Y.%m.%d %H:%i:%S') as startdate,
 DATE_FORMAT(enddate,'%Y.%m.%d %H:%i:%S') as enddate,
 goal_amount, curr_amount,
-status, likes,
+p_status, likes,
 DATE_FORMAT(regdate,'%Y.%m.%d') as regdate_F"
 				  + " from project_tbl where kind = ?"
 				  + " order by regdate desc
@@ -292,6 +292,10 @@ from qna_tbl;
 
 select count(*) from qna_tbl where q_title regexp '제목';
 
+update qna_tbl
+set q_private='N'
+where qna_id = 2;
+
 -- -----------------------------------------------------
 -- Table `project`.`project_planner_tbl`
 -- -----------------------------------------------------
@@ -393,11 +397,12 @@ drop view project_planner_view;
 -- View `project`.`project_planner_view` 프로젝트-플래너 조인한 뷰 생성
 -- -----------------------------------------------------
 CREATE OR REPLACE VIEW `project_planner_view` AS
-select project_id, kind, title, summary, thumbnail, content, image, startdate, enddate, goal_amount, curr_amount, status, likes, regdate, member_id, planner_name, introduce, bank, account_num
+select project_id, kind, title, summary, thumbnail, content, image, startdate, enddate, goal_amount, curr_amount, p_status, likes, regdate, member_id, planner_name, introduce, bank, account_num
 from project_tbl join project_planner_tbl
 using(project_id);
 
 select startdate from project_planner_view;
+
 
 
 drop view project_donation_reward_view;
@@ -405,7 +410,7 @@ drop view project_donation_reward_view;
 -- View `project`.`project_donation_reward_view`
 -- -----------------------------------------------------
 CREATE  OR REPLACE VIEW `project_donation_reward_view` AS
-select project_id, kind, title, summary, thumbnail, content, image, startdate, enddate, goal_amount, curr_amount, status, likes, regdate,
+select project_id, kind, title, summary, thumbnail, content, image, startdate, enddate, goal_amount, curr_amount, p_status, likes, regdate,
 donation_id, member_id, reward_id, r_price, add_donation, address_id, donatedate,
 r_name, r_content
 from project_tbl join (select donation_id, project_id, member_id, reward_id, r_price, add_donation, address_id, donatedate, r_name, r_content
@@ -413,6 +418,19 @@ from project_tbl join (select donation_id, project_id, member_id, reward_id, r_p
 using(project_id);
 
 select * from project_donation_reward_view;
+
+
+-- -----------------------------------------------------
+-- View `project`.`project_adminIncome_view`
+-- -----------------------------------------------------
+CREATE  OR REPLACE VIEW `project_adminIncome_view` AS
+select project_id, kind, title, summary, thumbnail, content, image, startdate
+, enddate, goal_amount, curr_amount, p_status, likes, regdate
+, fee_income, incomedate
+from project_tbl left outer join admin_income_tbl
+using(project_id);
+
+
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;

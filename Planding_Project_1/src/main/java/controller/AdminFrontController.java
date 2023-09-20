@@ -23,6 +23,7 @@ import action.admin.notice.AdminDeleteNoticeAction;
 import action.admin.notice.AdminDeleteNoticeListAction;
 import action.admin.notice.AdminInsertNoticeAction;
 import action.admin.notice.AdminInsertNoticeFormAction;
+import action.admin.notice.AdminModifyNoticeAction;
 import action.admin.notice.AdminModifyNoticeFormAction;
 import action.admin.notice.AdminNoticeListAction;
 import action.admin.notice.AdminNoticeViewAction;
@@ -475,6 +476,18 @@ public class AdminFrontController extends HttpServlet {
 		else if(command.equals("/adminModifyNoticeForm.adm")) {//공지글 수정 폼 보기 요청
 			
 			action = new AdminModifyNoticeFormAction();
+			
+			try {
+				forward = action.execute(request, response);
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+			
+		}
+		/*-- '공지글 수정하기' 요청 -> 처리 --------------------------------------*/
+		else if(command.equals("adminModifyNoticeAction.adm")) {//공지글 수정하기 요청
+			
+			action = new AdminModifyNoticeAction();
 			
 			try {
 				forward = action.execute(request, response);

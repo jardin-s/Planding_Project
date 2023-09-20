@@ -24,7 +24,7 @@ public class UserModifyQnaQAction implements Action {
 		
 		//이미지 파일을 업로드할 위치
 		ServletContext context = request.getServletContext();
-		String uploadPath = context.getRealPath("/qna/images");
+		String uploadPath = context.getRealPath("images/qna");
 		System.out.println("서버상의 실제 경로(절대경로) = "+uploadPath);
 		
 		//업로드할 절대경로로 파일객체를 얻음
@@ -48,23 +48,27 @@ public class UserModifyQnaQAction implements Action {
 		String q_content = multi.getParameter("q_content");
 		String q_private = multi.getParameter("q_private");
 		
+		//새로 추가하면 null아님
 		String q_image = multi.getFilesystemName("q_image");
+		
+		System.out.println("[UserModifyQnaQAction] 수정 파라미터 값 확인");
+		System.out.println("qna_id = "+qna_id);
+		System.out.println("q_writer = "+q_writer);
+		System.out.println("q_title = "+q_title);
+		System.out.println("q_content = "+q_content);
+		System.out.println("q_private = "+q_private);
+		System.out.println("q_image = "+q_image);
 		
 		QnaBean qna = new QnaBean();
 		qna.setQna_id(qna_id);
 		qna.setQ_writer(q_writer);
 		qna.setQ_title(q_title);
 		qna.setQ_content(q_content);
+		qna.setQ_image(q_image);
 		qna.setQ_private(q_private);
 		
-		ModifyQnaQService qnaEditService = new ModifyQnaQService();
-		boolean isQnaQModifySuccess = false; 
-		if(q_image.contains("/images/qna")) {//이미지 수정 X
-			isQnaQModifySuccess = qnaEditService.updateQuestion(qna);
-		}else {//이미지 수정O
-			qna.setQ_image(q_image);
-			isQnaQModifySuccess = qnaEditService.updateQuestionImg(qna);
-		}
+		ModifyQnaQService modifyQnaQService = new ModifyQnaQService();
+		boolean isQnaQModifySuccess = modifyQnaQService.updateQuestion(qna);
 		
 		if(!isQnaQModifySuccess) {
 			response.setContentType("text/html; charset=utf-8");
@@ -79,26 +83,6 @@ public class UserModifyQnaQAction implements Action {
 			forward = new ActionForward("userQnaView.usr?page="+page+"&qna_id="+qna_id+"&q_private="+q_private+"&q_writer="+q_writer, true);			
 			
 		}
-		
-		
-		
-		
-		
-		//QnaNewQuestionService qnaNewQuestionService = new QnaNewQuestionService();
-		//boolean isWriteSuccess = qnaNewQuestionService.insertNewQuestion(qna);
-		
-//		if(!isWriteSuccess) {//글 등록 실패 시
-//			response.setContentType("text/html; charset=utf-8");
-//			PrintWriter out = response.getWriter();
-//			out.println("<script>");
-//			out.println("alert('문의글 등록이 실패했습니다.');");
-//			out.println("history.back();");
-//			out.println("</script>");
-//		}else {//글 등록 성공 시
-//						
-//			request.setAttribute("showPage", "qna/qnaList.jsp");
-//			forward = new ActionForward("userTemplage.jsp", false);
-//		}		
 		
 		return forward;
 		

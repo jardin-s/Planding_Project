@@ -42,19 +42,8 @@
                     <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i>대구광역시 달서구 달구벌대로251안길 15</p>
                     <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>053-427-3313</p>
                     <p class="mb-2"><i class="fa fa-envelope me-3"></i>plandingproject@gmail.com</p>
-                    <div class="d-flex pt-2">
-                        <a class="btn btn-square btn-outline-light rounded-circle me-2" href=""><i class="fab fa-twitter"></i></a>
-                        <a class="btn btn-square btn-outline-light rounded-circle me-2" href=""><i class="fab fa-facebook-f"></i></a>
-                        <a class="btn btn-square btn-outline-light rounded-circle me-2" href=""><i class="fab fa-youtube"></i></a>
-                        <a class="btn btn-square btn-outline-light rounded-circle me-2" href=""><i class="fab fa-linkedin-in"></i></a>
-                    </div>
                 </div>
                 <div class="col-lg-4 col-md-6">
-                    <a class="btn btn-link" href="about.html">사이트 소개</a>
-                    <a class="btn btn-link" href="">개인정보처리방침</a>
-                    <a class="btn btn-link" href="">이용약관</a>
-                    <a class="btn btn-link" href="">광고센터</a>
-                    <a class="btn btn-link" href="">인재채용</a>
                 </div>
                 <div class="col-lg-4 col-md-6">
                     <span>대표이사 : 손정원, 이주헌</span>

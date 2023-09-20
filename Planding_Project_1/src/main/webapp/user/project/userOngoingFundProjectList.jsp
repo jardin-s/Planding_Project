@@ -197,7 +197,7 @@ function searchProjectList() {
 								</thead>
 								<tbody>
 									<tr>
-										<c:if test="${projectPlannerInfo.status eq 'ongoing'}">
+										<c:if test="${projectPlannerInfo.p_status eq 'ongoing'}">
 											<td class="text-start">
 												<span class="me-2 text-danger fw-bold">${projectPlannerInfo.progress}%</span>
 												<span style="font-size:0.8rem">${projectPlannerInfo.curr_amount_df}원</span>
@@ -213,7 +213,7 @@ function searchProjectList() {
 												</span>
 											</td>
 										</c:if>
-										<c:if test="${projectPlannerInfo.status eq 'ready'}">
+										<c:if test="${projectPlannerInfo.p_status eq 'ready'}">
 											<td class="text-start">
 												공개예정
 											</td>
@@ -221,15 +221,15 @@ function searchProjectList() {
 												<span style="font-size:0.8rem"><b>${projectPlannerInfo.deadline }일 남음</b></span>
 											</td>
 										</c:if>
-										<c:if test="${projectPlannerInfo.status eq 'done' || projectPlannerInfo.status eq 'success'}">
+										<c:if test="${projectPlannerInfo.p_status eq 'done' || projectPlannerInfo.p_status eq 'success'}">
 											<td class="text-start">
 												<span class="me-2 text-secondary fw-bold">${projectPlannerInfo.progress}%</span>
 												<span style="font-size:0.8rem">${projectPlannerInfo.curr_amount_df}원</span>
 											</td>
 											<td class="text-end">
 												<span style="font-size:0.8rem">
-													<c:if test="${projectPlannerInfo.status eq 'done'}"><b>종료</b></c:if>
-													<c:if test="${projectPlannerInfo.status eq 'success'}"><b>성공</b></c:if>
+													<c:if test="${projectPlannerInfo.p_status eq 'done'}"><b>종료</b></c:if>
+													<c:if test="${projectPlannerInfo.p_status eq 'success'}"><b>성공</b></c:if>
 												</span>
 											</td>
 										</c:if>
@@ -238,7 +238,7 @@ function searchProjectList() {
 										<td colspan="2" class="px-2 pt-0">
 											<div class="progress col-12" role="progressbar" aria-label="Basic example" aria-valuenow="${projectPlannerInfo.progress}" aria-valuemin="0" aria-valuemax="100" style="height:2px">
 												<c:choose>
-													<c:when test="${projectPlannerInfo.status eq 'ongoing' }">
+													<c:when test="${projectPlannerInfo.p_status eq 'ongoing' }">
 														<div class="progress-bar bg-danger" style="width: ${projectPlannerInfo.progress}%"></div>
 													</c:when>
 													<c:otherwise>

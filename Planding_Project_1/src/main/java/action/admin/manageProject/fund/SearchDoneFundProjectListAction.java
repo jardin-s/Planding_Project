@@ -9,7 +9,7 @@ import action.Action;
 import svc.admin.manageProject.fund.DoneFundProjectListService;
 import vo.ActionForward;
 import vo.PageInfo;
-import vo.ProjectBean;
+import vo.ProjectAdminIncomeBean;
 
 public class SearchDoneFundProjectListAction implements Action {
 
@@ -44,7 +44,7 @@ public class SearchDoneFundProjectListAction implements Action {
 		System.out.println("[SearchDoneFundProjectListAction] project_tbl 총 검색 종료된 기부 프로젝트 수 = "+listCount);
 		
 		//검색기준에 따른 기부 프로젝트 목록을 얻어옴
-		ArrayList<ProjectBean> projectList = doneFundProjectListService.getSearchDoneFundList(page, limit, title);
+		ArrayList<ProjectAdminIncomeBean> projectList = doneFundProjectListService.getSearchDoneFundList(page, limit, title);
 		request.setAttribute("projectList", projectList);
 				
 		

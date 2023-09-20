@@ -942,8 +942,8 @@ public class ManageMemberDAO {
 				memberInfo.setEmail(rs.getString("email"));
 				memberInfo.setPhone(rs.getString("phone"));
 				memberInfo.setJoindate(rs.getString("joindate"));
-				memberInfo.setDelete_status("delete_status");
-				memberInfo.setDelete_status(rs.getString("deletedate"));
+				memberInfo.setDelete_status(rs.getString("delete_status"));
+				memberInfo.setDeletedate(rs.getString("deletedate"));
 			}
 			
 		} catch(Exception e) {

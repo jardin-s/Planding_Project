@@ -127,7 +127,7 @@ function checkDonate() {
 							<tr class="text-start">
 								<th class="py-2">
 									<c:choose>
-										<c:when test="${projectInfo.status eq 'ongoing' }">
+										<c:when test="${projectInfo.p_status eq 'ongoing' }">
 											<c:if test="${projectInfo.deadline == 0 }">
 												&nbsp;<span style="font-size:1.2rem; font-weight:normal">오늘 자정 마감</span>&nbsp;
 											</c:if>
@@ -136,10 +136,10 @@ function checkDonate() {
 												&nbsp;<span style="font-size:2rem; font-weight:normal">${projectInfo.deadline }</span>&nbsp;일
 											</c:if>
 										</c:when>
-										<c:when test="${projectInfo.status eq 'done' }">
+										<c:when test="${projectInfo.p_status eq 'done' }">
 											<span class="fw-normal" style="font-size:0.8rem">&nbsp;종료되었습니다.</span><br>
 										</c:when>
-										<c:when test="${projectInfo.status eq 'success' }">
+										<c:when test="${projectInfo.p_status eq 'success' }">
 											<span class="fw-normal" style="font-size:0.8rem">&nbsp;여러분들의 소중한 후원으로 프로젝트가 성공적으로 마감했습니다.</span><br>
 										</c:when>
 										<%-- 미승인 또는 공개예정의 경우 --%>
@@ -160,7 +160,7 @@ function checkDonate() {
 						<tbody>
 							<tr>
 								<!-- 진행중인 프로젝트만 후원하기 표시 -->
-								<c:if test="${projectInfo.status eq 'ongoing' }">
+								<c:if test="${projectInfo.p_status eq 'ongoing' }">
 									<form action="userDonateProjectForm.pj" method="post" name="f">
 										<input type="hidden" name="project_id" value="${projectInfo.project_id }">
 										
@@ -204,15 +204,15 @@ function checkDonate() {
 								</c:if>
 								
 								<!-- status가 진행중이 아니라면 -->
-								<c:if test="${projectInfo.status ne 'ongoing' }">
+								<c:if test="${projectInfo.p_status ne 'ongoing' }">
 									<td class="py-3">
 										<button type="button" class="btn btn-light" style="width:100%" disabled>
 											<c:choose>
 												<%-- 공개예정 --%>
-												<c:when test="${projectInfo.status eq 'unauthorized'}">
+												<c:when test="${projectInfo.p_status eq 'unauthorized'}">
 													프로젝트 검토 중
 												</c:when>
-												<c:when test="${projectInfo.status eq 'ready'}">
+												<c:when test="${projectInfo.p_status eq 'ready'}">
 													${projectInfo.deadline}일 이후부터 후원가능
 												</c:when>
 												<%-- 종료 또는 성공 --%>
@@ -227,7 +227,7 @@ function checkDonate() {
 								
 							</tr>
 							<!-- 공개예정, 진행중인 프로젝트만 '관심프로젝트 추가 버튼' 보이기 -->
-							<c:if test="${projectInfo.status eq 'ready' || projectInfo.status eq 'ongoing'}">
+							<c:if test="${projectInfo.p_status eq 'ready' || projectInfo.p_status eq 'ongoing'}">
 								<tr class="text-center">
 									<td class="py-3">
 										<button type="button" class="btn btn-light" style="width:100%" onclick="location.href='userAddBookmark.pj?project_id=${projectInfo.project_id}'"><i class="fas fa-heart me-2"></i>관심프로젝트 추가</button>
@@ -313,7 +313,7 @@ function checkDonate() {
 								
 				<div class="col-12 text-center">
 					<%-- 진행중인 프로젝트 목록에서 클릭해서 들어왔다면 --%>
-					<c:if test="${projectInfo.status eq 'ongoing' }">
+					<c:if test="${projectInfo.p_status eq 'ongoing' }">
 						<%-- 기부 프로젝트 --%>
 						<c:if test="${projectInfo.kind eq 'donate' && orderKeyword ne null}">
 							<button class="btn btn-light" onclick="location.href='userOngoingDonateProjectList.pj?page=${page}&selectOrder=${orderKeyword }'">목록보기</button>
@@ -336,7 +336,7 @@ function checkDonate() {
 						</c:if>
 					</c:if>
 					<%-- 공개예정 프로젝트 목록에서 클릭해서 들어왔다면 --%>
-					<c:if test="${projectInfo.status eq 'ready' }">
+					<c:if test="${projectInfo.p_status eq 'ready' }">
 						<%-- 기부 프로젝트 --%>
 						<c:if test="${projectInfo.kind eq 'donate' && orderKeyword ne null}">
 							<button class="btn btn-light" onclick="location.href='userReadyDonateProjectList.pj?page=${page}&selectOrder=${orderKeyword }'">목록보기</button>
@@ -359,7 +359,7 @@ function checkDonate() {
 						</c:if>
 					</c:if>
 					<%-- 종료된 프로젝트 목록에서 클릭해서 들어왔다면 --%>
-					<c:if test="${projectInfo.status eq 'done' || projectInfo.status eq 'success'}">
+					<c:if test="${projectInfo.p_status eq 'done' || projectInfo.p_status eq 'success'}">
 						<%-- 기부 프로젝트 --%>
 						<c:if test="${projectInfo.kind eq 'donate' && orderKeyword ne null}">
 							<button class="btn btn-light" onclick="location.href='userDoneDonateProjectList.pj?page=${page}&selectOrder=${orderKeyword }'">목록보기</button>

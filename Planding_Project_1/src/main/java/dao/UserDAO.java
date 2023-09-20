@@ -897,7 +897,7 @@ public class UserDAO {
 	public ArrayList<ProjectDonationRewardBean> selectUserDonationList(String member_id) {
 		ArrayList<ProjectDonationRewardBean> userDonationList = null;
 		
-		String sql = "select donation_id, project_id, title, status, reward_id, r_name, r_price, add_donation,"
+		String sql = "select donation_id, project_id, title, p_status, reward_id, r_name, r_price, add_donation,"
 				  + " DATE_FORMAT(donatedate,'%Y.%m.%d %H:%i') as donatedate"
 				  + " from project_donation_reward_view"
 				  + " where member_id = ?"
@@ -919,7 +919,7 @@ public class UserDAO {
 					ProjectDonationRewardBean userDonate = new ProjectDonationRewardBean(rs.getInt("donation_id"),
 																						 rs.getInt("project_id"),
 																						 rs.getString("title"),
-																						 rs.getString("status"),
+																						 rs.getString("p_status"),
 																						 rs.getString("reward_id"),
 																						 rs.getString("r_name"),
 																						 rs.getInt("r_price"),
@@ -977,7 +977,7 @@ public class UserDAO {
 					ProjectDonationRewardBean userDonate = new ProjectDonationRewardBean(rs.getInt("donation_id"),
 																						rs.getInt("project_id"),
 																						rs.getString("title"),
-																						rs.getString("status"),
+																						rs.getString("p_status"),
 																						rs.getString("reward_id"),
 																						rs.getString("r_name"),
 																						rs.getInt("r_price"),

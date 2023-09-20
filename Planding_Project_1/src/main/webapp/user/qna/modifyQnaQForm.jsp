@@ -61,15 +61,30 @@ function qnaFormCheck(){
 			return false;
 		}
 	}
-		
+	
+	alert('이거 리턴 폴스가 먹히긴 하니?');
+	
 	//비밀글 값 가져오기
 	var check_value = document.f.checkbox.checked ? "Y" : "N";
-	alert("check_value = "+check_value);
 	document.f.q_private.value = check_value;
-	
-	
+			
 	document.f.submit();
 	
+}
+
+//기존파일을 삭제하고, 파일input태그 나타내기
+function deleteFile(){
+	
+	//기존파일정보가 담긴 태그
+	var deleteFile = document.getElementById("dltFile");
+	
+	//부모태그를 가져와
+	var parentDiv = deleteFile.parentNode;
+	
+	//기존파일정보가 담긴 태그를 삭제하고 새 이미지 파일추가 태그를 삽입
+	parentDiv.removeChild(deleteFile);
+	parentDiv.innerHTML = "<input type='file' name='q_image' class='form-control' id='q_image' accept='image/*' aria-describedby='q_image' aria-label='q_image' maxlength='100'>";
+		
 }
 
 </script>
@@ -92,10 +107,10 @@ function qnaFormCheck(){
     </div>
     <!-- Page Header End -->
 
-	<c:if test="${pageInfo.isPrivate eq true}">
+	<c:if test="${qnaInfo.q_private eq 'Y'}">
 		<c:set var="privateChk" value="checked"/>
 	</c:if>
-	<c:if test="${pageInfo.isPrivate eq false}">
+	<c:if test="${qnaInfo.q_private eq 'N'}">
 		<c:set var="privateChk" value=""/>
 	</c:if>
 
@@ -103,24 +118,31 @@ function qnaFormCheck(){
     <div class="container-fluid pt-4 pb-4">
         <div class="container col-md-8 col-lg-7">
             <div class="row justify-content-center">
-				<form action="userModifyQnaQAction.qna" method="post" name="f" enctype="multipart/form-data">
+				<form action="userModifyQnaQAction.usr" method="post" name="f" enctype="multipart/form-data">
+					<input type="hidden" name="page" value="${page}">
 					<input type="hidden" name="qna_id" value="${qnaInfo.qna_id}">
 					<input type="hidden" name="q_writer" value="${qnaInfo.q_writer}">
+					
 					<div class="input-group mb-2">
 						<span class="input-group-text" id="q_title">제목</span>
 						<input type="text" name="q_title" value="${qnaInfo.q_title }" class="form-control" placeholder="제목을 입력하세요." aria-label="q_title" aria-describedby="q_title">
 					</div>
 					<div class="input-group mb-2">
 						<span class="input-group-text">내용</span>
-						<textarea name="q_content" value="${qnaInfo.q_content }" class="form-control" placeholder="내용을 입력하세요." aria-label="q_content" rows="10"></textarea>
+						<textarea name="q_content" class="form-control" placeholder="내용을 입력하세요." aria-label="q_content" rows="10">${qnaInfo.q_content }</textarea>
 					</div>
 					<div class="input-group mb-3">
-						<input type="file" name="q_image" value="/images/qna/${qnaInfo.q_image }" class="form-control" id="q_image" aria-describedby="q_image" aria-label="q_image" maxlength="100">
-						<label></label>
+						<c:if test="${qnaInfo.q_image eq null }">
+							<input type="file" name="q_image" class="form-control" id="q_image" aria-describedby="q_image" accept="image/*" aria-label="q_image" maxlength="100">
+						</c:if>
+						<c:if test="${qnaInfo.q_image ne null }">
+							<div id="dltFile"><i class="far fa-image me-2"></i>${qnaInfo.q_image }&nbsp;&nbsp;<a href="#" onclick="javascript:deleteFile();">삭제</a></div>
+						</c:if>
 					</div>
 					<div class="form-check">
-						<input class="form-check-input" type="checkbox" name="q_private" value="Y" id="q_private" ${privateChk}>
+						<input class="form-check-input" type="checkbox" name="checkbox" value="Y" id="checkbox" ${privateChk}>
 						<label class="form-check-label" for="q_private">비밀글로 하기</label>
+						<input type="hidden" name="q_private"> 
 					</div>
 					<div class="col-12 text-center">
 						<button type="submit" class="btn btn-primary" onclick="qnaFormCheck(); return false;">수정하기</button>

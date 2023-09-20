@@ -8,6 +8,7 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 
 import vo.AdminIncomeBean;
+import vo.ProjectAdminIncomeBean;
 
 public class AdminIncomeDAO {
 	
@@ -194,7 +195,30 @@ public class AdminIncomeDAO {
 		return adminIncomeList;
 		
 	}
-	
 
+	/** 수수료+프로젝트ID를 insert */
+	public int insertAdminIncome(int project_id, int fee_income) {
+		int insertAdminIncomeCount = 0;
+		
+		String sql = "insert into admin_income_tbl(project_id, fee_income) values(?,?)";
+		
+		try {
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, project_id);
+			pstmt.setInt(2, fee_income);
+			
+			insertAdminIncomeCount = pstmt.executeUpdate();
+			
+		} catch(Exception e) {
+			System.out.println("[AdminIncomeDAO] insertAdminIncome() 에러 : "+e);//예외객체종류 + 예외메시지
+		} finally {
+			close(pstmt); //JdbcUtil.생략가능
+			//close(rs); //JdbcUtil.생략가능
+			//connection 객체에 대한 해제는 DogListService에서 이루어짐
+		}
+		
+		return insertAdminIncomeCount;
+	}
 	
 }
