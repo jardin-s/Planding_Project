@@ -327,6 +327,16 @@ public class ProjectFrontController extends HttpServlet {
 			}
 			
 		}
+		else if(command.equals("/editProject.pj")) {
+			action = new EditProjectAction();
+			
+			try {
+				forward = action.execute(request, response);
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+			
+		}
 
 		/***********************************************************
 		 * 3. 포워딩

@@ -24,24 +24,8 @@ public class EditProjectFormAction implements Action {
 		ProjectPageViewService projectPageViewService = new ProjectPageViewService();
 		ProjectBean projectInfo = projectPageViewService.getProjectInfo(project_id);
 		PlannerBean plannerInfo = projectPageViewService.getPlannerInfo(project_id);
-		String[] contentImg = projectInfo.getImage().split(";");
 		
-		// 파일 뷰관련 설정
-		String downloadPath = "images/project_No_"+project_id; //파일저장 경로 (프로젝트 폴더의 경로 가져옴)
-        
-		ServletContext context = request.getServletContext();
-		String sUploadPath = context.getRealPath(downloadPath)+File.separator;
-		
-		String thumbnail = project_id+"_"+projectInfo.getThumbnail();
-		request.setAttribute("thumbnail", thumbnail);
-		request.setAttribute("sUploadPath", sUploadPath);
-		
-		//파일명 확인용
-		
-		System.out.println("sUploadPath : "+sUploadPath);
-		System.out.println("projectInfo.getThumbnail() : "+projectInfo.getThumbnail());
-		
-		
+
 		
         String startDateStr = projectInfo.getStartdate();
         String endDateStr = projectInfo.getEnddate();	
@@ -63,7 +47,6 @@ public class EditProjectFormAction implements Action {
 		}
 
 		request.setAttribute("projectInfo", projectInfo);
-		request.setAttribute("contentImg", contentImg);
 		request.setAttribute("plannerInfo", plannerInfo);
 		
 		

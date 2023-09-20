@@ -133,40 +133,6 @@ function updateFormattedAmount(inputElement) {
     }
 }
 
-//이미지 파일 추가
-function addImageField() {
-    var imageFields = document.querySelectorAll('[id^=imageField]');
-    for (var i = 0; i < imageFields.length; i++) {
-        if (imageFields[i].style.display === 'none') {
-            imageFields[i].style.display = 'block';
-            return; // 이미 숨겨진 필드를 보이게 한 후 종료
-        }
-    }
-}
-
-//이미지 필드 숨기기 함수 (이미지 삭제 버튼 클릭 시 사용)
-function deleteImageField(button) {
-	var imageFieldContainer = button.parentNode;
-	imageFieldContainer.style.display = 'none';
-
-	//이미지 필드의 값을 초기화
-	var input = imageFieldContainer.querySelector('input[type="file"]');
-	input.value = '';
-}
-
-//이미지 확장자 유효성 검사
-function validateImageFile(input) {
-	var file = input.files[0];
-	var allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif)$/i; // 허용되는 이미지 파일 확장자 목록
-
-	if (!allowedExtensions.exec(file.name)) {
-		alert('이미지 파일만 업로드 가능합니다.');
-		input.value = ''; // 파일 필드 초기화
-		return false;
-	}
-
-    return true;
-}
 	</script>
 </head>
 <body>
@@ -174,15 +140,15 @@ function validateImageFile(input) {
 	<div class="m-5">
 		<form action="editProject.pj" method="post">
 			<div class="mb-3">
-				<label for="project_id" class="form-label">프로젝트 아이디 : ${project_id}</label> 
-				<input type="hidden" class="form-control" id="project_id" name="project_id" maxlength="20" value="${project_id}" required readonly>
+				<label for="project_id" class="form-label">프로젝트 아이디 : ${projectInfo.project_id}</label> 
+				<input type="hidden" class="form-control" id="project_id" name="project_id" maxlength="20" value="${projectInfo.project_id}" required readonly>
 			</div>
 			<div class="mb-3">
 				<label for="kind" class="form-label">프로젝트 종류 : ${projectInfo.kind }</label> 
 				<input type="hidden" class="form-control" id="kind" name="kind" maxlength="20" value="${projectInfo.kind }" required readonly>
 			</div>
 			<div class="mb-3">
-				<label for="member_id" class="form-label">아이디 : ${plannerInfo.member_id}</label> 
+				<label for="member_id" class="form-label"></label> 
 				<input type="hidden" class="form-control" id="member_id" name="member_id" maxlength="20" value="${plannerInfo.member_id}" required readonly>
 			</div>
 			<div class="mb-3">
@@ -234,33 +200,6 @@ function validateImageFile(input) {
 				<label for="summary" class="form-label">프로젝트 요약</label>
 				<textarea class="form-control" id="summary" name="summary" rows="3" maxlength="1000" required>${projectInfo.summary}</textarea>
 			</div>
-			<div class="mb-3">
-				<label for="thumbnail" class="form-label">썸네일 이미지</label>
-				<input type="file" class="form-control" id="thumbnail" name="thumbnail" required value="${thumbnail}">
-				<img src="<%=request.getContextPath()%>/images/project_No_${projectInfo.project_id }/${projectInfo.project_id }_${projectInfo.thumbnail }" 
-				class="rounded float-start" alt="${thumbnail}">
-			</div>
-
-			<div class="mb-3" id="imageField1" style="clear: both;">
-                <label for="contentImg1" class="form-label">프로젝트 내용 이미지 1</label>
-                <input type="file" class="form-control" id="contentImg1" name="contentImg1" accept="image/*" value="${not empty contentImg[0]}"  onchange="validateImageFile(this)">
-					<img src="<%=request.getContextPath()%>/images/project_No_${projectInfo.project_id }/${projectInfo.project_id }_${contentImg[0] }" 
-					class="rounded float-start" alt="${contentImg[0]}">           
-            </div>
-			<c:forEach var="i" begin="1" end="9" step="1" varStatus="loop">
-			<div class="mb-3" id="imageField${loop.index + 1}" 
-			    <c:if test="${empty contentImg[i]}">style="display: none;"</c:if> 
-			    <c:if test="${not empty contentImg[i]}">style="display: block;"</c:if>
-			>
-			    <label for="contentImg${loop.index + 1}" class="form-label" >프로젝트 내용 이미지 ${loop.index + 1}</label>
-			    <input type="file" class="form-control" id="contentImg${loop.index + 1}" name="contentImg${loop.index + 1}" accept="image/*" onchange="validateImageFile(this)" value="${contentImg[i]}">
-			    <img src="<%=request.getContextPath()%>/images/project_No_${projectInfo.project_id }/${projectInfo.project_id }_${contentImg[i] }" 
-			    class="rounded float-start" alt="${contentImg}">
-			    <button class="btn btn-danger" onclick="deleteImageField(this, ${loop.index + 1})">이미지 삭제</button>
-			</div>
-
-			</c:forEach>
-		<button class="btn btn-primary" id="addImageButton" type="button" onclick="addImageField()">이미지 추가</button>
 			<div class="mb-3"  style="clear: both;">
 				<label for="content" class="form-label">프로젝트 내용</label>
 				<textarea class="form-control" id="content" name="content" rows="3" maxlength="5000" required>${projectInfo.content}</textarea>
