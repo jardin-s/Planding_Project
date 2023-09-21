@@ -6,7 +6,7 @@ import java.sql.Connection;
 import java.util.ArrayList;
 
 import dao.ManageProjectDAO;
-import vo.ProjectBean;
+import vo.ProjectAdminIncomeBean;
 
 public class DoneDonateProjectListService {
 	//필드 없음
@@ -67,7 +67,7 @@ public class DoneDonateProjectListService {
 	/*---------------------------------------------------------------------------------------------------*/
 	
 	//1. 전체 종료된 기부프로젝트 목록 가져오기 (최근가입순) [기본값]
-	public ArrayList<ProjectBean> getDoneDonateList(int page, int limit) {
+	public ArrayList<ProjectAdminIncomeBean> getDoneDonateList(int page, int limit) {
 		//1. 커넥션 풀에서 Connection객체를 얻어와
 		Connection con = getConnection(); //JdbcUtil. 생략(이유?import static 하여)
 		
@@ -79,7 +79,7 @@ public class DoneDonateProjectListService {
 		
 		
 		/*-------DAO의 해당 메서드를 호출하여 처리----------------------------------------------------*/
-		ArrayList<ProjectBean> donateList = manageProjectDAO.selectDoneProjectList("donate", page, limit);
+		ArrayList<ProjectAdminIncomeBean> donateList = manageProjectDAO.selectDoneProjectIncomeList("donate", page, limit);
 		
 		/*-------(insert, update, delete) 성공하면 commit(), 실패하면 rollback() 호출
 		 * 		 단, select는 이런 작업을 제외 ------------------*/
@@ -92,7 +92,7 @@ public class DoneDonateProjectListService {
 
 
 	//2. 종료된 기부프로젝트 중 조건에 맞는 목록 가져오기 
-	public ArrayList<ProjectBean> getSearchDoneDonateList(int page, int limit, String project_title) {
+	public ArrayList<ProjectAdminIncomeBean> getSearchDoneDonateList(int page, int limit, String project_title) {
 		//1. 커넥션 풀에서 Connection객체를 얻어와
 		Connection con = getConnection(); //JdbcUtil. 생략(이유?import static 하여)
 		
@@ -104,7 +104,7 @@ public class DoneDonateProjectListService {
 		
 		
 		/*-------DAO의 해당 메서드를 호출하여 처리----------------------------------------------------*/
-		ArrayList<ProjectBean> searchDonateList = manageProjectDAO.searchDoneProjectList("donate", project_title, page, limit);
+		ArrayList<ProjectAdminIncomeBean> searchDonateList = manageProjectDAO.searchDoneProjectIncomeList("donate", project_title, page, limit);
 		
 		/*-------(insert, update, delete) 성공하면 commit(), 실패하면 rollback() 호출
 		 * 		 단, select는 이런 작업을 제외 ------------------*/
@@ -116,7 +116,7 @@ public class DoneDonateProjectListService {
 	}
 
 	//3. 선택한 정렬기준에 따라 정렬된 종료된 기부 프로젝트 목록 가져오기
-	public ArrayList<ProjectBean> getOrderDoneDonateList(String order, int page, int limit) {
+	public ArrayList<ProjectAdminIncomeBean> getOrderDoneDonateList(String order, int page, int limit) {
 		//1. 커넥션 풀에서 Connection객체를 얻어와
 		Connection con = getConnection(); //JdbcUtil. 생략(이유?import static 하여)
 		
@@ -128,12 +128,12 @@ public class DoneDonateProjectListService {
 		
 		
 		/*-------DAO의 해당 메서드를 호출하여 처리----------------------------------------------------*/
-		ArrayList<ProjectBean> orderDonateList = null;
+		ArrayList<ProjectAdminIncomeBean> orderDonateList = null;
 		
-		if(order.equals("new")) { orderDonateList = manageProjectDAO.orderNewDoneProjectList("donate", page, limit); }
-		if(order.equals("old")) { orderDonateList = manageProjectDAO.orderOldDoneProjectList("donate", page, limit); }
-		if(order.equals("az")) { orderDonateList = manageProjectDAO.orderAZDoneProjectList("donate", page, limit); }
-		if(order.equals("za")) { orderDonateList = manageProjectDAO.orderZADoneProjectList("donate", page, limit); }
+		if(order.equals("new")) { orderDonateList = manageProjectDAO.selectDoneProjectIncomeList("donate", page, limit); }
+		if(order.equals("old")) { orderDonateList = manageProjectDAO.orderOldDoneProjectIncomeList("donate", page, limit); }
+		if(order.equals("az")) { orderDonateList = manageProjectDAO.orderAZDoneProjectIncomeList("donate", page, limit); }
+		if(order.equals("za")) { orderDonateList = manageProjectDAO.orderZADoneProjectIncomeList("donate", page, limit); }
 				
 		/*-------(insert, update, delete) 성공하면 commit(), 실패하면 rollback() 호출
 		 * 		 단, select는 이런 작업을 제외 ------------------*/

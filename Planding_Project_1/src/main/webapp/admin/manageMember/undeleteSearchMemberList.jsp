@@ -176,7 +176,7 @@ function selectDelete(){
     
 	    
     <%-- Search Tab Start --%>
-    <div class="container-fluid mb-3 pt-4 pb-3" style="height:30vh">
+    <div class="container-fluid mb-3 pt-4 pb-3">
     	<div class="container col-lg-8 px-0">
     		<div class="row">
 				
@@ -212,7 +212,7 @@ function selectDelete(){
     <%-- Search Tab End --%>
 	
 	<c:if test="${pageInfo.listCount == 0 }">
-    	<div class="container-xxl mb-5 py-5">
+    	<div class="container-xxl mb-5 py-5" style="height:30vh">
     		<div class="container col-10 col-md-6 col-lg-4">
     			<div class="col-12 mb-5">
     				<c:if test="${search_id ne null }">

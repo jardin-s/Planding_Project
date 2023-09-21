@@ -24,8 +24,7 @@ public class ProjectDonationRewardBean {
 	private int goal_amount;
 	private int curr_amount;
 	
-	private String status;//처음은 항상 unauthorized(미승인)
-	private int likes;//0부터 시작
+	private String p_status;//처음은 항상 unauthorized(미승인)
 	
 	private String regdate;//등록일자 (SQL 자동 현재시간 세팅)
 	
@@ -87,13 +86,13 @@ public class ProjectDonationRewardBean {
 	}
 	
 	//내 후원내역 조회시
-	public ProjectDonationRewardBean(int donation_id, int project_id, String title, String status, String reward_id, String r_name, int r_price,
+	public ProjectDonationRewardBean(int donation_id, int project_id, String title, String p_status, String reward_id, String r_name, int r_price,
 			int add_donation, int totalDonation, String donatedate) {
 		super();
 		this.donation_id = donation_id;
 		this.project_id = project_id;
 		this.title = title;
-		this.status = status;
+		this.p_status = p_status;
 		this.r_name = r_name;
 		this.reward_id = reward_id;
 		this.r_price = r_price;
@@ -103,7 +102,7 @@ public class ProjectDonationRewardBean {
 	}
 	
 	//회원 후원취소 시 메일에 정보 출력 
-	public ProjectDonationRewardBean(int donation_id, int project_id, String member_id, String address_id, String title, String status, String kind, String reward_id, String r_name, String r_content,
+	public ProjectDonationRewardBean(int donation_id, int project_id, String member_id, String address_id, String title, String p_status, String kind, String reward_id, String r_name, String r_content,
 			int r_price, int add_donation, int totalDonation, String donatedate) {
 		super();
 		this.donation_id = donation_id;
@@ -111,7 +110,7 @@ public class ProjectDonationRewardBean {
 		this.member_id = member_id;
 		this.address_id = address_id;
 		this.title = title;
-		this.status = status;
+		this.p_status = p_status;
 		this.kind = kind;
 		this.reward_id = reward_id;
 		this.r_name = r_name;
@@ -227,22 +226,14 @@ public class ProjectDonationRewardBean {
 		this.curr_amount = curr_amount;
 	}
 
-	public String getStatus() {
-		return status;
+	public String getP_status() {
+		return p_status;
 	}
 
-	public void setStatus(String status) {
-		this.status = status;
+	public void setP_status(String p_status) {
+		this.p_status = p_status;
 	}
 
-	public int getLikes() {
-		return likes;
-	}
-
-	public void setLikes(int likes) {
-		this.likes = likes;
-	}
-	
 	public String getRegdate() {
 		return regdate;
 	}

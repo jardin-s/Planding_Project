@@ -31,9 +31,6 @@ drop table member_tbl;
  drop table project_planner_tbl;
  drop table reward_tbl;
  drop table project_tbl;
- 
- 
- 
    
  */
 
@@ -57,7 +54,7 @@ USE `project` ;
 -- Table `project`.`project_tbl`
 -- -----------------------------------------------------
 drop table project_tbl;
-CREATE TABLE IF NOT EXISTS `project`.`project_tbl` (
+CREATE TABLE `project_tbl` (
   `project_id` INT NOT NULL AUTO_INCREMENT COMMENT '프로젝트 ID',
   `kind` VARCHAR(10) NOT NULL COMMENT 'Donate or Funding',
   `title` NVARCHAR(50) NOT NULL COMMENT '프로젝트 제목',
@@ -69,23 +66,25 @@ CREATE TABLE IF NOT EXISTS `project`.`project_tbl` (
   `enddate` DATETIME NOT NULL COMMENT '종료일',
   `goal_amount` INT NOT NULL COMMENT '목표 모금액',
   `curr_amount` INT NOT NULL COMMENT '현재 모금액',
-  `status` VARCHAR(30) NOT NULL COMMENT '상태',
-  `likes` INT NOT NULL COMMENT '관심 수',
+  `p_status` VARCHAR(30) NOT NULL COMMENT '상태',
   `regdate` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`project_id`))
 ENGINE = InnoDB;
 
 /* 테스트를 위해 데이터 1개 등록 */
-insert into project_tbl(kind, title, summary, thumbnail, content, image, startdate, enddate, goal_amount, curr_amount, status, likes, regdate)
+insert into project_tbl(kind, title, summary, thumbnail, content, image, startdate, enddate, goal_amount, curr_amount, p_status, likes, regdate)
 values('donate','기부제목','기부요약','thumbnail.jpg','프로젝트 내용','content_image.jpg',
 		'2023-09-11', '2023-09-15', 5000, 0, 'ongoing', 0, '2023-09-11');
-insert into project_tbl(kind, title, summary, thumbnail, content, image, startdate, enddate, goal_amount, curr_amount, status, likes)
+insert into project_tbl(kind, title, summary, thumbnail, content, image, startdate, enddate, goal_amount, curr_amount, p_status, likes)
 values('donate','기부제목2','기부요약2','thumbnail2.jpg','프로젝트 내용2','content_image2.jpg',
 		'2023-09-11', '2023-09-15', 1000000, 200000, 'unauthorized', 0);
 
 update project_tbl
-set status = 'ongoing', startdate='2023-09-20'
-where project_id = 5;
+set regdate='2023-09-17', startdate='2023-09-18', enddate='2023-09-21', p_status = 'ongoing'
+where project_id = 1;
+update project_tbl
+set p_status = 'success'
+where project_id = 1;
 		
 select * from project_tbl;
 delete from project_tbl;
@@ -96,7 +95,7 @@ thumbnail, content, image,
 DATE_FORMAT(startdate,'%Y.%m.%d %H:%i:%S') as startdate,
 DATE_FORMAT(enddate,'%Y.%m.%d %H:%i:%S') as enddate,
 goal_amount, curr_amount,
-status, likes,
+p_status, likes,
 DATE_FORMAT(regdate,'%Y.%m.%d') as regdate_F"
 				  + " from project_tbl where kind = ?"
 				  + " order by regdate desc
@@ -104,7 +103,7 @@ DATE_FORMAT(regdate,'%Y.%m.%d') as regdate_F"
 -- -----------------------------------------------------
 -- Table `project`.`member_tbl`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `project`.`member_tbl` (
+CREATE TABLE `member_tbl` (
   `member_id` VARCHAR(20) NOT NULL COMMENT '회원 ID',
   `password` VARCHAR(256) NOT NULL COMMENT '비밀번호',
   `name` NVARCHAR(20) NOT NULL COMMENT '이름',
@@ -133,7 +132,7 @@ where member_id='testuser0009';
 -- -----------------------------------------------------
 -- Table `project`.`reward_tbl`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `project`.`reward_tbl` (
+CREATE TABLE `reward_tbl` (
   `reward_id` VARCHAR(100) NOT NULL COMMENT '리워드 ID',
   `r_name` NVARCHAR(30) NOT NULL COMMENT '리워드 이름',
   `r_content` NVARCHAR(100) NOT NULL COMMENT '리워드 설명',
@@ -148,7 +147,7 @@ select * from reward_tbl;
 -- -----------------------------------------------------
 -- Table `project`.`donation_tbl`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `project`.`donation_tbl` (
+CREATE TABLE `donation_tbl` (
   `donation_id` INT NOT NULL AUTO_INCREMENT COMMENT '후원기록 ID',
   `project_id` INT NOT NULL COMMENT '프로젝트 ID',
   `member_id` VARCHAR(20) NOT NULL COMMENT '회원 ID',
@@ -161,7 +160,7 @@ CREATE TABLE IF NOT EXISTS `project`.`donation_tbl` (
   INDEX `fk_donation_tbl_member_tbl1_idx` (`member_id` ASC) VISIBLE,
   CONSTRAINT `fk_donation_tbl_member_tbl1`
     FOREIGN KEY (`member_id`)
-    REFERENCES `project`.`member_tbl` (`member_id`)
+    REFERENCES `member_tbl` (`member_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -171,14 +170,14 @@ select * from donation_tbl;
 -- -----------------------------------------------------
 -- Table `project`.`admin_income_tbl`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `project`.`admin_income_tbl` (
+CREATE TABLE `admin_income_tbl` (
   `project_id` INT NOT NULL COMMENT '프로젝트 ID',
   `fee_income` INT NOT NULL COMMENT '수수료 수익',
   `incomedate` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '수익일자',
   INDEX `fk_admin_income_tbl_project_tbl1_idx` (`project_id` ASC) VISIBLE,
   CONSTRAINT `fk_admin_income_tbl_project_tbl1`
     FOREIGN KEY (`project_id`)
-    REFERENCES `project`.`project_tbl` (`project_id`)
+    REFERENCES `project_tbl` (`project_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -188,6 +187,8 @@ insert into admin_income_tbl(project_id, fee_income) values(2, 30000);
 
 select * from admin_income_tbl;
 
+delete from admin_income_tbl where project_id = 2;
+
 select project_id, fee_income,
 DATE_FORMAT(incomedate,'%Y.%m.%d') as incomedate
 from admin_income_tbl
@@ -196,19 +197,19 @@ where incomedate between '2023-9-1' and '2023-9-30';
 -- -----------------------------------------------------
 -- Table `project`.`project_reward_tbl`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `project`.`project_reward_tbl` (
+CREATE TABLE `project_reward_tbl` (
   `project_id` INT NOT NULL COMMENT '프로젝트 ID',
   `reward_id` VARCHAR(100) NOT NULL COMMENT '리워드 ID',
   PRIMARY KEY (`project_id`, `reward_id`),
   INDEX `fk_project_reward_tbl_reward_tbl1_idx` (`reward_id` ASC) VISIBLE,
   CONSTRAINT `fk_project_reward_tbl_project_tbl1`
     FOREIGN KEY (`project_id`)
-    REFERENCES `project`.`project_tbl` (`project_id`)
+    REFERENCES `project_tbl` (`project_id`)
     ON DELETE CASCADE
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_project_reward_tbl_reward_tbl1`
     FOREIGN KEY (`reward_id`)
-    REFERENCES `project`.`reward_tbl` (`reward_id`)
+    REFERENCES `reward_tbl` (`reward_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -226,7 +227,7 @@ delete from project_reward_tbl;
 -- -----------------------------------------------------
 -- Table `project`.`notice_tbl`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `project`.`notice_tbl` (
+CREATE TABLE `notice_tbl` (
   `notice_id` INT NOT NULL AUTO_INCREMENT COMMENT '공지사항ID',
   `member_id` VARCHAR(20) NOT NULL COMMENT '작성자 ID',
   `n_title` NVARCHAR(30) NOT NULL COMMENT '공지사항 제목',
@@ -239,7 +240,7 @@ CREATE TABLE IF NOT EXISTS `project`.`notice_tbl` (
   INDEX `fk_notice_tbl_member_tbl1_idx` (`member_id` ASC) VISIBLE,
   CONSTRAINT `fk_notice_tbl_member_tbl1`
     FOREIGN KEY (`member_id`)
-    REFERENCES `project`.`member_tbl` (`member_id`)
+    REFERENCES `member_tbl` (`member_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -249,7 +250,7 @@ drop table qna_tbl;
 -- -----------------------------------------------------
 -- Table `project`.`qna_tbl`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `project`.`qna_tbl` (
+CREATE TABLE `qna_tbl` (
   `qna_id` INT NOT NULL AUTO_INCREMENT COMMENT '문의사항 ID',
   `q_writer` VARCHAR(20) NOT NULL COMMENT '작성자 ID',
   `q_title` VARCHAR(256) NOT NULL COMMENT '질문 제목',
@@ -265,12 +266,12 @@ CREATE TABLE IF NOT EXISTS `project`.`qna_tbl` (
   INDEX `fk_qna_tbl_member_tbl2_idx` (`a_writer` ASC) VISIBLE,
   CONSTRAINT `fk_qna_tbl_member_tbl1`
     FOREIGN KEY (`q_writer`)
-    REFERENCES `project`.`member_tbl` (`member_id`)
+    REFERENCES `member_tbl` (`member_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_qna_tbl_member_tbl2`
     FOREIGN KEY (`a_writer`)
-    REFERENCES `project`.`member_tbl` (`member_id`)
+    REFERENCES `member_tbl` (`member_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -292,10 +293,14 @@ from qna_tbl;
 
 select count(*) from qna_tbl where q_title regexp '제목';
 
+update qna_tbl
+set q_private='N'
+where qna_id = 2;
+
 -- -----------------------------------------------------
 -- Table `project`.`project_planner_tbl`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `project`.`project_planner_tbl` (
+CREATE TABLE `project_planner_tbl` (
   `project_id` INT NOT NULL COMMENT '프로젝트 ID',
   `member_id` VARCHAR(20) NOT NULL COMMENT '기획자 ID',
   `planner_name` NVARCHAR(20) NOT NULL COMMENT '기획자 이름 (개인 또는 기업, 단체)',
@@ -306,12 +311,12 @@ CREATE TABLE IF NOT EXISTS `project`.`project_planner_tbl` (
   INDEX `fk_project_planner_tbl_member_tbl1_idx` (`member_id` ASC) VISIBLE,
   CONSTRAINT `fk_project_planner_tbl_project_tbl1`
     FOREIGN KEY (`project_id`)
-    REFERENCES `project`.`project_tbl` (`project_id`)
+    REFERENCES `project_tbl` (`project_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_project_planner_tbl_member_tbl1`
     FOREIGN KEY (`member_id`)
-    REFERENCES `project`.`member_tbl` (`member_id`)
+    REFERENCES `member_tbl` (`member_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -323,51 +328,12 @@ select * from project_planner_tbl;
 insert into project_planner_tbl values(2, 'testuser0002','기획자2','후원테스트용기획자','woori','20230920');
 
 
-drop table bookmark_tbl;
--- -----------------------------------------------------
--- Table `project`.`bookmark_tbl`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `project`.`bookmark_tbl` (
-  `member_id` VARCHAR(20) NOT NULL COMMENT '회원ID',
-  `project_id` INT NOT NULL COMMENT '관심프로젝트 ID',
-  `likedate` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP COMMENT '관심글 등록일자',
-  INDEX `fk_bookmark_tbl_member_tbl1_idx` (`member_id` ASC) VISIBLE,
-  INDEX `fk_bookmark_tbl_project_tbl1_idx` (`project_id` ASC) VISIBLE,
-  CONSTRAINT `fk_bookmark_tbl_member_tbl1`
-    FOREIGN KEY (`member_id`)
-    REFERENCES `project`.`member_tbl` (`member_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_bookmark_tbl_project_tbl1`
-    FOREIGN KEY (`project_id`)
-    REFERENCES `project`.`project_tbl` (`project_id`)
-    ON DELETE CASCADE
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `project`.`project_review_tbl`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `project`.`project_review_tbl` (
-  `review_id` INT NOT NULL AUTO_INCREMENT COMMENT '프로젝트후기ID',
-  `project_id` INT NOT NULL COMMENT '프로젝트ID',
-  `content` NVARCHAR(500) NOT NULL COMMENT '후기내용',
-  `image` VARCHAR(310) NULL COMMENT '이미지',
-  INDEX `fk_project_review_tbl_project_tbl1_idx` (`project_id` ASC) VISIBLE,
-  PRIMARY KEY (`review_id`),
-  CONSTRAINT `fk_project_review_tbl_project_tbl1`
-    FOREIGN KEY (`project_id`)
-    REFERENCES `project`.`project_tbl` (`project_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
 -- Table `project`.`address_tbl`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `project`.`address_tbl` (
+CREATE TABLE `address_tbl` (
   `address_id` VARCHAR(100) NOT NULL,
   `member_id` VARCHAR(20) NOT NULL,
   `receiver_name` NVARCHAR(20) NOT NULL,
@@ -380,7 +346,7 @@ CREATE TABLE IF NOT EXISTS `project`.`address_tbl` (
   INDEX `fk_address_tbl_member_tbl1_idx` (`member_id` ASC) VISIBLE,
   CONSTRAINT `fk_address_tbl_member_tbl1`
     FOREIGN KEY (`member_id`)
-    REFERENCES `project`.`member_tbl` (`member_id`)
+    REFERENCES `member_tbl` (`member_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -392,20 +358,23 @@ drop view project_planner_view;
 -- -----------------------------------------------------
 -- View `project`.`project_planner_view` 프로젝트-플래너 조인한 뷰 생성
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `project_planner_view`;
 CREATE OR REPLACE VIEW `project_planner_view` AS
-select project_id, kind, title, summary, thumbnail, content, image, startdate, enddate, goal_amount, curr_amount, status, likes, regdate, member_id, planner_name, introduce, bank, account_num
+select project_id, kind, title, summary, thumbnail, content, image, startdate, enddate, goal_amount, curr_amount, p_status, regdate, member_id, planner_name, introduce, bank, account_num
 from project_tbl join project_planner_tbl
 using(project_id);
 
 select startdate from project_planner_view;
 
 
+
 drop view project_donation_reward_view;
 -- -----------------------------------------------------
 -- View `project`.`project_donation_reward_view`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `project_donation_reward_view`;
 CREATE  OR REPLACE VIEW `project_donation_reward_view` AS
-select project_id, kind, title, summary, thumbnail, content, image, startdate, enddate, goal_amount, curr_amount, status, likes, regdate,
+select project_id, kind, title, summary, thumbnail, content, image, startdate, enddate, goal_amount, curr_amount, p_status, regdate,
 donation_id, member_id, reward_id, r_price, add_donation, address_id, donatedate,
 r_name, r_content
 from project_tbl join (select donation_id, project_id, member_id, reward_id, r_price, add_donation, address_id, donatedate, r_name, r_content
@@ -413,6 +382,79 @@ from project_tbl join (select donation_id, project_id, member_id, reward_id, r_p
 using(project_id);
 
 select * from project_donation_reward_view;
+
+
+drop view project_adminIncome_view;
+-- -----------------------------------------------------
+-- View `project`.`project_adminIncome_view`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `project_adminIncome_view`;
+CREATE  OR REPLACE VIEW `project_adminIncome_view` AS
+select project_id, kind, title, summary, thumbnail, content, image, startdate
+, enddate, goal_amount, curr_amount, p_status, regdate
+, fee_income, incomedate
+from project_tbl left outer join admin_income_tbl
+using(project_id);
+
+
+/* 시작일이 오늘이랑 같고, 상태가 ready(공개예정)인 프로젝트 */
+create EVENT updateStatusOngoing
+on schedule every 1 day
+comment '상태를 진행중으로 업데이트'
+
+DO
+
+update project_tbl
+set status = 'ongoing'
+where startdate = CURDATE() and status='ready';
+
+
+
+/* 종료일이 오늘보다 과거이며, 상태가 ongoing(진행중)이고, 현재모금액<목표모금액인 펀딩 프로젝트 */
+create EVENT updateStatusDone
+on schedule every 1 day
+comment '상태를 종료로 업데이트'
+
+DO
+
+update project_tbl
+set status = 'done'
+where enddate < CURDATE() and status='ongoing' and curr_amount < goal_amount and kind='fund';
+
+/* 종료일이 오늘보다 과거이며, 상태가 ongoing(진행중)인 기부 프로젝트 */
+/* 종료일이 오늘보다 과거이며, 상태가 ongoing(진행중)이고, 현재모금액>=목표모금액인 펀딩 프로젝트 */
+create EVENT updateStatusDone
+on schedule every 1 day
+comment '상태를 성공으로 업데이트'
+
+DO
+
+update project_tbl
+set status = 'success'
+where (enddate < CURDATE() and status='ongoing' and curr_amount >= goal_amount and kind='fund') or (enddate<CURDATE() and status='ongoing' and kind='donate');
+
+
+/* 주문한지 6개월이 지난 주소(not 기본주소)를 삭제 -> 이벤트 스케줄러 생성 문제로 6개월 후 자동삭제 X*/
+CREATE EVENT DeleteExpiredAddresses
+ON SCHEDULE EVERY 1 DAY
+DO
+BEGIN
+  DECLARE cutoff_date DATE;
+  
+  -- 오늘로부터 6개월 전의 날짜 계산
+  SET cutoff_date = DATE_SUB(NOW(), INTERVAL 6 MONTH);
+
+  -- address_tbl에서 오늘로부터 6개월 이상 지난 주문을 참조하고, basic_status가 'N'인 주소 삭제
+  DELETE FROM address_tbl
+  WHERE address_id IN (
+					    SELECT DISTINCT a.address_id
+					    FROM address_tbl a INNER JOIN donation_tbl d
+					    ON a.address_id = d.address_id
+					    WHERE d.donatedate <= cutoff_date
+					    AND a.basic_status = 'N'
+					  );
+END;
+
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;

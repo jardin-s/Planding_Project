@@ -22,8 +22,7 @@ public class ProjectBean {
 	private int goal_amount;
 	private int curr_amount;
 	
-	private String status;//처음은 항상 unauthorized(미승인)
-	private int likes;//0부터 시작
+	private String p_status;//처음은 항상 unauthorized(미승인)
 	
 	private String regdate;//등록일자 (SQL 자동 현재시간 세팅)
 	
@@ -42,7 +41,7 @@ public class ProjectBean {
 	
 	//프로젝트 모든 정보 (남은일수 제외)
 	public ProjectBean(int project_id, String kind, String title, String summary, String thumbnail, String content,
-			String image, String startdate, String enddate, int goal_amount, int curr_amount, String status, int likes,
+			String image, String startdate, String enddate, int goal_amount, int curr_amount, String p_status,
 			String regdate) {
 		super();
 		this.project_id = project_id;
@@ -56,8 +55,7 @@ public class ProjectBean {
 		this.enddate = enddate;
 		this.goal_amount = goal_amount;
 		this.curr_amount = curr_amount;
-		this.status = status;
-		this.likes = likes;
+		this.p_status = p_status;
 		this.regdate = regdate;
 	}
 
@@ -83,12 +81,12 @@ public class ProjectBean {
 	}
 	
 	//관리자모드 - 프로젝트 목록 조회 시
-	public ProjectBean(int project_id, String kind, String title, String status, String regdate) {
+	public ProjectBean(int project_id, String kind, String title, String p_status, String regdate) {
 		super();
 		this.project_id = project_id;
 		this.kind = kind;
 		this.title = title;
-		this.status = status; //등록시 항상 처음은 unauthorized(미승인)
+		this.p_status = p_status; //등록시 항상 처음은 unauthorized(미승인)
 		this.regdate = regdate; //SQL에서 현재시간으로 자동세팅
 	}
 
@@ -181,20 +179,12 @@ public class ProjectBean {
 		this.curr_amount = curr_amount;
 	}
 
-	public String getStatus() {
-		return status;
+	public String getP_status() {
+		return p_status;
 	}
 
-	public void setStatus(String status) {
-		this.status = status;
-	}
-
-	public int getLikes() {
-		return likes;
-	}
-
-	public void setLikes(int likes) {
-		this.likes = likes;
+	public void setP_status(String p_status) {
+		this.p_status = p_status;
 	}
 	
 	public String getRegdate() {
@@ -289,8 +279,8 @@ public class ProjectBean {
 	public String toString() {
 		return "ProjectBean [project_id=" + project_id + ", kind=" + kind + ", title=" + title + ", summary=" + summary
 				+ ", thumbnail=" + thumbnail + ", content=" + content + ", image=" + image + ", startdate=" + startdate
-				+ ", enddate=" + enddate + ", goal_amount=" + goal_amount + ", curr_amount=" + curr_amount + ", status="
-				+ status + ", likes=" + likes + ", regdate=" + regdate + ", progress=" + progress + ", deadline="
+				+ ", enddate=" + enddate + ", goal_amount=" + goal_amount + ", curr_amount=" + curr_amount + ", p_status="
+				+ p_status + ", regdate=" + regdate + ", progress=" + progress + ", deadline="
 				+ deadline + ", goal_amount_df=" + goal_amount_df + ", curr_amount_df=" + curr_amount_df + "]";
 	}
 	

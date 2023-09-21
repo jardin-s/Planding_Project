@@ -7,10 +7,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import action.Action;
-import svc.project.ManageProjectViewService;
 import svc.project.ProjectPageViewService;
 import vo.ActionForward;
-import vo.MemberBean;
 import vo.PlannerBean;
 import vo.ProjectBean;
 import vo.RewardBean;
@@ -36,6 +34,9 @@ public class ManageProjectViewAction implements Action {
 		//ManageProjectViewService manageProjectViewService = new ManageProjectViewService();
 		
 		ProjectPageViewService projectPageViewService = new ProjectPageViewService();
+		
+		//admin_income_tbl에 해당 프로젝트 데이터가 있는지 확인 (있으면 송금완료, 없으면 아직 송금X)
+		
 		
 		//프로젝트 정보를 얻어옴 (달성률 세팅된 상태)
 		ProjectBean projectInfo = projectPageViewService.getProjectInfo(project_id);

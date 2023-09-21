@@ -158,7 +158,7 @@ public class NoticeDAO {
 	public ArrayList<NoticeBean> selectNoticeList(int page, int limit){
 		ArrayList<NoticeBean> noticeList = null;
 			
-		int startrow = (page-1)*10;
+		int startrow = (page-1)*limit;
 		//1페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 0부터
 		//2페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 10부터
 		//3페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 20부터
@@ -367,7 +367,7 @@ public class NoticeDAO {
 		
 		ArrayList<NoticeBean> noticeList = null;
 		
-		int startrow = (page-1)*10;
+		int startrow = (page-1)*limit;
 		//1페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 0부터
 		//2페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 10부터
 		//3페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 20부터
@@ -418,6 +418,65 @@ public class NoticeDAO {
 		}
 		
 		return noticeList;
+	}
+
+	/** 공지글 수정 (이미지수정X) */
+	public int updateNotice(NoticeBean notice) {
+		int updateNoticeCount = 0;
+		
+		String sql = "update notice_tbl"
+				  + " set n_title=?, n_content=?, importance=?"
+				  + " where notice_id = ?";
+		
+		try {
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, notice.getN_title());
+			pstmt.setString(2, notice.getN_content());
+			pstmt.setString(3, notice.getImportance());
+			pstmt.setInt(4, notice.getNotice_id());
+			
+			updateNoticeCount =  pstmt.executeUpdate();
+			
+		} catch(Exception e) {
+			System.out.println("[NoticeDAO] updateNotice() 에러 : "+e);//예외객체종류 + 예외메시지
+		} finally {
+			close(pstmt); //JdbcUtil.생략가능
+			//close(rs); //JdbcUtil.생략가능
+			//connection 객체에 대한 해제는 DogListService에서 이루어짐
+		}
+		
+		return updateNoticeCount;
+	}
+	
+	/** 공지글 수정 (이미지수정O) */
+	public int updateNoticeImg(NoticeBean notice) {
+		int updateNoticeImgCount = 0;
+		
+		String sql = "update notice_tbl"
+				  + " set n_title=?, n_content=?, n_image=?, importance=?"
+				  + " where notice_id = ?";
+		
+		try {
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, notice.getN_title());
+			pstmt.setString(2, notice.getN_content());
+			pstmt.setString(3, notice.getN_image());
+			pstmt.setString(4, notice.getImportance());
+			pstmt.setInt(5, notice.getNotice_id());
+			
+			updateNoticeImgCount =  pstmt.executeUpdate();
+			
+		} catch(Exception e) {
+			System.out.println("[NoticeDAO] updateNoticeImg() 에러 : "+e);//예외객체종류 + 예외메시지
+		} finally {
+			close(pstmt); //JdbcUtil.생략가능
+			//close(rs); //JdbcUtil.생략가능
+			//connection 객체에 대한 해제는 DogListService에서 이루어짐
+		}
+		
+		return updateNoticeImgCount;
 	}
 
 	

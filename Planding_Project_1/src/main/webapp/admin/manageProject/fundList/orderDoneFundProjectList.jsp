@@ -75,96 +75,6 @@ function searchProjectList() {
 	
 }
 
-//편집을 취소버튼으로 변경하고 삭제버튼 보이기
-function switchEditCancel(){
-	
-	//편집 버튼 클릭 시 -> 편집버튼을 취소버튼으로 변경하고, 선택삭제버튼 보이기
-	switchBtn();
-	
-	//form-check클래스 div태그 안에 체크박스 태그 삽입
-	const checkElements = document.getElementsByClassName('remove-th');
-	for(let i=0; i<checkElements.length; i++){
-		
-		if(checkElements[i].classList.contains('d-none')){//숨김 상태면 보이기로 전환
-			checkElements[i].classList.remove('d-none');
-		}else{//보이기 상태면 숨김으로 전환
-			checkElements[i].classList.add('d-none');
-		}
-	}
-	
-}
-
-//편집을 취소로 변경. 삭제버튼 활성화
-function switchBtn(){
-	
-	//편집을 취소로 변경
-	//취소를 편집으로 변경
-	const editBtn = document.getElementById("editBtn");
-	const editBtnText = editBtn.innerText;
-	
-	if(editBtnText == "회원편집"){
-		editBtn.innerText = "취소";
-	}else if(editBtnText == "취소"){
-		editBtn.innerText = "회원편집";
-	}
-	
-	//삭제버튼 없으면 활성화
-	//삭제버튼 있으면 비활성화
-	const deleteBtn = document.getElementById("deleteBtn");
-	if(deleteBtn.classList.contains('d-none')){
-		deleteBtn.classList.remove('d-none');
-	}else{
-		deleteBtn.classList.add('d-none');
-	}
-	
-}
-
-//전체선택
-function checkAll(theForm){
-	
-	if(theForm.remove.length == undefined){//폼의 remove(체크박스)배열의 길이가 정의되어 있지 않다면 == 항목이 1개만 있다면
-		
-		theForm.remove.checked = theForm.allCheck.checked; //전체선택 체크하면, 모든 항목이 체크됨
-	
-	}else{//항목이 2개 이상 있다면 -> 배열로 생성(같은이름(remove)의 checkbox)
-	
-		for(var i=0; i<theForm.remove.length; i++){
-			theForm.remove[i].checked = theForm.allCheck.checked; //remove배열의 각 값 checked
-		}
-	}
-	
-}
-
-function selectDelete(){
-	
-	const checkElements = document.getElementsByClassName('form-check-input');
-	
-	let isCheckboxChecked = false;
-	for(let i=0; i<checkElements.length; i++){
-		
-		//하나라도 체크된 것이 있으면 체크여부 true로 변경하고 반복문 끝
-		if(checkElements[i].checked == true){
-			isCheckboxChecked = true;
-			break;
-		}		
-	}
-	
-	if(!isCheckboxChecked){//체크된 것이 없으면
-		return alert('선택된 항목이 없어 삭제할 수 없습니다.');
-	
-	}else{//체크된 것이 있으면
-		
-		if(confirm('회원을 삭제하면 회원 아이디를 제외한 모든 개인정보가 삭제됩니다. 정말로 삭제하시겠습니까?')){
-			document.dlt.submit();
-		}else{
-			alert('회원 삭제를 취소합니다.');
-			return false;
-		}		
-	}
-	
-	
-}
-
 </script>
 
 <body>
@@ -249,7 +159,6 @@ function selectDelete(){
     	<c:set var="p_index" value="${(pageInfo.page-1)*10 +1}" />
 	
 	    <%-- Table Start --%>
-	    <form action="deleteMember.mngm" method="post" name="dlt">
 	    <div class="container-fluid pt-0 pb-2">
 	        <div class="container col-lg-8">
 	            <div class="row justify-content-center">
@@ -260,6 +169,7 @@ function selectDelete(){
 								<th scope="col" class="col-1">#</th>
 								<th scope="col" class="col-auto">제목</th>
 								<th scope="col" class="col-3">상태</th>
+								<th scope="col" class="col-2"><i class="fas fa-money-bill-wave"></i></th>
 								<th scope="col" class="col-3">등록일자</th>							
 							</tr>
 						</thead>
@@ -269,11 +179,16 @@ function selectDelete(){
 									<th scope="row">${p_index}</th>
 									<td><a href="manageProjectView.mngp?project_id=${project.project_id}&page=${pageInfo.page}">${project.title}</a></td>
 									<td>
-										<c:if test="${project.status eq 'unauthorized'}">미승인</c:if>
-										<c:if test="${project.status eq 'ready'}">공개예정</c:if>
-										<c:if test="${project.status eq 'ongoing'}">진행중</c:if>
-										<c:if test="${project.status eq 'done'}">종료</c:if>
-										<c:if test="${project.status eq 'show'}">성공</c:if>
+										<c:if test="${project.p_status eq 'unauthorized'}">미승인</c:if>
+										<c:if test="${project.p_status eq 'ready'}">공개예정</c:if>
+										<c:if test="${project.p_status eq 'ongoing'}">진행중</c:if>
+										<c:if test="${project.p_status eq 'done'}">종료</c:if>
+										<c:if test="${project.p_status eq 'success'}">성공</c:if>
+									</td>
+									<td>
+										<c:if test="${project.p_status eq 'success' && project.incomedate eq null}">
+											<button class="btn btn-outline-primary py-1" type="button" id="sendBtn" onclick="location.href='sendTotalAmount.mngp?project_id=${project.project_id}'">송금</button>
+										</c:if>
 									</td>
 									<td>${project.regdate}</td>
 								</tr>
@@ -287,16 +202,6 @@ function selectDelete(){
 	    </div>
 	    <%-- Table End --%>
 	    
-	    <%-- Delete Button --%>
-	    <div class="container-fluid mt-0 pt-0 pb-5">
-	    	<div class="container col-lg-8 px-0">
-	    		<div class="d-flex justify-content-end">
-	    			<button class="btn btn-outline-primary float-right me-2 py-1 d-none" type="submit" id="deleteBtn" onclick="selectDelete(); return false;">선택추방</button>
-	    			<button class="btn btn-outline-primary float-right py-1" type="button" id="editBtn" onclick="switchEditCancel();">회원편집</button>	    			
-	    		</div>
-	    	</div>
-	   	</div>
-	   	</form>
 	    
 	    	    
 	    <%-- Pagination Start --%>
@@ -348,19 +253,5 @@ function selectDelete(){
     
     
     
-    <!-- JavaScript Libraries -->
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="../../resources/lib/wow/wow.min.js"></script>
-    <script src="../../resources/lib/easing/easing.min.js"></script>
-    <script src="../../resources/lib/waypoints/waypoints.min.js"></script>
-    <script src="../../resources/lib/owlcarousel/owl.carousel.min.js"></script>
-    <script src="../../resources/lib/counterup/counterup.min.js"></script>
-    <script src="../../resources/lib/parallax/parallax.min.js"></script>
-    <script src="../../resources/lib/isotope/isotope.pkgd.min.js"></script>
-    <script src="../../resources/lib/lightbox/js/lightbox.min.js"></script>
-
-    <!-- Template Javascript -->
-    <script src="../../resources/js/main.js"></script>
 </body>
 </html>

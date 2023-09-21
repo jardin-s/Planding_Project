@@ -82,7 +82,7 @@ function checkDeleteForm(){
 		                                </div>
 	                                </div>
 	                                <input type="hidden" name="project_id" value="${project_id}">
-	                                <input type="hidden" name="status" value="${status}">
+	                                <input type="hidden" name="p_status" value="${p_status}">
 	                                <input type="hidden" name="kind" value="${kind}">
 	                            </div>
 	                            <div class="col-12 text-center">

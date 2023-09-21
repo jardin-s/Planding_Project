@@ -37,12 +37,6 @@
     <!-- Custom Stylesheet -->
     <link href="../resources/css/customStyle.css" rel="stylesheet">
     
-    <style>
-    .nav-pills > .nav-item > .active {
-		background-color: #E8F5E9 !important; 
-		color: #348E38 !important;
-	}
-    </style>
 </head>
 <body>
 	
@@ -54,9 +48,9 @@
             <div class="row justify-content-center">
 	            <ul class="col-12 col-lg-8 nav nav-pills justify-content-center mt-4 mb-0">
 					<li class="col-6 col-md-3 nav-item"><a class="nav-link text-white" href="userMyPage.usr">내 정보관리</a></li>
-					<li class="col-6 col-md-3 nav-item"><a class="nav-link text-white" href="userBookmarkList.usr">관심 프로젝트</a></li>
-					<li class="col-6 col-md-3 nav-item"><a class="nav-link active fw-bold" aria-current="page" href="#">등록 프로젝트</a></li>
 					<li class="col-6 col-md-3 nav-item"><a class="nav-link text-white" href="userDonationHistory.usr">내 후원내역</a></li>
+					<li class="col-6 col-md-3 nav-item"><a class="nav-link text-white" href="userMyQnaList.usr">내 문의글</a></li>
+					<li class="col-6 col-md-3 nav-item"><a class="nav-link active fw-bold" aria-current="page" href="#">등록 프로젝트</a></li>					
 	            </ul>
             </div>
         </div>
@@ -96,17 +90,22 @@
 										<a href="userProjectView.pj?project_id=${uploadProject.project_id}">${uploadProject.title}</a>
 									</td>
 									<td>
-										<button class="btn btn-outline-primary py-1" type="button" id="editBtn" onclick="location.href='editProject.pj?project_id=${uploadProject.project_id}'">수정</button>
+										<button class="btn btn-outline-primary py-1" type="button" id="editBtn" onclick="location.href='editProjectForm.pj?project_id=${uploadProject.project_id}'">수정</button>
 									</td>
 									<td>
-										<button class="btn btn-outline-primary py-1" type="button" id="mngBtn" onclick="location.href='manageProject.pj?project_id=${uploadProject.project_id}'">관리</button>
+										<c:if test="${uploadProject.kind eq 'donate' }">
+											<button class="btn btn-outline-primary py-1" type="button" id="mngBtn" onclick="location.href='userProjectDonationListALL.pj?project_id=${project_id}'">관리</button>
+										</c:if>
+										<c:if test="${uploadProject.kind eq 'kind' }">
+											<button class="btn btn-outline-primary py-1" type="button" id="mngBtn" onclick="location.href='manageProject.pj?project_id=${uploadProject.project_id}'">관리</button>
+										</c:if>
 									</td>
 									<td>
 										<c:choose>
-											<c:when test="${uploadProject.status eq 'unauthorized' || uploadProject.status eq 'ready'}">
+											<c:when test="${uploadProject.p_status eq 'unauthorized' || uploadProject.p_status eq 'ready'}">
 												<button class="btn btn-outline-primary py-1" type="button" id="dltBtn" onclick="location.href='deleteProject.pj?project_id=${uploadProject.project_id}'">삭제</button>
 											</c:when>
-											<c:when test="${uploadProject.status eq 'ongoing' }">
+											<c:when test="${uploadProject.p_status eq 'ongoing' }">
 												<button class="btn btn-outline-primary py-1" type="button" id="dltBtn" onclick="location.href='cancelProject.pj?project_id=${uploadProject.project_id}'">취소</button>
 											</c:when>
 											<c:otherwise>

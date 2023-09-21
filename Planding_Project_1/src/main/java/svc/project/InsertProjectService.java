@@ -211,4 +211,39 @@ public class InsertProjectService {
 		return isMapProjectRewardListResult;
 	}
 	
+	
+	/** (이주헌 EditRewardAction) 리워드빈 객체로 리워드DAO에서 해당 리워드 수정 */
+	public boolean editReward(RewardBean rewardInfo) {
+		//1. 커넥션 풀에서 Connection객체를 얻어와
+		Connection con = getConnection(); //JdbcUtil. 생략(이유?import static 하여)
+		
+		//2. 싱글톤 패턴 : UserDAO 객체 생성 (DogDAO 객체를 하나만 만들어서 계속 사용)
+		RewardDAO rewardDAO = RewardDAO.getInstance();
+		
+		//3. DB작업에 사용될 Connection객체를 DogDAO에 전달하여 DB연결하여 DAO에서 작업하도록 "서비스"해줌
+		rewardDAO.setConnection(con);
+		
+		
+		/*-------DAO의 해당 메서드를 호출하여 처리----------------------------------------------------*/
+		int insertProjectRewardCount = 0; //rewardDAO.insertProjectReward(project_id, reward_id);
+
+			insertProjectRewardCount = rewardDAO.editReward(rewardInfo);
+
+		
+		boolean isEditRewardResult = false;
+		/*-------(insert, update, delete) 성공하면 commit(), 실패하면 rollback() 호출
+		 * 		 단, select는 이런 작업을 제외 ------------------*/
+		if(insertProjectRewardCount >0) {
+			isEditRewardResult = true;
+			commit(con);
+		}else {
+			rollback(con);
+		}
+		
+		//4. 해제
+		close(con); //JdbcUtil. 생략(이유?import static 하여)
+		
+		return isEditRewardResult;
+	}
+	
 }

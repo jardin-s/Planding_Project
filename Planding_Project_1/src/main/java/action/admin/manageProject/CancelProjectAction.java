@@ -31,7 +31,7 @@ public class CancelProjectAction implements Action {
 		ActionForward forward = null;
 		
 		int project_id =  Integer.parseInt(request.getParameter("project_id"));
-		String status = request.getParameter("status");
+		String p_status = request.getParameter("p_status");
 		String kind = request.getParameter("kind");
 		
 		HttpSession session =  request.getSession();
@@ -85,11 +85,11 @@ public class CancelProjectAction implements Action {
 				ArrayList<String> rewardIdList = cancelProjectService.getProjectRewardIdList(project_id);
 				
 				boolean isCancelProject = false;
-				if(status.equalsIgnoreCase("ready")) {//공개예정
+				if(p_status.equalsIgnoreCase("ready")) {//공개예정
 					
 					isCancelProject = cancelProjectService.cancelProject(project_id, rewardIdList);
 					
-				}else if(status.equalsIgnoreCase("ongoing")) {//진행중
+				}else if(p_status.equalsIgnoreCase("ongoing")) {//진행중
 					
 					//[순서-1] 후원자에게 환불처리 (사용자 계좌 업데이트 & 후원기록 테이블에서 후원기록 삭제)
 					//후원기록 테이블에서 후원기록을 가져와서 후원자에게 환불처리

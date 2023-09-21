@@ -59,7 +59,7 @@
                     <div class="bg-light rounded p-4 p-sm-5 wow fadeInUp" data-wow-delay="0.1s">                        
                         <div class="row g-3">
                             <div class="col-12 text-center">
-                            	<span>회원님의 아이디는 <b><%=a_id %></b>입니다.</span>
+                            	<span>관리자님의 아이디는 <b><%=a_id %></b>입니다.</span>
                             </div>
                             <div class="col-12 text-center">
                             	<a class="btn btn-primary my-3 py-2 px-3" href="adminHashPwFindForm.adm">비밀번호 찾기</a>
@@ -72,19 +72,5 @@
     </div>
     <!-- Form End -->
     
-	<!-- JavaScript Libraries -->
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="../resources/lib/wow/wow.min.js"></script>
-    <script src="../resources/lib/easing/easing.min.js"></script>
-    <script src="../resources/lib/waypoints/waypoints.min.js"></script>
-    <script src="../resources/lib/owlcarousel/owl.carousel.min.js"></script>
-    <script src="../resources/lib/counterup/counterup.min.js"></script>
-    <script src="../resources/lib/parallax/parallax.min.js"></script>
-    <script src="../resources/lib/isotope/isotope.pkgd.min.js"></script>
-    <script src="../resources/lib/lightbox/js/lightbox.min.js"></script>
-
-    <!-- Template Javascript -->
-    <script src="../resources/js/main.js"></script>
 </body>
 </html>

@@ -182,7 +182,7 @@ function selectDelete(){
     </c:if>
 	
 	<c:if test="${pageInfo.listCount != 0 }">
-    	<c:set var="n_index" value="${pageInfo.listCount - (pageInfo.page-1)*10 }" />
+    	<c:set var="n_index" value="${pageInfo.listCount - (pageInfo.page-1)*limit }" />
 	
 	    <%-- Table Start --%>
 	    <form action="adminDeleteNoticeList.adm" method="post" name="dlt">

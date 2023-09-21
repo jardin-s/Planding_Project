@@ -9,7 +9,7 @@ import action.Action;
 import svc.admin.manageProject.donate.DoneDonateProjectListService;
 import vo.ActionForward;
 import vo.PageInfo;
-import vo.ProjectBean;
+import vo.ProjectAdminIncomeBean;
 
 public class DoneDonateProjectListAction implements Action {
 
@@ -33,6 +33,7 @@ public class DoneDonateProjectListAction implements Action {
 		 * 3. 검색하여 조회하는 경우 (입력한 title값으로 검색하여 정렬)
 		 */
 		
+		
 		//[순서-1] project 테이블에서 글을 가져옴 
 		DoneDonateProjectListService doneDonateProjectListService = new DoneDonateProjectListService();
 		
@@ -40,8 +41,8 @@ public class DoneDonateProjectListAction implements Action {
 		int	listCount = doneDonateProjectListService.getDoneDonateCount();
 		System.out.println("[DoneDonateProjectListAction] project_tbl 총 종료된 기부프로젝트 수 = "+listCount);
 		
-		//기부 프로젝트 목록을 얻어옴 (기본값 : 최근 가입순)
-		ArrayList<ProjectBean> projectList = doneDonateProjectListService.getDoneDonateList(page, limit);
+		//기부 프로젝트 목록을 얻어옴 (기본값 : 최근 가입순) (종료프로젝트는 송금여부를 따지기 위해 뷰에서 조회)
+		ArrayList<ProjectAdminIncomeBean> projectList = doneDonateProjectListService.getDoneDonateList(page, limit);
 		request.setAttribute("projectList", projectList);
 		
 		

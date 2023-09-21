@@ -104,8 +104,7 @@ public class UserReadyDonateProjectListService {
 		ArrayList<ProjectPlannerBean> orderProjectPlannerList = null;
 		
 		if(order.equals("new")) { orderProjectPlannerList = projectDAO.selectProjectPlannerReadyList("donate", page, limit);/*기본값이 최신순*/ }
-		if(order.equals("old")) { orderProjectPlannerList = projectDAO.selectOldProjectPlannerReadyList("donate", page, limit); }
-		if(order.equals("popular")) { orderProjectPlannerList = projectDAO.selectPopularProjectPlannerReadyList("donate", page, limit); }	
+		if(order.equals("old")) { orderProjectPlannerList = projectDAO.selectOldProjectPlannerReadyList("donate", page, limit); }	
 		
 		/*-------(insert, update, delete) 성공하면 commit(), 실패하면 rollback() 호출
 		 * 		 단, select는 이런 작업을 제외 ------------------*/

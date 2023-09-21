@@ -104,7 +104,7 @@ function searchNoticeList() {
     
     <c:if test="${pageInfo.listCount != 0 }">
     	
-    	<c:set var="n_index" value="${pageInfo.listCount - (pageInfo.page-1)*10 }" />
+    	<c:set var="n_index" value="${pageInfo.listCount - (pageInfo.page-1)*limit }" />
     	<c:if test="${searchKeyword ne null }">
 			<c:set var="n_index" value="${(pageInfo.page-1)*10 +1}" />    	
     	</c:if>

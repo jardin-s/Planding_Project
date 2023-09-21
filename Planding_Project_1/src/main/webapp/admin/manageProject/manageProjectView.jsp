@@ -56,9 +56,9 @@ function unauthorizeProject(project_id, kind){
 }
 
 //프로젝트 진행 취소
-function cancelProject(project_id, status, kind){
+function cancelProject(project_id, p_status, kind){
 	if(confirm('이 프로젝트의 진행을 취소하시겠습니까?')){
-		location.href='cancelProjectForm.mngp?project_id='+project_id+'&status='+status+'&kind='+kind;
+		location.href='cancelProjectForm.mngp?project_id='+project_id+'&p_status='+p_status+'&kind='+kind;
 	}else{
 		alert('프로젝트를 계속 진행합니다.');
 	}
@@ -105,11 +105,11 @@ function cancelProject(project_id, status, kind){
 			    	<tr>
 			    		<th class="text-center">프로젝트 상태</th>
 			    		<td>
-			    			<c:if test="${projectInfo.status eq 'unauthorized'}">미승인</c:if>
-			    			<c:if test="${projectInfo.status eq 'ready'}">공개예정</c:if>
-			    			<c:if test="${projectInfo.status eq 'ongoing'}">진행중</c:if>
-			    			<c:if test="${projectInfo.status eq 'done'}">종료</c:if>
-			    			<c:if test="${projectInfo.status eq 'success'}">성공</c:if>
+			    			<c:if test="${projectInfo.p_status eq 'unauthorized'}">미승인</c:if>
+			    			<c:if test="${projectInfo.p_status eq 'ready'}">공개예정</c:if>
+			    			<c:if test="${projectInfo.p_status eq 'ongoing'}">진행중</c:if>
+			    			<c:if test="${projectInfo.p_status eq 'done'}">종료</c:if>
+			    			<c:if test="${projectInfo.p_status eq 'success'}">성공</c:if>
 			    		</td>
 			    	</tr>
 			    	<tr>
@@ -135,10 +135,6 @@ function cancelProject(project_id, status, kind){
 			    	<tr>
 			    		<th class="text-center">달성률</th>
 			    		<td>${projectInfo.progress}%</td>
-			    	</tr>
-			    	<tr>
-			    		<th class="text-center">관심등록 수</th>
-			    		<td>${projectInfo.likes}</td>
 			    	</tr>
 			    	<tr>
 			    		<th colspan="2" class="text-center">요약글</th>
@@ -228,12 +224,12 @@ function cancelProject(project_id, status, kind){
 			    
 			   
 			    <div class="col-12 text-center mx-auto">
-			    	<c:if test="${projectInfo.status eq 'unauthorized'}">
+			    	<c:if test="${projectInfo.p_status eq 'unauthorized'}">
 	    				<button class="btn btn-outline-primary py-1" type="button" id="authBtn" onclick="authorizeProject(${projectInfo.project_id});">프로젝트 승인</button>
 	    				<button class="btn btn-outline-primary py-1" type="button" id="unauthBtn" onclick="unauthorizeProject(${projectInfo.project_id}, '${projectInfo.kind }');">승인 거절</button>
 	    			</c:if>
-			    	<c:if test="${projectInfo.status eq 'ready' or projectInfo.status eq 'ongoing'}">
-	    				<button class="btn btn-outline-primary py-1" type="button" id="cancelBtn" onclick="cancelProject(${projectInfo.project_id}, '${projectInfo.status }','${projectInfo.kind }');">프로젝트 취소</button>
+			    	<c:if test="${projectInfo.p_status eq 'ready' or projectInfo.p_status eq 'ongoing'}">
+	    				<button class="btn btn-outline-primary py-1" type="button" id="cancelBtn" onclick="cancelProject(${projectInfo.project_id}, '${projectInfo.p_status }','${projectInfo.kind }');">프로젝트 취소</button>
 	    			</c:if>
 	    			<br><br>
 			    	<c:if test="${projectInfo.kind eq 'donate' }">

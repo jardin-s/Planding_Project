@@ -12,6 +12,7 @@ import action.admin.manageProject.AuthorizeProjectAction;
 import action.admin.manageProject.CancelProjectAction;
 import action.admin.manageProject.CancelProjectFormAction;
 import action.admin.manageProject.ManageProjectViewAction;
+import action.admin.manageProject.SendTotalAmountAction;
 import action.admin.manageProject.UnauthorizeProjectAction;
 import action.admin.manageProject.donate.AuthDonateProjectListAction;
 import action.admin.manageProject.donate.DoneDonateProjectListAction;
@@ -473,10 +474,10 @@ public class MngProjectFrontController extends HttpServlet {
 			}
 			
 		}
-		/*-- '진행 중인 프로젝트를 진행 취소 폼 보기' 요청 --------------------------------------*/
-		else if(command.equals("/cancelProjectAction.mngp")) {
+		/*-- '성공 프로젝트의 모금액을 송금하기' 요청 --------------------------------------*/
+		else if(command.equals("/sendTotalAmount.mngp")) {
 			
-			action = new CancelProjectAction();
+			action = new SendTotalAmountAction();
 			
 			try {
 				forward = action.execute(request, response);
@@ -485,7 +486,6 @@ public class MngProjectFrontController extends HttpServlet {
 			}
 			
 		}
-		
 		
 		
 		/***********************************************************

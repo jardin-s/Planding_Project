@@ -40,7 +40,7 @@ public class ManageDonateProjectListAction implements Action {
 		int	listCount = manageDonateProjectListService.getDonateCount();
 		System.out.println("[ManageDonateProjectListAction] project_tbl 총 기부프로젝트 수 = "+listCount);
 		
-		//기부 프로젝트 목록을 얻어옴 (기본값 : 최근 가입순)
+		//기부 프로젝트 목록을 얻어옴 (기본값 : 최근 가입순) 
 		ArrayList<ProjectBean> projectList = manageDonateProjectListService.getDonateList(page, limit);
 		System.out.println("[ManageDonateProjectListAction] 얻어온 기부프로젝트 목록 = "+projectList);
 		request.setAttribute("projectList", projectList);

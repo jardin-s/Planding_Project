@@ -64,12 +64,29 @@ function noticeFormCheck(){
 		
 	//비밀글 값 가져오기
 	var check_value = document.f.checkbox.checked ? "Y" : "N";
-	alert("check_value = "+check_value);
 	document.f.importance.value = check_value;
 	
 	
 	document.f.submit();
 	
+}
+
+
+//기존파일을 삭제하고, 파일input태그 나타내기
+function deleteFile(){
+	
+	//기존파일정보와 실제 값이 담긴 hidden태그
+	var deleteFile = document.getElementById("dltFile");
+	
+	//해당 태그들의 부모태그를 가져와
+	var parentDiv = deleteFile.parentNode;
+	
+	//자식태그인 두 태그를 삭제하고
+	parentDiv.removeChild(deleteFile);
+	
+	//파일input HTML태그를 추가
+	parentDiv.innerHTML = "<input type='file' name='n_image' class='form-control' id='n_image' aria-describedby='n_image' accept='image/*' aria-label='n_image' maxlength='100'>";
+		
 }
 
 </script>
@@ -97,7 +114,8 @@ function noticeFormCheck(){
         <div class="container col-md-8 col-lg-7 col-xl-6 col-xxl-5">
             <div class="row justify-content-center">
 				<form action="adminModifyNoticeAction.adm" method="post" name="f" enctype="multipart/form-data">
-					<input type="hidden" name="member_id" value="${sessionScope.a_id}">
+					<input type="hidden" name="page" value="${page}">
+					<input type="hidden" name="notice_id" value="${noticeInfo.notice_id}">
 					
 					<div class="input-group mb-2">
 						<span class="input-group-text" id="n_title">제목</span>
@@ -108,7 +126,12 @@ function noticeFormCheck(){
 						<textarea name="n_content" class="form-control" placeholder="내용을 입력하세요." aria-label="n_content" rows="10">${noticeInfo.n_content }</textarea>
 					</div>
 					<div class="input-group mb-3">
-						<input type="file" name="n_image" value="${noticeInfo.n_image }" class="form-control" id="n_image" accept="image/*" aria-describedby="n_image" aria-label="n_image" maxlength="100">
+						<c:if test="${noticeInfo.n_image eq null }">
+							<input type="file" name="n_image" class="form-control" id="n_image" aria-describedby="n_image" accept="image/*" aria-label="n_image" maxlength="100">
+						</c:if>
+						<c:if test="${noticeInfo.n_image ne null }">
+							<div id="dltFile"><i class="far fa-image me-2"></i>${noticeInfo.n_image }&nbsp;&nbsp;<a href="#" onclick="javascript:deleteFile();">삭제</a></div>
+						</c:if>
 					</div>
 					<div class="form-check">
 						<input class="form-check-input" type="checkbox" name="checkbox" value="Y" id="checkbox" ${importanceChk }>
