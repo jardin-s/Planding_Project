@@ -84,7 +84,7 @@ function cancelProject(project_id, p_status, kind){
    				<table class="table table-bordered mb-5">
 			    	<tr>
 			    		<th colspan="2" class="text-center">
-			    			<img src="<%=request.getContextPath()%>/images/project_No_${projectInfo.project_id }/${projectInfo.project_id }_${projectInfo.thumbnail }" style="width:80%">
+			    			<img src="images/project_No_${projectInfo.project_id }/${projectInfo.project_id }_${projectInfo.thumbnail }" style="width:80%">
 			    		</th>
 			    	</tr>
 			    	<tr>
@@ -154,7 +154,7 @@ function cancelProject(project_id, p_status, kind){
 			    	<tr>
 			    		<td colspan="2" class="text-center">
 			    			<c:forTokens var="image" items="${projectInfo.image }" delims=";">
-								<img src="<%=request.getContextPath()%>/images/project_No_${projectInfo.project_id }/${projectInfo.project_id }_${image}" style="width:60%; margin-bottom: 2rem">
+								<img src="images/project_No_${projectInfo.project_id }/${projectInfo.project_id }_${image}" style="width:60%; margin-bottom: 2rem">
 							</c:forTokens>
 			    		</td>
 			    	</tr>

@@ -224,15 +224,15 @@
 							</tr>
 						</thead>
 						<tbody class="table-group-divider">
-					<c:if test="${donationList eq null}">
+					<c:if test="${donationCount eq 0}">
 						<tr class="text-center">
-					        <td>
+					        <td colspan="6">
 					            후원 목록이 비어있습니다.
 					        </td>
 						</tr>
 					</c:if>
 						
-					<c:if test="${donationList ne null}">
+					<c:if test="${donationCount ne 0}">
 						<c:forEach items="${donationList}" var="donation">
 							 <tr class="text-center">
 <!-- 							  onclick="redirectToPage('your_page_url')" data-bs-toggle="tooltip" data-bs-placement="top" title="클릭하여 상세정보보기 누르면 송장같은 정보나오도록" -->

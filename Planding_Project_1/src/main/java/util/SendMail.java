@@ -14,6 +14,7 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 import vo.AddressBean;
+import vo.DonationBean;
 import vo.MemberBean;
 import vo.ProjectBean;
 import vo.ProjectDonationRewardBean;
@@ -30,7 +31,8 @@ public class SendMail {
    private String cancelDonateMsgDefault;
    private String cancelDonateMsgSelect;
    
-   private String sendDonationAmountMsg;
+   private String sendDonationAmountMsg;//모금성공한 기획자에게 모금액이 송금되었음을 안내
+   private String sendRufundDonationMsg;//모금실패한 펀딩기획자에게 모금액이 후원자에게 환불처리되었음을 안내
    
    public void setDonateSuccessMsgDefault(ProjectBean projectInfo, RewardBean rewardInfo, MemberBean userInfo, int add_donation) {
 	   System.out.println("[setDonateSuccessMsgDefault] 내용구성에 필요한 변수들 값 확인 -------");
@@ -267,7 +269,8 @@ public class SendMail {
 	   sendDonationAmountMsg = sb.toString();
 	   
    }
- 
+   
+   
 
    public boolean sendMailDonateSuccessDefault(MemberBean userInfo) {
 

@@ -1832,4 +1832,36 @@ public class ProjectDAO {
 	}
 
 	
+	/** 프로젝트ID로 기획자ID를 얻어옴 */
+	public String selectPlannerId(int project_id) {
+		String planner_id = null;
+		
+		String sql = "select member_id"
+				  + " from project_planner_tbl"
+				  + " where project_id = ?";
+		
+		try {
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, project_id);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				planner_id = rs.getString("member_id");
+			}
+						
+		} catch(Exception e) {
+			System.out.println("[ProjectDAO] selectPlannerId() 에러 : "+e);//예외객체종류 + 예외메시지
+			e.printStackTrace();
+		} finally {
+			close(pstmt); //JdbcUtil.생략가능
+			close(rs); //JdbcUtil.생략가능
+			//connection 객체에 대한 해제는 DogListService에서 이루어짐
+		}
+		
+		return planner_id;
+	}
+
+	
 }
