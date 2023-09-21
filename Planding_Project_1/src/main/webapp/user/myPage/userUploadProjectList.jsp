@@ -93,7 +93,7 @@
 									</td>
 									<td>
 										<c:if test="${uploadProject.kind eq 'donate' }">
-											<button class="btn btn-outline-primary py-1 px-1" type="button" id="mngBtn" onclick="location.href='userProjectDonationListALL.pj?project_id=${project_id}'">관리</button>
+											<button class="btn btn-outline-primary py-1 px-1" type="button" id="mngBtn" onclick="location.href='userProjectDonationListALL.pj?project_id=${uploadProject.project_id}'">관리</button>
 										</c:if>
 										<c:if test="${uploadProject.kind eq 'kind' }">
 											<button class="btn btn-outline-primary py-1 px-1" type="button" id="mngBtn" onclick="location.href='manageProject.pj?project_id=${uploadProject.project_id}'">관리</button>

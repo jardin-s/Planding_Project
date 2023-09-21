@@ -30,6 +30,7 @@ public class AdminHashPwChangeService {
 		
 		/*-------DAO의 해당 메서드를 호출하여 처리----------------------------------------------------*/
 		int changeHashPwCount = adminDAO.changeHashPw(adminPwChangeBean);
+		System.out.println("[AdminHashPwChangeService] changeHashPw() : changeHashPwCount = "+changeHashPwCount);
 		
 		boolean isChangeHashPwResult = false;
 		/*-------(insert, update, delete) 성공하면 commit(), 실패하면 rollback() 호출
