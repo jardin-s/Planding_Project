@@ -87,6 +87,7 @@ public class SendTotalAmountService {
 		
 		/*-------DAO의 해당 메서드를 호출하여 처리----------------------------------------------------*/
 		int insertAdminIncomeCount = adminIncomeDAO.insertAdminIncome(project_id, fee_income);
+		System.out.println("[SendTotalAmountService] insertFeeIncome : insertAdminIncomeCount" + insertAdminIncomeCount);
 		
 		boolean isInsertFeeIncomeResult = false;
 		/*-------(insert, update, delete) 성공하면 commit(), 실패하면 rollback() 호출
@@ -119,6 +120,8 @@ public class SendTotalAmountService {
 		
 		/*-------DAO의 해당 메서드를 호출하여 처리----------------------------------------------------*/
 		int updateUserPlusMoneyCount = userDAO.updateUserPlusMoney(member_id, finalAmount);
+		System.out.println("[SendTotalAmountService] member_id = "+member_id+", finalAmount = "+finalAmount);
+		System.out.println("[SendTotalAmountService] sendAmountPlanner : updateUserPlusMoneyCount" + updateUserPlusMoneyCount);
 		
 		boolean isSendAmountPlannerResult = false;
 		/*-------(insert, update, delete) 성공하면 commit(), 실패하면 rollback() 호출

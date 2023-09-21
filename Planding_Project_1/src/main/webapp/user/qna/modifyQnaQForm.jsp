@@ -62,7 +62,6 @@ function qnaFormCheck(){
 		}
 	}
 	
-	alert('이거 리턴 폴스가 먹히긴 하니?');
 	
 	//비밀글 값 가져오기
 	var check_value = document.f.checkbox.checked ? "Y" : "N";

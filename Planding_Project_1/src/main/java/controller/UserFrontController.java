@@ -32,8 +32,6 @@ import action.user.qna.UserMyQnaListAction;
 import action.user.qna.UserMyQnaViewAction;
 import action.user.qna.UserQnaListAction;
 import action.user.qna.UserQnaViewAction;
-import action.user.UserBookmarkDeleteAction;
-import action.user.UserBookmarkListAction;
 import action.user.UserDonationHistoryAction;
 import action.user.UserMyPageAction;
 import action.user.UserTopupMoneyAction;
@@ -289,17 +287,6 @@ public class UserFrontController extends HttpServlet {
 			}
 		}
 		
-		/*------- '관심 프로젝트 목록 보기' -------------------------------*/
-		else if(command.equals("/userBookmarkList.usr")) {//'관심 프로젝트 목록 보기' 요청이면
-			//action:부모인터페이스 = UserHashPwChangeAction:구현한자식객체;
-			action = new UserBookmarkListAction();
-			try {
-				forward = action.execute(request, response);
-			} catch (Exception e) {
-				// TODO 자동 생성된 catch 블록
-				e.printStackTrace();
-			}
-		}
 		
 		/*------- '등록한 프로젝트 목록 보기' -------------------------------*/
 		else if(command.equals("/userUploadProjectList.usr")) {//'등록한 프로젝트 목록 보기' 요청이면
@@ -317,18 +304,6 @@ public class UserFrontController extends HttpServlet {
 		else if(command.equals("/userDonationHistory.usr")) {//'후원내역 보기' 요청이면
 			//action:부모인터페이스 = UserHashPwChangeAction:구현한자식객체;
 			action = new UserDonationHistoryAction();
-			try {
-				forward = action.execute(request, response);
-			} catch (Exception e) {
-				// TODO 자동 생성된 catch 블록
-				e.printStackTrace();
-			}
-		}
-		
-		/*------- '선택한 관심 프로젝트 삭제하기' -------------------------------*/
-		else if(command.equals("/userBookmarkDelete.usr")) {//'관심프로젝트 삭제' 요청이면
-			//action:부모인터페이스 = UserHashPwChangeAction:구현한자식객체;
-			action = new UserBookmarkDeleteAction();
 			try {
 				forward = action.execute(request, response);
 			} catch (Exception e) {

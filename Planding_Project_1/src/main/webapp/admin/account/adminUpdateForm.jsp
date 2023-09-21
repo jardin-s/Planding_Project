@@ -192,7 +192,7 @@ function checkUpateForm(){
 	                            <div class="mb-3 row g-3 justify-content-center">
 								    <label for="postcode" class="col-3 col-form-label text-center">우편번호</label>
 								    <div class="col-6 me-0 pe-0">
-								      <input type="text" class="form-control" name="postcode" id="postcode" value="${addr.postcode}" max-length="20" placeholder="우편번호만 입력" required>
+								      <input type="text" class="form-control" name="postcode" id="postcode" value="${addr.postcode}" maxlength="20" placeholder="우편번호만 입력" required>
 								    </div>
 		                            <div class="col-3 text-end">
 		                                <input type="button" class="btn btn-primary" type="button" name="addck" id="addck" value="번호검색" onclick="findAddr();" required>                                

@@ -225,15 +225,7 @@ function checkDonate() {
 								</c:if>
 								
 								
-							</tr>
-							<!-- 공개예정, 진행중인 프로젝트만 '관심프로젝트 추가 버튼' 보이기 -->
-							<c:if test="${projectInfo.p_status eq 'ready' || projectInfo.p_status eq 'ongoing'}">
-								<tr class="text-center">
-									<td class="py-3">
-										<button type="button" class="btn btn-light" style="width:100%" onclick="location.href='userAddBookmark.pj?project_id=${projectInfo.project_id}'"><i class="fas fa-heart me-2"></i>관심프로젝트 추가</button>
-									</td>				
-								</tr>
-							</c:if>							
+							</tr>						
 						</tbody>
 					</table>
 				</div>

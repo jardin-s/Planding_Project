@@ -85,12 +85,8 @@ function checkDeleteForm(){
 	                            <div class="col-12">
 	                                <div class="bg-white rounded">
 	                                    <p class="p-3">
-	                                    	<span class="fw-bold">&nbsp;탈퇴 전 유의사항을 확인해주세요.</span><br><br>	                                    	
-	                                    	&nbsp;타인이 동일 아이디로 회원가입하여 부정이용을 하는 경우를 방지하기 위해 아이디를 포함한 개인정보는 6개월 뒤 삭제됩니다.<br><br>
-	                                    	&nbsp;검토 중 또는 공개예정이었던 프로젝트는 삭제되며 진행 중이던 프로젝트는 즉시 중단됩니다.<br>
-	                                    	&nbsp;이미 종료된 프로젝트는 삭제되지 않습니다.<br><br>
-	                                    	&nbsp;종료된 프로젝트의 후원은 취소되지 않습니다. 리워드 배송을 위해 배송지 기록은 리워드 배송이 모두 끝나기 전까지 삭제되지 않습니다.<br>
-	                                    	&nbsp;진행 중인 프로젝트의 후원은 환불처리됩니다. (카드사에 따라 최대 7일 정도 소요될 수 있습니다.)
+	                                    	<span class="fw-bold">&nbsp;계정 삭제 전 유의사항을 확인해주세요.</span><br><br>	                                    	
+	                                    	&nbsp;타인이 동일 아이디로 회원가입하여 부정이용을 하는 경우를 방지하기 위해 아이디를 제외한 개인정보만 즉시 삭제됩니다.<br><br>
 	                                    </p>	              
 	                                    <div class="px-4 pb-3">                      
 		                                    <div class="form-check">

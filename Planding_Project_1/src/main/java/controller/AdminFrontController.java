@@ -485,7 +485,7 @@ public class AdminFrontController extends HttpServlet {
 			
 		}
 		/*-- '공지글 수정하기' 요청 -> 처리 --------------------------------------*/
-		else if(command.equals("adminModifyNoticeAction.adm")) {//공지글 수정하기 요청
+		else if(command.equals("/adminModifyNoticeAction.adm")) {//공지글 수정하기 요청
 			
 			action = new AdminModifyNoticeAction();
 			

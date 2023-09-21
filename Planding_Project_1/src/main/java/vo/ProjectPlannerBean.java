@@ -26,7 +26,6 @@ public class ProjectPlannerBean {
 	private int curr_amount;
 	
 	private String p_status;//처음은 항상 unauthorized(미승인)
-	private int likes;//0부터 시작
 	
 	private String regdate;//등록일자 (SQL 자동 현재시간 세팅)
 	
@@ -65,7 +64,7 @@ public class ProjectPlannerBean {
 	//모든 필드를 사용하는 생성자
 	public ProjectPlannerBean(int project_id, String kind, String title, String summary, String thumbnail,
 			String content, String image, String startdate, String enddate, int goal_amount, int curr_amount,
-			String p_status, int likes, String regdate, double progress, int deadline, String goal_amount_df,
+			String p_status, String regdate, double progress, int deadline, String goal_amount_df,
 			String curr_amount_df, String member_id, String planner_name, String introduce, String bank,
 			String account_num) {
 		super();
@@ -81,7 +80,6 @@ public class ProjectPlannerBean {
 		this.goal_amount = goal_amount;
 		this.curr_amount = curr_amount;
 		this.p_status = p_status;
-		this.likes = likes;
 		this.regdate = regdate;
 		this.progress = progress;
 		this.deadline = deadline;
@@ -97,7 +95,7 @@ public class ProjectPlannerBean {
 	//모든 프로젝트 DB필드 + 기획자는 이름만 ([사용자모드] 프로젝트 리스트 용)
 	public ProjectPlannerBean(int project_id, String kind, String title, String summary, String thumbnail,
 			String content, String image, String startdate, String enddate, int goal_amount, int curr_amount,
-			String p_status, int likes, String regdate, String planner_name) {
+			String p_status, String regdate, String planner_name) {
 		super();
 		this.project_id = project_id;
 		this.kind = kind;
@@ -111,16 +109,16 @@ public class ProjectPlannerBean {
 		this.goal_amount = goal_amount;
 		this.curr_amount = curr_amount;
 		this.p_status = p_status;
-		this.likes = likes;
 		this.regdate = regdate;
 		this.planner_name = planner_name;
 	}
 	
 	//[관리자모드] 송금용
-	public ProjectPlannerBean(int project_id, String title, String startdate, String enddate, int goal_amount, int curr_amount,
+	public ProjectPlannerBean(int project_id, String kind, String title, String startdate, String enddate, int goal_amount, int curr_amount,
 			String p_status, String regdate, String member_id, String planner_name) {
 		super();
 		this.project_id = project_id;
+		this.kind = kind;
 		this.title = title;
 		this.startdate = startdate;
 		this.enddate = enddate;
@@ -128,6 +126,7 @@ public class ProjectPlannerBean {
 		this.curr_amount = curr_amount;
 		this.p_status = p_status;
 		this.regdate = regdate;
+		this.member_id = member_id;
 		this.planner_name = planner_name;
 	}
 	
@@ -234,14 +233,6 @@ public class ProjectPlannerBean {
 		this.p_status = p_status;
 	}
 
-	public int getLikes() {
-		return likes;
-	}
-
-	public void setLikes(int likes) {
-		this.likes = likes;
-	}
-	
 	public String getRegdate() {
 		return regdate;
 	}

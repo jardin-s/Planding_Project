@@ -64,6 +64,7 @@ public class UserNoticeListAction implements Action {
 			//원하는 페이지의 넘버의 원하는 개수만큼 글을 얻어옴
 			noticeList = noticeListService.getNoticeList(page, limit);
 			
+			request.setAttribute("limit", limit);
 			request.setAttribute("importantList", importantList);
 			
 		}

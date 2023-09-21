@@ -151,6 +151,7 @@ function searchProjectList() {
 								<th scope="col" class="col-1">#</th>
 								<th scope="col" class="col-auto">제목</th>
 								<th scope="col" class="col-3">상태</th>
+								<th scope="col" class="col-2"><i class="fas fa-money-bill-wave"></i></th>
 								<th scope="col" class="col-3">등록일자</th>							
 							</tr>
 						</thead>
@@ -167,17 +168,9 @@ function searchProjectList() {
 										<c:if test="${project.p_status eq 'success'}">성공</c:if>
 									</td>
 									<td>
-										<c:choose>
-											<c:when test="${project.p_status eq 'success' && project.incomedate eq null}">
-												<button class="btn btn-outline-primary py-1" type="button" id="sendBtn" onclick="location.href='sendTotalAmount.mngp?project_id=${project.project_id}'">송금</button>
-											</c:when>
-											<c:when test="${project.p_status eq 'done' && project.curr_amount > 0}">
-												<button class="btn btn-outline-primary py-1" type="button" id="refundBtn" onclick="location.href='refundTotalAmount.mngp'">환불</button>
-											</c:when>
-											<c:otherwise>
-												<span style="color:#ccc">완료</span>
-											</c:otherwise>
-										</c:choose>
+										<c:if test="${project.p_status eq 'success' && project.incomedate eq null}">
+											<button class="btn btn-outline-primary py-1" type="button" id="sendBtn" onclick="location.href='sendTotalAmount.mngp?project_id=${project.project_id}'">송금</button>
+										</c:if>
 									</td>
 									<td>${project.regdate}</td>
 								</tr>
@@ -239,22 +232,6 @@ function searchProjectList() {
 	    <%-- Pagination Start --%>       
     
     </c:if>
-    
-    
-    
-    <!-- JavaScript Libraries -->
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="../../resources/lib/wow/wow.min.js"></script>
-    <script src="../../resources/lib/easing/easing.min.js"></script>
-    <script src="../../resources/lib/waypoints/waypoints.min.js"></script>
-    <script src="../../resources/lib/owlcarousel/owl.carousel.min.js"></script>
-    <script src="../../resources/lib/counterup/counterup.min.js"></script>
-    <script src="../../resources/lib/parallax/parallax.min.js"></script>
-    <script src="../../resources/lib/isotope/isotope.pkgd.min.js"></script>
-    <script src="../../resources/lib/lightbox/js/lightbox.min.js"></script>
 
-    <!-- Template Javascript -->
-    <script src="../../resources/js/main.js"></script>
 </body>
 </html>

@@ -194,11 +194,6 @@ if(project.getImage()!=null){//프로젝트 이미지가 있으면
 									</td>
 								</form>
 							</tr>
-							<tr class="text-center">
-								<td class="py-3">
-									<button type="button" class="btn btn-light" style="width:100%"><i class="fas fa-heart me-2"></i>관심프로젝트 추가</button>
-								</td>				
-							</tr>
 						</tbody>
 					</table>
 				</div>

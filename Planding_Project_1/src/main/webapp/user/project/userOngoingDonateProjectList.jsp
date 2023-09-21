@@ -104,8 +104,6 @@ function searchProjectList() {
 								<c:if test="${orderKeyword ne 'old' }"><option value="old">오래된순</option></c:if>
 								<c:if test="${orderKeyword eq 'deadline' }"><option value="deadline" selected>마감임박순</option></c:if>
 								<c:if test="${orderKeyword ne 'deadline' }"><option value="deadline">마감임박순</option></c:if>
-								<c:if test="${orderKeyword eq 'popular' }"><option value="popular" selected>높은 관심순</option></c:if>
-								<c:if test="${orderKeyword ne 'popular' }"><option value="popular">높은 관심순</option></c:if>
 							</select>
 						</form>
 	    			</div>
@@ -350,21 +348,5 @@ function searchProjectList() {
     <%-- Pagination Start --%>          
 
     
-	
-
-    <!-- JavaScript Libraries -->
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="../resources/lib/wow/wow.min.js"></script>
-    <script src="../resources/lib/easing/easing.min.js"></script>
-    <script src="../resources/lib/waypoints/waypoints.min.js"></script>
-    <script src="../resources/lib/owlcarousel/owl.carousel.min.js"></script>
-    <script src="../resources/lib/counterup/counterup.min.js"></script>
-    <script src="../resources/lib/parallax/parallax.min.js"></script>
-    <script src="../resources/lib/isotope/isotope.pkgd.min.js"></script>
-    <script src="../resources/lib/lightbox/js/lightbox.min.js"></script>
-
-    <!-- Template Javascript -->
-    <script src="../resources/js/main.js"></script>
 </body>
 </html>

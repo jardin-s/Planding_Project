@@ -25,7 +25,6 @@ public class ProjectDonationRewardBean {
 	private int curr_amount;
 	
 	private String p_status;//처음은 항상 unauthorized(미승인)
-	private int likes;//0부터 시작
 	
 	private String regdate;//등록일자 (SQL 자동 현재시간 세팅)
 	
@@ -235,14 +234,6 @@ public class ProjectDonationRewardBean {
 		this.p_status = p_status;
 	}
 
-	public int getLikes() {
-		return likes;
-	}
-
-	public void setLikes(int likes) {
-		this.likes = likes;
-	}
-	
 	public String getRegdate() {
 		return regdate;
 	}

@@ -69,8 +69,7 @@ function adminLogout(){
                     <c:if test="${sessionScope.a_id ne null }">
                     	<a class="btn btn-link text-light" href="#" onclick="adminLogout();">로그아웃하기</a>
                     	<a class="btn btn-link text-light" href="adminMyPage.adm"><i class="fas fa-user"></i></a>
-                    </c:if>                    
-                    <a class="btn btn-link text-light" href=""><i class="fas fa-search"></i></a>
+                    </c:if>
                 </div>
             </div>
         </div>
@@ -100,7 +99,6 @@ function adminLogout(){
                 <div class="nav-item dropdown">
                     <a href="#" class="nav-link fs-6 dropdown-toggle" data-bs-toggle="dropdown">고객센터</a>
                     <div class="dropdown-menu bg-light m-0">
-                        <a href="adminAbout.adm" class="dropdown-item fs-6">사이트소개</a>
                         <a href="adminNoticeList.adm" class="dropdown-item fs-6">공지사항</a>
                         <a href="adminQnaList.adm" class="dropdown-item fs-6">문의사항</a>
                     </div>

@@ -137,10 +137,6 @@ function cancelProject(project_id, p_status, kind){
 			    		<td>${projectInfo.progress}%</td>
 			    	</tr>
 			    	<tr>
-			    		<th class="text-center">관심등록 수</th>
-			    		<td>${projectInfo.likes}</td>
-			    	</tr>
-			    	<tr>
 			    		<th colspan="2" class="text-center">요약글</th>
 			    	</tr>
 			    	<tr>

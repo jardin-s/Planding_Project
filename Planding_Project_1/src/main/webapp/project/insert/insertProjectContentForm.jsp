@@ -195,7 +195,7 @@ if(session.getAttribute("contentImgs") != null){
 	       
 			<div class="mb-3">
 				<label for="content" class="form-label">프로젝트 내용</label>
-				<textarea class="form-control" id="content" name="content" rows="3" maxlength="5000" required placeholder="줄바꿈 할 시 직접 &lt;br&gt;을 입력해주세요. 해당 기능이 개발 중에 있습니다.">${sessionScope.projectInfo.content}</textarea>
+				<textarea class="form-control" id="content" name="content" rows="3" maxlength="5000" required placeholder="줄바꿈 할 시 직접 &lt;br&gt;을 입력해주세요. 해당 기능이 개발 예정중에 있습니다.">${sessionScope.projectInfo.content}</textarea>
 			</div>
 			
 			<div class="mb-3">
@@ -236,20 +236,5 @@ if(session.getAttribute("contentImgs") != null){
 
 	</div>
 
-
-	<!-- JavaScript Libraries -->
-	<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-	<script src="../resources/lib/wow/wow.min.js"></script>
-	<script src="../resources/lib/easing/easing.min.js"></script>
-	<script src="../resources/lib/waypoints/waypoints.min.js"></script>
-	<script src="../resources/lib/owlcarousel/owl.carousel.min.js"></script>
-	<script src="../resources/lib/counterup/counterup.min.js"></script>
-	<script src="../resources/lib/parallax/parallax.min.js"></script>
-	<script src="../resources/lib/isotope/isotope.pkgd.min.js"></script>
-	<script src="../resources/lib/lightbox/js/lightbox.min.js"></script>
-
-	<!-- Template Javascript -->
-	<script src="../resources/js/main.js"></script>
 </body>
 </html>

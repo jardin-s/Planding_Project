@@ -520,80 +520,6 @@ public class UserDAO {
 		return changeHashPwCount;
 	}
 
-	public ArrayList<BookmarkBean> selectBookmarkList(String u_id) {
-		ArrayList<BookmarkBean> bookmarkList = null;
-		
-		String sql = "select project_id, DATE_FORMAT(likedate, %Y-%m-%d) as likedate";
-			   sql += " from bookmark_tbl";
-			   sql += " where member_id=?";
-			   sql += " order by likedate desc";
-		
-		try {
-			
-			pstmt = con.prepareStatement(sql);
-			pstmt.setString(1, u_id);
-			
-			rs = pstmt.executeQuery();
-			
-			if(rs.next()) {
-				bookmarkList = new ArrayList<>();
-				
-				do {
-					bookmarkList.add(new BookmarkBean(u_id,
-													  rs.getInt("project_id"),
-													  rs.getString("likedate")));
-				}while(rs.next());
-			}
-			
-			
-		} catch(Exception e) {
-			System.out.println("[UserDAO] selectBookmarkList() 에러 : "+e);//예외객체종류 + 예외메시지
-		} finally {
-			close(pstmt); //JdbcUtil.생략가능
-			close(rs); //JdbcUtil.생략가능
-			//connection 객체에 대한 해제는 DogListService에서 이루어짐
-		}
-		
-		return bookmarkList;
-	}
-
-	public ArrayList<Integer> selectBookmarkIdList(String u_id) {
-		
-		ArrayList<Integer> bookmarkIdList = null;
-		
-		//최근순으로 정렬하여 projectId를 얻어옴
-		String sql = "select project_id";
-			   sql += " from bookmark_tbl";
-			   sql += " where member_id=?";
-			   sql += " order by likedate desc";
-		
-		try {
-			
-			pstmt = con.prepareStatement(sql);
-			pstmt.setString(1, u_id);
-			
-			rs = pstmt.executeQuery();
-			
-			if(rs.next()) {
-				bookmarkIdList = new ArrayList<>();
-				
-				do {
-					bookmarkIdList.add(rs.getInt("project_id"));
-				}while(rs.next());
-			}
-			
-			
-		} catch(Exception e) {
-			System.out.println("[UserDAO] selectBookmarkList() 에러 : "+e);//예외객체종류 + 예외메시지
-		} finally {
-			close(pstmt); //JdbcUtil.생략가능
-			close(rs); //JdbcUtil.생략가능
-			//connection 객체에 대한 해제는 DogListService에서 이루어짐
-		}
-		
-		return bookmarkIdList;
-	}
-
 	/** 회원ID로 회원이 기획한 프로젝트ID리스트를 알아냄 */
 	public ArrayList<Integer> selectUploadProjectIdList(String member_id) {
 		
@@ -721,60 +647,6 @@ public class UserDAO {
 		}
 		
 		return updateUserMoneyCount;
-	}
-
-	/** 사용자의 관심프로젝트 수를 가져옴 */
-	public int selectBookmarkListCount(String member_id) {
-		
-		int bookmarkListCount = 0;
-		
-		String sql = "select count(*) from bookmark_tbl where member_id = ?";
-		
-		try {
-			
-			pstmt = con.prepareStatement(sql);
-			pstmt.setString(1, member_id);
-			
-			rs = pstmt.executeQuery();
-			
-			if(rs.next()) {
-				bookmarkListCount = rs.getInt(1);
-			}			
-			
-		} catch(Exception e) {
-			System.out.println("[UserDAO] selectBookmarkListCount() 에러 : "+e);//예외객체종류 + 예외메시지
-		} finally {
-			close(pstmt); //JdbcUtil.생략가능
-			close(rs); //JdbcUtil.생략가능
-			//connection 객체에 대한 해제는 DogListService에서 이루어짐
-		}
-		
-		return bookmarkListCount;
-		
-	}
-
-	/** 프로젝트ID로 관심프로젝트 목록에서 삭제 */
-	public int deleteBookmark(int project_id) {
-		int deleteBookmarkCount = 0;
-		
-		String sql = "delete from bookmark_tbl where project_id = ?";
-		
-		try {
-			
-			pstmt = con.prepareStatement(sql);
-			pstmt.setInt(1, project_id);
-			
-			deleteBookmarkCount = pstmt.executeUpdate();
-			
-		} catch(Exception e) {
-			System.out.println("[UserDAO] deleteBookmark() 에러 : "+e);//예외객체종류 + 예외메시지
-		} finally {
-			close(pstmt); //JdbcUtil.생략가능
-			//close(rs); //JdbcUtil.생략가능
-			//connection 객체에 대한 해제는 DogListService에서 이루어짐
-		}
-		
-		return deleteBookmarkCount;
 	}
 
 	/** 사용자ID로 현재 계좌잔액을 가져옴 */
@@ -952,7 +824,7 @@ public class UserDAO {
 		
 		int startrow = (page-1)*limit;
 		
-		String sql = "select donation_id, project_id, title, status, reward_id, r_name, r_price, add_donation,"
+		String sql = "select donation_id, project_id, title, p_status, reward_id, r_name, r_price, add_donation,"
 				  + " DATE_FORMAT(donatedate,'%Y.%m.%d %H:%i') as donatedate"
 				  + " from project_donation_reward_view"
 				  + " where member_id = ?"

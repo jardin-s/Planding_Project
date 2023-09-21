@@ -120,7 +120,7 @@ public class ProjectFrontController extends HttpServlet {
 			//session.setAttribute("kind", "donate");//kind를 donate로 설정
 			
 			request.setAttribute("kind", "donate");
-			request.setAttribute("showPage", "project/insertProjectPlannerForm.jsp");//어느 폼 보기인지 showPage이름 속성으로 저장
+			request.setAttribute("showPage", "project/insert/insertProjectPlannerForm.jsp");//어느 폼 보기인지 showPage이름 속성으로 저장
 			forward = new ActionForward("userTemplate.jsp",false);//반드시 디스패치 (request를 공유)
 		}
 		
@@ -130,7 +130,7 @@ public class ProjectFrontController extends HttpServlet {
 			//session.setAttribute("kind", "fund");//kind를 fund로 설정
 			
 			request.setAttribute("kind", "fund");
-			request.setAttribute("showPage", "project/insertProjectPlannerForm.jsp");//어느 폼 보기인지 showPage이름 속성으로 저장
+			request.setAttribute("showPage", "project/insert/insertProjectPlannerForm.jsp");//어느 폼 보기인지 showPage이름 속성으로 저장
 			forward = new ActionForward("userTemplate.jsp",false);//반드시 디스패치 (request를 공유)
 		}
 		

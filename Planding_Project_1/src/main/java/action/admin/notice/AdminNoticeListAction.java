@@ -73,6 +73,7 @@ public class AdminNoticeListAction implements Action {
 		pageInfo.setEndPage(endPage);
 		
 		//페이지네이션 정보와 해당 페이지 글목록을 request속성으로 저장
+		request.setAttribute("limit", limit);
 		request.setAttribute("pageInfo", pageInfo);
 		request.setAttribute("importantList", importantList);
 		request.setAttribute("noticeList", noticeList);

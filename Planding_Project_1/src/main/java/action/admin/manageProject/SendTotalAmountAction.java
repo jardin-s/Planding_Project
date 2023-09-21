@@ -24,19 +24,25 @@ public class SendTotalAmountAction implements Action {
 		 */
 		
 		int project_id = Integer.parseInt(request.getParameter("project_id"));
+		System.out.println("[SendTotalAmountAction] 파라미터값 project_id = "+project_id);
 		
 		SendTotalAmountService sendTotalAmountService = new SendTotalAmountService();
 		
 		//프로젝트-기획자 정보를 가져옴
 		ProjectPlannerBean projectPlanner = sendTotalAmountService.getProjectPlannerInfo(project_id);
+		System.out.println("[SendTotalAmountAction] projectPlanner = "+projectPlanner);
 		
 		//기획자 회원정보를 가져옴
 		MemberBean plannerInfo = sendTotalAmountService.getPlannerInfo(projectPlanner.getMember_id());
+		System.out.println("[SendTotalAmountAction] plannerInfo = "+plannerInfo);
 		
 		//수수료 수익 계산
 		int fee_income = (int)((double) projectPlanner.getCurr_amount() * 5/100);
 		int finalAmount = projectPlanner.getCurr_amount() - fee_income;
+		System.out.println("[SendTotalAmountAction] fee_income = "+fee_income);
+		System.out.println("[SendTotalAmountAction] finalAmount = "+finalAmount);
 		
+		//관리자 수익 테이블에 수익 insert
 		boolean isInsertFeeIncomeSuccess = sendTotalAmountService.insertFeeIncome(project_id, fee_income);
 		
 		if(!isInsertFeeIncomeSuccess) {

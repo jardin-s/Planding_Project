@@ -52,7 +52,7 @@ public class UndeletedMemberListService {
 		
 		
 		/*-------DAO의 해당 메서드를 호출하여 처리----------------------------------------------------*/
-		int searchMemberCount = manageMemberDAO.selectDeleteUndeletedCount("N");
+		int searchMemberCount = manageMemberDAO.searchDeleteUndeletedMemberCount("N", member_id);
 		
 		/*-------(insert, update, delete) 성공하면 commit(), 실패하면 rollback() 호출
 		 * 		 단, select는 이런 작업을 제외 ------------------*/

@@ -23,7 +23,6 @@ public class ProjectBean {
 	private int curr_amount;
 	
 	private String p_status;//처음은 항상 unauthorized(미승인)
-	private int likes;//0부터 시작
 	
 	private String regdate;//등록일자 (SQL 자동 현재시간 세팅)
 	
@@ -42,7 +41,7 @@ public class ProjectBean {
 	
 	//프로젝트 모든 정보 (남은일수 제외)
 	public ProjectBean(int project_id, String kind, String title, String summary, String thumbnail, String content,
-			String image, String startdate, String enddate, int goal_amount, int curr_amount, String p_status, int likes,
+			String image, String startdate, String enddate, int goal_amount, int curr_amount, String p_status,
 			String regdate) {
 		super();
 		this.project_id = project_id;
@@ -57,7 +56,6 @@ public class ProjectBean {
 		this.goal_amount = goal_amount;
 		this.curr_amount = curr_amount;
 		this.p_status = p_status;
-		this.likes = likes;
 		this.regdate = regdate;
 	}
 
@@ -188,14 +186,6 @@ public class ProjectBean {
 	public void setP_status(String p_status) {
 		this.p_status = p_status;
 	}
-
-	public int getLikes() {
-		return likes;
-	}
-
-	public void setLikes(int likes) {
-		this.likes = likes;
-	}
 	
 	public String getRegdate() {
 		return regdate;
@@ -290,7 +280,7 @@ public class ProjectBean {
 		return "ProjectBean [project_id=" + project_id + ", kind=" + kind + ", title=" + title + ", summary=" + summary
 				+ ", thumbnail=" + thumbnail + ", content=" + content + ", image=" + image + ", startdate=" + startdate
 				+ ", enddate=" + enddate + ", goal_amount=" + goal_amount + ", curr_amount=" + curr_amount + ", p_status="
-				+ p_status + ", likes=" + likes + ", regdate=" + regdate + ", progress=" + progress + ", deadline="
+				+ p_status + ", regdate=" + regdate + ", progress=" + progress + ", deadline="
 				+ deadline + ", goal_amount_df=" + goal_amount_df + ", curr_amount_df=" + curr_amount_df + "]";
 	}
 	

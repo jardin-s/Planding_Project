@@ -106,7 +106,6 @@ public class UserOngoingDonateProjectListService {
 		if(order.equals("new")) { orderProjectPlannerList = projectDAO.selectProjectPlannerOngoingList("donate", page, limit);/*기본값이 최신순*/ }
 		if(order.equals("old")) { orderProjectPlannerList = projectDAO.selectOldProjectPlannerOngoingList("donate", page, limit); }
 		if(order.equals("deadline")) { orderProjectPlannerList = projectDAO.selectDeadlineProjectPlannerOngoingList("donate", page, limit); }	
-		if(order.equals("popular")) { orderProjectPlannerList = projectDAO.selectPopularProjectPlannerOngoingList("donate", page, limit); }	
 				
 		/*-------(insert, update, delete) 성공하면 commit(), 실패하면 rollback() 호출
 		 * 		 단, select는 이런 작업을 제외 ------------------*/

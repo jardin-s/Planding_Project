@@ -83,12 +83,11 @@ function checkForm(){
 	
 	//휴대번호 정규화 공식
 	const regPhone = /^\d{3}\d{3,4}\d{4}$/; //-제외
-	
 	if(!document.f.receiver_phone.value.trim()){
-		alert("수령인 전화번호를 입력해주세요.");
+		alert("휴대전화번호를 입력해주세요.");
 		document.f.receiver_phone.focus();
 		return false;
-	}else if(!regName.test(document.f.receiver_phone.value().trim())){
+	}else if(!regPhone.test(document.f.receiver_phone.value.trim())){
 		alert("휴대전화번호를 (-)없이 숫자만 입력해주세요.");
 		document.f.receiver_phone.select();
 		return false;

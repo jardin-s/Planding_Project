@@ -21,7 +21,6 @@ public class ProjectAdminIncomeBean {
 	private int curr_amount;
 	
 	private String p_status;//처음은 항상 unauthorized(미승인)
-	private int likes;//0부터 시작
 	
 	private String regdate;//등록일자 (SQL 자동 현재시간 세팅)
 	
@@ -57,7 +56,7 @@ public class ProjectAdminIncomeBean {
 	//모든 필드를 사용하는 생성자
 	public ProjectAdminIncomeBean(int project_id, String kind, String title, String summary, String thumbnail,
 			String content, String image, String startdate, String enddate, int goal_amount, int curr_amount,
-			String p_status, int likes, String regdate, double progress, int deadline, String goal_amount_df,
+			String p_status, String regdate, double progress, int deadline, String goal_amount_df,
 			String curr_amount_df, int fee_income, String incomedate) {
 		super();
 		this.project_id = project_id;
@@ -72,7 +71,6 @@ public class ProjectAdminIncomeBean {
 		this.goal_amount = goal_amount;
 		this.curr_amount = curr_amount;
 		this.p_status = p_status;
-		this.likes = likes;
 		this.regdate = regdate;
 		this.progress = progress;
 		this.deadline = deadline;
@@ -153,12 +151,6 @@ public class ProjectAdminIncomeBean {
 	}
 	public void setP_status(String p_status) {
 		this.p_status = p_status;
-	}
-	public int getLikes() {
-		return likes;
-	}
-	public void setLikes(int likes) {
-		this.likes = likes;
 	}
 	public String getRegdate() {
 		return regdate;

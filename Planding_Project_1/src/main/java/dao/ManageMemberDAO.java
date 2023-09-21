@@ -366,8 +366,8 @@ public class ManageMemberDAO {
 				+ " delete_status,"
 				+ " DATE_FORMAT(deletedate,'%Y.%m.%d') as deletedate"
 				+ " from member_tbl"
-				+ " where admin_status = 'N' and delete_status='?'"
-				+ " and member_id LIKE '%?%'"
+				+ " where admin_status = 'N' and delete_status=?"
+				+ " and member_id regexp ?"
 				+ " order by joindate desc"
 				+ " limit ?, ?";
 		

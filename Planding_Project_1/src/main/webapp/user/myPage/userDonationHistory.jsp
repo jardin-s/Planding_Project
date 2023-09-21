@@ -117,8 +117,8 @@ function confirmCancel(donation_id){
 											<a href="#" onclick="javascript:confirmCancel(${donation_id})" class="d-block d-sm-none"><i class="fas fa-window-close text-primary"></i></a>
 										</c:if>
 										<c:if test="${donation.p_status ne 'ongoing'}">
-											<button class="btn btn-outline-primary py-1 px-1 d-none d-sm-block" type="button" disabled>종료</button>
-											<i class="far fa-window-close text-secondary"></i>
+											<span style="color:#CCC">종료</span>
+											<i class="far fa-window-close text-secondary d-block d-sm-none"></i>
 										</c:if>
 									</td>
 								</tr>

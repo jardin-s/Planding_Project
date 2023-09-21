@@ -434,7 +434,7 @@ public class NoticeDAO {
 			pstmt.setString(1, notice.getN_title());
 			pstmt.setString(2, notice.getN_content());
 			pstmt.setString(3, notice.getImportance());
-			pstmt.setString(4, notice.getN_image());
+			pstmt.setInt(4, notice.getNotice_id());
 			
 			updateNoticeCount =  pstmt.executeUpdate();
 			
@@ -464,7 +464,7 @@ public class NoticeDAO {
 			pstmt.setString(2, notice.getN_content());
 			pstmt.setString(3, notice.getN_image());
 			pstmt.setString(4, notice.getImportance());
-			pstmt.setString(5, notice.getN_image());
+			pstmt.setInt(5, notice.getNotice_id());
 			
 			updateNoticeImgCount =  pstmt.executeUpdate();
 			
