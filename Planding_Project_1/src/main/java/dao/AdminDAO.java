@@ -245,7 +245,7 @@ public class AdminDAO {
 				addrInfo.setAddress_id(rs.getString("address_id"));
 				addrInfo.setMember_id(rs.getString("member_id"));
 				addrInfo.setReceiver_name(rs.getString("receiver_name"));
-				addrInfo.setReceiver_phone(rs.getString("phone"));
+				addrInfo.setReceiver_phone(rs.getString("receiver_phone"));
 				addrInfo.setPostcode(rs.getInt("postcode"));
 				addrInfo.setAddress1(rs.getString("address1"));
 				addrInfo.setAddress2(rs.getString("address2"));

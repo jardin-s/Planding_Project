@@ -64,9 +64,13 @@ function qnaFormCheck(){
 	
 	
 	//비밀글 값 가져오기
-	var check_value = document.f.checkbox.checked ? "Y" : "N";
-	document.f.q_private.value = check_value;
-			
+	var check_value = document.getElementById("checkbox");
+	if(check_value.checked == true){
+		document.f.q_private.value = 'Y';
+	}else{
+		document.f.q_private.value = 'N';
+	}
+				
 	document.f.submit();
 	
 }
@@ -86,9 +90,20 @@ function deleteFile(){
 		
 }
 
+function setCheck(){
+	var q_private = document.getElementById("q_private_chk").value;
+	var checkbox = document.getElementById("checkbox");
+	
+	if(q_private == 'Y'){
+		checkbox.checked = true;
+	}else{
+		checkbox.checked = false;
+	}
+}
+
 </script>
 
-<body>
+<body onload="javascript:setCheck();">
 	
 	<!-- Main Section -->
 	<!-- Page Header Start -->
@@ -106,12 +121,7 @@ function deleteFile(){
     </div>
     <!-- Page Header End -->
 
-	<c:if test="${qnaInfo.q_private eq 'Y'}">
-		<c:set var="privateChk" value="checked"/>
-	</c:if>
-	<c:if test="${qnaInfo.q_private eq 'N'}">
-		<c:set var="privateChk" value=""/>
-	</c:if>
+	
 
     <!-- Table Start -->
     <div class="container-fluid pt-4 pb-4">
@@ -122,6 +132,8 @@ function deleteFile(){
 					<input type="hidden" name="qna_id" value="${qnaInfo.qna_id}">
 					<input type="hidden" name="q_writer" value="${qnaInfo.q_writer}">
 					
+					<input type="hidden" name="q_private_chk" value="${qnaInfo.q_private}" id="q_private_chk">
+										
 					<div class="input-group mb-2">
 						<span class="input-group-text" id="q_title">제목</span>
 						<input type="text" name="q_title" value="${qnaInfo.q_title }" class="form-control" placeholder="제목을 입력하세요." aria-label="q_title" aria-describedby="q_title">
@@ -139,8 +151,8 @@ function deleteFile(){
 						</c:if>
 					</div>
 					<div class="form-check">
-						<input class="form-check-input" type="checkbox" name="checkbox" value="Y" id="checkbox" ${privateChk}>
-						<label class="form-check-label" for="q_private">비밀글로 하기</label>
+						<input class="form-check-input" type="checkbox" name="checkbox" value="Y" id="checkbox" >
+						<label class="form-check-label" for="checkbox">비밀글로 하기</label>
 						<input type="hidden" name="q_private"> 
 					</div>
 					<div class="col-12 text-center">

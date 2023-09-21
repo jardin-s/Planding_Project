@@ -55,7 +55,7 @@
                             	<span>변경된 비밀번호로 다시 로그인해주세요.</span>
                             </div>
                             <div class="col-12 text-center">
-                            	<a class="btn btn-primary my-3 py-2 px-3" href="adminLogin.adm">로그인</a>
+                            	<a class="btn btn-primary my-3 py-2 px-3" href="adminLoginForm.adm">로그인</a>
                             </div>
                         </div>
                     </div>

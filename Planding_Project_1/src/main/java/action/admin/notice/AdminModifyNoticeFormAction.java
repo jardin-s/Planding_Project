@@ -36,6 +36,7 @@ public class AdminModifyNoticeFormAction implements Action {
 			//notice_id로 공지글 정보를 가져옴 (수정글에서 세팅을 위해)
 			NoticeViewService noticeViewService = new NoticeViewService();
 			NoticeBean noticeInfo = noticeViewService.getNoticeInfo(notice_id);
+			System.out.println("[AdminModifyNoticeFormAction] noticeInfo의 importance값 = "+noticeInfo.getImportance());
 			
 			request.setAttribute("page", page);
 			request.setAttribute("noticeInfo", noticeInfo);

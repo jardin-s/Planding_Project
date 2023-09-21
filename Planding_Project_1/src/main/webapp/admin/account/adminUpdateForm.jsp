@@ -216,7 +216,7 @@ function checkUpateForm(){
 	                            <div class="mb-3 row gx-3 justify-content-center">
 								    <label for="account" class="col-3 col-form-label text-center">잔여금액</label>
 								    <div class="col-9">
-								      <input type="text" class="form-control" name="account" id="account" value="${admin.account }" readonly>
+								      <input type="text" class="form-control" name="money" id="money" value="${admin.money }" readonly>
 								    </div>
 	                            </div>
 	                            <div class="col-12 text-center">

@@ -6,7 +6,7 @@
 	   username="ipc23askl" 
 	   password="ipc23askl"
 	   driverClassName="com.mysql.cj.jdbc.Driver"
-	   url="jdbc:mysql://118.131.179.138/ipc23ayy?serverTimezone=Asia/Seoul"
+	   url="jdbc:mysql://118.131.179.138/ipc23askl?serverTimezone=Asia/Seoul"
 	   
 	   factory="org.apache.tomcat.dbcp.dbcp2.BasicDataSourceFactory"
 	   

@@ -35,13 +35,6 @@
 <body>
 	
 	<!-- Main Section -->
-	<!-- Page Header Start -->
-    <div class="container-fluid page-header pt-4 pb-5 mb-5 wow fadeIn" data-wow-delay="0.1s">
-        <div class="container text-center py-5">
-            <h3 class="display-6 text-white mb-4 animated slideInDown">비밀번호 찾기</h3>
-        </div>
-    </div>
-    <!-- Page Header End -->
 	
     <!-- Form Start -->
     <div class="container-fluid py-5">

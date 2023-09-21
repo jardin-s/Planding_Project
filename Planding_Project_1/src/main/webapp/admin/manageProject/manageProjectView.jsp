@@ -236,7 +236,7 @@ function cancelProject(project_id, p_status, kind){
 			    		<button class="btn btn-light" onclick="location.href='manageDonateProjectList.mngp?page=${page}'">프로젝트 목록</button>
 			    	</c:if>
 			    	<c:if test="${projectInfo.kind eq 'fund' }">
-			    		<button class="btn btn-light" onclick="location.href='manageFundProjectList.mngppage=${page}'">프로젝트 목록</button>
+			    		<button class="btn btn-light" onclick="location.href='manageFundProjectList.mngp?page=${page}'">프로젝트 목록</button>
 			    	</c:if>			    	
 			    </div>
    			</div>
