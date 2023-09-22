@@ -145,7 +145,7 @@ public class DateUtil {//날짜 계산하는 클래스 (매출관리에서 달�
 		//매개변수의 year, month로 날짜 세팅
 		System.out.println("[today_info 메서드 호출]");
 		System.out.println("검색날짜 연도 = "+dateUtil.getYear());//2023
-		System.out.println("검색날짜 월-1 = "+dateUtil.getMonth());//8
+		System.out.println("검색날짜 월-1 = "+dateUtil.getMonth());//8-1 = 7
 		
 		//DB에서 사용
 		int startDay = cal.getActualMinimum(Calendar.DAY_OF_MONTH);//선택달 날짜 중 첫째날(minimum) 1

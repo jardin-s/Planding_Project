@@ -30,6 +30,10 @@ public class ManageIncomeAction implements Action {
 		String year = request.getParameter("year");//2022년
 		String month = request.getParameter("month");//8일때 (실제 9월)
 		
+		System.out.println("[ManageIncomeAction] 파라미터값 확인");
+		System.out.println("year = "+year);
+		System.out.println("month = "+month);
+		
 		DateUtil dateUtil = new DateUtil();
 		
 		if(year == null && month == null) {//클릭하여 검색하지 않는 경우 (연도, 달 파라미터값 없음. 현재달 세팅. 매출관리 초기화면)
