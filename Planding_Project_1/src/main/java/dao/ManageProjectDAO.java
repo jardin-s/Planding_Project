@@ -7,12 +7,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
-import vo.AddressBean;
-import vo.DonationBean;
-import vo.MemberBean;
+import vo.ProjectAdminIncomeBean;
 import vo.ProjectBean;
-import vo.QnaBean;
-import vo.RewardBean;
+
 
 public class ManageProjectDAO {
 
@@ -114,16 +111,16 @@ public class ManageProjectDAO {
 	}
 	
 	//3. 기부/펀딩프로젝트 중 상태별 프로젝트 수를 얻어옴
-	public int selectStatusProjectCount(String kind, String status) {
+	public int selectStatusProjectCount(String kind, String p_status) {
 		int selectStatusProjectCount = 0;
 		
-		String sql = "select count(*) from project_tbl where kind = ? and status=?";
+		String sql = "select count(*) from project_tbl where kind = ? and p_status=?";
 		
 		try {
 			
 			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, kind);
-			pstmt.setString(2, status);
+			pstmt.setString(2, p_status);
 			rs = pstmt.executeQuery();
 			
 			if(rs.next()) {
@@ -142,18 +139,18 @@ public class ManageProjectDAO {
 	}
 	
 	//4. 기부/펀딩 프로젝트에서 상태별 프로젝트 중 조건에 맞는 회원 수를 얻어옴
-	public int searchStatusProjectCount(String kind, String status, String project_title) {
+	public int searchStatusProjectCount(String kind, String p_status, String project_title) {
 		int searchStatusProjectCount = 0;
 		
-		String sql = "select count(*) from member_tbl"
-			   	  + " where kind = ? and status=?"
+		String sql = "select count(*) from project_tbl"
+			   	  + " where kind = ? and p_status=?"
 			   	  + " and title regexp ?";
 		
 		try {
 			
 			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, kind);
-			pstmt.setString(2, status);
+			pstmt.setString(2, p_status);
 			pstmt.setString(3, project_title);
 			rs = pstmt.executeQuery();
 			
@@ -180,7 +177,7 @@ public class ManageProjectDAO {
 			String sql = "select count(*)"
 					  + " from project_tbl"
 					  + " where kind = ?"
-					  + " and (status='done' or status='success')";
+					  + " and (p_status='done' or p_status='success')";
 			
 			try {
 				
@@ -209,7 +206,7 @@ public class ManageProjectDAO {
 		
 		String sql = "select count(*) from member_tbl"
 			   	  + " where kind = ?"
-			   	  + " and (status='done' or status='success')"
+			   	  + " and (p_status='done' or p_status='success')"
 			   	  + " and title regexp ?";
 		
 		try {
@@ -246,7 +243,7 @@ public class ManageProjectDAO {
 		//2페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 20부터
 		//3페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 40부터
 		
-		String sql = "select project_id, kind, title, status,"
+		String sql = "select project_id, kind, title, p_status,"
 				  + " DATE_FORMAT(regdate,'%Y.%m.%d') as regdate_F"
 				  + " from project_tbl"
 				  + " where kind = ?"
@@ -268,7 +265,7 @@ public class ManageProjectDAO {
 				projectList.add(new ProjectBean(rs.getInt("project_id"),
 												rs.getString("kind"),
 												rs.getString("title"),
-												rs.getString("status"),
+												rs.getString("p_status"),
 												rs.getString("regdate_F")
 												)
 								);
@@ -277,7 +274,7 @@ public class ManageProjectDAO {
 				System.out.println("조회한 project_id = "+rs.getInt("project_id"));
 				System.out.println("조회한 kind = "+rs.getString("kind"));
 				System.out.println("조회한 title = "+rs.getString("title"));
-				System.out.println("조회한 status = "+rs.getString("status"));
+				System.out.println("조회한 p_status = "+rs.getString("p_status"));
 				System.out.println("조회한 regdate_F = "+rs.getString("regdate_F"));
 				
 				}while(rs.next());
@@ -293,7 +290,7 @@ public class ManageProjectDAO {
 		
 		return projectList;
 	}
-	
+		
 	//2. 원하는 페이지의 원하는 개수만큼 조건에 맞는 기부/펀딩프로젝트 목록을 가져옴 (전체 기부프로젝트)
 	public ArrayList<ProjectBean> searchProjectList(String kind, String project_title, int page, int limit) {
 		ArrayList<ProjectBean> projectList = null;
@@ -304,7 +301,7 @@ public class ManageProjectDAO {
 		//3페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 40부터
 		
 		//최근 가입한 회원순(탈퇴회원도 포함) (관리자 제외)
-		String sql = "select project_id, kind, title, status,"
+		String sql = "select project_id, kind, title, p_status,"
 				  + " DATE_FORMAT(regdate,'%Y.%m.%d') as regdate"
 				  + " from project_tbl"
 				  + " where kind = ?"
@@ -329,7 +326,7 @@ public class ManageProjectDAO {
 					projectList.add(new ProjectBean(rs.getInt("project_id"),
 													rs.getString("kind"),
 													rs.getString("title"),
-													rs.getString("status"),
+													rs.getString("p_status"),
 													rs.getString("regdate")
 													)
 									);					
@@ -350,7 +347,7 @@ public class ManageProjectDAO {
 	}
 	
 	//3. 원하는 페이지의 원하는 개수만큼 상태별 프로젝트 목록을 가져옴 (최근등록순 [기본값]) 
-	public ArrayList<ProjectBean> selectStatusProjectList(String kind, String status, int page, int limit) {
+	public ArrayList<ProjectBean> selectStatusProjectList(String kind, String p_status, int page, int limit) {
 		ArrayList<ProjectBean> projectList = null;
 		
 		int startrow = (page-1)*20;
@@ -358,11 +355,11 @@ public class ManageProjectDAO {
 		//2페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 20부터
 		//3페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 40부터
 		
-		String sql = "select project_id, kind, title, status,"
+		String sql = "select project_id, kind, title, p_status,"
 				  + " DATE_FORMAT(regdate,'%Y.%m.%d') as regdate_F"
 				  + " from project_tbl"
 				  + " where kind = ?"
-				  + " and status=?"
+				  + " and p_status=?"
 				  + " order by regdate desc"
 				  + " limit ?, ?";
 		
@@ -370,7 +367,7 @@ public class ManageProjectDAO {
 			
 			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, kind);
-			pstmt.setString(2, status);
+			pstmt.setString(2, p_status);
 			pstmt.setInt(3, startrow);
 			pstmt.setInt(4, limit);
 			rs = pstmt.executeQuery();
@@ -383,7 +380,7 @@ public class ManageProjectDAO {
 					projectList.add(new ProjectBean(rs.getInt("project_id"),
 													rs.getString("kind"),
 													rs.getString("title"),
-													rs.getString("status"),
+													rs.getString("p_status"),
 													rs.getString("regdate_F")
 													)
 									);
@@ -405,7 +402,7 @@ public class ManageProjectDAO {
 	}
 	
 	//4. 원하는 페이지의 원하는 개수만큼 조건에 맞는 상태별 기부/펀딩프로젝트 목록을 가져옴
-	public ArrayList<ProjectBean> searchStatusProjectList(String kind, String status, String project_title, int page, int limit) {
+	public ArrayList<ProjectBean> searchStatusProjectList(String kind, String p_status, String project_title, int page, int limit) {
 		ArrayList<ProjectBean> projectList = null;
 		
 		int startrow = (page-1)*20;
@@ -413,18 +410,18 @@ public class ManageProjectDAO {
 		//2페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 20부터
 		//3페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 40부터
 		
-		String sql = "select project_id, kind, title, status,"
+		String sql = "select project_id, kind, title, p_status,"
 				  + " DATE_FORMAT(regdate,'%Y.%m.%d') as regdate"
 				  + " from project_tbl"
 				  + " where kind = ?"
-				  + " and status=? and title regexp ?"
+				  + " and p_status=? and title regexp ?"
 				  + " limit ?, ?";
 		
 		try {
 			
 			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, kind);
-			pstmt.setString(2, status);
+			pstmt.setString(2, p_status);
 			pstmt.setString(3, project_title);
 			pstmt.setInt(4, startrow);
 			pstmt.setInt(5, limit);
@@ -438,7 +435,7 @@ public class ManageProjectDAO {
 					projectList.add(new ProjectBean(rs.getInt("project_id"),
 													rs.getString("kind"),
 													rs.getString("title"),
-													rs.getString("status"),
+													rs.getString("p_status"),
 													rs.getString("regdate")
 													)
 									);
@@ -468,11 +465,11 @@ public class ManageProjectDAO {
 		//2페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 20부터
 		//3페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 40부터
 		
-		String sql = "select project_id, kind, title, status,"
+		String sql = "select project_id, kind, title, p_status,"
 				  + " DATE_FORMAT(regdate,'%Y.%m.%d') as regdate_F"
 				  + " from project_tbl"
 				  + " where kind = ?"
-				  + " and (status='done' or status='success')"
+				  + " and (p_status='done' or p_status='success')"
 				  + " order by regdate desc"
 				  + " limit ?, ?";
 		
@@ -492,7 +489,7 @@ public class ManageProjectDAO {
 					projectList.add(new ProjectBean(rs.getInt("project_id"),
 													rs.getString("kind"),
 													rs.getString("title"),
-													rs.getString("status"),
+													rs.getString("p_status"),
 													rs.getString("regdate_F")
 													)
 									);
@@ -522,11 +519,11 @@ public class ManageProjectDAO {
 		//2페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 20부터
 		//3페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 40부터
 		
-		String sql = "select project_id, kind, title, status,"
+		String sql = "select project_id, kind, title, p_status,"
 				  + " DATE_FORMAT(regdate,'%Y.%m.%d') as regdate"
 				  + " from project_tbl"
 				  + " where kind = ?"
-				  + " and (status='done' or status='success')"
+				  + " and (p_status='done' or p_status='success')"
 				  + " and title regexp ?"
 				  + " limit ?, ?";
 		
@@ -547,7 +544,7 @@ public class ManageProjectDAO {
 					projectList.add(new ProjectBean(rs.getInt("project_id"),
 													rs.getString("kind"),
 													rs.getString("title"),
-													rs.getString("status"),
+													rs.getString("p_status"),
 													rs.getString("regdate")
 													)
 									);
@@ -580,7 +577,7 @@ public class ManageProjectDAO {
 		//2페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 20부터
 		//3페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 40부터
 		
-		String sql = "select project_id, kind, title, status,"
+		String sql = "select project_id, kind, title, p_status,"
 				  + " DATE_FORMAT(regdate,'%Y.%m.%d') as regdate_F"
 				  + " from project_tbl"
 				  + " where kind = ?"
@@ -603,7 +600,7 @@ public class ManageProjectDAO {
 					projectList.add(new ProjectBean(rs.getInt("project_id"),
 													rs.getString("kind"),
 													rs.getString("title"),
-													rs.getString("status"),
+													rs.getString("p_status"),
 													rs.getString("regdate_F")
 													)
 									);
@@ -632,7 +629,7 @@ public class ManageProjectDAO {
 		//2페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 20부터
 		//3페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 40부터
 		
-		String sql = "select project_id, kind, title, status,"
+		String sql = "select project_id, kind, title, p_status,"
 				  + " DATE_FORMAT(regdate,'%Y.%m.%d') as regdate_F"
 				  + " from project_tbl"
 				  + " where kind = ?"
@@ -655,7 +652,7 @@ public class ManageProjectDAO {
 					projectList.add(new ProjectBean(rs.getInt("project_id"),
 													rs.getString("kind"),
 													rs.getString("title"),
-													rs.getString("status"),
+													rs.getString("p_status"),
 													rs.getString("regdate_F")
 													)
 									);
@@ -684,7 +681,7 @@ public class ManageProjectDAO {
 		//2페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 20부터
 		//3페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 40부터
 		
-		String sql = "select project_id, kind, title, status,"
+		String sql = "select project_id, kind, title, p_status,"
 				  + " DATE_FORMAT(regdate,'%Y.%m.%d') as regdate"
 				  + " from project_tbl"
 				  + " where kind = ?"
@@ -707,7 +704,7 @@ public class ManageProjectDAO {
 					projectList.add(new ProjectBean(rs.getInt("project_id"),
 													rs.getString("kind"),
 													rs.getString("title"),
-													rs.getString("status"),
+													rs.getString("p_status"),
 													rs.getString("regdate")
 													)
 									);
@@ -736,7 +733,7 @@ public class ManageProjectDAO {
 		//2페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 20부터
 		//3페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 40부터
 		
-		String sql = "select project_id, kind, title, status,"
+		String sql = "select project_id, kind, title, p_status,"
 				  + " DATE_FORMAT(regdate,'%Y.%m.%d') as regdate"
 				  + " from project_tbl"
 				  + " where kind = ?"
@@ -759,7 +756,7 @@ public class ManageProjectDAO {
 					projectList.add(new ProjectBean(rs.getInt("project_id"),
 													rs.getString("kind"),
 													rs.getString("title"),
-													rs.getString("status"),
+													rs.getString("p_status"),
 													rs.getString("regdate")
 													)
 									);
@@ -783,7 +780,7 @@ public class ManageProjectDAO {
 	
 	//6. 선택한 기준에 따라 정렬된 상태별 기부/펀딩 프로젝트 목록 가져오기
 	//6-1. 최근가입일순
-	public ArrayList<ProjectBean> orderNewStatusProjectList(String kind, String status, int page, int limit) {
+	public ArrayList<ProjectBean> orderNewStatusProjectList(String kind, String p_status, int page, int limit) {
 		ArrayList<ProjectBean> projectList = null;
 		
 		int startrow = (page-1)*20;
@@ -791,10 +788,10 @@ public class ManageProjectDAO {
 		//2페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 20부터
 		//3페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 40부터
 		
-		String sql = "select project_id, kind, title, status,"
+		String sql = "select project_id, kind, title, p_status,"
 				  + " DATE_FORMAT(regdate,'%Y.%m.%d') as regdate_F"
 				  + " from project_tbl"
-				  + " where kind = ? and status=?"
+				  + " where kind = ? and p_status=?"
 				  + " order by regdate desc"
 				  + " limit ?, ?";
 		
@@ -802,7 +799,7 @@ public class ManageProjectDAO {
 			
 			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, kind);
-			pstmt.setString(2, status);
+			pstmt.setString(2, p_status);
 			pstmt.setInt(3, startrow);
 			pstmt.setInt(4, limit);
 			rs = pstmt.executeQuery();
@@ -815,7 +812,7 @@ public class ManageProjectDAO {
 					projectList.add(new ProjectBean(rs.getInt("project_id"),
 													rs.getString("kind"),
 													rs.getString("title"),
-													rs.getString("status"),
+													rs.getString("p_status"),
 													rs.getString("regdate_F")
 													)
 									);
@@ -836,7 +833,7 @@ public class ManageProjectDAO {
 		return projectList;
 	}
 	//6-2. 오래된 가입일순
-	public ArrayList<ProjectBean> orderOldStatusProjectList(String kind, String status, int page, int limit) {
+	public ArrayList<ProjectBean> orderOldStatusProjectList(String kind, String p_status, int page, int limit) {
 		ArrayList<ProjectBean> projectList = null;
 		
 		int startrow = (page-1)*20;
@@ -844,10 +841,10 @@ public class ManageProjectDAO {
 		//2페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 20부터
 		//3페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 40부터
 		
-		String sql = "select project_id, kind, title, status,"
+		String sql = "select project_id, kind, title, p_status,"
 				  + " DATE_FORMAT(regdate,'%Y.%m.%d') as regdate_F"
 				  + " from project_tbl"
-				  + " where kind = ? and status=?"
+				  + " where kind = ? and p_status=?"
 				  + " order by regdate asc"
 				  + " limit ?, ?";
 		
@@ -855,7 +852,7 @@ public class ManageProjectDAO {
 			
 			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, kind);
-			pstmt.setString(2, status);
+			pstmt.setString(2, p_status);
 			pstmt.setInt(3, startrow);
 			pstmt.setInt(4, limit);
 			rs = pstmt.executeQuery();
@@ -868,7 +865,7 @@ public class ManageProjectDAO {
 					projectList.add(new ProjectBean(rs.getInt("project_id"),
 													rs.getString("kind"),
 													rs.getString("title"),
-													rs.getString("status"),
+													rs.getString("p_status"),
 													rs.getString("regdate")
 													)
 									);
@@ -889,7 +886,7 @@ public class ManageProjectDAO {
 		return projectList;
 	}
 	//6-3. 가나다순
-	public ArrayList<ProjectBean> orderAZStatusProjectList(String kind, String status, int page, int limit) {
+	public ArrayList<ProjectBean> orderAZStatusProjectList(String kind, String p_status, int page, int limit) {
 		ArrayList<ProjectBean> projectList = null;
 		
 		int startrow = (page-1)*20;
@@ -897,10 +894,10 @@ public class ManageProjectDAO {
 		//2페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 20부터
 		//3페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 40부터
 		
-		String sql = "select project_id, kind, title, status,"
+		String sql = "select project_id, kind, title, p_status,"
 				  + " DATE_FORMAT(regdate,'%Y.%m.%d') as regdate"
 				  + " from project_tbl"
-				  + " where kind = ? and status=?"
+				  + " where kind = ? and p_status=?"
 				  + " order by title asc"
 				  + " limit ?, ?";
 		
@@ -908,7 +905,7 @@ public class ManageProjectDAO {
 			
 			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, kind);
-			pstmt.setString(2, status);
+			pstmt.setString(2, p_status);
 			pstmt.setInt(3, startrow);
 			pstmt.setInt(4, limit);
 			rs = pstmt.executeQuery();
@@ -921,7 +918,7 @@ public class ManageProjectDAO {
 					projectList.add(new ProjectBean(rs.getInt("project_id"),
 													rs.getString("kind"),
 													rs.getString("title"),
-													rs.getString("status"),
+													rs.getString("p_status"),
 													rs.getString("regdate")
 													)
 									);
@@ -942,7 +939,7 @@ public class ManageProjectDAO {
 		return projectList;
 	}
 	//6-4. 역가나다순
-	public ArrayList<ProjectBean> orderZAStatusProjectList(String kind, String status, int page, int limit) {
+	public ArrayList<ProjectBean> orderZAStatusProjectList(String kind, String p_status, int page, int limit) {
 		ArrayList<ProjectBean> projectList = null;
 		
 		int startrow = (page-1)*20;
@@ -950,10 +947,10 @@ public class ManageProjectDAO {
 		//2페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 20부터
 		//3페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 40부터
 		
-		String sql = "select project_id, kind, title, status,"
+		String sql = "select project_id, kind, title, p_status,"
 				  + " DATE_FORMAT(regdate,'%Y.%m.%d') as regdate"
 				  + " from project_tbl"
-				  + " where kind = ? and status=?"
+				  + " where kind = ? and p_status=?"
 				  + " order by title desc"
 				  + " limit ?, ?";
 		
@@ -961,7 +958,7 @@ public class ManageProjectDAO {
 			
 			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, kind);
-			pstmt.setString(2, status);
+			pstmt.setString(2, p_status);
 			pstmt.setInt(3, startrow);
 			pstmt.setInt(4, limit);
 			rs = pstmt.executeQuery();
@@ -974,7 +971,7 @@ public class ManageProjectDAO {
 					projectList.add(new ProjectBean(rs.getInt("project_id"),
 													rs.getString("kind"),
 													rs.getString("title"),
-													rs.getString("status"),
+													rs.getString("p_status"),
 													rs.getString("regdate")
 													)
 									);
@@ -1005,11 +1002,11 @@ public class ManageProjectDAO {
 		//2페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 20부터
 		//3페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 40부터
 		
-		String sql = "select project_id, kind, title, status,"
+		String sql = "select project_id, kind, title, p_status,"
 				  + " DATE_FORMAT(regdate,'%Y.%m.%d') as regdate_F"
 				  + " from project_tbl"
 				  + " where kind = ?"
-				  + " and (status='done' or status='success')"
+				  + " and (p_status='done' or p_status='success')"
 				  + " order by regdate desc"
 				  + " limit ?, ?";
 		
@@ -1029,7 +1026,7 @@ public class ManageProjectDAO {
 					projectList.add(new ProjectBean(rs.getInt("project_id"),
 													rs.getString("kind"),
 													rs.getString("title"),
-													rs.getString("status"),
+													rs.getString("p_status"),
 													rs.getString("regdate_F")
 													)
 									);
@@ -1058,11 +1055,11 @@ public class ManageProjectDAO {
 		//2페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 20부터
 		//3페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 40부터
 		
-		String sql = "select project_id, kind, title, status,"
+		String sql = "select project_id, kind, title, p_status,"
 				  + " DATE_FORMAT(regdate,'%Y.%m.%d') as regdate_F"
 				  + " from project_tbl"
 				  + " where kind = ?"
-				  + " and (status='done' or status='success')"
+				  + " and (p_status='done' or p_status='success')"
 				  + " order by regdate asc"
 				  + " limit ?, ?";
 		
@@ -1082,7 +1079,7 @@ public class ManageProjectDAO {
 					projectList.add(new ProjectBean(rs.getInt("project_id"),
 													rs.getString("kind"),
 													rs.getString("title"),
-													rs.getString("status"),
+													rs.getString("p_status"),
 													rs.getString("regdate")
 													)
 									);
@@ -1111,11 +1108,11 @@ public class ManageProjectDAO {
 		//2페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 20부터
 		//3페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 40부터
 		
-		String sql = "select project_id, kind, title, status,"
+		String sql = "select project_id, kind, title, p_status,"
 				  + " DATE_FORMAT(regdate,'%Y.%m.%d') as regdate"
 				  + " from project_tbl"
 				  + " where kind = ?"
-				  + " and (status='done' or status='success')"
+				  + " and (p_status='done' or p_status='success')"
 				  + " order by title asc"
 				  + " limit ?, ?";
 		
@@ -1135,7 +1132,7 @@ public class ManageProjectDAO {
 					projectList.add(new ProjectBean(rs.getInt("project_id"),
 													rs.getString("kind"),
 													rs.getString("title"),
-													rs.getString("status"),
+													rs.getString("p_status"),
 													rs.getString("regdate")
 													)
 									);
@@ -1164,11 +1161,11 @@ public class ManageProjectDAO {
 		//2페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 20부터
 		//3페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 40부터
 		
-		String sql = "select project_id, kind, title, status,"
+		String sql = "select project_id, kind, title, p_status,"
 				  + " DATE_FORMAT(regdate,'%Y.%m.%d') as regdate"
 				  + " from project_tbl"
 				  + " where kind = ?"
-				  + " and (status='done' or status='success')"
+				  + " and (p_status='done' or p_status='success')"
 				  + " order by title desc"
 				  + " limit ?, ?";
 		
@@ -1188,7 +1185,7 @@ public class ManageProjectDAO {
 					projectList.add(new ProjectBean(rs.getInt("project_id"),
 													rs.getString("kind"),
 													rs.getString("title"),
-													rs.getString("status"),
+													rs.getString("p_status"),
 													rs.getString("regdate")
 													)
 									);
@@ -1220,7 +1217,7 @@ public class ManageProjectDAO {
 		int authorizeProjectCount = 0;
 		
 		String sql = "update project_tbl"
-				  + " set status = 'ready'"
+				  + " set p_status = 'ready'"
 				  + " where project_id = ?";
 		
 		try {
@@ -1324,6 +1321,7 @@ public class ManageProjectDAO {
 		try {
 			
 			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, project_id);
 			deleteProjectCount = pstmt.executeUpdate();
 			
 		} catch(Exception e) {
@@ -1343,7 +1341,7 @@ public class ManageProjectDAO {
 		int updateUserMoneyCount = 0;
 		
 		String sql = "update member_tbl"
-				  + " set account = account + ?"
+				  + " set money = money + ?"
 				  + " where member_id = ?";
 		
 		try {
@@ -1355,7 +1353,7 @@ public class ManageProjectDAO {
 			updateUserMoneyCount = pstmt.executeUpdate();
 			
 		} catch(Exception e) {
-			System.out.println("[UserDAO] updateUserMoney() 에러 : "+e);//예외객체종류 + 예외메시지
+			System.out.println("[ManageProjectDAO] updateUserPlusMoney() 에러 : "+e);//예외객체종류 + 예외메시지
 		} finally {
 			close(pstmt); //JdbcUtil.생략가능
 			//close(rs); //JdbcUtil.생략가능
@@ -1365,25 +1363,349 @@ public class ManageProjectDAO {
 		return updateUserMoneyCount;
 	}
 
+	/** 특정 프로젝트의 모든 후원기록을 삭제? */
 	public int deleteDonation(int project_id) {
-		int updateUserMoneyCount = 0;
+		int deleteDonationCount = 0;
 		
 		String sql = "delete from donation_tbl"
-				  + " where member_id";
+				  + " where project_id = ?";
 		
 		try {
 			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, project_id);
+			
+			deleteDonationCount = pstmt.executeUpdate();
+			
 		} catch(Exception e) {
-			System.out.println("[UserDAO] updateUserMoney() 에러 : "+e);//예외객체종류 + 예외메시지
+			System.out.println("[ManageProjectDAO] deleteDonation() 에러 : "+e);//예외객체종류 + 예외메시지
 		} finally {
 			close(pstmt); //JdbcUtil.생략가능
 			//close(rs); //JdbcUtil.생략가능
 			//connection 객체에 대한 해제는 DogListService에서 이루어짐
 		}
 		
-		return updateUserMoneyCount;
+		return deleteDonationCount;
 	}
 
+	
+	
+	/** 기부/펀딩 종료프로젝트+송금여부 조회 */
+	public ArrayList<ProjectAdminIncomeBean> selectDoneProjectIncomeList(String kind, int page, int limit) {
+		ArrayList<ProjectAdminIncomeBean> projectIncomeList = null;
+		int startrow = (page-1)*20;
+		
+		String sql = "select project_id, title, kind, p_status, curr_amount,"
+				+ " DATE_FORMAT(regdate,'%Y.%m.%d') as regdate_F,"
+				+ " DATE_FORMAT(enddate,'%Y.%m.%d') as enddate,"
+				+ " fee_income,"
+				+ " DATE_FORMAT(incomedate,'%Y.%m.%d') as incomedate"
+				+ " from project_adminIncome_view"
+				+ " where kind = ? and (p_status = 'done' or p_status = 'success')"
+				+ " order by regdate desc"
+				+ " limit ?, ?";
+		
+		try {
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, kind);
+			pstmt.setInt(2, startrow);
+			pstmt.setInt(3, limit);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				
+				projectIncomeList = new ArrayList<>();
+				
+				do {
+					
+					ProjectAdminIncomeBean projectAdmIncome = new ProjectAdminIncomeBean();
+					projectAdmIncome.setProject_id(rs.getInt("project_id"));
+					projectAdmIncome.setTitle(rs.getString("title"));
+					projectAdmIncome.setKind(rs.getString("kind"));
+					projectAdmIncome.setCurr_amount(rs.getInt("curr_amount"));
+					projectAdmIncome.setP_status(rs.getString("p_status"));
+					projectAdmIncome.setRegdate(rs.getString("regdate_F"));
+					projectAdmIncome.setEnddate(rs.getString("enddate"));
+					projectAdmIncome.setFee_income(rs.getInt("fee_income"));
+					projectAdmIncome.setIncomedate(rs.getString("incomedate"));
+					
+					projectIncomeList.add(projectAdmIncome);
+					
+				}while(rs.next());
+				
+			}
+			
+		} catch(Exception e) {
+			System.out.println("[UserDAO] selectDoneProjectIncomeList() 에러 : "+e);//예외객체종류 + 예외메시지
+		} finally {
+			close(pstmt); //JdbcUtil.생략가능
+			close(rs); //JdbcUtil.생략가능
+			//connection 객체에 대한 해제는 DogListService에서 이루어짐
+		}
+		
+		return projectIncomeList;
+	}
+	
+	/** 기부/펀딩 종료프로젝트+송금여부 조회 (Old) */
+	public ArrayList<ProjectAdminIncomeBean> orderOldDoneProjectIncomeList(String kind, int page, int limit) {
+		ArrayList<ProjectAdminIncomeBean> projectIncomeList = null;
+		int startrow = (page-1)*20;
+		
+		String sql = "select project_id, title, kind, p_status, curr_amount"
+				+ " DATE_FORMAT(regdate,'%Y.%m.%d') as regdate_F,"
+				+ " DATE_FORMAT(enddate,'%Y.%m.%d') as enddate,"
+				+ " fee_income,"
+				+ " DATE_FORMAT(incomedate,'%Y.%m.%d') as incomedate"
+				+ " from project_adminIncome_view"
+				+ " where kind = ? and (p_status = 'done' or p_status = 'success')"
+				+ " order by regdate asc"
+				+ " limit ?, ?";
+		
+		try {
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, kind);
+			pstmt.setInt(2, startrow);
+			pstmt.setInt(3, limit);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				
+				projectIncomeList = new ArrayList<>();
+				
+				do {
+					
+					ProjectAdminIncomeBean projectAdmIncome = new ProjectAdminIncomeBean();
+					projectAdmIncome.setProject_id(rs.getInt("project_id"));
+					projectAdmIncome.setTitle(rs.getString("title"));
+					projectAdmIncome.setKind(rs.getString("kind"));
+					projectAdmIncome.setP_status(rs.getString("p_status"));
+					projectAdmIncome.setCurr_amount(rs.getInt("curr_amount"));
+					projectAdmIncome.setRegdate(rs.getString("regdate_F"));
+					projectAdmIncome.setEnddate(rs.getString("enddate"));
+					projectAdmIncome.setFee_income(rs.getInt("fee_income"));
+					projectAdmIncome.setIncomedate(rs.getString("incomedate"));
+					
+					projectIncomeList.add(projectAdmIncome);
+					
+				}while(rs.next());
+				
+			}
+			
+		} catch(Exception e) {
+			System.out.println("[UserDAO] orderOldDoneProjectIncomeList() 에러 : "+e);//예외객체종류 + 예외메시지
+		} finally {
+			close(pstmt); //JdbcUtil.생략가능
+			close(rs); //JdbcUtil.생략가능
+			//connection 객체에 대한 해제는 DogListService에서 이루어짐
+		}
+		
+		return projectIncomeList;
+	}
+	
+	/** 기부/펀딩 종료프로젝트+송금여부 조회 (AZ) */
+	public ArrayList<ProjectAdminIncomeBean> orderAZDoneProjectIncomeList(String kind, int page, int limit) {
+		ArrayList<ProjectAdminIncomeBean> projectIncomeList = null;
+		int startrow = (page-1)*20;
+		
+		String sql = "select project_id, title, kind, p_status, curr_amount,"
+				+ " DATE_FORMAT(regdate,'%Y.%m.%d') as regdate,"
+				+ " DATE_FORMAT(enddate,'%Y.%m.%d') as enddate,"
+				+ " fee_income,"
+				+ " DATE_FORMAT(incomedate,'%Y.%m.%d') as incomedate"
+				+ " from project_adminIncome_view"
+				+ " where kind = ? and (p_status = 'done' or p_status = 'success')"
+				+ " order by title asc"
+				+ " limit ?, ?";
+		
+		try {
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, kind);
+			pstmt.setInt(2, startrow);
+			pstmt.setInt(3, limit);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				
+				projectIncomeList = new ArrayList<>();
+				
+				do {
+					
+					ProjectAdminIncomeBean projectAdmIncome = new ProjectAdminIncomeBean();
+					projectAdmIncome.setProject_id(rs.getInt("project_id"));
+					projectAdmIncome.setTitle(rs.getString("title"));
+					projectAdmIncome.setKind(rs.getString("kind"));
+					projectAdmIncome.setP_status(rs.getString("p_status"));
+					projectAdmIncome.setCurr_amount(rs.getInt("curr_amount"));
+					projectAdmIncome.setRegdate(rs.getString("regdate"));
+					projectAdmIncome.setEnddate(rs.getString("enddate"));
+					projectAdmIncome.setFee_income(rs.getInt("fee_income"));
+					projectAdmIncome.setIncomedate(rs.getString("incomedate"));
+					
+					projectIncomeList.add(projectAdmIncome);
+					
+				}while(rs.next());
+				
+			}
+			
+		} catch(Exception e) {
+			System.out.println("[UserDAO] orderAZDoneProjectIncomeList() 에러 : "+e);//예외객체종류 + 예외메시지
+		} finally {
+			close(pstmt); //JdbcUtil.생략가능
+			close(rs); //JdbcUtil.생략가능
+			//connection 객체에 대한 해제는 DogListService에서 이루어짐
+		}
+		
+		return projectIncomeList;
+	}
+	/** 기부/펀딩 종료프로젝트+송금여부 조회 (ZA) */
+	public ArrayList<ProjectAdminIncomeBean> orderZADoneProjectIncomeList(String kind, int page, int limit) {
+		ArrayList<ProjectAdminIncomeBean> projectIncomeList = null;
+		int startrow = (page-1)*20;
+		
+		String sql = "select project_id, title, kind, p_status, curr_amount,"
+				+ " DATE_FORMAT(regdate,'%Y.%m.%d') as regdate,"
+				+ " DATE_FORMAT(enddate,'%Y.%m.%d') as enddate,"
+				+ " fee_income,"
+				+ " DATE_FORMAT(incomedate,'%Y.%m.%d') as incomedate"
+				+ " from project_adminIncome_view"
+				+ " where kind = ? and (p_status = 'done' or p_status = 'success')"
+				+ " order by title desc"
+				+ " limit ?, ?";
+		
+		try {
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, kind);
+			pstmt.setInt(2, startrow);
+			pstmt.setInt(3, limit);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				
+				projectIncomeList = new ArrayList<>();
+				
+				do {
+					
+					ProjectAdminIncomeBean projectAdmIncome = new ProjectAdminIncomeBean();
+					projectAdmIncome.setProject_id(rs.getInt("project_id"));
+					projectAdmIncome.setTitle(rs.getString("title"));
+					projectAdmIncome.setKind(rs.getString("kind"));
+					projectAdmIncome.setP_status(rs.getString("p_status"));
+					projectAdmIncome.setCurr_amount(rs.getInt("curr_amount"));
+					projectAdmIncome.setRegdate(rs.getString("regdate"));
+					projectAdmIncome.setEnddate(rs.getString("enddate"));
+					projectAdmIncome.setFee_income(rs.getInt("fee_income"));
+					projectAdmIncome.setIncomedate(rs.getString("incomedate"));
+					
+					projectIncomeList.add(projectAdmIncome);
+					
+				}while(rs.next());
+				
+			}
+			
+		} catch(Exception e) {
+			System.out.println("[UserDAO] orderZADoneProjectIncomeList() 에러 : "+e);//예외객체종류 + 예외메시지
+		} finally {
+			close(pstmt); //JdbcUtil.생략가능
+			close(rs); //JdbcUtil.생략가능
+			//connection 객체에 대한 해제는 DogListService에서 이루어짐
+		}
+		
+		return projectIncomeList;
+	}
+	
+	/** 검색어에 따른 기부/펀딩 종료프로젝트+송금여부 조회 (search) */
+	public ArrayList<ProjectAdminIncomeBean> searchDoneProjectIncomeList(String kind, String title, int page, int limit) {
+		ArrayList<ProjectAdminIncomeBean> projectIncomeList = null;
+		int startrow = (page-1)*20;
+		
+		String sql = "select project_id, title, kind, p_status, curr_amount,"
+				+ " DATE_FORMAT(regdate,'%Y.%m.%d') as regdate_F,"
+				+ " DATE_FORMAT(enddate,'%Y.%m.%d') as enddate,"
+				+ " fee_income,"
+				+ " DATE_FORMAT(incomedate,'%Y.%m.%d') as incomedate"
+				+ " from project_adminIncome_view"
+				+ " where kind = ? and (p_status = 'done' or p_status = 'success')"
+				+ " title regexp ?"
+				+ " order by regdate desc"
+				+ " limit ?, ?";
+		
+		try {
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, kind);
+			pstmt.setString(2, title);
+			pstmt.setInt(3, startrow);
+			pstmt.setInt(4, limit);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				
+				projectIncomeList = new ArrayList<>();
+				
+				do {
+					
+					ProjectAdminIncomeBean projectAdmIncome = new ProjectAdminIncomeBean();
+					projectAdmIncome.setProject_id(rs.getInt("project_id"));
+					projectAdmIncome.setTitle(rs.getString("title"));
+					projectAdmIncome.setKind(rs.getString("kind"));
+					projectAdmIncome.setP_status(rs.getString("p_status"));
+					projectAdmIncome.setCurr_amount(rs.getInt("curr_amount"));
+					projectAdmIncome.setRegdate(rs.getString("regdate_F"));
+					projectAdmIncome.setEnddate(rs.getString("enddate"));
+					projectAdmIncome.setFee_income(rs.getInt("fee_income"));
+					projectAdmIncome.setIncomedate(rs.getString("incomedate"));
+					
+					projectIncomeList.add(projectAdmIncome);
+					
+				}while(rs.next());
+				
+			}
+			
+		} catch(Exception e) {
+			System.out.println("[UserDAO] searchDoneProjectIncomeList() 에러 : "+e);//예외객체종류 + 예외메시지
+		} finally {
+			close(pstmt); //JdbcUtil.생략가능
+			close(rs); //JdbcUtil.생략가능
+			//connection 객체에 대한 해제는 DogListService에서 이루어짐
+		}
+		
+		return projectIncomeList;
+	}
+
+	public int selectProjectAdminIncomeCount(int project_id) {
+		int selectProjectAdminIncomeCount = 0;
+		
+		String sql = "select count(*) from admin_income_tbl where project_id = ?";
+		
+		try {
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, project_id);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) selectProjectAdminIncomeCount = rs.getInt(1);
+			
+		} catch(Exception e) {
+			System.out.println("[UserDAO] selectProjectAdminIncomeCount() 에러 : "+e);//예외객체종류 + 예외메시지
+		} finally {
+			close(pstmt); //JdbcUtil.생략가능
+			close(rs); //JdbcUtil.생략가능
+			//connection 객체에 대한 해제는 DogListService에서 이루어짐
+		}
+		
+		return selectProjectAdminIncomeCount;
+	}
+	
 	
 	
 	

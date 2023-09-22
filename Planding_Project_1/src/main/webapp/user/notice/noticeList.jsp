@@ -34,6 +34,23 @@
     <!-- Template Stylesheet -->
     <link href="../resources/css/style.css" rel="stylesheet">
 </head>
+
+<script type="text/javascript">
+
+//검색어 유효성 검사 및 검색요청
+function searchNoticeList() {
+	
+	let search_id = document.getElementById("searchTitle").value;
+	
+	if(search_id == ''){
+		alert('검색어를 입력하세요.');
+		return false;
+	}	
+	document.fsearch.submit();
+	
+}
+</script>
+
 <body>
 	
 	<!-- Main Section -->
@@ -53,34 +70,45 @@
     </div>
     <!-- Page Header End -->
     
-    <c:if test="${pageInfo.listCount == 0 }">
+    
+	    
+    <%-- Search Tab Start --%>
+    <div class="container-fluid pt-4 pb-3">
+    	<div class="container col-lg-8 px-0">
+    		<div class="d-flex justify-content-end">
+				<form action="userNoticeList.usr" method="post" name="fsearch">
+	    			<div class="btn btn-outline-light py-1 px-2 me-1">
+		    			<input type="text" name="searchTitle" value="${searchKeyword }" id="searchTitle" class="border-0 me-2" placeholder="제목으로 검색">
+		    			<a href="javascript:searchNoticeList();"><i class="fas fa-search"></i></a>
+	    			</div>
+	    		</form>
+    		</div>
+    	</div>
+    </div>
+    <%-- Search Tab End --%>
+	
+	<c:if test="${pageInfo.listCount == 0 }">
     	<div class="container-xxl py-5">
     		<div class="container col-10 col-md-6 col-lg-4">
     			<div class="col-12 mb-5">
-    				<p class="text-center">작성된 공지글이 없습니다.</p>
+    				<c:if test="${searchKeyword eq null }">
+    					<p class="text-center">작성된 공지글이 없습니다.</p>
+    				</c:if>
+    				<c:if test="${searchKeyword ne null }">
+    					<p class="text-center">검색어에 해당하는 공지글이 없습니다.</p>
+    				</c:if>    				
     			</div>
     		</div>
     	</div>
     </c:if>
     
     <c:if test="${pageInfo.listCount != 0 }">
-    	<c:set var="n_index" value="${pageInfo.listCount - (pageInfo.page-1)*10 }" />
+    	
+    	<c:set var="n_index" value="${pageInfo.listCount - (pageInfo.page-1)*limit }" />
+    	<c:if test="${searchKeyword ne null }">
+			<c:set var="n_index" value="${(pageInfo.page-1)*10 +1}" />    	
+    	</c:if>
 	    
-	    <%-- Search Tab Start --%>
-	    <div class="container-fluid pt-4 pb-3">
-	    	<div class="container col-lg-8 px-0">
-	    		<div class="d-flex justify-content-end">
-					<form>
-		    			<div class="btn btn-outline-light py-1 px-2 me-1">
-			    			<input type="text" name="n_title" id="n_title" class="border-0 me-2" placeholder="제목으로 검색">
-			    			<a href="javascript:searchNoticeList();"><i class="fas fa-search"></i></a>
-		    			</div>
-		    		</form>
-	    		</div>
-	    	</div>
-	    </div>
-	    <%-- Search Tab End --%>
-	
 	    <%-- Table Start --%>
 	    <div class="container-fluid pt-0 pb-2">
 	        <div class="container col-lg-8">
@@ -90,28 +118,33 @@
 							<tr>
 								<th scope="col" class="col-1 text-center">#</th>
 								<th scope="col" class="col-8">제목</th>
-								<th scope="col" class="col-2">날짜</th>
-								<th scope="col" class="col-1">조회수</th>
+								<th scope="col" class="col-2 text-center">날짜</th>
+								<th scope="col" class="col-1 text-center"><i class="far fa-eye"></i></th>
 							</tr>
 						</thead>
 						<tbody class="table-group-divider">
 							<c:forEach var="noticeImp" items="${importantList}">
-								<tr>
-									<th scope="row"><i class="fas fa-exclamation"></i></th>
+								<tr class="bg-light">
+									<th scope="row" class="text-center"><i class="fas fa-exclamation text-danger"></i></th>
 									<td><a href="userNoticeView.usr?notice_id=${noticeImp.notice_id}&page=${pageInfo.page}">${noticeImp.n_title }</a></td>
-									<td>${noticeImp.writetime }</td>
-									<td>${noticeImp.viewcount }</td>
+									<td class="text-center">${noticeImp.writetime }</td>
+									<td class="text-center">${noticeImp.viewcount }</td>
 								</tr>
-								<c:set var="n_index" value="${n_index -1 }"/>
 							</c:forEach>							
 							<c:forEach var="notice" items="${noticeList}">
 								<tr>
-									<th scope="row">${n_index}</th>
+									<th scope="row" class="text-center">${n_index}</th>
 									<td><a href="userNoticeView.usr?notice_id=${notice.notice_id}&page=${pageInfo.page}">${notice.n_title }</a></td>
-									<td>${notice.writetime }</td>
-									<td>${notice.viewcount }</td>
+									<td class="text-center">${notice.writetime }</td>
+									<td class="text-center">${notice.viewcount }</td>
 								</tr>
-								<c:set var="n_index" value="${n_index -1 }"/>
+								
+								<c:if test="${searchKeyword ne null }">
+									<c:set var="n_index" value="${n_index +1}" />    	
+						    	</c:if>
+						    	<c:if test="${searchKeyword eq null }">
+						    		<c:set var="n_index" value="${n_index -1 }"/>
+						    	</c:if>								
 							</c:forEach>
 						</tbody>
 					</table>

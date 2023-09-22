@@ -24,8 +24,8 @@
 			}
 
 			//이전에 아이디 저장에 체크를 했다면, checked되도록 하기
-			if(cookieName.equals("checkbox")){ //쿠키 중 name이 remember인 쿠키가 있으면
-				checked = cookies[i].getValue();//쿠키 remember의 value를 String remember에 저장
+			if(cookieName.equals("a_checkbox")){ //쿠키 중 name이 a_checkbox인 쿠키가 있으면
+				checked = cookies[i].getValue();//쿠키 a_checkbox의 value를 String checked에 저장
 				System.out.println("checkbox쿠키값 : "+checked);
 			}
 		}
@@ -118,21 +118,6 @@
             </form>
         </div>
     </div>
-	
-	<!-- JavaScript Libraries -->
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="../../resources/lib/wow/wow.min.js"></script>
-    <script src="../../resources/lib/easing/easing.min.js"></script>
-    <script src="../../resources/lib/waypoints/waypoints.min.js"></script>
-    <script src="../../resources/lib/owlcarousel/owl.carousel.min.js"></script>
-    <script src="../../resources/lib/counterup/counterup.min.js"></script>
-    <script src="../../resources/lib/parallax/parallax.min.js"></script>
-    <script src="../../resources/lib/isotope/isotope.pkgd.min.js"></script>
-    <script src="../../resources/lib/lightbox/js/lightbox.min.js"></script>
-
-    <!-- Template Javascript -->
-    <script src="../../resources/js/main.js"></script>
 
   </form>
 </body>

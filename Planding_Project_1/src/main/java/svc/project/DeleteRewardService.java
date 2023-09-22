@@ -1,17 +1,12 @@
 package svc.project;
 
-import static db.JdbcUtil.close;
-import static db.JdbcUtil.commit;
-import static db.JdbcUtil.getConnection;
-import static db.JdbcUtil.rollback;
+import static db.JdbcUtil.*;
 
 import java.sql.Connection;
 
-import dao.ProjectDAO;
 import dao.RewardDAO;
 
 public class DeleteRewardService {
-	
 	
 	//Donation테이블에서 후원기록을 카운트해옴
 	public int seleteDonation_Reward(String reward_id) {
@@ -98,4 +93,5 @@ public class DeleteRewardService {
 		
 		return isdeleteRewardResult;
 	}
+	
 }

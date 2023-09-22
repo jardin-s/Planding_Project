@@ -11,9 +11,13 @@ public class DonationBean {
 	
 	private String address_id;//리워드 배송받을 경우 (펀딩프로젝트)
 	private String donatedate;
-
+	
+	//-------------------------------------------------------
+	
+	private int totalDonation;//리워드금액 + 추가후원금액 = 총 후원금액 (sql에는 없음)
 	
 	
+	//(이주헌) ByRewardDonationListAction
 	//DB과 상관 없이 후원정보에 종속된 주소를 가져오고자 함
 	private String receiver_name; //수령인 이름
 	private String receiver_phone; //연락처
@@ -24,7 +28,8 @@ public class DonationBean {
 	
 	
 	
-	private int totalDonation;//리워드금액 + 추가후원금액 = 총 후원금액 (sql에는 없음)
+	
+	//생성자
 	
 	public DonationBean () {}
 
@@ -40,6 +45,7 @@ public class DonationBean {
 		//this.donatedate = donatedate; //sql 자동세팅
 	}
 	
+		
 	//후원할 시
 	public DonationBean(int project_id, String member_id, String reward_id, int r_price, int add_donation, String address_id) {
 		super();
@@ -138,6 +144,16 @@ public class DonationBean {
 		this.totalDonation = totalDonation;
 	}
 	
+	//★★★ 리워드 금액 + 추가후원금액으로 세팅된 걸로 가지고오기
+	public int getTotalDonation_Cal() {
+		return r_price + add_donation;
+	}
+	
+	//★★★ 리워드 금액 + 추가후원금액으로 세팅
+	public void setTotalDonation_Cal(int r_price, int add_donation) {
+		this.totalDonation = r_price + add_donation;
+	}
+	
 	public String getAddress_id() {
 		return address_id;
 	}
@@ -153,6 +169,10 @@ public class DonationBean {
 	public void setDonatedate(String donatedate) {
 		this.donatedate = donatedate;
 	}
+	
+	
+	
+	//------------------------------------------------------------------
 
 	public String getReceiver_name() {
 		return receiver_name;
@@ -194,5 +214,8 @@ public class DonationBean {
 		this.address2 = address2;
 	}
 	
+	
+	
+
 	
 }

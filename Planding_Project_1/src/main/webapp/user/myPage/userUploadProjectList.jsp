@@ -37,12 +37,6 @@
     <!-- Custom Stylesheet -->
     <link href="../resources/css/customStyle.css" rel="stylesheet">
     
-    <style>
-    .nav-pills > .nav-item > .active {
-		background-color: #E8F5E9 !important; 
-		color: #348E38 !important;
-	}
-    </style>
 </head>
 <body>
 	
@@ -54,9 +48,9 @@
             <div class="row justify-content-center">
 	            <ul class="col-12 col-lg-8 nav nav-pills justify-content-center mt-4 mb-0">
 					<li class="col-6 col-md-3 nav-item"><a class="nav-link text-white" href="userMyPage.usr">내 정보관리</a></li>
-					<li class="col-6 col-md-3 nav-item"><a class="nav-link text-white" href="userBookmarkList.usr">관심 프로젝트</a></li>
-					<li class="col-6 col-md-3 nav-item"><a class="nav-link active fw-bold" aria-current="page" href="#">등록 프로젝트</a></li>
-					<li class="col-6 col-md-3 nav-item"><a class="nav-link text-white" href="userDonatedProjectList.usr">후원 프로젝트</a></li>
+					<li class="col-6 col-md-3 nav-item"><a class="nav-link text-white" href="userDonationHistory.usr">내 후원내역</a></li>
+					<li class="col-6 col-md-3 nav-item"><a class="nav-link text-white" href="userMyQnaList.usr">내 문의글</a></li>
+					<li class="col-6 col-md-3 nav-item"><a class="nav-link active fw-bold" aria-current="page" href="#">등록 프로젝트</a></li>					
 	            </ul>
             </div>
         </div>
@@ -83,36 +77,27 @@
 							<tr class="text-center">
 								<th scope="col" style="width:10%">#</th>
 								<th scope="col" style="width:auto">프로젝트 제목</th>
-								<th scope="col" style="width:10%">수정</th>
-								<th scope="col" style="width:10%">관리</th>
-								<th scope="col" style="width:10%">취소</th>
+								<th scope="col" style="width:10%">프로젝트</th>
+								<th scope="col" style="width:10%">리워드</th>
 							</tr>
 						</thead>
 						<tbody class="table-group-divider">
-							<c:forEach var="uploadProject" items="${requestScope.uploadProjectList }" varStatus="status">
+							<c:forEach var="uploadProject" items="${requestScope.uploadProjectList}" varStatus="status">
 								<tr class="text-center">
 									<th scope="row" class="text-center">${status.count}</th>
 									<td>
 										<a href="userProjectView.pj?project_id=${uploadProject.project_id}">${uploadProject.title}</a>
 									</td>
 									<td>
-										<button class="btn btn-outline-primary py-1" type="button" id="editBtn" onclick="location.href='editProjectForm.pj?project_id=${uploadProject.project_id}'">수정</button>
+										<button class="btn btn-outline-primary py-1 px-1" type="button" id="editBtn" onclick="location.href='editProjectForm.pj?project_id=${uploadProject.project_id}'">관리</button>
 									</td>
 									<td>
-										<button class="btn btn-outline-primary py-1" type="button" id="mngBtn" onclick="location.href='manageProject.pj?project_id=${uploadProject.project_id}'">관리</button>
-									</td>
-									<td>
-										<c:choose>
-											<c:when test="${uploadProject.status eq 'unauthorized' || uploadProject.status eq 'ready'}">
-												<button class="btn btn-outline-primary py-1" type="button" id="dltBtn" onclick="location.href='deleteProject.pj?project_id=${uploadProject.project_id}'">삭제</button>
-											</c:when>
-											<c:when test="${uploadProject.status eq 'ongoing' }">
-												<button class="btn btn-outline-primary py-1" type="button" id="dltBtn" onclick="location.href='cancelProject.pj?project_id=${uploadProject.project_id}'">취소</button>
-											</c:when>
-											<c:otherwise>
-												<button class="btn btn-outline-primary py-1" type="button" id="dltBtn" disabled>삭제</button>
-											</c:otherwise>
-										</c:choose>									
+										<c:if test="${uploadProject.kind eq 'donate' }">
+											<button class="btn btn-outline-primary py-1 px-1" type="button" id="mngBtn" onclick="location.href='userProjectDonationListALL.pj?project_id=${uploadProject.project_id}'">관리</button>
+										</c:if>
+										<c:if test="${uploadProject.kind eq 'fund' }">
+											<button class="btn btn-outline-primary py-1 px-1" type="button" id="mngBtn" onclick="location.href='manageProject.pj?project_id=${uploadProject.project_id}'">관리</button>
+										</c:if>
 									</td>
 								</tr>
 							</c:forEach>

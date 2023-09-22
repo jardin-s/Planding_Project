@@ -64,11 +64,6 @@ public class UserDeleteAction implements Action {
 				session.removeAttribute("u_email");
 				session.removeAttribute("u_admin_status");
 				
-				//+추가적으로 제거 (추후에 구현할 내용들)
-				//session.removeAttribute("cartList");
-				//session.removeAttribute("totalMoney");
-				//session.removeAttribute("saleTotalMoney");
-				//session.removeAttribute("latestOrder");//가장최근주문건
 				
 				//로그인 시 아이디 저장 체크했던 쿠키도 삭제
 				/* 1개의 PC를 여러 사용자가 사용하므로 회원탈퇴 후 그 전 사용자의 흔적이 있는 id쿠키객체와 checkbox 쿠키객체를 삭제 */
@@ -76,7 +71,7 @@ public class UserDeleteAction implements Action {
 				cookieU_id.setMaxAge(0);
 				response.addCookie(cookieU_id);
 				
-				Cookie cookieCheckbox = new Cookie("checkbox", "");
+				Cookie cookieCheckbox = new Cookie("u_checkbox", "");
 				cookieCheckbox.setMaxAge(0);
 				response.addCookie(cookieCheckbox);
 				

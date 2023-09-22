@@ -72,7 +72,7 @@ public class UserLoginAction implements Action {
 				System.out.println("cookieU_id의 Cookie 객체 생성");
 				
 				//체크박스 체크여부를 저장
-				Cookie cookieCheckbox = new Cookie("checkbox","checked");
+				Cookie cookieCheckbox = new Cookie("u_checkbox","checked");
 				cookieCheckbox.setMaxAge(24*60*60);//24시간
 				System.out.println("cookieCheckbox의 Cookie 객체 생성");
 				
@@ -111,7 +111,6 @@ public class UserLoginAction implements Action {
 					
 					session.setAttribute("u_name", userInfo.getName());			
 					session.setAttribute("u_email", userInfo.getEmail());
-					session.setAttribute("u_money", userInfo.getMoney());//계좌잔액 추가
 					
 					//isAdmin이 N이면 관리자페이지 접근제한
 					session.setAttribute("u_admin_status", userInfo.getAdmin_status());

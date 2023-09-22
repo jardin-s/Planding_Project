@@ -18,7 +18,9 @@ public class UserModifyQnaQFormAction implements Action {
 		ActionForward forward = null;
 		
 		int qna_id = Integer.parseInt(request.getParameter("qna_id"));
+		int page = Integer.parseInt(request.getParameter("page"));
 		String q_writer = request.getParameter("q_writer");
+		
 		
 		HttpSession session = request.getSession();
 		String u_id = (String) session.getAttribute("u_id");
@@ -32,9 +34,11 @@ public class UserModifyQnaQFormAction implements Action {
 			out.println("</script>");
 		}else {
 			
-			ModifyQnaQFormService qnaEditFormService = new ModifyQnaQFormService();
-			QnaBean qnaInfo = qnaEditFormService.getQnaInfo(qna_id);
+			//폼에 뿌리기 위해 문의글 정보를 가져옴
+			ModifyQnaQFormService modifyQnaQFormService = new ModifyQnaQFormService();
+			QnaBean qnaInfo = modifyQnaQFormService.getQnaInfo(qna_id);
 			
+			request.setAttribute("page", page);
 			request.setAttribute("qnaInfo", qnaInfo);
 			request.setAttribute("showPage", "user/qna/modifyQnaQForm.jsp");
 			

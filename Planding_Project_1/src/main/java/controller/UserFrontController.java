@@ -20,6 +20,7 @@ import action.user.account.UserLogoutAction;
 import action.user.account.UserUpdateAction;
 import action.user.account.UserUpdateFormAction;
 import action.user.notice.UserNoticeListAction;
+import action.user.notice.UserNoticeViewtAction;
 import action.user.qna.SearchQnaListAction;
 import action.user.qna.UserDeleteQnaAction;
 import action.user.qna.UserDeleteQnaListAction;
@@ -31,9 +32,8 @@ import action.user.qna.UserMyQnaListAction;
 import action.user.qna.UserMyQnaViewAction;
 import action.user.qna.UserQnaListAction;
 import action.user.qna.UserQnaViewAction;
-import action.user.UserBookmarkDeleteAction;
-import action.user.UserBookmarkListAction;
-import action.user.UserDonatedProjectListAction;
+import action.user.UserDonationHistoryAction;
+import action.user.UserMyPageAction;
 import action.user.UserTopupMoneyAction;
 import vo.ActionForward;
 
@@ -203,7 +203,7 @@ public class UserFrontController extends HttpServlet {
 			
 			//부모인터페이스 = 구현한 자식객체
 			request.setAttribute("showPage", "user/account/userDeleteForm.jsp");
-			forward = new ActionForward();
+			forward = new ActionForward("userTemplate.jsp", false);
 					
 		}
 		else if(command.equals("/userDeleteAction.usr")) {//'회원탈퇴 처리' 요청
@@ -277,14 +277,8 @@ public class UserFrontController extends HttpServlet {
 				
 		/*------- '사용자 마이페이지 보기' -------------------------------*/
 		else if(command.equals("/userMyPage.usr")) {//'비밀번호 변경 폼 보기' 요청이면
-			request.setAttribute("showPage", "user/myPage/userMyPage.jsp");
-			forward = new ActionForward("userTemplate.jsp",false); //반드시 디스패치 방식으로 포워딩
-		}
-		
-		/*------- '관심 프로젝트 목록 보기' -------------------------------*/
-		else if(command.equals("/userBookmarkList.usr")) {//'관심 프로젝트 목록 보기' 요청이면
-			//action:부모인터페이스 = UserHashPwChangeAction:구현한자식객체;
-			action = new UserBookmarkListAction();
+			
+			action = new UserMyPageAction();
 			try {
 				forward = action.execute(request, response);
 			} catch (Exception e) {
@@ -292,6 +286,7 @@ public class UserFrontController extends HttpServlet {
 				e.printStackTrace();
 			}
 		}
+		
 		
 		/*------- '등록한 프로젝트 목록 보기' -------------------------------*/
 		else if(command.equals("/userUploadProjectList.usr")) {//'등록한 프로젝트 목록 보기' 요청이면
@@ -305,22 +300,10 @@ public class UserFrontController extends HttpServlet {
 			}
 		}
 		
-		/*------- '후원한 프로젝트 목록 보기' -------------------------------*/
-		else if(command.equals("/userDonatedProjectList.usr")) {//'후원한 프로젝트 목록 보기' 요청이면
+		/*------- '나의 후원내역 보기' -------------------------------*/
+		else if(command.equals("/userDonationHistory.usr")) {//'후원내역 보기' 요청이면
 			//action:부모인터페이스 = UserHashPwChangeAction:구현한자식객체;
-			action = new UserDonatedProjectListAction();
-			try {
-				forward = action.execute(request, response);
-			} catch (Exception e) {
-				// TODO 자동 생성된 catch 블록
-				e.printStackTrace();
-			}
-		}
-		
-		/*------- '선택한 관심 프로젝트 삭제하기' -------------------------------*/
-		else if(command.equals("/userBookmarkDelete.usr")) {//'관심프로젝트 삭제' 요청이면
-			//action:부모인터페이스 = UserHashPwChangeAction:구현한자식객체;
-			action = new UserBookmarkDeleteAction();
+			action = new UserDonationHistoryAction();
 			try {
 				forward = action.execute(request, response);
 			} catch (Exception e) {
@@ -494,6 +477,18 @@ public class UserFrontController extends HttpServlet {
 			
 			action = new UserNoticeListAction();
 
+			try {
+				forward = action.execute(request, response);
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+			
+		}
+		/*-- [사용자모드] '공지사항 글 상세 보기' 요청 --------------------------------------*/
+		else if(command.equals("/userNoticeView.usr")) {//'공지사항 글 보기' 요청
+			
+			action = new UserNoticeViewtAction();
+			
 			try {
 				forward = action.execute(request, response);
 			} catch(Exception e) {

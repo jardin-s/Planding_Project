@@ -192,7 +192,7 @@ function checkUpateForm(){
 	                            <div class="mb-3 row g-3 justify-content-center">
 								    <label for="postcode" class="col-3 col-form-label text-center">우편번호</label>
 								    <div class="col-6 me-0 pe-0">
-								      <input type="text" class="form-control" name="postcode" id="postcode" value="${addr.postcode}" max-length="20" placeholder="우편번호만 입력" required>
+								      <input type="text" class="form-control" name="postcode" id="postcode" value="${addr.postcode}" maxlength="20" placeholder="우편번호만 입력" required>
 								    </div>
 		                            <div class="col-3 text-end">
 		                                <input type="button" class="btn btn-primary" type="button" name="addck" id="addck" value="번호검색" onclick="findAddr();" required>                                
@@ -201,13 +201,13 @@ function checkUpateForm(){
 	                            <div class="mb-3 row gx-3 justify-content-center">
 								    <label for="address1" class="col-3 col-form-label text-center">주소</label>
 								    <div class="col-9">
-								      <input type="text" class="form-control" name="address1" id="address1" value="${addr.address1}" maxlength="11" placeholder="주소">
+								      <input type="text" class="form-control" name="address1" id="address1" value="${addr.address1}" placeholder="주소">
 								    </div>
 	                            </div>
 	                            <div class="mb-3 row gx-3 justify-content-center">
 								    <label for="address2" class="col-3 col-form-label text-center">상세주소</label>
 								    <div class="col-9">
-								      <input type="text" class="form-control" name="address2" id="address2" value="${addr.address2}" maxlength="11" placeholder="직접 입력">
+								      <input type="text" class="form-control" name="address2" id="address2" value="${addr.address2}" placeholder="직접 입력">
 								    </div>
 	                            </div>
 	                            <!-- 주소 ID -->
@@ -216,10 +216,11 @@ function checkUpateForm(){
 	                            <div class="mb-3 row gx-3 justify-content-center">
 								    <label for="account" class="col-3 col-form-label text-center">잔여금액</label>
 								    <div class="col-9">
-								      <input type="text" class="form-control" name="account" id="account" value="${admin.account }" readonly>
+								      <input type="text" class="form-control" name="money" id="money" value="${admin.money }" readonly>
 								    </div>
 	                            </div>
 	                            <div class="col-12 text-center">
+	                            	<button class="btn btn-primary py-2 px-4" type="button" onclick="location.href='adminMyPage.adm';">마이페이지</button>
 	                                <button class="btn btn-primary py-2 px-4" type="submit" onclick="checkUpdateForm(); return false;">수정하기</button>
 	                            </div>
 	                        </div>

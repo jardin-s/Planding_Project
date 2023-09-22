@@ -161,8 +161,8 @@ public class AdminHashPwFindAction implements Action {
 				request.setAttribute("random_password", random_password);
 				
 				//임시비밀번호를 화면에 뿌림
-				request.setAttribute("showPage", "admin/hash/findHashPwComplete.jsp");
-				forward = new ActionForward("adminTemplate.jsp",false);
+				request.setAttribute("showPage", "admin/account/hash/findHashPwComplete.jsp");
+				forward = new ActionForward("adminLoginTemplate.jsp",false);
 					
 			}
 		

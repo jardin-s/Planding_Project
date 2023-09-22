@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import action.Action;
 import action.admin.manageMember.DeleteMemberAction;
+import action.admin.manageMember.DeleteMemberListAction;
 import action.admin.manageMember.DeletedMemberListAction;
 import action.admin.manageMember.DeletedOrderMemberListAction;
 import action.admin.manageMember.DeletedSearchMemberListAction;
@@ -200,6 +201,18 @@ public class MngMemberFrontController extends HttpServlet {
 			
 		}
 		
+		/*-- 여러 회원 삭제 -------------------------------------------------------------------------*/
+		else if(command.equals("/deleteMemberList.mngm")) {//특정회원삭제
+			
+			action = new DeleteMemberListAction();
+			
+			try {
+				forward = action.execute(request, response);
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+			
+		}
 		/*-- 특정 회원 삭제 -------------------------------------------------------------------------*/
 		else if(command.equals("/deleteMember.mngm")) {//특정회원삭제
 			

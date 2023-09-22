@@ -9,7 +9,7 @@ import action.Action;
 import svc.admin.manageProject.donate.DoneDonateProjectListService;
 import vo.ActionForward;
 import vo.PageInfo;
-import vo.ProjectBean;
+import vo.ProjectAdminIncomeBean;
 
 public class OrderDoneDonateProjectListAction implements Action {
 
@@ -45,7 +45,7 @@ public class OrderDoneDonateProjectListAction implements Action {
 		System.out.println("[OrderDoneDonateProjectListAction] project_tbl 총 종료된 기부프로젝트 수 = "+listCount);
 		
 		//정렬기준에 따른 기부프로젝트 목록을 얻어옴
-		ArrayList<ProjectBean> projectList = doneDonateProjectListService.getOrderDoneDonateList(order, page, limit);
+		ArrayList<ProjectAdminIncomeBean> projectList = doneDonateProjectListService.getOrderDoneDonateList(order, page, limit);
 		request.setAttribute("projectList", projectList);
 		
 		

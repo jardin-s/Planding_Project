@@ -65,7 +65,7 @@
                     <ul class="list-group list-group-flush">
 					  <li class="list-group-item"><a href="adminUpdateForm.adm">관리자 정보 수정</a></li>
 					  <li class="list-group-item"><a href="adminHashPwChangeForm.adm?a_id=${a_id}">비밀번호 변경</a></li>
-					  <li class="list-group-item"><a href="adminDelete.adm">관리자 계정 삭제</a></li>
+					  <li class="list-group-item"><a href="adminDeleteForm.adm">관리자 계정 삭제</a></li>
 					</ul>           
                 </div>
             </div>

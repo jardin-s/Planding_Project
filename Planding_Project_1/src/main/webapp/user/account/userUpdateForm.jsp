@@ -201,13 +201,13 @@ function checkUpateForm(){
 	                            <div class="mb-3 row gx-3 justify-content-center">
 								    <label for="address1" class="col-3 col-form-label text-center">주소</label>
 								    <div class="col-9">
-								      <input type="text" class="form-control" name="address1" id="address1" value="${addr.address1}" maxlength="11" placeholder="주소">
+								      <input type="text" class="form-control" name="address1" id="address1" value="${addr.address1}" placeholder="주소">
 								    </div>
 	                            </div>
 	                            <div class="mb-3 row gx-3 justify-content-center">
 								    <label for="address2" class="col-3 col-form-label text-center">상세주소</label>
 								    <div class="col-9">
-								      <input type="text" class="form-control" name="address2" id="address2" value="${addr.address2}" maxlength="11" placeholder="직접 입력">
+								      <input type="text" class="form-control" name="address2" id="address2" value="${addr.address2}" placeholder="직접 입력">
 								    </div>
 	                            </div>
 	                            <!-- 주소 ID -->
@@ -216,10 +216,11 @@ function checkUpateForm(){
 	                            <div class="mb-3 row gx-3 justify-content-center">
 								    <label for="account" class="col-3 col-form-label text-center">잔여금액</label>
 								    <div class="col-9">
-								      <input type="text" class="form-control" name="account" id="account" value="${user.account }" readonly>
+								      <input type="text" class="form-control" name="money" id="money" value="${user.money }" readonly>
 								    </div>
 	                            </div>
 	                            <div class="col-12 text-center">
+	                                <button class="btn btn-primary py-2 px-4" type="button" onclick="location.href='userMyPage.usr';">마이페이지</button>
 	                                <button class="btn btn-primary py-2 px-4" type="submit" onclick="checkUpdateForm(); return false;">수정하기</button>
 	                            </div>
 	                        </div>
@@ -232,19 +233,5 @@ function checkUpateForm(){
     <!-- Form End -->
     
 	
-    <!-- JavaScript Libraries -->
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="../../resources/lib/wow/wow.min.js"></script>
-    <script src="../../resources/lib/easing/easing.min.js"></script>
-    <script src="../../resources/lib/waypoints/waypoints.min.js"></script>
-    <script src="../../resources/lib/owlcarousel/owl.carousel.min.js"></script>
-    <script src="../../resources/lib/counterup/counterup.min.js"></script>
-    <script src="../../resources/lib/parallax/parallax.min.js"></script>
-    <script src="../../resources/lib/isotope/isotope.pkgd.min.js"></script>
-    <script src="../../resources/lib/lightbox/js/lightbox.min.js"></script>
-
-    <!-- Template Javascript -->
-    <script src="../../resources/js/main.js"></script>
 </body>
 </html>

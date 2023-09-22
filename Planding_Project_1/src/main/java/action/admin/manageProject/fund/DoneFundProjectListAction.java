@@ -9,7 +9,7 @@ import action.Action;
 import svc.admin.manageProject.fund.DoneFundProjectListService;
 import vo.ActionForward;
 import vo.PageInfo;
-import vo.ProjectBean;
+import vo.ProjectAdminIncomeBean;
 
 public class DoneFundProjectListAction implements Action {
 
@@ -41,7 +41,7 @@ public class DoneFundProjectListAction implements Action {
 		System.out.println("[DoneFundProjectListAction] project_tbl 총 종료된 기부프로젝트 수 = "+listCount);
 		
 		//기부 프로젝트 목록을 얻어옴 (기본값 : 최근 가입순)
-		ArrayList<ProjectBean> projectList = doneFundProjectListService.getDoneFundList(page, limit);
+		ArrayList<ProjectAdminIncomeBean> projectList = doneFundProjectListService.getDoneFundList(page, limit);
 		request.setAttribute("projectList", projectList);
 		
 		

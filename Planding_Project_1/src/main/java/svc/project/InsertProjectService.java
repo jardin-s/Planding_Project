@@ -192,11 +192,13 @@ public class InsertProjectService {
 			String reward_id = rewardList.get(i).getReward_id();
 			insertProjectRewardCount += rewardDAO.insertProjectReward(project_id, reward_id);
 		}
+		//입력한 리워드 모두 매핑한 후, 기본리워드도 매핑하기
+		insertProjectRewardCount += rewardDAO.insertProjectReward(project_id, "default");
 		
 		boolean isMapProjectRewardListResult = false;
 		/*-------(insert, update, delete) 성공하면 commit(), 실패하면 rollback() 호출
 		 * 		 단, select는 이런 작업을 제외 ------------------*/
-		if(insertProjectRewardCount == rewardList.size()) {
+		if(insertProjectRewardCount == (rewardList.size()+1)) {//리워드개수 + 기본리워드 1개
 			isMapProjectRewardListResult = true;
 			commit(con);
 		}else {
@@ -208,7 +210,9 @@ public class InsertProjectService {
 		
 		return isMapProjectRewardListResult;
 	}
-	//리워드빈 객체로 리워드DAO에서 해당 리워드 수정
+	
+	
+	/** (이주헌 EditRewardAction) 리워드빈 객체로 리워드DAO에서 해당 리워드 수정 */
 	public boolean editReward(RewardBean rewardInfo) {
 		//1. 커넥션 풀에서 Connection객체를 얻어와
 		Connection con = getConnection(); //JdbcUtil. 생략(이유?import static 하여)
@@ -241,5 +245,5 @@ public class InsertProjectService {
 		
 		return isEditRewardResult;
 	}
-
+	
 }

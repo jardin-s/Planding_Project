@@ -76,7 +76,7 @@ public class SearchUnauthFundProjectListAction implements Action {
 		request.setAttribute("pageInfo", pageInfo);
 		
 		
-		request.setAttribute("showAdmin", "admin/manageProject/fundList/searchOrderUnauthFundProjectList.jsp");
+		request.setAttribute("showAdmin", "admin/manageProject/fundList/searchUnauthFundProjectList.jsp");
 		forward = new ActionForward("adminTemplate.jsp", false);
 		
 		return forward;

@@ -31,7 +31,12 @@ public class CancelProjectAction implements Action {
 		ActionForward forward = null;
 		
 		int project_id =  Integer.parseInt(request.getParameter("project_id"));
-		String status = request.getParameter("status");
+		String p_status = request.getParameter("p_status");
+		String kind = request.getParameter("kind");
+		System.out.println("[CancelProjectAction] 파라미터값 확인");
+		System.out.println("project_id = "+project_id);
+		System.out.println("p_status = "+p_status);
+		System.out.println("kind = "+kind);
 		
 		HttpSession session =  request.getSession();
 		
@@ -70,8 +75,9 @@ public class CancelProjectAction implements Action {
 				
 				/* [프로젝트 삭제 과정]
 				 * 1. 프로젝트 기획자 삭제
-				 * 2. 프로젝트-리워드 매핑테이블에서 해당 프로젝트의 리워드를 얻어와 그 중 id가 1이 아닌 것만 리워드 테이블에서 삭제
-				 * 3. 프로젝트-리워드 매핑테이블의 데이터 삭제
+				 * 2. 프로젝트-리워드 매핑테이블에서 해당 프로젝트의 리워드를 얻어와
+				 * 2. 프로젝트-리워드 매핑테이블의 데이터 삭제 
+				 * 3. 해당 프로젝트의 리워드 중 id가 1이 아닌 것만 리워드 테이블에서 삭제
 				 * 4. 프로젝트 테이블에서 프로젝트 데이터 삭제
 				 * */
 				
@@ -83,21 +89,23 @@ public class CancelProjectAction implements Action {
 				ArrayList<String> rewardIdList = cancelProjectService.getProjectRewardIdList(project_id);
 				
 				boolean isCancelProject = false;
-				if(status.equalsIgnoreCase("ready")) {//공개예정
+				if(p_status.equalsIgnoreCase("ready")) {//공개예정
 					
 					isCancelProject = cancelProjectService.cancelProject(project_id, rewardIdList);
 					
-				}else if(status.equalsIgnoreCase("ongoing")) {//진행중
+				}else if(p_status.equalsIgnoreCase("ongoing")) {//진행중
 					
 					//[순서-1] 후원자에게 환불처리 (사용자 계좌 업데이트 & 후원기록 테이블에서 후원기록 삭제)
 					//후원기록 테이블에서 후원기록을 가져와서 후원자에게 환불처리
 					
 					ArrayList<DonationBean> donationList = cancelProjectService.getDonationList(project_id);
 					boolean isRefundSuccess = cancelProjectService.refundDonation(donationList, project_id);
+					System.out.println("[CancelProjectAction] cancelProjectService.refundDonation()의 성공여부 = "+isRefundSuccess);
 					
 					//[순서-2] 기획자, 리워드, 리워드매핑, 프로젝트 데이터 삭제 (회원북마크는 프로젝트 삭제 시 자동삭제)
 					
 					boolean isCancelOngoingProject = cancelProjectService.cancelProject(project_id, rewardIdList);
+					System.out.println("[CancelProjectAction] cancelProjectService.cancelProject()의 성공여부 = "+isCancelOngoingProject);
 					
 					if(isRefundSuccess && isCancelOngoingProject) {//둘다 성공일 때만, isCancelProject가 true
 						isCancelProject = true;
@@ -212,8 +220,14 @@ public class CancelProjectAction implements Action {
 						e.printStackTrace(); //콘솔에 출력 : 개발자가 에러를 좀더 찾기 쉽게
 					}
 					
-					//다시 프로젝트 목록보기 요청
-					forward = new ActionForward("manageProjectList.mngp", true);
+					if(kind.equalsIgnoreCase("donate")) {
+						//다시 프로젝트 목록보기 요청
+						forward = new ActionForward("manageDonateProjectList.mngp", true);
+					}else if(kind.equalsIgnoreCase("fund")) {
+						//다시 프로젝트 목록보기 요청
+						forward = new ActionForward("manageFundProjectList.mngp", true);
+					}
+								
 				
 				}//모든 프로젝트 삭제, 취소 작업이 성공했는지 여부				
 			

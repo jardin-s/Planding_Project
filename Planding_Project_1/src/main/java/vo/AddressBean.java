@@ -28,6 +28,17 @@ public class AddressBean {
 		this.address2 = address2;
 		this.basic_status = basic_status;
 	}
+	//주소 확인 시
+	public AddressBean(String member_id, String receiver_name, String receiver_phone, int postcode, String address1,
+			String address2) {
+		super();
+		this.member_id = member_id;
+		this.receiver_name = receiver_name;
+		this.receiver_phone = receiver_phone;
+		this.postcode = postcode;
+		this.address1 = address1;
+		this.address2 = address2;
+	}
 	//회원가입 시 사용
 	public AddressBean(String address_id, String member_id, String receiver_name, String receiver_phone, int postcode, String address1,
 			String address2, String basic_status) {

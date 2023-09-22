@@ -37,118 +37,14 @@
 
 <script type="text/javascript">
 
-//정렬 요청
-function changeOrder() {
+function confirmDelete(member_id){
 	
-	let selectedValue = document.getElementById("selectOrder").value;
-	
-	if(selectedValue != 'default'){
-		document.forder.submit();
-	}
-	
-}
-
-//검색어 유효성 검사 및 검색요청
-function searchMemberList() {
-	
-	let search_id = document.getElementById("member_id").value;
-	
-	if(search_id == ''){
-		alert('검색어를 입력하세요.');
+	if(!confirm('회원을 정말 삭제할까요? 확인을 누르시면 취소할 수 없습니다.')){
+		alert('회원 삭제를 취소합니다.');
 		return false;
-	}
-	
-	document.fsearch.submit();
-	
-}
-
-//편집을 취소버튼으로 변경하고 삭제버튼 보이기
-function switchEditCancel(){
-	
-	//편집 버튼 클릭 시 -> 편집버튼을 취소버튼으로 변경하고, 선택삭제버튼 보이기
-	switchBtn();
-	
-	//form-check클래스 div태그 안에 체크박스 태그 삽입
-	const checkElements = document.getElementsByClassName('remove-th');
-	for(let i=0; i<checkElements.length; i++){
-		
-		if(checkElements[i].classList.contains('d-none')){//숨김 상태면 보이기로 전환
-			checkElements[i].classList.remove('d-none');
-		}else{//보이기 상태면 숨김으로 전환
-			checkElements[i].classList.add('d-none');
-		}
-	}
-	
-}
-
-//편집을 취소로 변경. 삭제버튼 활성화
-function switchBtn(){
-	
-	//편집을 취소로 변경
-	//취소를 편집으로 변경
-	const editBtn = document.getElementById("editBtn");
-	const editBtnText = editBtn.innerText;
-	
-	if(editBtnText == "회원편집"){
-		editBtn.innerText = "취소";
-	}else if(editBtnText == "취소"){
-		editBtn.innerText = "회원편집";
-	}
-	
-	//삭제버튼 없으면 활성화
-	//삭제버튼 있으면 비활성화
-	const deleteBtn = document.getElementById("deleteBtn");
-	if(deleteBtn.classList.contains('d-none')){
-		deleteBtn.classList.remove('d-none');
 	}else{
-		deleteBtn.classList.add('d-none');
+		location.href='deleteMember.mngm?member_id='+member_id;
 	}
-	
-}
-
-//전체선택
-function checkAll(theForm){
-	
-	if(theForm.remove.length == undefined){//폼의 remove(체크박스)배열의 길이가 정의되어 있지 않다면 == 항목이 1개만 있다면
-		
-		theForm.remove.checked = theForm.allCheck.checked; //전체선택 체크하면, 모든 항목이 체크됨
-	
-	}else{//항목이 2개 이상 있다면 -> 배열로 생성(같은이름(remove)의 checkbox)
-	
-		for(var i=0; i<theForm.remove.length; i++){
-			theForm.remove[i].checked = theForm.allCheck.checked; //remove배열의 각 값 checked
-		}
-	}
-	
-}
-
-function selectDelete(){
-	
-	const checkElements = document.getElementsByClassName('form-check-input');
-	
-	let isCheckboxChecked = false;
-	for(let i=0; i<checkElements.length; i++){
-		
-		//하나라도 체크된 것이 있으면 체크여부 true로 변경하고 반복문 끝
-		if(checkElements[i].checked == true){
-			isCheckboxChecked = true;
-			break;
-		}		
-	}
-	
-	if(!isCheckboxChecked){//체크된 것이 없으면
-		return alert('선택된 항목이 없어 삭제할 수 없습니다.');
-	
-	}else{//체크된 것이 있으면
-		
-		if(confirm('회원을 삭제하면 회원 아이디를 제외한 모든 개인정보가 삭제됩니다. 정말로 삭제하시겠습니까?')){
-			document.dlt.submit();
-		}else{
-			alert('회원 삭제를 취소합니다.');
-			return false;
-		}		
-	}
-	
 	
 }
 
@@ -174,13 +70,22 @@ function selectDelete(){
 			    		<th class="text-center">아이디</th>
 			    		<td>${memberInfo.member_id }</td>
 			    		<th class="text-center">이름</th>
-			    		<td>${memberInfo.name }</td>
+			    		<td>
+			    			<c:if test="${memberInfo.name eq 'delete'}">-</c:if>
+			    			<c:if test="${memberInfo.name ne 'delete'}">${memberInfo.name }</c:if>
+			    		</td>
 			    	</tr>
 			    	<tr>
 			    		<th class="text-center">이메일</th>
-			    		<td>${memberInfo.email }</td>
+			    		<td>
+			    			<c:if test="${memberInfo.email eq 'delete'}">-</c:if>
+			    			<c:if test="${memberInfo.email ne 'delete'}">${memberInfo.email }</c:if>
+			    		</td>
 			    		<th class="text-center">전화번호</th>
-			    		<td>${memberInfo.phone }</td>
+			    		<td>
+			    			<c:if test="${memberInfo.phone eq 'delete'}">-</c:if>
+			    			<c:if test="${memberInfo.phone ne 'delete'}">${memberInfo.phone }</c:if>
+			    		</td>
 			    	</tr>
 			    	<tr>
 			    		<th class="text-center">가입일</th>
@@ -188,9 +93,18 @@ function selectDelete(){
 			    		<th class="text-center">계좌잔액</th>
 			    		<td>${memberInfo.money }원</td>
 			    	</tr>
+			    	<c:if test="${memberInfo.deletedate ne null}">
+			    		<tr>
+				    		<th class="text-center" colspan="2">탈퇴일</th>
+				    		<td class="text-center" colspan="2">${memberInfo.deletedate }</td>
+				    	</tr>
+			    	</c:if>
 			    </table>
 			    
 			    <h4 class="text-center mb-4">등록된 배송지</h4>
+			    <c:if test="${memberInfo.deletedate ne null }">
+			   		<div class="text-center my-3">※리워드 배송을 위해 탈퇴 후 6개월 뒤 삭제됩니다.</div>
+			    </c:if>
    				<table class="table table-bordered mb-5">
 			    	<tr class="text-center">
 			    		<th>우편번호</th>
@@ -199,15 +113,22 @@ function selectDelete(){
 			    		<th>수령인</th>
 			    		<th>전화번호</th>
 			    	</tr>
-			    	<c:forEach var="address" items="${addressList }">
+			    	<c:if test="${addressList eq null }">
 			    		<tr class="text-center">
-				    		<td>${address.postcode }</td>
-				    		<td>${address.address1}</td>
-				    		<td>${address.address2}</td>
-				    		<td>${address.receiver_name}</td>
-				    		<td>${address.receiver_phone}</td>
-				    	</tr>
-			    	</c:forEach>
+			    			<td colspan="5">등록된 주소가 없습니다.</td>
+			    		</tr>
+			    	</c:if>
+			    	<c:if test="${addressList ne null }">
+			    		<c:forEach var="address" items="${addressList }">
+				    		<tr class="text-center">
+					    		<td>${address.postcode }</td>
+					    		<td>${address.address1}</td>
+					    		<td>${address.address2}</td>
+					    		<td>${address.receiver_name}</td>
+					    		<td>${address.receiver_phone}</td>
+					    	</tr>
+				    	</c:forEach>
+			    	</c:if>			    	
 			    </table>
 			    
 			    <h4 class="text-center mb-4">후원기록</h4>
@@ -218,14 +139,21 @@ function selectDelete(){
 			    		<th>총 후원금액</th>
 			    		<th>후원일자</th>
 			    	</tr>
-			    	<c:forEach var="donation" items="${donationList }">
+			    	<c:if test="${donationList eq null }">
 			    		<tr class="text-center">
-				    		<td>${donation.project_id}</td>
-				    		<td>${donation.reward_id }</td>
-				    		<td>${donation.totalDonation}원</td>
-				    		<td>${donation.donatedate}</td>
-				    	</tr>
-			    	</c:forEach>
+			    			<td colspan="4">후원기록이 없습니다.</td>
+			    		</tr>
+			    	</c:if>
+			    	<c:if test="${donationList ne null }">
+				    	<c:forEach var="donation" items="${donationList }">
+				    		<tr class="text-center">
+					    		<td>${donation.project_id}</td>
+					    		<td>${donation.reward_id }</td>
+					    		<td>${donation.totalDonation}원</td>
+					    		<td>${donation.donatedate}</td>
+					    	</tr>
+				    	</c:forEach>
+			    	</c:if>
 			    </table>
 			    
 			    <h4 class="text-center mb-4">작성한 문의글</h4>
@@ -236,24 +164,33 @@ function selectDelete(){
 			    		<th>답변등록 여부</th>
 			    		<th>작성일자</th>
 			    	</tr>
-			    	<c:forEach var="qna" items="${qnaList }">
+			    	<c:if test="${qnaList eq null }">
 			    		<tr class="text-center">
-				    		<td>${qna.qna_id}</td>
-				    		<td>${qna.q_title }</td>
-				    		<td>
-				    			<c:if test="${qna.a_writer ne null }">답변완료</c:if>
-				    			<c:if test="${qna.a_writer eq null }">
-				    				<button class="btn btn-outline-primary py-0" type="button" id="answerBtn" onclick="location.href='adminInsertQnaAForm.adm?qna_id=${qna.qna_id}&page=1'">답변하기</button>
-				    			</c:if>
-				    		</td>
-				    		<td>${qna.q_time}</td>
-				    	</tr>
-			    	</c:forEach>
+			    			<td colspan="4">작성한 문의글이 없습니다.</td>
+			    		</tr>
+			    	</c:if>
+			    	<c:if test="${qnaList ne null }">
+			    		<c:forEach var="qna" items="${qnaList }">
+				    		<tr class="text-center">
+					    		<td>${qna.qna_id}</td>
+					    		<td>${qna.q_title }</td>
+					    		<td>
+					    			<c:if test="${qna.a_writer ne null }">답변완료</c:if>
+					    			<c:if test="${qna.a_writer eq null }">
+					    				<button class="btn btn-outline-primary py-0" type="button" id="answerBtn" onclick="location.href='adminInsertQnaAForm.adm?qna_id=${qna.qna_id}&page=1'">답변하기</button>
+					    			</c:if>
+					    		</td>
+					    		<td>${qna.q_time}</td>
+					    	</tr>
+				    	</c:forEach>
+			    	</c:if>
 			    </table>
 			    
 			    <div class="col-12 text-center mt-5 mx-auto">
-			    	<button class="btn btn-light" onclick="location.href='manageMemberList.mngm'">회원 목록</button>
-			    	<button class="btn btn-light" onclick="location.href='deleteMember.mngm?member_id=${memberInfo.member_id}'">회원 삭제</button>			    	
+			    	<button class="btn btn-light" type="button" onclick="location.href='manageMemberList.mngm'">회원 목록</button>
+			    	<c:if test="${memberInfo.delete_status eq 'N' }">
+			    		<button class="btn btn-light" type="button" onclick="confirmDelete('${memberInfo.member_id}');">회원 삭제</button>
+			    	</c:if>			    				    	
 			    </div>
    			</div>
    		</div>

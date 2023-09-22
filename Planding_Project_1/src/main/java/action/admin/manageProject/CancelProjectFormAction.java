@@ -16,7 +16,8 @@ public class CancelProjectFormAction implements Action {
 		ActionForward forward = null;
 		
 		int project_id = Integer.parseInt(request.getParameter("project_id"));
-		String status = request.getParameter("status");
+		String p_status = request.getParameter("p_status");
+		String kind = request.getParameter("kind");
 		
 		HttpSession session = request.getSession();
 		String a_id = (String) session.getAttribute("a_id");
@@ -33,9 +34,10 @@ public class CancelProjectFormAction implements Action {
 			
 			//폼에 히든값으로 세팅해 다시 넘겨주기 위해
 			request.setAttribute("project_id", project_id);
-			request.setAttribute("status", status);
+			request.setAttribute("p_status", p_status);
+			request.setAttribute("kind", kind);
 			
-			request.setAttribute("showAdmin", "cancelProjectForm.jsp");
+			request.setAttribute("showAdmin", "admin/manageProject/cancelProjectForm.jsp");
 			forward = new ActionForward("adminTemplate.jsp", false);
 		}
 		

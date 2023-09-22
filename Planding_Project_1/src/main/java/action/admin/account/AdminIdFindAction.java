@@ -39,7 +39,9 @@ public class AdminIdFindAction implements Action {
 			
 			System.out.println("받아온 id 값 : "+a_id);
 			
-			forward = new ActionForward("admin/account/findIdComplete.jsp",false);//request에 id값을 저장하였으므로 디스패치 포워딩
+			request.setAttribute("showPage", "admin/account/findIdComplete.jsp");
+			forward = new ActionForward("adminLoginTemplate.jsp",false);//request에 id값을 저장하였으므로 디스패치 포워딩
+			
 			
 		}
 		

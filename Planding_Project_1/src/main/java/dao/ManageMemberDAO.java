@@ -182,7 +182,7 @@ public class ManageMemberDAO {
 		
 		//최근 가입한 회원순(탈퇴회원도 포함) (관리자 제외)
 		String sql = "select member_id, name, email,"
-				  + " phone, account, admin_status,"
+				  + " phone, money, admin_status,"
 				  + " DATE_FORMAT(joindate,'%Y.%m.%d') as joindate_F,"
 				  + " delete_status,"
 				  + " DATE_FORMAT(deletedate,'%Y.%m.%d') as deletedate"
@@ -208,7 +208,7 @@ public class ManageMemberDAO {
 												  rs.getString("name"),
 												  rs.getString("email"),
 												  rs.getString("phone"),
-												  rs.getInt("account"),
+												  rs.getInt("money"),
 												  rs.getString("joindate_F"),
 												  rs.getString("delete_status"),
 												  rs.getString("delete_status")
@@ -241,7 +241,7 @@ public class ManageMemberDAO {
 		
 		//최근 가입한 회원순(탈퇴회원도 포함) (관리자 제외)
 		String sql = "select member_id, name, email,"
-				+ " phone, account, admin_status,"
+				+ " phone, money, admin_status,"
 				+ " DATE_FORMAT(joindate,'%Y.%m.%d') as joindate,"
 				+ " delete_status,"
 				+ " DATE_FORMAT(deletedate,'%Y.%m.%d') as deletedate"
@@ -268,7 +268,7 @@ public class ManageMemberDAO {
 							rs.getString("name"),
 							rs.getString("email"),
 							rs.getString("phone"),
-							rs.getInt("account"),
+							rs.getInt("money"),
 							rs.getString("joindate"),
 							rs.getString("delete_status"),
 							rs.getString("deletedate")
@@ -301,7 +301,7 @@ public class ManageMemberDAO {
 		
 		//최근 가입한 회원순(탈퇴회원도 포함) (관리자 제외)
 		String sql = "select member_id, name, email,"
-				+ " phone, account, admin_status,"
+				+ " phone, money, admin_status,"
 				+ " DATE_FORMAT(joindate,'%Y.%m.%d') as joindate_F,"
 				+ " delete_status,"
 				+ " DATE_FORMAT(deletedate,'%Y.%m.%d') as deletedate"
@@ -328,7 +328,7 @@ public class ManageMemberDAO {
 							rs.getString("name"),
 							rs.getString("email"),
 							rs.getString("phone"),
-							rs.getInt("account"),
+							rs.getInt("money"),
 							rs.getString("joindate_F"),
 							rs.getString("delete_status"),
 							rs.getString("deletedate")
@@ -361,13 +361,13 @@ public class ManageMemberDAO {
 		
 		//최근 가입한 회원순(탈퇴회원도 포함) (관리자 제외)
 		String sql = "select member_id, name, email,"
-				+ " phone, account, admin_status,"
+				+ " phone, money, admin_status,"
 				+ " DATE_FORMAT(joindate,'%Y.%m.%d') as joindate_F,"
 				+ " delete_status,"
 				+ " DATE_FORMAT(deletedate,'%Y.%m.%d') as deletedate"
 				+ " from member_tbl"
-				+ " where admin_status = 'N' and delete_status='?'"
-				+ " and member_id LIKE '%?%'"
+				+ " where admin_status = 'N' and delete_status=?"
+				+ " and member_id regexp ?"
 				+ " order by joindate desc"
 				+ " limit ?, ?";
 		
@@ -390,7 +390,7 @@ public class ManageMemberDAO {
 							rs.getString("name"),
 							rs.getString("email"),
 							rs.getString("phone"),
-							rs.getInt("account"),
+							rs.getInt("money"),
 							rs.getString("joindate_F"),
 							rs.getString("delete_status"),
 							rs.getString("deletedate")
@@ -425,7 +425,7 @@ public class ManageMemberDAO {
 		
 		//(탈퇴회원도 포함) (관리자 제외)
 		String sql = "select member_id, name, email,"
-				+ " phone, account, admin_status,"
+				+ " phone, money, admin_status,"
 				+ " DATE_FORMAT(joindate,'%Y.%m.%d') as joindate_F,"
 				+ " delete_status,"
 				+ " DATE_FORMAT(deletedate,'%Y.%m.%d') as deletedate"
@@ -451,7 +451,7 @@ public class ManageMemberDAO {
 												  rs.getString("name"),
 												  rs.getString("email"),
 												  rs.getString("phone"),
-												  rs.getInt("account"),
+												  rs.getInt("money"),
 												  rs.getString("joindate_F"),
 												  rs.getString("delete_status"),
 												  rs.getString("deletedate")
@@ -483,7 +483,7 @@ public class ManageMemberDAO {
 		
 		//(탈퇴회원도 포함) (관리자 제외)
 		String sql = "select member_id, name, email,"
-				+ " phone, account, admin_status,"
+				+ " phone, money, admin_status,"
 				+ " DATE_FORMAT(joindate,'%Y.%m.%d') as joindate_F,"
 				+ " delete_status,"
 				+ " DATE_FORMAT(deletedate,'%Y.%m.%d') as deletedate"
@@ -509,7 +509,7 @@ public class ManageMemberDAO {
 							rs.getString("name"),
 							rs.getString("email"),
 							rs.getString("phone"),
-							rs.getInt("account"),
+							rs.getInt("money"),
 							rs.getString("joindate_F"),
 							rs.getString("delete_status"),
 							rs.getString("deletedate")
@@ -541,7 +541,7 @@ public class ManageMemberDAO {
 		
 		//(탈퇴회원도 포함) (관리자 제외)
 		String sql = "select member_id, name, email,"
-				+ " phone, account, admin_status,"
+				+ " phone, money, admin_status,"
 				+ " DATE_FORMAT(joindate,'%Y.%m.%d') as joindate_F,"
 				+ " delete_status,"
 				+ " DATE_FORMAT(deletedate,'%Y.%m.%d') as deletedate"
@@ -567,7 +567,7 @@ public class ManageMemberDAO {
 							rs.getString("name"),
 							rs.getString("email"),
 							rs.getString("phone"),
-							rs.getInt("account"),
+							rs.getInt("money"),
 							rs.getString("joindate_F"),
 							rs.getString("delete_status"),
 							rs.getString("deletedate")
@@ -599,7 +599,7 @@ public class ManageMemberDAO {
 		
 		//(탈퇴회원도 포함) (관리자 제외)
 		String sql = "select member_id, name, email,"
-				+ " phone, account, admin_status,"
+				+ " phone, money, admin_status,"
 				+ " DATE_FORMAT(joindate,'%Y.%m.%d') as joindate_F,"
 				+ " delete_status,"
 				+ " DATE_FORMAT(deletedate,'%Y.%m.%d') as deletedate"
@@ -625,7 +625,7 @@ public class ManageMemberDAO {
 							rs.getString("name"),
 							rs.getString("email"),
 							rs.getString("phone"),
-							rs.getInt("account"),
+							rs.getInt("money"),
 							rs.getString("joindate_F"),
 							rs.getString("delete_status"),
 							rs.getString("deletedate")
@@ -660,7 +660,7 @@ public class ManageMemberDAO {
 		
 		//(탈퇴회원도 포함) (관리자 제외)
 		String sql = "select member_id, name, email,"
-				+ " phone, account, admin_status,"
+				+ " phone, money, admin_status,"
 				+ " DATE_FORMAT(joindate,'%Y.%m.%d') as joindate_F,"
 				+ " delete_status,"
 				+ " DATE_FORMAT(deletedate,'%Y.%m.%d') as deletedate"
@@ -687,7 +687,7 @@ public class ManageMemberDAO {
 							rs.getString("name"),
 							rs.getString("email"),
 							rs.getString("phone"),
-							rs.getInt("account"),
+							rs.getInt("money"),
 							rs.getString("joindate_F"),
 							rs.getString("delete_status"),
 							rs.getString("deletedate")
@@ -719,7 +719,7 @@ public class ManageMemberDAO {
 		
 		//(탈퇴회원도 포함) (관리자 제외)
 		String sql = "select member_id, name, email,"
-				+ " phone, account, admin_status,"
+				+ " phone, money, admin_status,"
 				+ " DATE_FORMAT(joindate,'%Y.%m.%d') as joindate_F,"
 				+ " delete_status,"
 				+ " DATE_FORMAT(deletedate,'%Y.%m.%d') as deletedate"
@@ -746,7 +746,7 @@ public class ManageMemberDAO {
 							rs.getString("name"),
 							rs.getString("email"),
 							rs.getString("phone"),
-							rs.getInt("account"),
+							rs.getInt("money"),
 							rs.getString("joindate_F"),
 							rs.getString("delete_status"),
 							rs.getString("deletedate")
@@ -778,7 +778,7 @@ public class ManageMemberDAO {
 		
 		//(탈퇴회원도 포함) (관리자 제외)
 		String sql = "select member_id, name, email,"
-				+ " phone, account, admin_status,"
+				+ " phone, money, admin_status,"
 				+ " DATE_FORMAT(joindate,'%Y.%m.%d') as joindate_F,"
 				+ " delete_status,"
 				+ " DATE_FORMAT(deletedate,'%Y.%m.%d') as deletedate"
@@ -805,7 +805,7 @@ public class ManageMemberDAO {
 							rs.getString("name"),
 							rs.getString("email"),
 							rs.getString("phone"),
-							rs.getInt("account"),
+							rs.getInt("money"),
 							rs.getString("joindate_F"),
 							rs.getString("delete_status"),
 							rs.getString("deletedate")
@@ -837,7 +837,7 @@ public class ManageMemberDAO {
 		
 		//(탈퇴회원도 포함) (관리자 제외)
 		String sql = "select member_id, name, email,"
-				+ " phone, account, admin_status,"
+				+ " phone, money, admin_status,"
 				+ " DATE_FORMAT(joindate,'%Y.%m.%d') as joindate_F,"
 				+ " delete_status,"
 				+ " DATE_FORMAT(deletedate,'%Y.%m.%d') as deletedate"
@@ -864,7 +864,7 @@ public class ManageMemberDAO {
 							rs.getString("name"),
 							rs.getString("email"),
 							rs.getString("phone"),
-							rs.getInt("account"),
+							rs.getInt("money"),
 							rs.getString("joindate_F"),
 							rs.getString("delete_status"),
 							rs.getString("deletedate")
@@ -894,7 +894,7 @@ public class ManageMemberDAO {
 		//탈퇴여부 Y, 탈퇴일시 현재시간으로 업데이트
 		String sql = "update member_tbl"
 				 + " set password='delete', name='delete',"
-				 + " email='delete', phone='delete',"
+				 + " phone='delete',"
 				 + " delete_status='Y',"
 				 + " deletedate=current_timestamp"
 				 + " where member_id=?";
@@ -922,7 +922,7 @@ public class ManageMemberDAO {
 		MemberBean memberInfo = null;
 		
 		String sql = "select member_id, name, email,"
-				+ " phone, account, admin_status,"
+				+ " phone, money, admin_status,"
 				+ " DATE_FORMAT(joindate,'%Y.%m.%d') as joindate,"
 				+ " delete_status,"
 				+ " DATE_FORMAT(deletedate,'%Y.%m.%d') as deletedate"
@@ -942,8 +942,8 @@ public class ManageMemberDAO {
 				memberInfo.setEmail(rs.getString("email"));
 				memberInfo.setPhone(rs.getString("phone"));
 				memberInfo.setJoindate(rs.getString("joindate"));
-				memberInfo.setDelete_status("delete_status");
-				memberInfo.setDelete_status(rs.getString("deletedate"));
+				memberInfo.setDelete_status(rs.getString("delete_status"));
+				memberInfo.setDeletedate(rs.getString("deletedate"));
 			}
 			
 		} catch(Exception e) {
@@ -1009,7 +1009,7 @@ public class ManageMemberDAO {
 		ArrayList<DonationBean> donationList = null;
 		
 		String sql = "select donation_id, project_id, member_id, reward_id, address_id"
-				  + " r_price, nvl(add_donation,0) as add_donation,"
+				  + " r_price, ifnull(add_donation,0) as add_donation,"
 				  + " DATE_FORMAT(donatedate,'%Y.%m.%d') as donatedate"
 				  + " from donation_tbl"
 				  + " where member_id=?";

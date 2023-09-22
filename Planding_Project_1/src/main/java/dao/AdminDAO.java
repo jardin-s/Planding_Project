@@ -245,7 +245,7 @@ public class AdminDAO {
 				addrInfo.setAddress_id(rs.getString("address_id"));
 				addrInfo.setMember_id(rs.getString("member_id"));
 				addrInfo.setReceiver_name(rs.getString("receiver_name"));
-				addrInfo.setReceiver_phone(rs.getString("phone"));
+				addrInfo.setReceiver_phone(rs.getString("receiver_phone"));
 				addrInfo.setPostcode(rs.getInt("postcode"));
 				addrInfo.setAddress1(rs.getString("address1"));
 				addrInfo.setAddress2(rs.getString("address2"));
@@ -268,20 +268,19 @@ public class AdminDAO {
 		int updateAdminCount = 0;
 		
 		String sql = "update member_tbl"
-				   + " set password=?, name=?, email=?, phone=?"
+				   + " set name=?, email=?, phone=?"
 				   + " where member_id=?";
 		
 		try {
 			
 			pstmt = con.prepareStatement(sql);
 			
-			pstmt.setString(1, admin.getPassword());
 			//암호화가 안 된 상태라면 pstmt.setString(3, SHA256.encodeSHA256(admin.getPassword()));
-			pstmt.setString(2, admin.getName());
-			pstmt.setString(3, admin.getEmail());
-			pstmt.setString(4, admin.getPhone());
+			pstmt.setString(1, admin.getName());
+			pstmt.setString(2, admin.getEmail());
+			pstmt.setString(3, admin.getPhone());
 			
-			pstmt.setString(5, admin.getMember_id());
+			pstmt.setString(4, admin.getMember_id());
 			
 			updateAdminCount = pstmt.executeUpdate();
 			
@@ -334,7 +333,7 @@ public class AdminDAO {
 		int udpateDeleteAdminCount = 0;
 		
 		String sql = "update member_tbl"
-			   	  + " set password='delete', name='delete', email='delete', phone='delete',"
+			   	  + " set password='delete', name='delete', phone='delete',"
 			   	  + " delete_status='Y',"
 			   	  + " deletedate=current_timestamp"
 			   	  + " where member_id=?";
@@ -366,8 +365,8 @@ public class AdminDAO {
 		try {
 			
 			pstmt = con.prepareStatement(sql);
-			
-			
+			pstmt.setString(1, id);
+					
 			deleteeAddrCount = pstmt.executeUpdate();
 			
 		} catch(Exception e) {
@@ -461,7 +460,9 @@ public class AdminDAO {
 	public int setHashPw(String id, String email, String random_password) {
 		int setHashPwCount = 0;
 		
-		String sql = "update member_tbl set password=? where member_id=? and email=?";
+		String sql = "update member_tbl"
+			  	  + " set password=? "
+			  	  + " where member_id=? and email=?";
 		
 		try {
 			
@@ -471,6 +472,10 @@ public class AdminDAO {
 			pstmt.setString(3, email);
 			
 			setHashPwCount = pstmt.executeUpdate();
+			
+			System.out.println("[AdminDAO] AdminHashPwFindService 임시 비밀번호로 변경");
+			System.out.println("[AdminDAO] setHashPw() : 8자리 비밀번호 = "+random_password);
+			System.out.println("[AdminDAO] setHashPw() : SHA256패턴 = "+SHA256.encodeSHA256(random_password));
 			
 		} catch(Exception e) {
 			System.out.println("[AdminDAO] setHashPw() 에러 : "+e);//예외객체종류 + 예외메시지

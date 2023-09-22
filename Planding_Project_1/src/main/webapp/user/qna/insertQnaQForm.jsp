@@ -63,7 +63,6 @@ function qnaFormCheck(){
 		
 	//비밀글 값 가져오기
 	var check_value = document.f.checkbox.checked ? "Y" : "N";
-	alert("check_value = "+check_value);
 	document.f.q_private.value = check_value;
 	
 	

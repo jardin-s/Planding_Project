@@ -15,6 +15,7 @@ import action.admin.account.AdminIdCheckAction;
 import action.admin.account.AdminIdFindAction;
 import action.admin.account.AdminJoinAction;
 import action.admin.account.AdminLoginAction;
+import action.admin.account.AdminLoginFormAction;
 import action.admin.account.AdminLogoutAction;
 import action.admin.account.AdminUpdateAction;
 import action.admin.account.AdminUpdateFormAction;
@@ -22,6 +23,7 @@ import action.admin.notice.AdminDeleteNoticeAction;
 import action.admin.notice.AdminDeleteNoticeListAction;
 import action.admin.notice.AdminInsertNoticeAction;
 import action.admin.notice.AdminInsertNoticeFormAction;
+import action.admin.notice.AdminModifyNoticeAction;
 import action.admin.notice.AdminModifyNoticeFormAction;
 import action.admin.notice.AdminNoticeListAction;
 import action.admin.notice.AdminNoticeViewAction;
@@ -112,9 +114,15 @@ public class AdminFrontController extends HttpServlet {
 		/*-- '로그인 폼 보기' 요청 -> 처리 --------------------------------------*/
 		else if(command.equals("/adminLoginForm.adm")) {//'로그인 폼 보기' 요청이면
 			
-			request.setAttribute("showPage", "admin/account/loginForm.jsp");//어느 폼 보기인지 showAdmin이름 속성으로 저장
-			forward = new ActionForward("adminLoginTemplate.jsp",false);
-					
+			//부모인터페이스 = 구현한 자식객체
+			action = new AdminLoginFormAction();//부모인터페이스인 Action으로 받음 
+			
+			try {
+				forward = action.execute(request, response); //DogListAction의 execute()를 실행
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+								
 		}
 		
 		else if(command.equals("/adminLoginAction.adm")) {//'로그인 처리' 요청이면
@@ -204,7 +212,14 @@ public class AdminFrontController extends HttpServlet {
 					
 		}
 		
-		else if(command.equals("/adminDelete.adm")) {//'회원탈퇴 처리' 요청
+		else if(command.equals("/adminDeleteForm.adm")) {//'회원탈퇴 처리' 요청
+			
+			//부모인터페이스 = 구현한 자식객체
+			request.setAttribute("showAdmin", "admin/account/adminDeleteForm.jsp");
+			forward = new ActionForward("adminTemplate.jsp",false);
+			
+		}
+		else if(command.equals("/adminDeleteAction.adm")) {//'회원탈퇴 처리' 요청
 			
 			//부모인터페이스 = 구현한 자식객체
 			action = new AdminDeleteAction();//부모인터페이스인 Action으로 받음 
@@ -255,7 +270,7 @@ public class AdminFrontController extends HttpServlet {
 		
 		/*------- '암호화된 비밀번호 변경 폼 보기' → 처리 -------------------------------*/
 		else if(command.equals("/adminHashPwChangeForm.adm")) {//'비밀번호 변경 폼 보기' 요청이면
-			request.setAttribute("showAdmin", "admin/hash/adminHashPwChangeForm.jsp");
+			request.setAttribute("showAdmin", "admin/account/hash/adminHashPwChangeForm.jsp");
 			forward = new ActionForward("adminTemplate.jsp",false); //반드시 디스패치 방식으로 포워딩
 		}
 		else if(command.equals("/adminHashPwChangeAction.adm")) {//'비밀번호 변경 처리'요청하면
@@ -468,6 +483,18 @@ public class AdminFrontController extends HttpServlet {
 		else if(command.equals("/adminModifyNoticeForm.adm")) {//공지글 수정 폼 보기 요청
 			
 			action = new AdminModifyNoticeFormAction();
+			
+			try {
+				forward = action.execute(request, response);
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+			
+		}
+		/*-- '공지글 수정하기' 요청 -> 처리 --------------------------------------*/
+		else if(command.equals("/adminModifyNoticeAction.adm")) {//공지글 수정하기 요청
+			
+			action = new AdminModifyNoticeAction();
 			
 			try {
 				forward = action.execute(request, response);

@@ -66,7 +66,6 @@ function noticeFormCheck(){
 		
 	//비밀글 값 가져오기
 	var check_value = document.f.checkbox.checked ? "Y" : "N";
-	alert("check_value = "+check_value);
 	document.f.importance.value = check_value;
 	
 	
@@ -118,21 +117,6 @@ function noticeFormCheck(){
         </div>		
     </div>   
     <!-- Table End -->
-    
-    <!-- Image Cropper -->
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.0/cropper.min.js" integrity="sha512-7C1FbUL8fX5IKwBEHEjwyyGssfSOKms2NQbMj3GYdeQTr4Xmbrk/q/4eqcDuROAbJwT71ATVpVIUiaeMnNqq/Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    
-    <script>
-    $(function(){
-    	var cropper;
-    	
-    	//사진 업로드 버튼
-    	$('#n_image').on('change', function(){
-    		$('.')
-    	})
-    })
-    </script>
     
     
 		

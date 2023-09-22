@@ -55,7 +55,7 @@
                             	<span>로그인 후 비밀번호를 재설정하시길 바랍니다.</span>
                             </div>
                             <div class="col-12 text-center">
-                            	<a class="btn btn-primary my-3 py-2 px-3" href="userLogin.usr">로그인</a>
+                            	<a class="btn btn-primary my-3 py-2 px-3" href="userLoginForm.usr">로그인</a>
                             </div>
                         </div>
                     </div>

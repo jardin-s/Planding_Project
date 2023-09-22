@@ -152,11 +152,30 @@ function selectDelete(){
     </div>
     <!-- Page Header End -->
     
-    <c:if test="${pageInfo.listCount == 0 }">
+    
+    
+    
+	    
+    <%-- Search Tab Start --%>
+    <div class="container-fluid pt-4 pb-3">
+    	<div class="container col-lg-8 px-0">
+    		<div class="d-flex justify-content-end">
+				<form action="searchNoticeList.adm" method="post" name="fsearch">
+	    			<div class="btn btn-outline-light py-1 px-2 me-1">
+		    			<input type="text" name="n_title" id="n_title" value="${searchKeyword }" class="border-0 me-2" placeholder="제목으로 검색">
+		    			<a href="javascript:searchNoticeList();"><i class="fas fa-search"></i></a>
+	    			</div>
+	    		</form>
+    		</div>
+    	</div>
+    </div>
+    <%-- Search Tab End --%>
+	
+	<c:if test="${pageInfo.listCount == 0 }">
     	<div class="container-xxl py-5">
     		<div class="container col-10 col-md-6 col-lg-4">
     			<div class="col-12 mb-5">
-    				<p class="text-center">작성된 공지글이 없습니다.</p>
+    				<p class="text-center">검색어에 해당하는 공지글이 없습니다.</p>
     			</div>
     			<div class="col-12 text-center mx-auto mb-5">
 					<button class="btn btn-outline-primary py-1" type="button" onclick="location.href='adminInsertNoticeForm.adm'">공지글 작성</button>
@@ -164,24 +183,9 @@ function selectDelete(){
     		</div>
     	</div>
     </c:if>
-    
-    <c:if test="${pageInfo.listCount != 0 }">
+	
+	<c:if test="${pageInfo.listCount != 0 }">
     	<c:set var="n_index" value="${pageInfo.listCount - (pageInfo.page-1)*10 }" />
-	    
-	    <%-- Search Tab Start --%>
-	    <div class="container-fluid pt-4 pb-3">
-	    	<div class="container col-lg-8 px-0">
-	    		<div class="d-flex justify-content-end">
-					<form action="searchNoticeList.adm" method="post" name="fsearch">
-		    			<div class="btn btn-outline-light py-1 px-2 me-1">
-			    			<input type="text" name="n_title" id="n_title" value="${searchKeyword }" class="border-0 me-2" placeholder="제목으로 검색">
-			    			<a href="javascript:searchNoticeList();"><i class="fas fa-search"></i></a>
-		    			</div>
-		    		</form>
-	    		</div>
-	    	</div>
-	    </div>
-	    <%-- Search Tab End --%>
 	
 	    <%-- Table Start --%>
 	    <form action="DeleteNoticeList.adm" method="post" name="dlt">
@@ -195,7 +199,7 @@ function selectDelete(){
 								<th scope="col" class="col-1 text-center">#</th>
 								<th scope="col" class="col-7">제목</th>
 								<th scope="col" class="col-2 text-center">날짜</th>
-								<th scope="col" class="col-2 text-center">조회수</th>
+								<th scope="col" class="col-2 text-center"><i class="far fa-eye"></i></th>
 							</tr>
 						</thead>
 						<tbody class="table-group-divider">

@@ -7,27 +7,39 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import action.Action;
-import action.project.DeleteRewardAction;
-import action.project.EditProjectAction;
-import action.project.EditProjectFormAction;
-import action.project.EditProjectRewardFormAction;
-import action.project.EditProjectRewardListAction;
-import action.project.EditRewardAction;
-import action.project.InsertAddReward;
-import action.project.InsertDonateProjectTempAction;
-import action.project.InsertFundProjectRewardFormAction;
-import action.project.InsertFundProjectTempAction;
-import action.project.InsertNewProjectFormAction;
-import action.project.InsertProjectPlannerAction;
-import action.project.ManageProjectAction;
-import action.project.SubmitDonateProjectAction;
-import action.project.SubmitFundProjectAction;
-import action.project.UserDonateProjectListAction;
-import action.project.UserProjectDonationListALLAction;
-import action.project.UserProjectViewAction;
-import action.project.byRewardDonationListAction;
+import action.project.insert.DeleteTempProjectAction;
+import action.project.insert.InsertDonateProjectTempAction;
+import action.project.insert.InsertFundProjectRewardFormAction;
+import action.project.insert.InsertFundProjectTempAction;
+import action.project.insert.InsertNewProjectFormAction;
+import action.project.insert.InsertProjectPlannerAction;
+import action.project.insert.SubmitDonateProjectAction;
+import action.project.insert.SubmitFundProjectAction;
+import action.project.manage.ByRewardDonationListAction;
+import action.project.manage.DeleteProjectAction;
+import action.project.manage.DeleteRewardAction;
+import action.project.manage.EditProjectAction;
+import action.project.manage.EditProjectFormAction;
+import action.project.manage.EditProjectRewardFormAction;
+import action.project.manage.EditProjectRewardListAction;
+import action.project.manage.EditRewardAction;
+import action.project.manage.InsertAddRewardAction;
+import action.project.manage.ManageProjectAction;
+import action.project.manage.UserProjectDonationListALLAction;
+import action.user.UserDonationHistoryAction;
+import action.user.project.UserCancelDonationAction;
+import action.user.project.UserDonateProjectAction;
+import action.user.project.UserDonateProjectFormAction;
+import action.user.project.UserDoneDonateProjectListAction;
+import action.user.project.UserDoneFundProjectListAction;
+import action.user.project.UserOngoingDonateProjectListAction;
+import action.user.project.UserOngoingFundProjectListAction;
+import action.user.project.UserProjectViewAction;
+import action.user.project.UserReadyDonateProjectListAction;
+import action.user.project.UserReadyFundProjectListAction;
 import vo.ActionForward;
 
 /**
@@ -109,7 +121,7 @@ public class ProjectFrontController extends HttpServlet {
 			//session.setAttribute("kind", "donate");//kind를 donate로 설정
 			
 			request.setAttribute("kind", "donate");
-			request.setAttribute("showPage", "project/insertProjectPlannerForm.jsp");//어느 폼 보기인지 showPage이름 속성으로 저장
+			request.setAttribute("showPage", "project/insert/insertProjectPlannerForm.jsp");//어느 폼 보기인지 showPage이름 속성으로 저장
 			forward = new ActionForward("userTemplate.jsp",false);//반드시 디스패치 (request를 공유)
 		}
 		
@@ -119,7 +131,7 @@ public class ProjectFrontController extends HttpServlet {
 			//session.setAttribute("kind", "fund");//kind를 fund로 설정
 			
 			request.setAttribute("kind", "fund");
-			request.setAttribute("showPage", "project/insertProjectPlannerForm.jsp");//어느 폼 보기인지 showPage이름 속성으로 저장
+			request.setAttribute("showPage", "project/insert/insertProjectPlannerForm.jsp");//어느 폼 보기인지 showPage이름 속성으로 저장
 			forward = new ActionForward("userTemplate.jsp",false);//반드시 디스패치 (request를 공유)
 		}
 		
@@ -176,6 +188,16 @@ public class ProjectFrontController extends HttpServlet {
 			}
 		}
 		
+		/*-- '프로젝트 등록 취소' 요청 -> 처리 --------------------------------------*/
+		else if(command.equals("/deleteTempProject.pj")) {
+			action = new DeleteTempProjectAction();
+			try {
+				forward = action.execute(request, response);
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
 		
 				
 		/*-- '기부 프로젝트를 실제로 등록' 요청 -> 처리 --------------------------------------*/
@@ -209,19 +231,107 @@ public class ProjectFrontController extends HttpServlet {
 		}
 		
 		
-		/*-- '[사용자] 기부 프로젝트 목록 보기' 요청 -> 처리 --------------------------------------*/
-		else if(command.equals("/userDonateProjectList.pj")) {
-			action = new UserDonateProjectListAction();
+		/*-- '[사용자] (진행중인) 기부 프로젝트 목록 보기' 요청 -> 처리 --------------------------------------*/
+		else if(command.equals("/userOngoingDonateProjectList.pj")) {
+			action = new UserOngoingDonateProjectListAction();
 			try {
 				forward = action.execute(request, response);
 			}catch(Exception e) {
 				e.printStackTrace();
 			}
 		}
-		//리워드 별 후원자 목록 조회
+		/*-- '[사용자] (공개예정) 기부 프로젝트 목록 보기' 요청 -> 처리 --------------------------------------*/
+		else if(command.equals("/userReadyDonateProjectList.pj")) {
+			action = new UserReadyDonateProjectListAction();
+			try {
+				forward = action.execute(request, response);
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+		/*-- '[사용자] (종료된) 기부 프로젝트 목록 보기' 요청 -> 처리 --------------------------------------*/
+		else if(command.equals("/userDoneDonateProjectList.pj")) {
+			action = new UserDoneDonateProjectListAction();
+			try {
+				forward = action.execute(request, response);
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+		/*-- '[사용자] (진행중인) 펀딩 프로젝트 목록 보기' 요청 -> 처리 --------------------------------------*/
+		else if(command.equals("/userOngoingFundProjectList.pj")) {
+			action = new UserOngoingFundProjectListAction();
+			try {
+				forward = action.execute(request, response);
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+		/*-- '[사용자] (공개예정) 펀딩 프로젝트 목록 보기' 요청 -> 처리 --------------------------------------*/
+		else if(command.equals("/userReadyFundProjectList.pj")) {
+			action = new UserReadyFundProjectListAction();
+			try {
+				forward = action.execute(request, response);
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+		/*-- '[사용자] (종료된) 펀딩 프로젝트 목록 보기' 요청 -> 처리 --------------------------------------*/
+		else if(command.equals("/userDoneFundProjectList.pj")) {
+			action = new UserDoneFundProjectListAction();
+			try {
+				forward = action.execute(request, response);
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+		/* ***************************************************************************************
+		 * 
+		 * 후원하기 기능
+		 * 
+		 * ***************************************************************************************/
+		
+		/*-- '[사용자] 프로젝트 후원 폼 보기' 요청 -> 처리 --------------------------------------*/
+		else if(command.equals("/userDonateProjectForm.pj")) {
+			action = new UserDonateProjectFormAction();
+			try {
+				forward = action.execute(request, response);
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+		/*-- '[사용자] 프로젝트 후원하기' 요청 -> 처리 --------------------------------------*/
+		else if(command.equals("/userDonateProjectAction.pj")) {
+			action = new UserDonateProjectAction();
+			try {
+				forward = action.execute(request, response);
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+		/*-- '[사용자] 프로젝트 후원취소(환불) ' 요청 -> 처리 --------------------------------------*/
+		else if(command.equals("/userCancelDonation.pj")) {
+			action = new UserCancelDonationAction();
+			try {
+				forward = action.execute(request, response);
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+		/* ***************************************************************************************
+		 * 
+		 * 프로젝트 관리 기능 (이주헌)
+		 * 
+		 * ***************************************************************************************/
+		
+		/*-- '[플래너] 리워드 별 후원자 목록 보기' 요청 -> 처리 --------------------------------------*/
 		else if(command.equals("/byRewardDonationList.pj")) {
 			
-			action = new byRewardDonationListAction();
+			action = new ByRewardDonationListAction();
 			
 			try {
 				forward = action.execute(request, response);
@@ -230,7 +340,8 @@ public class ProjectFrontController extends HttpServlet {
 			}
 			
 		}
-		//리워드 리스트를 불러와서 수정할 리워드를 선택하는 페이지
+		
+		/*-- '[플래너] 리워드 리스트 보기 (수정할 리워드 선택) ' 요청 -> 처리 --------------------------------------*/
 		else if(command.equals("/editProjectRewardList.pj")) {
 			
 			action = new EditProjectRewardListAction();
@@ -242,7 +353,8 @@ public class ProjectFrontController extends HttpServlet {
 			}
 			
 		}
-		//리워드 리스트를 불러와서 관리하는 페이지 -> 리워드 선택시 아래의 editProjectRewardForm으로 이동
+		
+		/*-- '[플래너] 리워드 리스트 관리' 요청 -> 처리 --------------------------------------*/
 		else if(command.equals("/manageProject.pj")) {
 			
 			action = new ManageProjectAction();
@@ -254,6 +366,8 @@ public class ProjectFrontController extends HttpServlet {
 			}
 			
 		}
+		
+		/*-- '[플래너] 특정 리워드 수정 폼 보기' 요청 -> 처리 --------------------------------------*/
 		//리워드 리스트 중 수정한 리워드를 클릭했을때 수정페이지로 넘어감 -> 서브밋하면 아래의 editReward에서 처리
 		else if(command.equals("/editProjectRewardForm.pj")) {
 			
@@ -266,7 +380,8 @@ public class ProjectFrontController extends HttpServlet {
 			}
 			
 		}
-		//플래너가 입력한 값을 받아서 sql에 업데이트함
+		
+		/*-- '[플래너] 특정 리워드 수정하기' 요청 -> 처리 --------------------------------------*/
 		else if(command.equals("/editReward.pj")) {
 			
 			action = new EditRewardAction();
@@ -277,7 +392,8 @@ public class ProjectFrontController extends HttpServlet {
 				e.printStackTrace();
 			}
 		}
-		//리워드 삭제하기
+		
+		/*-- '[플래너] 특정 리워드 삭제하기' 요청 -> 처리 --------------------------------------*/
 		else if(command.equals("/deleteReward.pj")) {
 			
 			action = new DeleteRewardAction();
@@ -289,16 +405,15 @@ public class ProjectFrontController extends HttpServlet {
 			}
 		}
 		
-		
-		//리워드를 새로 추가 입력하는 폼으로 이동
+		/*-- '[플래너] 리워드 추가 폼 보기' 요청 -> 처리 --------------------------------------*/
 		else if(command.equals("/insertAddRewardForm.pj")) {
 			request.setAttribute("showPage", "project/insertAddReward.jsp");//어느 폼 보기인지 showPage이름 속성으로 저장
 			forward = new ActionForward("userTemplate.jsp",false);//반드시 디스패치 (request를 공유)
 		}
-		//리워드를 새로 추가
+		/*-- '[플래너] 리워드 추가하기' 요청 -> 처리 --------------------------------------*/
 		else if(command.equals("/insertAddReward.pj")) {
 			
-			action = new InsertAddReward();
+			action = new InsertAddRewardAction();
 			
 			try {
 				forward = action.execute(request, response);
@@ -306,7 +421,8 @@ public class ProjectFrontController extends HttpServlet {
 				e.printStackTrace();
 			}
 		}	
-		//프로젝트id로 전체 후원목록 조회
+		
+		/*-- '[플래너] 프로젝트 ID로 전체 후원목록 보기' 요청 -> 처리 --------------------------------------*/
 		else if(command.equals("/userProjectDonationListALL.pj")) {
 			action = new UserProjectDonationListALLAction();
 			
@@ -317,6 +433,7 @@ public class ProjectFrontController extends HttpServlet {
 			}
 			
 		}
+		/*-- '[플래너] 프로젝트 수정 폼 보기' 요청 -> 처리 --------------------------------------*/
 		else if(command.equals("/editProjectForm.pj")) {
 			action = new EditProjectFormAction();
 			
@@ -327,6 +444,7 @@ public class ProjectFrontController extends HttpServlet {
 			}
 			
 		}
+		/*-- '[플래너] 프로젝트 수정하기' 요청 -> 처리 --------------------------------------*/
 		else if(command.equals("/editProject.pj")) {
 			action = new EditProjectAction();
 			
@@ -337,7 +455,19 @@ public class ProjectFrontController extends HttpServlet {
 			}
 			
 		}
-
+		/*-- '[플래너] 프로젝트 삭제하기' 요청 -> 처리 --------------------------------------*/
+		else if(command.equals("/deleteProject.pj")) {
+			action = new DeleteProjectAction();
+			
+			try {
+				forward = action.execute(request, response);
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+			
+		}
+		
+		
 		/***********************************************************
 		 * 3. 포워딩
 		 * *********************************************************/
