@@ -894,7 +894,7 @@ public class ManageMemberDAO {
 		//탈퇴여부 Y, 탈퇴일시 현재시간으로 업데이트
 		String sql = "update member_tbl"
 				 + " set password='delete', name='delete',"
-				 + " email='delete', phone='delete',"
+				 + " phone='delete',"
 				 + " delete_status='Y',"
 				 + " deletedate=current_timestamp"
 				 + " where member_id=?";

@@ -35,8 +35,9 @@ public class ManageProjectViewAction implements Action {
 		
 		ProjectPageViewService projectPageViewService = new ProjectPageViewService();
 		
-		//admin_income_tbl에 해당 프로젝트 데이터가 있는지 확인 (있으면 송금완료, 없으면 아직 송금X)
-		
+		//★★admin_income_tbl에 해당 프로젝트 데이터가 있는지 확인 (있으면 송금완료, 없으면 아직 송금X)
+		int projectAdminIncomeCount = projectPageViewService.getProjectAdminIncomeCount(project_id);
+		request.setAttribute("adminIncome", projectAdminIncomeCount);
 		
 		//프로젝트 정보를 얻어옴 (달성률 세팅된 상태)
 		ProjectBean projectInfo = projectPageViewService.getProjectInfo(project_id);
@@ -81,7 +82,7 @@ public class ManageProjectViewAction implements Action {
 		}
 		request.setAttribute("rewardList", rewardList);
 		//projectInfo, plannerInfo, rewardList가 넘어온 상태
-		
+				
 		//페이지넘버를 request속성으로 넘김
 		request.setAttribute("page", page);
 		

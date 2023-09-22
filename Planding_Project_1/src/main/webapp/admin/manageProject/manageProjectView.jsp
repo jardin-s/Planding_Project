@@ -231,6 +231,12 @@ function cancelProject(project_id, p_status, kind){
 			    	<c:if test="${projectInfo.p_status eq 'ready' or projectInfo.p_status eq 'ongoing'}">
 	    				<button class="btn btn-outline-primary py-1" type="button" id="cancelBtn" onclick="cancelProject(${projectInfo.project_id}, '${projectInfo.p_status }','${projectInfo.kind }');">프로젝트 취소</button>
 	    			</c:if>
+	    			<c:if test="${projectInfo.p_status eq 'done'}">
+	    				<button class="btn btn-outline-primary py-1" type="button" id="refundBtn" onclick="refundProject(${projectInfo.project_id}, '${projectInfo.p_status }','${projectInfo.kind }');">모금액 환불진행</button>
+	    			</c:if>
+	    			<c:if test="${projectInfo.p_status eq 'success' && adminIncome == 0}">
+	    				<button class="btn btn-outline-primary py-1" type="button" id="sendBtn" onclick="location.href='sendTotalAmount.mngp?project_id=${project.project_id}'">송금</button>
+	    			</c:if>
 	    			<br><br>
 			    	<c:if test="${projectInfo.kind eq 'donate' }">
 			    		<button class="btn btn-light" onclick="location.href='manageDonateProjectList.mngp?page=${page}'">프로젝트 목록</button>

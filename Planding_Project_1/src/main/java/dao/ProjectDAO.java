@@ -149,7 +149,12 @@ public class ProjectDAO {
 				projectInfo.setGoal_amount_df_exc(rs.getInt("goal_amount"));
 				
 				//남은 일수 세팅
-				projectInfo.setDeadline_exc(rs.getString("enddate"));
+				if(projectInfo.getP_status().equalsIgnoreCase("ongoing")) {
+					projectInfo.setDeadline_exc(rs.getString("enddate"));
+				}else if(projectInfo.getP_status().equalsIgnoreCase("ready")) {
+					projectInfo.setDeadline_start_exc(rs.getString("startdate"));
+				}
+				
 				
 			}
 			
@@ -1861,6 +1866,36 @@ public class ProjectDAO {
 		}
 		
 		return planner_id;
+	}
+
+	/** 특정 프로젝트의 총 후원자 수를 알아냄 */
+	public int selectDonationCount(int project_id) {
+		int donationCount = 0;
+		
+		String sql = "select count(*)"
+				  + " from donation_tbl where project_id = ?";
+		
+		try {
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, project_id);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				donationCount = rs.getInt(1);
+			}
+			
+			
+		} catch(Exception e) {
+			System.out.println("[ProjectDAO] selectDonationCount() 에러 : "+e);//예외객체종류 + 예외메시지
+			e.printStackTrace();
+		} finally {
+			close(pstmt); //JdbcUtil.생략가능
+			close(rs); //JdbcUtil.생략가능
+			//connection 객체에 대한 해제는 DogListService에서 이루어짐
+		}
+		
+		return donationCount;
 	}
 
 	
