@@ -56,6 +56,7 @@ public class UserProjectViewAction implements Action {
 		System.out.println("[UserProjectViewAction] 시작일 : "+projectInfo.getEnddate().replace(".", "-"));
 		
 		//★★[사용자모드] 남은일수 계산해서 세팅
+		/*
 		LocalDate today = LocalDate.now();
 		//공개예정, 미승인 : 오늘로부터 시작일까지 남은 일자를 계산
 		if(projectInfo.getKind().equalsIgnoreCase("ready")||projectInfo.getKind().equalsIgnoreCase("unauthorized")) {
@@ -76,7 +77,7 @@ public class UserProjectViewAction implements Action {
 		//★★[사용자모드] 현재모금액, 목표모금액 천단위구분자 넣어서 세팅
 		projectInfo.setCurr_amount_df_exc(projectInfo.getCurr_amount());
 		projectInfo.setGoal_amount_df_exc(projectInfo.getGoal_amount());
-		        
+		*/ 
         //달성률, 남은일수까지 다 계산된 상태에서 request에 저장
 		request.setAttribute("projectInfo", projectInfo);
 				

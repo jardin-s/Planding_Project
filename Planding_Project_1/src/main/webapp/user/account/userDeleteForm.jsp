@@ -44,14 +44,14 @@ function checkDeleteForm(){
 	}
 	else
 	
-	if(document.f.member_id == ''){
+	if(document.f.member_id.value.trim() == ''){
 		alert('아이디를 입력해주세요.');
 		document.f.member_id.focus();
 		return false;
 	}
 	else
 	
-	if(document.f.password == ''){
+	if(document.f.password.value.trim() == ''){
 		alert('비밀번호를 입력해 본인인증을 완료해주세요.');
 		document.f.password.focus();
 		return false;
@@ -120,7 +120,7 @@ function checkDeleteForm(){
 	                                </div>
 	                            </div>
 	                            <div class="col-12 text-center">
-	                                <button class="btn btn-primary py-2 px-4" type="submit" onclick="checkDeleteForm();">탈퇴하기</button>
+	                                <button class="btn btn-primary py-2 px-4" type="submit" onclick="checkDeleteForm(); return false;">탈퇴하기</button>
 	                            </div>
 	                        </div>
 	                    </div>

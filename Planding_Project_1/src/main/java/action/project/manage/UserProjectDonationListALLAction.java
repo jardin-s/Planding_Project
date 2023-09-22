@@ -29,7 +29,8 @@ public class UserProjectDonationListALLAction implements Action {
 		request.setAttribute("pj_title", pj_title);
         
 		//프로젝트 아이디로 리워드 아이디 리스트를 가져옴
-		ArrayList<String> reward_id_list = projectPageViewService.getRewardIdList(project_id);
+		ArrayList<String> reward_id_list = new ArrayList<>();
+		reward_id_list.add("default");
 		request.setAttribute("reward_id_list", reward_id_list);
         
 		System.out.println("rewardList.reward_id : "+reward_id_list.toString());
@@ -37,9 +38,10 @@ public class UserProjectDonationListALLAction implements Action {
 	    
 		//프로젝트 아이디로 도네이션 테이블에서 리스트 얻어옴
 		ArrayList<DonationBean> donationList = projectPageViewService.getDonationList(project_id);
-	    
+		int donationCount = donationList.size();
 	    //세션에 후원리스트 저장
 	    request.setAttribute("donationList", donationList);
+	    request.setAttribute("donationCount", donationCount);
 		
 		//파라미터값 확인
 		System.out.println("[UserProjectDonationListALLAction] 파라미터 값 확인");

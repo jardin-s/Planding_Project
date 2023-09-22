@@ -121,7 +121,7 @@ if(project.getImage()!=null){//프로젝트 이미지가 있으면
 				<!-- 상품 헤더 -->
 				<!-- 좌측 썸네일 이미지 -->
 				<div class="col-md-6 p-3 text-center">
-					<img src="<%=request.getContextPath()%>/images/temp/${projectInfo.thumbnail }" style="width:100%">
+					<img src="images/temp/${projectInfo.thumbnail }" style="width:100%">
 				</div>
 				
 				<!-- 우측 프로젝트 정보 -->
@@ -231,7 +231,7 @@ if(project.getImage()!=null){//프로젝트 이미지가 있으면
 							<tr class="text-center">
 								<th>
 									<c:forTokens var="image" items="${projectInfo.image }" delims=";">
-										<img src="<%=request.getContextPath()%>/images/temp/${image}" style="width:60%; margin-bottom: 2rem">
+										<img src="images/temp/${image}" style="width:60%; margin-bottom: 2rem">
 									</c:forTokens>
 								</th>
 							</tr>

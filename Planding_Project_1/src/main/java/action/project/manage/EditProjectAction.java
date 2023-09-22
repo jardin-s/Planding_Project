@@ -62,6 +62,7 @@ public class EditProjectAction implements Action {
 		pj.setEnddate(enddate);
 		pj.setGoal_amount(goal_amount);
 		PlannerBean planner = new PlannerBean();
+		planner.setProject_id(project_id);
 		planner.setPlanner_name(planner_name);
 		planner.setMember_id(member_id);
 		planner.setIntroduce(introduce);
@@ -74,15 +75,18 @@ public class EditProjectAction implements Action {
 		EditProjectService editProjectService = new EditProjectService();
 		boolean editProject=editProjectService.editProject(pj);
 		boolean editPlanner=editProjectService.editPlanner(planner);
+		System.out.println("planner.getPlanner_name()"+planner.getPlanner_name());
+		
+		
 		
 		if(editProject && editPlanner) {
 			response.setContentType("text/html; charset=utf-8");
 			PrintWriter out = response.getWriter();
 			out.println("<script>");
 			out.println("alert('프로젝트 수정에 성공하였습니다.');");
+			out.println("window.location.href = 'userUploadProjectList.usr'");
 			out.println("</script>");
-			
-			forward = new ActionForward("/userUploadProjectList.usr", true);
+
 		
 		}else {
 			response.setContentType("text/html; charset=utf-8");

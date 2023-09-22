@@ -33,6 +33,10 @@ public class CancelProjectAction implements Action {
 		int project_id =  Integer.parseInt(request.getParameter("project_id"));
 		String p_status = request.getParameter("p_status");
 		String kind = request.getParameter("kind");
+		System.out.println("[CancelProjectAction] 파라미터값 확인");
+		System.out.println("project_id = "+project_id);
+		System.out.println("p_status = "+p_status);
+		System.out.println("kind = "+kind);
 		
 		HttpSession session =  request.getSession();
 		
@@ -96,10 +100,12 @@ public class CancelProjectAction implements Action {
 					
 					ArrayList<DonationBean> donationList = cancelProjectService.getDonationList(project_id);
 					boolean isRefundSuccess = cancelProjectService.refundDonation(donationList, project_id);
+					System.out.println("[CancelProjectAction] cancelProjectService.refundDonation()의 성공여부 = "+isRefundSuccess);
 					
 					//[순서-2] 기획자, 리워드, 리워드매핑, 프로젝트 데이터 삭제 (회원북마크는 프로젝트 삭제 시 자동삭제)
 					
 					boolean isCancelOngoingProject = cancelProjectService.cancelProject(project_id, rewardIdList);
+					System.out.println("[CancelProjectAction] cancelProjectService.cancelProject()의 성공여부 = "+isCancelOngoingProject);
 					
 					if(isRefundSuccess && isCancelOngoingProject) {//둘다 성공일 때만, isCancelProject가 true
 						isCancelProject = true;

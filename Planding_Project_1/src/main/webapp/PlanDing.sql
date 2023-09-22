@@ -80,14 +80,15 @@ values('donate','기부제목2','기부요약2','thumbnail2.jpg','프로젝트 �
 		'2023-09-11', '2023-09-15', 1000000, 200000, 'unauthorized', 0);
 
 update project_tbl
-set regdate='2023-09-17', startdate='2023-09-18', enddate='2023-09-21', p_status = 'ongoing'
-where project_id = 1;
+set regdate='2023-09-17', startdate='2023-09-18', enddate='2023-09-23', p_status = 'ongoing'
+where project_id = 9;
 update project_tbl
 set p_status = 'success'
-where project_id = 1;
+where project_id = 2;
 		
 select * from project_tbl;
 delete from project_tbl;
+
 
 
 select project_id, kind, title, summary
@@ -119,6 +120,8 @@ CREATE TABLE `member_tbl` (
 ENGINE = InnoDB;
 
 select * from member_tbl;
+
+delete from member_tbl where member_id = 'testAdmin11';
 
 update member_tbl
 set password='delete', name='delete',
@@ -186,6 +189,7 @@ insert into admin_income_tbl(project_id, fee_income) values(1, 50000);
 insert into admin_income_tbl(project_id, fee_income) values(2, 30000);
 
 select * from admin_income_tbl;
+
 
 delete from admin_income_tbl where project_id = 2;
 
@@ -352,6 +356,7 @@ CREATE TABLE `address_tbl` (
 ENGINE = InnoDB;
 
 select * from address_tbl;
+delete from address_tbl where member_id = 'testAdmin11';
 
 
 drop view project_planner_view;
@@ -459,3 +464,36 @@ END;
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+
+
+
+/* [토스페이먼츠 사용 시] 결제 정보 테이블 (결제승인 + 결제취소) (플랜딩 포인트 충전내역) */
+create table pay_tbl(
+orderId varchar(64) primary key, /*1. 결제번호(주문 구분. 6~64자 사이 문자열)*/
+
+
+mId nvarchar(14) not null, /* 2. 상점 아이디, 토스페이먼츠에서 발급 (최대길이 14)*/
+paymentKey varchar(200) not null, /* 3. 결제의 키값(결제취소 시 필수값) : 결제 식별하는 역할. 중복되지 않는 고유한 값 (최대길이 200)*/
+
+
+order_num int references order_table,/* 4. 주문번호 */
+
+member_id varchar(45) not null,/* 5. 사용자 Id */ 
+email varchar(45) not null, /* 6. 사용자 이메일 */
+
+orderName varchar(100), /* 7. 주문명 (최대 100) (예: 생수 외 1건) (결제취소 시)*/
+
+pay_method varchar(100) not null, /* 8. [결제수단] 카드(토스로 실행위해 이것을 선택)(파라미터값은 method이름으로 넘어옴), 가상계좌, 간편결제, 은행 등 */
+easyPay varchar(100) not null, /* 9. 토스간편결제 이용 시, 결제 후 [결제수단] easyPay : ("provider": "토스페이","amount":100, "discount":500)*/
+pay_bank varchar(10), /*10. 결제은행 */
+
+pay_status varchar(45) not null, /*11. 결제상황("DONE"성공,"CANCELED"실패) */
+pay_date DATETIME not null, /*12. 결제일 (결제 승인한 날짜시간) */
+totalAmount int not null, /* 13. 총 결제금액 */
+
+cancelReason nvarchar(100), /*14. [결제취소] 시 취소사유(필수) */
+cancel_date DATETIME, /*15. 결제 취소일 (취소된 날짜시간) */
+cancelAmount INT /* 16. 총 취소 금액 */
+);
+
+show events;

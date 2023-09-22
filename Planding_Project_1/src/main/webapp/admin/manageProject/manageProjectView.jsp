@@ -84,7 +84,7 @@ function cancelProject(project_id, p_status, kind){
    				<table class="table table-bordered mb-5">
 			    	<tr>
 			    		<th colspan="2" class="text-center">
-			    			<img src="<%=request.getContextPath()%>/images/project_No_${projectInfo.project_id }/${projectInfo.project_id }_${projectInfo.thumbnail }" style="width:80%">
+			    			<img src="images/project_No_${projectInfo.project_id }/${projectInfo.project_id }_${projectInfo.thumbnail }" style="width:80%">
 			    		</th>
 			    	</tr>
 			    	<tr>
@@ -154,7 +154,7 @@ function cancelProject(project_id, p_status, kind){
 			    	<tr>
 			    		<td colspan="2" class="text-center">
 			    			<c:forTokens var="image" items="${projectInfo.image }" delims=";">
-								<img src="<%=request.getContextPath()%>/images/project_No_${projectInfo.project_id }/${projectInfo.project_id }_${image}" style="width:60%; margin-bottom: 2rem">
+								<img src="images/project_No_${projectInfo.project_id }/${projectInfo.project_id }_${image}" style="width:60%; margin-bottom: 2rem">
 							</c:forTokens>
 			    		</td>
 			    	</tr>
@@ -231,12 +231,18 @@ function cancelProject(project_id, p_status, kind){
 			    	<c:if test="${projectInfo.p_status eq 'ready' or projectInfo.p_status eq 'ongoing'}">
 	    				<button class="btn btn-outline-primary py-1" type="button" id="cancelBtn" onclick="cancelProject(${projectInfo.project_id}, '${projectInfo.p_status }','${projectInfo.kind }');">프로젝트 취소</button>
 	    			</c:if>
+	    			<c:if test="${projectInfo.p_status eq 'done'}">
+	    				<button class="btn btn-outline-primary py-1" type="button" id="refundBtn" onclick="refundProject(${projectInfo.project_id}, '${projectInfo.p_status }','${projectInfo.kind }');">모금액 환불진행</button>
+	    			</c:if>
+	    			<c:if test="${projectInfo.p_status eq 'success' && adminIncome == 0}">
+	    				<button class="btn btn-outline-primary py-1" type="button" id="sendBtn" onclick="location.href='sendTotalAmount.mngp?project_id=${project.project_id}'">송금</button>
+	    			</c:if>
 	    			<br><br>
 			    	<c:if test="${projectInfo.kind eq 'donate' }">
 			    		<button class="btn btn-light" onclick="location.href='manageDonateProjectList.mngp?page=${page}'">프로젝트 목록</button>
 			    	</c:if>
 			    	<c:if test="${projectInfo.kind eq 'fund' }">
-			    		<button class="btn btn-light" onclick="location.href='manageFundProjectList.mngppage=${page}'">프로젝트 목록</button>
+			    		<button class="btn btn-light" onclick="location.href='manageFundProjectList.mngp?page=${page}'">프로젝트 목록</button>
 			    	</c:if>			    	
 			    </div>
    			</div>

@@ -203,7 +203,7 @@ public class UserFrontController extends HttpServlet {
 			
 			//부모인터페이스 = 구현한 자식객체
 			request.setAttribute("showPage", "user/account/userDeleteForm.jsp");
-			forward = new ActionForward();
+			forward = new ActionForward("userTemplate.jsp", false);
 					
 		}
 		else if(command.equals("/userDeleteAction.usr")) {//'회원탈퇴 처리' 요청

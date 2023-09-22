@@ -212,7 +212,14 @@ public class AdminFrontController extends HttpServlet {
 					
 		}
 		
-		else if(command.equals("/adminDelete.adm")) {//'회원탈퇴 처리' 요청
+		else if(command.equals("/adminDeleteForm.adm")) {//'회원탈퇴 처리' 요청
+			
+			//부모인터페이스 = 구현한 자식객체
+			request.setAttribute("showAdmin", "admin/account/adminDeleteForm.jsp");
+			forward = new ActionForward("adminTemplate.jsp",false);
+			
+		}
+		else if(command.equals("/adminDeleteAction.adm")) {//'회원탈퇴 처리' 요청
 			
 			//부모인터페이스 = 구현한 자식객체
 			action = new AdminDeleteAction();//부모인터페이스인 Action으로 받음 
@@ -263,7 +270,7 @@ public class AdminFrontController extends HttpServlet {
 		
 		/*------- '암호화된 비밀번호 변경 폼 보기' → 처리 -------------------------------*/
 		else if(command.equals("/adminHashPwChangeForm.adm")) {//'비밀번호 변경 폼 보기' 요청이면
-			request.setAttribute("showAdmin", "admin/hash/adminHashPwChangeForm.jsp");
+			request.setAttribute("showAdmin", "admin/account/hash/adminHashPwChangeForm.jsp");
 			forward = new ActionForward("adminTemplate.jsp",false); //반드시 디스패치 방식으로 포워딩
 		}
 		else if(command.equals("/adminHashPwChangeAction.adm")) {//'비밀번호 변경 처리'요청하면

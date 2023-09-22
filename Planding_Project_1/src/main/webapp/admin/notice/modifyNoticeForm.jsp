@@ -63,10 +63,13 @@ function noticeFormCheck(){
 	}
 		
 	//비밀글 값 가져오기
-	var check_value = document.f.checkbox.checked ? "Y" : "N";
-	document.f.importance.value = check_value;
-	
-	
+	var check_value = document.getElementById("checkbox");
+	if(check_value.checked == true){
+		document.f.importance.value = 'Y';
+	}else{
+		document.f.importance.value = 'N';
+	}
+				
 	document.f.submit();
 	
 }
@@ -89,9 +92,20 @@ function deleteFile(){
 		
 }
 
+function setCheck(){
+	var importance = document.getElementById("importance_chk").value;
+	var checkbox = document.getElementById("checkbox");
+	
+	if(importance == 'Y'){
+		checkbox.checked = true;
+	}else{
+		checkbox.checked = false;
+	}
+}
+
 </script>
 
-<body>
+<body onload="javascript:setCheck();">
 	
 	<!-- Main Section -->
 	<!-- Page Header Start -->
@@ -102,13 +116,6 @@ function deleteFile(){
     </div>
     <!-- Page Header End -->
 
-	<c:if test="${noticeInfo.importance eq 'Y'}">
-		<c:set var="importanceChk" value="checked"/>
-	</c:if>
-	<c:if test="${noticeInfo.importance eq 'N'}">
-		<c:set var="importanceChk" value=""/>
-	</c:if>
-
     <!-- Table Start -->
     <div class="container-fluid pt-4 pb-4">
         <div class="container col-md-8 col-lg-7 col-xl-6 col-xxl-5">
@@ -116,6 +123,8 @@ function deleteFile(){
 				<form action="adminModifyNoticeAction.adm" method="post" name="f" enctype="multipart/form-data">
 					<input type="hidden" name="page" value="${page}">
 					<input type="hidden" name="notice_id" value="${noticeInfo.notice_id}">
+					
+					<input type="hidden" name="importance_chk" value="${noticeInfo.importance}" id="importance_chk">
 					
 					<div class="input-group mb-2">
 						<span class="input-group-text" id="n_title">제목</span>

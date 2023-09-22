@@ -36,11 +36,14 @@ public class AdminUpdateFormAction implements Action {
 			
 			MemberBean adminInfo = adminViewService.getAdminInfo(viewId);
 			AddressBean adminAddrInfo = adminViewService.getAdminAddrInfo(viewId);
-						
+			
+			System.out.println("[AdminUpdateFormAction] adminInfo = "+adminInfo);
+			System.out.println("[AdminUpdateFormAction] adminAddrInfo = "+adminAddrInfo);
+			
 			request.setAttribute("admin", adminInfo);
 			request.setAttribute("addr", adminAddrInfo);
 			
-			request.setAttribute("showPage", "admin/account/adminUpdateForm.jsp");//어느 폼 보기인지 showPage이름 속성으로 저장
+			request.setAttribute("showAdmin", "admin/account/adminUpdateForm.jsp");//어느 폼 보기인지 showPage이름 속성으로 저장
 			
 			forward = new ActionForward("adminTemplate.jsp",false);//반드시 디스패치 (request를 공유)
 		}

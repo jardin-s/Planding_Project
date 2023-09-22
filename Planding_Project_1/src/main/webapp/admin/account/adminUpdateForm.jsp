@@ -216,10 +216,11 @@ function checkUpateForm(){
 	                            <div class="mb-3 row gx-3 justify-content-center">
 								    <label for="account" class="col-3 col-form-label text-center">잔여금액</label>
 								    <div class="col-9">
-								      <input type="text" class="form-control" name="account" id="account" value="${admin.account }" readonly>
+								      <input type="text" class="form-control" name="money" id="money" value="${admin.money }" readonly>
 								    </div>
 	                            </div>
 	                            <div class="col-12 text-center">
+	                            	<button class="btn btn-primary py-2 px-4" type="button" onclick="location.href='adminMyPage.adm';">마이페이지</button>
 	                                <button class="btn btn-primary py-2 px-4" type="submit" onclick="checkUpdateForm(); return false;">수정하기</button>
 	                            </div>
 	                        </div>

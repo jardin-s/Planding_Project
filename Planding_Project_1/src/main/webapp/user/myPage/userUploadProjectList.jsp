@@ -79,7 +79,6 @@
 								<th scope="col" style="width:auto">프로젝트 제목</th>
 								<th scope="col" style="width:10%">수정</th>
 								<th scope="col" style="width:10%">관리</th>
-								<th scope="col" style="width:10%">취소</th>
 							</tr>
 						</thead>
 						<tbody class="table-group-divider">
@@ -90,28 +89,15 @@
 										<a href="userProjectView.pj?project_id=${uploadProject.project_id}">${uploadProject.title}</a>
 									</td>
 									<td>
-										<button class="btn btn-outline-primary py-1" type="button" id="editBtn" onclick="location.href='editProjectForm.pj?project_id=${uploadProject.project_id}'">수정</button>
+										<button class="btn btn-outline-primary py-1 px-1" type="button" id="editBtn" onclick="location.href='editProjectForm.pj?project_id=${uploadProject.project_id}'">수정</button>
 									</td>
 									<td>
 										<c:if test="${uploadProject.kind eq 'donate' }">
-											<button class="btn btn-outline-primary py-1" type="button" id="mngBtn" onclick="location.href='userProjectDonationListALL.pj?project_id=${project_id}'">관리</button>
+											<button class="btn btn-outline-primary py-1 px-1" type="button" id="mngBtn" onclick="location.href='userProjectDonationListALL.pj?project_id=${uploadProject.project_id}'">관리</button>
 										</c:if>
-										<c:if test="${uploadProject.kind eq 'kind' }">
-											<button class="btn btn-outline-primary py-1" type="button" id="mngBtn" onclick="location.href='manageProject.pj?project_id=${uploadProject.project_id}'">관리</button>
+										<c:if test="${uploadProject.kind eq 'fund' }">
+											<button class="btn btn-outline-primary py-1 px-1" type="button" id="mngBtn" onclick="location.href='manageProject.pj?project_id=${uploadProject.project_id}'">관리</button>
 										</c:if>
-									</td>
-									<td>
-										<c:choose>
-											<c:when test="${uploadProject.p_status eq 'unauthorized' || uploadProject.p_status eq 'ready'}">
-												<button class="btn btn-outline-primary py-1" type="button" id="dltBtn" onclick="location.href='deleteProject.pj?project_id=${uploadProject.project_id}'">삭제</button>
-											</c:when>
-											<c:when test="${uploadProject.p_status eq 'ongoing' }">
-												<button class="btn btn-outline-primary py-1" type="button" id="dltBtn" onclick="location.href='cancelProject.pj?project_id=${uploadProject.project_id}'">취소</button>
-											</c:when>
-											<c:otherwise>
-												<button class="btn btn-outline-primary py-1" type="button" id="dltBtn" disabled>삭제</button>
-											</c:otherwise>
-										</c:choose>									
 									</td>
 								</tr>
 							</c:forEach>

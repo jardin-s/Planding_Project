@@ -474,6 +474,18 @@ public class MngProjectFrontController extends HttpServlet {
 			}
 			
 		}
+		/*-- '진행 중인 프로젝트를 진행 취소하기' 요청 --------------------------------------*/
+		else if(command.equals("/cancelProjectAction.mngp")) {
+			
+			action = new CancelProjectAction();
+			
+			try {
+				forward = action.execute(request, response);
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+			
+		}
 		/*-- '성공 프로젝트의 모금액을 송금하기' 요청 --------------------------------------*/
 		else if(command.equals("/sendTotalAmount.mngp")) {
 			

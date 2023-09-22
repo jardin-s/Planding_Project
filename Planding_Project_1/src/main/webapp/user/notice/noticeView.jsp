@@ -74,7 +74,7 @@ function deleteConfirm(page, notice_id){
 						<c:if test="${noticeInfo.n_image ne null }">
 							<tr class="text-center">
 								<td colspan="3">
-									<img src="<%=request.getContextPath() %>/images/notice/${noticeInfo.n_image}" style="width:80%">		
+									<img src="images/notice/${noticeInfo.n_image}" style="width:80%">		
 								</td>
 							</tr>
 						</c:if>							

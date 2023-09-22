@@ -1680,6 +1680,31 @@ public class ManageProjectDAO {
 		
 		return projectIncomeList;
 	}
+
+	public int selectProjectAdminIncomeCount(int project_id) {
+		int selectProjectAdminIncomeCount = 0;
+		
+		String sql = "select count(*) from admin_income_tbl where project_id = ?";
+		
+		try {
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, project_id);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) selectProjectAdminIncomeCount = rs.getInt(1);
+			
+		} catch(Exception e) {
+			System.out.println("[UserDAO] selectProjectAdminIncomeCount() 에러 : "+e);//예외객체종류 + 예외메시지
+		} finally {
+			close(pstmt); //JdbcUtil.생략가능
+			close(rs); //JdbcUtil.생략가능
+			//connection 객체에 대한 해제는 DogListService에서 이루어짐
+		}
+		
+		return selectProjectAdminIncomeCount;
+	}
 	
 	
 	

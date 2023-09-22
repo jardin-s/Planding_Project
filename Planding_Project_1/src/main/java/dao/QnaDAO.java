@@ -29,14 +29,14 @@ public class QnaDAO {
 	
 	
 	
-	private static QnaDAO userDAO; //static메서드인 getInstance에서 쓸 수 있게 static (단 외부에서 직접 접근 불가능하도록 private)
+	private static QnaDAO qnaDAO; //static메서드인 getInstance에서 쓸 수 있게 static (단 외부에서 직접 접근 불가능하도록 private)
 	
 	public static QnaDAO getInstance() {
-		if(userDAO == null) {//DogDAO객체가 없으면
-			userDAO = new QnaDAO();//객체 생성
+		if(qnaDAO == null) {//DogDAO객체가 없으면
+			qnaDAO = new QnaDAO();//객체 생성
 		}
 		
-		return userDAO;//기존 DogDAO객체의 주소 리턴
+		return qnaDAO;//기존 DogDAO객체의 주소 리턴
 	}
 	
 	/******************************************************************/

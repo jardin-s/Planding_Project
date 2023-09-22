@@ -81,7 +81,7 @@ function deleteConfirm(page, qna_id, q_writer){
                 <c:if test="${qnaInfo.q_image ne null }">
                 	<hr>
 	                <div>
-	                	<img src="<%=request.getContextPath() %>/images/qna/${qnaInfo.q_image}" style="width:100%">	                	
+	                	<img src="images/qna/${qnaInfo.q_image}" style="width:100%">	                	
 	                </div>
 	                <hr>
                 </c:if>

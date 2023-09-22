@@ -114,7 +114,6 @@ public class AdminLoginAction implements Action {
 					
 					session.setAttribute("a_name", adminInfo.getName());			
 					session.setAttribute("a_email", adminInfo.getEmail());
-					session.setAttribute("a_money", adminInfo.getMoney());
 					
 					//isAdmin이 false이면 관리자페이지 접근제한
 					session.setAttribute("a_admin_status", adminInfo.getAdmin_status());

@@ -177,9 +177,9 @@
             <div class="row justify-content-center">
 	            <ul class="col-12 col-lg-8 nav nav-pills justify-content-center mt-4 mb-0">
 					<li class="col-6 col-md-3 nav-item"><a class="nav-link text-white" href="userMyPage.usr">내 정보관리</a></li>
-					<li class="col-6 col-md-3 nav-item"><a class="nav-link text-white" href="userBookmarkList.usr">관심 프로젝트</a></li>
+					<li class="col-6 col-md-3 nav-item"><a class="nav-link text-white" href="userDonationHistory.usr">내 후원내역</a></li>
+					<li class="col-6 col-md-3 nav-item"><a class="nav-link text-white" href="userMyQnaList.usr">내 문의글</a></li>
 					<li class="col-6 col-md-3 nav-item"><a class="nav-link active fw-bold" aria-current="page" href="#">등록 프로젝트</a></li>
-					<li class="col-6 col-md-3 nav-item"><a class="nav-link text-white" href="userDonatedProjectList.usr">후원 프로젝트</a></li>
 	            </ul>
             </div>
         </div>
@@ -224,15 +224,15 @@
 							</tr>
 						</thead>
 						<tbody class="table-group-divider">
-					<c:if test="${donationList eq null}">
+					<c:if test="${donationCount eq 0}">
 						<tr class="text-center">
-					        <td>
+					        <td colspan="6">
 					            후원 목록이 비어있습니다.
 					        </td>
 						</tr>
 					</c:if>
 						
-					<c:if test="${donationList ne null}">
+					<c:if test="${donationCount ne 0}">
 						<c:forEach items="${donationList}" var="donation">
 							 <tr class="text-center">
 <!-- 							  onclick="redirectToPage('your_page_url')" data-bs-toggle="tooltip" data-bs-placement="top" title="클릭하여 상세정보보기 누르면 송장같은 정보나오도록" -->
