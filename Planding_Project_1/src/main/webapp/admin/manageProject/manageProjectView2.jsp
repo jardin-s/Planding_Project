@@ -108,15 +108,8 @@ function cancelProject(project_id, p_status, kind){
 			    			<c:if test="${projectInfo.p_status eq 'unauthorized'}">미승인</c:if>
 			    			<c:if test="${projectInfo.p_status eq 'ready'}">공개예정</c:if>
 			    			<c:if test="${projectInfo.p_status eq 'ongoing'}">진행중</c:if>
-			    			<c:if test="${projectInfo.p_status eq 'done'}">
-			    				<button class="btn btn-outline-primary py-1" type="button" id="refundBtn" onclick="location.href='refundAllDonation.mngp?project_id=${project.project_id}';">환불</button>
-			    			</c:if>
-			    			<c:if test="${projectInfo.p_status eq 'clear'}">종료</c:if>
-			    			
-			    			<c:if test="${projectInfo.p_status eq 'success'}">
-			    				<button class="btn btn-outline-primary py-1" type="button" id="sendBtn" onclick="location.href='sendTotalAmount.mngp?project_id=${project.project_id}';">송금</button>
-			    			</c:if>
-			    			<c:if test="${projectInfo.p_status eq 'remitcom'}">성공</c:if>
+			    			<c:if test="${projectInfo.p_status eq 'done'}">종료</c:if>
+			    			<c:if test="${projectInfo.p_status eq 'success'}">성공</c:if>
 			    		</td>
 			    	</tr>
 			    	<tr>
@@ -238,9 +231,16 @@ function cancelProject(project_id, p_status, kind){
 			    	<c:if test="${projectInfo.p_status eq 'ready' or projectInfo.p_status eq 'ongoing'}">
 	    				<button class="btn btn-outline-primary py-1" type="button" id="cancelBtn" onclick="cancelProject(${projectInfo.project_id}, '${projectInfo.p_status }','${projectInfo.kind }');">프로젝트 취소</button>
 	    			</c:if>
+	    			<c:if test="${projectInfo.p_status eq 'done'}">
+	    				<button class="btn btn-outline-primary py-1" type="button" id="refundBtn" onclick="location.href='refundAllDonation.mngp?project_id=${project.project_id}';">모금액 환불진행</button>
+	    			</c:if>
+	    			<c:if test="${projectInfo.p_status eq 'success' && adminIncome == 0}">
+	    				<button class="btn btn-outline-primary py-1" type="button" id="sendBtn" onclick="location.href='sendTotalAmount.mngp?project_id=${project.project_id}'">송금</button>
+	    			</c:if>
 	    			<br><br>
-		    		
-		    		<button class="btn btn-light" onclick="history.back();">프로젝트 목록</button>			    	
+			    	
+			    	<button class="btn btn-light" onclick="history.back();">프로젝트 목록</button>
+			    			    	
 			    </div>
    			</div>
    		</div>

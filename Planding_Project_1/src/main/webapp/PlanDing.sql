@@ -1,4 +1,6 @@
 show tables;
+show events;
+select now();
 
 
 /* 테이블 일괄삭제 (순서대로)
@@ -60,7 +62,7 @@ CREATE TABLE `project_tbl` (
   `title` NVARCHAR(50) NOT NULL COMMENT '프로젝트 제목',
   `summary` NVARCHAR(1000) NOT NULL COMMENT '요약글',
   `thumbnail` VARCHAR(150) NOT NULL,
-  `content` NVARCHAR(5000) NOT NULL COMMENT '내용',
+  `content` NVARCHAR(10000) NOT NULL COMMENT '내용',
   `image` VARCHAR(1500) NOT NULL COMMENT '프로젝트 이미지',
   `startdate` DATETIME NOT NULL COMMENT '시작일',
   `enddate` DATETIME NOT NULL COMMENT '종료일',
@@ -71,6 +73,10 @@ CREATE TABLE `project_tbl` (
   PRIMARY KEY (`project_id`))
 ENGINE = InnoDB;
 
+/*
+alter table project_tbl
+modify content nvarchar(10000);
+*/
 /* 테스트를 위해 데이터 1개 등록 */
 insert into project_tbl(kind, title, summary, thumbnail, content, image, startdate, enddate, goal_amount, curr_amount, p_status, likes, regdate)
 values('donate','기부제목','기부요약','thumbnail.jpg','프로젝트 내용','content_image.jpg',
@@ -82,14 +88,16 @@ values('donate','기부제목2','기부요약2','thumbnail2.jpg','프로젝트 �
 update project_tbl
 set regdate='2023-09-17', startdate='2023-09-18', enddate='2023-09-23', p_status = 'ongoing'
 where project_id = 9;
+
 update project_tbl
-set p_status = 'success'
+set p_status = 'done'
 where project_id = 2;
 		
 select * from project_tbl;
-delete from project_tbl;
 
 
+select count(*) from project_tbl where kind='donate' and p_status='unauthorized';
+select count(*) from project_tbl where kind='donate' and p_status='unauthorized';
 
 select project_id, kind, title, summary
 thumbnail, content, image,
@@ -402,6 +410,10 @@ from project_tbl left outer join admin_income_tbl
 using(project_id);
 
 
+show events;
+drop event updateStatusOngoing;
+drop event updateStatusDone;
+
 /* 시작일이 오늘이랑 같고, 상태가 ready(공개예정)인 프로젝트 */
 create EVENT updateStatusOngoing
 on schedule every 1 day
@@ -410,8 +422,8 @@ comment '상태를 진행중으로 업데이트'
 DO
 
 update project_tbl
-set status = 'ongoing'
-where startdate = CURDATE() and status='ready';
+set p_status = 'ongoing'
+where startdate = CURDATE() and p_status='ready';
 
 
 
@@ -423,20 +435,20 @@ comment '상태를 종료로 업데이트'
 DO
 
 update project_tbl
-set status = 'done'
-where enddate < CURDATE() and status='ongoing' and curr_amount < goal_amount and kind='fund';
+set p_status = 'done'
+where enddate < CURDATE() and p_status='ongoing' and curr_amount < goal_amount and kind='fund';
 
 /* 종료일이 오늘보다 과거이며, 상태가 ongoing(진행중)인 기부 프로젝트 */
 /* 종료일이 오늘보다 과거이며, 상태가 ongoing(진행중)이고, 현재모금액>=목표모금액인 펀딩 프로젝트 */
-create EVENT updateStatusDone
+create EVENT updateStatusSuccess
 on schedule every 1 day
 comment '상태를 성공으로 업데이트'
 
 DO
 
 update project_tbl
-set status = 'success'
-where (enddate < CURDATE() and status='ongoing' and curr_amount >= goal_amount and kind='fund') or (enddate<CURDATE() and status='ongoing' and kind='donate');
+set p_status = 'success'
+where (enddate < CURDATE() and p_status='ongoing' and curr_amount >= goal_amount and kind='fund') or (enddate<CURDATE() and p_status='ongoing' and kind='donate');
 
 
 /* 주문한지 6개월이 지난 주소(not 기본주소)를 삭제 -> 이벤트 스케줄러 생성 문제로 6개월 후 자동삭제 X*/

@@ -263,7 +263,7 @@ function checkDonate() {
 							<tr class="text-center">
 								<th>
 									<c:forTokens var="image" items="${projectInfo.image }" delims=";">
-										<img src="<%=request.getContextPath()%>/images/project_No_${projectInfo.project_id }/${projectInfo.project_id }_${image}" style="width:60%; margin-bottom: 2rem">
+										<img src="images/project_No_${projectInfo.project_id }/${projectInfo.project_id }_${image}" style="width:60%; margin-bottom: 2rem">
 									</c:forTokens>
 								</th>
 							</tr>

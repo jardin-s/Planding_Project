@@ -73,60 +73,37 @@ public class SendTotalAmountService {
 		return userInfo;
 	}
 	
-	/** 관리자 수익 넣기 */
-	public boolean insertFeeIncome(int project_id, int fee_income) {
+	/** 관리자에게 수수료 수익을 insert, 기획자 계좌로 송금하고 프로젝트 상태를 remitcom으로 변경 */
+	public boolean sendAmountPlanner(String member_id, int finalAmount, int project_id, int fee_income) {
 		//1. 커넥션 풀에서 Connection객체를 얻어와
 		Connection con = getConnection(); //JdbcUtil. 생략(이유?import static 하여)
 		
 		//2. 싱글톤 패턴 : ManageMemberDAO 객체 생성 (DogDAO 객체를 하나만 만들어서 계속 사용)
-		AdminIncomeDAO adminIncomeDAO = AdminIncomeDAO.getInstance();
+		ProjectDAO projectDAO = ProjectDAO.getInstance();
 		
 		//3. DB작업에 사용될 Connection객체를 DogDAO에 전달하여 DB연결하여 DAO에서 작업하도록 "서비스"해줌
-		adminIncomeDAO.setConnection(con);
+		projectDAO.setConnection(con);
 		
 		
 		/*-------DAO의 해당 메서드를 호출하여 처리----------------------------------------------------*/
-		int insertAdminIncomeCount = adminIncomeDAO.insertAdminIncome(project_id, fee_income);
-		System.out.println("[SendTotalAmountService] insertFeeIncome : insertAdminIncomeCount" + insertAdminIncomeCount);
 		
-		boolean isInsertFeeIncomeResult = false;
-		/*-------(insert, update, delete) 성공하면 commit(), 실패하면 rollback() 호출
-		 * 		 단, select는 이런 작업을 제외 ------------------*/
-		if(insertAdminIncomeCount > 0) {
-			isInsertFeeIncomeResult = true;
-			commit(con);
-		}else {
-			rollback(con);
-		}
+		//관리자에게 수수료 수익을 insert
+		int insertAdminIncomeCount = projectDAO.insertAdminIncome(project_id, fee_income);
+		System.out.println("[SendTotalAmountService] sendAmountPlanner : insertAdminIncomeCount = "+insertAdminIncomeCount);
 		
-		
-		//4. 해제
-		close(con); //JdbcUtil. 생략(이유?import static 하여)
-		
-		return isInsertFeeIncomeResult;
-	}
-
-	/** 기획자 계좌로 송금 */
-	public boolean sendAmountPlanner(String member_id, int finalAmount) {
-		//1. 커넥션 풀에서 Connection객체를 얻어와
-		Connection con = getConnection(); //JdbcUtil. 생략(이유?import static 하여)
-		
-		//2. 싱글톤 패턴 : ManageMemberDAO 객체 생성 (DogDAO 객체를 하나만 만들어서 계속 사용)
-		UserDAO userDAO = UserDAO.getInstance();
-		
-		//3. DB작업에 사용될 Connection객체를 DogDAO에 전달하여 DB연결하여 DAO에서 작업하도록 "서비스"해줌
-		userDAO.setConnection(con);
-		
-		
-		/*-------DAO의 해당 메서드를 호출하여 처리----------------------------------------------------*/
-		int updateUserPlusMoneyCount = userDAO.updateUserPlusMoney(member_id, finalAmount);
+		//기획자에게 돈을 송금 (기획자의 돈을 update)
+		int updateUserPlusMoneyCount = projectDAO.updateUserPlusMoney(member_id, finalAmount);
 		System.out.println("[SendTotalAmountService] member_id = "+member_id+", finalAmount = "+finalAmount);
-		System.out.println("[SendTotalAmountService] sendAmountPlanner : updateUserPlusMoneyCount" + updateUserPlusMoneyCount);
+		System.out.println("[SendTotalAmountService] sendAmountPlanner : updateUserPlusMoneyCountt = " + updateUserPlusMoneyCount);
+		
+		//프로젝트 상태를 remitcom으로 변경 (remittance completed)
+		int updateProjectStatusCount = projectDAO.updateProjectStatus(project_id, "remitcom");
+		System.out.println("[SendTotalAmountService] sendAmountPlanner : updateProjectStatusCountt = " + updateProjectStatusCount);
 		
 		boolean isSendAmountPlannerResult = false;
 		/*-------(insert, update, delete) 성공하면 commit(), 실패하면 rollback() 호출
 		 * 		 단, select는 이런 작업을 제외 ------------------*/
-		if(updateUserPlusMoneyCount > 0) {
+		if(insertAdminIncomeCount > 0 && updateUserPlusMoneyCount > 0 && updateProjectStatusCount > 0) {
 			isSendAmountPlannerResult = true;
 			commit(con);
 		}else {

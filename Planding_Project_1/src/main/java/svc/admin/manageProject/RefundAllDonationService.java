@@ -50,8 +50,8 @@ public class RefundAllDonationService {
 		return donationList;
 	}
 
-	/** 후원금액을 각 후원자에게 환불 */
-	public boolean refundDonation(ArrayList<DonationBean> donationList) {
+	/** 후원금액을 각 후원자에게 환불하고, 프로젝트 상태를 'clear'로 변경 */
+	public boolean refundDonation(ArrayList<DonationBean> donationList, int project_id) {
 		//1. 커넥션 풀에서 Connection객체를 얻어와
 		Connection con = getConnection(); //JdbcUtil. 생략(이유?import static 하여)
 		
@@ -69,10 +69,13 @@ public class RefundAllDonationService {
 		}
 		System.out.println("[RefundAllDonationService] refundDonation() : updateUserPlusMoneyCount = "+updateUserPlusMoneyCount);
 		
+		int updateProjectStatusCount = projectDAO.updateProjectStatus(project_id, "clear");
+		System.out.println("[RefundAllDonationService] refundDonation() : updateProjectStatusCount = "+updateProjectStatusCount);
+		
 		boolean isRefundDonationResult = false;
 		/*-------(insert, update, delete) 성공하면 commit(), 실패하면 rollback() 호출
 		 * 		 단, select는 이런 작업을 제외 ------------------*/
-		if(updateUserPlusMoneyCount == donationList.size()) {
+		if(updateUserPlusMoneyCount == donationList.size() && updateProjectStatusCount > 0) {
 			isRefundDonationResult = true;
 			commit(con);
 		}else{
@@ -85,6 +88,7 @@ public class RefundAllDonationService {
 		return isRefundDonationResult;
 	}
 
+	/** 프로젝트 기획자 ID를 얻어옴 */
 	public String getPlannerId(int project_id) {
 		//1. 커넥션 풀에서 Connection객체를 얻어와
 		Connection con = getConnection(); //JdbcUtil. 생략(이유?import static 하여)
@@ -109,6 +113,7 @@ public class RefundAllDonationService {
 		return plannerId;
 	}
 	
+	/** 프로젝트 기획자 ID로 프로젝트기획자의 회원정보를 얻어옴 */
 	public MemberBean getPlannerInfo(String member_id) {
 		//1. 커넥션 풀에서 Connection객체를 얻어와
 		Connection con = getConnection(); //JdbcUtil. 생략(이유?import static 하여)
@@ -182,39 +187,6 @@ public class RefundAllDonationService {
 		
 		return donationCount;
 	}
-
-	public boolean updateProjectDoneToClear(int project_id) {
-		//1. 커넥션 풀에서 Connection객체를 얻어와
-		Connection con = getConnection(); //JdbcUtil. 생략(이유?import static 하여)
-		
-		//2. 싱글톤 패턴 : ManageMemberDAO 객체 생성 (DogDAO 객체를 하나만 만들어서 계속 사용)
-		ProjectDAO projectDAO = ProjectDAO.getInstance();
-		
-		//3. DB작업에 사용될 Connection객체를 DogDAO에 전달하여 DB연결하여 DAO에서 작업하도록 "서비스"해줌
-		projectDAO.setConnection(con);
-		
-		
-		/*-------DAO의 해당 메서드를 호출하여 처리----------------------------------------------------*/
-		int updateProjectStatusCount = projectDAO.updateProjectStatus(project_id, "clear");
-		
-		
-		boolean isUpdateProjectStatusResult = false;
-		/*-------(insert, update, delete) 성공하면 commit(), 실패하면 rollback() 호출
-		 * 		 단, select는 이런 작업을 제외 ------------------*/
-		if(updateProjectStatusCount > 0) {
-			isUpdateProjectStatusResult = true;
-			commit(con);
-		}else {
-			rollback(con);
-		}
-		
-		
-		//4. 해제
-		close(con); //JdbcUtil. 생략(이유?import static 하여)
-		
-		return isUpdateProjectStatusResult;
-	}
-	
 	
 	
 }

@@ -238,7 +238,7 @@ public class DateUtil {//날짜 계산하는 클래스 (매출관리에서 달�
 		
 		if(after_month >11) {//만약 after_month가 11보다 크다면 (검색한 달이 12월(시스템달 11)
 			after_month = 0; //그 달은 시스템달 0 (실제 1월)
-			after_year = search_year -1; //다음년도는 검색연도+1 (2022.12 -> 2023.1)
+			after_year = search_year +1; //다음년도는 검색연도+1 (2022.12 -> 2023.1)
 		}
 		
 		//이전년도, 이전달 & 다음년도, 다음달 정보를 저장한 Map객체를 리턴

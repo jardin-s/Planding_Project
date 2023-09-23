@@ -1,4 +1,4 @@
-package svc.admin.manageProject.fund;
+package svc.admin.manageProject;
 
 import static db.JdbcUtil.*;
 
@@ -6,16 +6,16 @@ import java.sql.Connection;
 import java.util.ArrayList;
 
 import dao.ManageProjectDAO;
-import vo.ProjectAdminIncomeBean;
+import vo.ProjectBean;
 
-public class DoneFundProjectListService {
+public class ManageProjectListService {
 	//필드 없음
 
 	//기본생성자
 	
 	//메서드
-	//1. 미승인 프로젝트 수 얻어오기
-	public int getDoneFundCount() {
+	//1. 회원 수 얻어오기
+	public int getProjectCount(String kind) {
 		//1. 커넥션 풀에서 Connection객체를 얻어와
 		Connection con = getConnection(); //JdbcUtil. 생략(이유?import static 하여)
 		
@@ -27,7 +27,7 @@ public class DoneFundProjectListService {
 		
 		
 		/*-------DAO의 해당 메서드를 호출하여 처리----------------------------------------------------*/
-		int fundProjectCount = manageProjectDAO.selectDoneProjectCount("fund");
+		int projectCount = manageProjectDAO.selectProjectCount(kind);
 		
 		/*-------(insert, update, delete) 성공하면 commit(), 실패하면 rollback() 호출
 		 * 		 단, select는 이런 작업을 제외 ------------------*/
@@ -35,12 +35,12 @@ public class DoneFundProjectListService {
 		//4. 해제
 		close(con); //JdbcUtil. 생략(이유?import static 하여)
 		
-		return fundProjectCount;
+		return projectCount;
 	}
 	
 
-	//2. 조건에 맞는 미승인 프로젝트 수를 가져옴
-	public int getSearchDoneFundCount(String project_title) {
+	//2. 조건에 맞는 회원 수를 가져옴
+	public int getSearchProjectCount(String kind, String project_title) {
 		//1. 커넥션 풀에서 Connection객체를 얻어와
 		Connection con = getConnection(); //JdbcUtil. 생략(이유?import static 하여)
 		
@@ -52,7 +52,7 @@ public class DoneFundProjectListService {
 		
 		
 		/*-------DAO의 해당 메서드를 호출하여 처리----------------------------------------------------*/
-		int searchFundCount = manageProjectDAO.searchDoneProjectCount("fund", project_title);
+		int searchProjectCount = manageProjectDAO.searchProjectCount(kind, project_title);
 		
 		/*-------(insert, update, delete) 성공하면 commit(), 실패하면 rollback() 호출
 		 * 		 단, select는 이런 작업을 제외 ------------------*/
@@ -60,14 +60,14 @@ public class DoneFundProjectListService {
 		//4. 해제
 		close(con); //JdbcUtil. 생략(이유?import static 하여)
 		
-		return searchFundCount;
+		return searchProjectCount;
 	}
 	
 	
 	/*---------------------------------------------------------------------------------------------------*/
 	
-	//1. 전체 종료된 기부프로젝트 목록 가져오기 (최근가입순) [기본값]
-	public ArrayList<ProjectAdminIncomeBean> getDoneFundList(int page, int limit) {
+	//1. 전체 기부프로젝트 목록 가져오기 (최근가입순) [기본값]
+	public ArrayList<ProjectBean> getProjectList(String kind, int page, int limit) {
 		//1. 커넥션 풀에서 Connection객체를 얻어와
 		Connection con = getConnection(); //JdbcUtil. 생략(이유?import static 하여)
 		
@@ -79,7 +79,7 @@ public class DoneFundProjectListService {
 		
 		
 		/*-------DAO의 해당 메서드를 호출하여 처리----------------------------------------------------*/
-		ArrayList<ProjectAdminIncomeBean> fundList = manageProjectDAO.selectDoneProjectIncomeList("fund", page, limit);
+		ArrayList<ProjectBean> projectList = manageProjectDAO.selectProjectList(kind, page, limit);
 		
 		/*-------(insert, update, delete) 성공하면 commit(), 실패하면 rollback() 호출
 		 * 		 단, select는 이런 작업을 제외 ------------------*/
@@ -87,12 +87,12 @@ public class DoneFundProjectListService {
 		//4. 해제
 		close(con); //JdbcUtil. 생략(이유?import static 하여)
 		
-		return fundList;
+		return projectList;
 	}
 
 
-	//2. 종료된 기부프로젝트 중 조건에 맞는 목록 가져오기 
-	public ArrayList<ProjectAdminIncomeBean> getSearchDoneFundList(int page, int limit, String project_title) {
+	//2. 전체 기부프로젝트 중 조건에 맞는 목록 가져오기 
+	public ArrayList<ProjectBean> getSearchProjectList(String kind, String project_title, int page, int limit) {
 		//1. 커넥션 풀에서 Connection객체를 얻어와
 		Connection con = getConnection(); //JdbcUtil. 생략(이유?import static 하여)
 		
@@ -104,7 +104,7 @@ public class DoneFundProjectListService {
 		
 		
 		/*-------DAO의 해당 메서드를 호출하여 처리----------------------------------------------------*/
-		ArrayList<ProjectAdminIncomeBean> searchFundList = manageProjectDAO.searchDoneProjectIncomeList("fund", project_title, page, limit);
+		ArrayList<ProjectBean> searchProjectList = manageProjectDAO.searchProjectList(kind, project_title , page, limit);
 		
 		/*-------(insert, update, delete) 성공하면 commit(), 실패하면 rollback() 호출
 		 * 		 단, select는 이런 작업을 제외 ------------------*/
@@ -112,11 +112,11 @@ public class DoneFundProjectListService {
 		//4. 해제
 		close(con); //JdbcUtil. 생략(이유?import static 하여)
 		
-		return searchFundList;
+		return searchProjectList;
 	}
 
-	//3. 선택한 정렬기준에 따라 정렬된 종료된 기부 프로젝트 목록 가져오기
-	public ArrayList<ProjectAdminIncomeBean> getOrderDoneFundList(String order, int page, int limit) {
+	//3. 선택한 정렬기준에 따라 정렬된 기부 프로젝트 목록 가져오기
+	public ArrayList<ProjectBean> getOrderProjectList(String kind, String order, int page, int limit) {
 		//1. 커넥션 풀에서 Connection객체를 얻어와
 		Connection con = getConnection(); //JdbcUtil. 생략(이유?import static 하여)
 		
@@ -128,12 +128,12 @@ public class DoneFundProjectListService {
 		
 		
 		/*-------DAO의 해당 메서드를 호출하여 처리----------------------------------------------------*/
-		ArrayList<ProjectAdminIncomeBean> orderFundList = null;
+		ArrayList<ProjectBean> orderProjectList = null;
 		
-		if(order.equals("new")) { orderFundList = manageProjectDAO.selectDoneProjectIncomeList("fund", page, limit); }
-		if(order.equals("old")) { orderFundList = manageProjectDAO.orderOldDoneProjectIncomeList("fund", page, limit); }
-		if(order.equals("az")) { orderFundList = manageProjectDAO.orderAZDoneProjectIncomeList("fund", page, limit); }
-		if(order.equals("za")) { orderFundList = manageProjectDAO.orderZADoneProjectIncomeList("fund", page, limit); }
+		if(order.equals("new")) { orderProjectList = manageProjectDAO.orderNewProjectList(kind, page, limit); }
+		if(order.equals("old")) { orderProjectList = manageProjectDAO.orderOldProjectList(kind, page, limit); }
+		if(order.equals("az")) { orderProjectList = manageProjectDAO.orderAZProjectList(kind, page, limit); }
+		if(order.equals("za")) { orderProjectList = manageProjectDAO.orderZAProjectList(kind, page, limit); }
 				
 		/*-------(insert, update, delete) 성공하면 commit(), 실패하면 rollback() 호출
 		 * 		 단, select는 이런 작업을 제외 ------------------*/
@@ -141,6 +141,6 @@ public class DoneFundProjectListService {
 		//4. 해제
 		close(con); //JdbcUtil. 생략(이유?import static 하여)
 		
-		return orderFundList;
+		return orderProjectList;
 	}
 }

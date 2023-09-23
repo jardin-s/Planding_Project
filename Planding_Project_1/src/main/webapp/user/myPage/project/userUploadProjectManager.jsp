@@ -179,7 +179,7 @@
 					<li class="col-6 col-md-3 nav-item"><a class="nav-link text-white" href="userMyPage.usr">내 정보관리</a></li>
 					<li class="col-6 col-md-3 nav-item"><a class="nav-link text-white" href="userDonationHistory.usr">내 후원내역</a></li>
 					<li class="col-6 col-md-3 nav-item"><a class="nav-link text-white" href="userMyQnaList.usr">내 문의글</a></li>
-					<li class="col-6 col-md-3 nav-item"><a class="nav-link active fw-bold" aria-current="page" href="#">등록 프로젝트</a></li>
+					<li class="col-6 col-md-3 nav-item"><a class="nav-link active fw-bold" aria-current="page" href="userUploadProjectList.usr">등록 프로젝트</a></li>
 	            </ul>
             </div>
         </div>
@@ -190,7 +190,7 @@
 
     	<div class="container-xxl py-5">
     		<div class="container col-lg-8 mb-5">
-   				<h3 class="text-center">${pj_title} 프로젝트<br>리워드 관리 페이지</h3>
+   				<h3 class="text-center">${projectInfo.title} 프로젝트<br>관리 페이지</h3>
     		</div>
     	</div>
 
@@ -225,13 +225,13 @@
 						            ${rewardList[i].r_content }
 						        </td>
 						        <td>
-						            ${byRewardCount[i]}
+						            ${byRewardCountArr[i]}
 						        </td>
 						        <td>
 						            ${rewardList[i].r_price }
 						        </td>
 						        <td>
-						            ${byRewardTotalPrice[i]}
+						            ${byRewardTotalPriceArr[i]}
 						        </td>
 						     </tr>
 							</c:forEach>
@@ -240,12 +240,15 @@
 							<tr class="text-center">
 							
 								<th scope="col" class="col-1" colspan="2">
+									<c:if test="">
+										
+									</c:if>
 						<button class="btn btn-outline-primary py-1" type="button" id="answerBtn" 
-						onclick="window.location.href='editProjectRewardList.pj?project_id=${project_id}'">리워드 수정</button>	
+						onclick="window.location.href='editProjectRewardList.pj?project_id=${projectInfo.project_id}'">리워드 수정</button>	
 								</th>
 								<th scope="col" class="col-1" colspan="2">
 						<button class="btn btn-outline-primary py-1" type="button" id="answerBtn" 
-						onclick="window.location.href='userProjectDonationListALL.pj?project_id=${project_id}'">전체 후원목록보기</button>
+						onclick="window.location.href='userProjectDonationListALL.pj?project_id=${projectInfo.project_id}'">전체 후원목록보기</button>
 								</th>
 
 								<th>총${totalCount}명</th>

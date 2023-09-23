@@ -39,7 +39,7 @@ public class AdminModifyQnaAFormAction implements Action {
 			PrintWriter out = response.getWriter();
 			out.println("<script>");
 			out.println("alert('본인이 작성한 답변만 수정가능합니다.');");
-			out.println("location.href='adminLoginForm.adm';");
+			out.println("history.back();");
 			out.println("</script>");
 		
 		}else {//본인 답변이라면

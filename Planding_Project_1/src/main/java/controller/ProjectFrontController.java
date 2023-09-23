@@ -19,6 +19,7 @@ import action.project.insert.InsertProjectPlannerAction;
 import action.project.insert.SubmitDonateProjectAction;
 import action.project.insert.SubmitFundProjectAction;
 import action.project.manage.ByRewardDonationListAction;
+import action.project.manage.DeleteProjectAction;
 import action.project.manage.DeleteRewardAction;
 import action.project.manage.EditProjectAction;
 import action.project.manage.EditProjectFormAction;
@@ -446,6 +447,17 @@ public class ProjectFrontController extends HttpServlet {
 		/*-- '[플래너] 프로젝트 수정하기' 요청 -> 처리 --------------------------------------*/
 		else if(command.equals("/editProject.pj")) {
 			action = new EditProjectAction();
+			
+			try {
+				forward = action.execute(request, response);
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+			
+		}
+		/*-- '[플래너] 프로젝트 삭제하기' 요청 -> 처리 --------------------------------------*/
+		else if(command.equals("/deleteProject.pj")) {
+			action = new DeleteProjectAction();
 			
 			try {
 				forward = action.execute(request, response);

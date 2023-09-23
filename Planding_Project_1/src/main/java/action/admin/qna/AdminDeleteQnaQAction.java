@@ -10,7 +10,7 @@ import action.Action;
 import svc.qna.DeleteQnaService;
 import vo.ActionForward;
 
-public class AdminDeleteQnaAction implements Action {
+public class AdminDeleteQnaQAction implements Action {
 
 	@Override
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -20,7 +20,7 @@ public class AdminDeleteQnaAction implements Action {
 		int page = Integer.parseInt(request.getParameter("page"));
 		int qna_id =  Integer.parseInt(request.getParameter("qna_id"));
 		
-		System.out.println("[DeleteQnaAction] 파라미터값");
+		System.out.println("[AdminDeleteQnaQAction] 파라미터값");
 		System.out.println("page="+page);
 		System.out.println("qna_id="+qna_id);
 		
@@ -39,7 +39,7 @@ public class AdminDeleteQnaAction implements Action {
 			
 			//qna_id로 글 삭제
 			DeleteQnaService deleteQnaService = new DeleteQnaService();
-			boolean isDeleteQnaSuccess = deleteQnaService.deleteQna(qna_id);
+			boolean isDeleteQnaSuccess = deleteQnaService.deleteQnaQ(qna_id);
 			
 			
 			if(!isDeleteQnaSuccess) {//글 삭제 실패

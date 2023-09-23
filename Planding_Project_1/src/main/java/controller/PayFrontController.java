@@ -8,8 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import action.Action;
-import action.admin.manageProject.donate.ManageDonateProjectListAction;
-import action.admin.manageProject.donate.OrderDonateProjectListAction;
 import action.pay.PaymentAction;
 import vo.ActionForward;
 

@@ -1776,21 +1776,26 @@ public class ProjectDAO {
 	}
 	
 	/** 프로젝트 정보 수정 */
-	public int editProject(ProjectBean pj) {
+	public int editProject(ProjectBean project) {
 		int editProjectCount = 0;
 		
-		String sql = "UPDATE project_tbl SET title = ?, summary = ?, content=?, startdate=?, enddate=?, goal_amount=? WHERE project_id = ?";
+		String sql = "UPDATE project_tbl"
+				  + " SET title = ?, summary = ?, content = ?,"
+				  + " thumbnail=?, image=?,"
+				  + " startdate=?, enddate=?, goal_amount=? WHERE project_id = ?";
 		
 		try {
 			
 			pstmt = con.prepareStatement(sql);
-			pstmt.setString(1, pj.getTitle());
-			pstmt.setString(2, pj.getSummary());
-			pstmt.setString(3, pj.getContent());
-			pstmt.setString(4, pj.getStartdate());
-			pstmt.setString(5, pj.getEnddate());
-			pstmt.setInt(6, pj.getGoal_amount());
-			pstmt.setInt(7, pj.getProject_id());
+			pstmt.setString(1, project.getTitle());
+			pstmt.setString(2, project.getSummary());
+			pstmt.setString(3, project.getContent());
+			pstmt.setString(4, project.getThumbnail());
+			pstmt.setString(5, project.getImage());
+			pstmt.setString(6, project.getStartdate());
+			pstmt.setString(7, project.getEnddate());
+			pstmt.setInt(8, project.getGoal_amount());
+			pstmt.setInt(9, project.getProject_id());
 			
 			editProjectCount = pstmt.executeUpdate();
 			
@@ -1896,6 +1901,82 @@ public class ProjectDAO {
 		}
 		
 		return donationCount;
+	}
+
+	/** 수수료+프로젝트ID를 insert */
+	public int insertAdminIncome(int project_id, int fee_income) {
+		int insertAdminIncomeCount = 0;
+		
+		String sql = "insert into admin_income_tbl(project_id, fee_income) values(?,?)";
+		
+		try {
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, project_id);
+			pstmt.setInt(2, fee_income);
+			
+			insertAdminIncomeCount = pstmt.executeUpdate();
+			
+		} catch(Exception e) {
+			System.out.println("[ProjectDAO] insertAdminIncome() 에러 : "+e);//예외객체종류 + 예외메시지
+		} finally {
+			close(pstmt); //JdbcUtil.생략가능
+			//close(rs); //JdbcUtil.생략가능
+			//connection 객체에 대한 해제는 DogListService에서 이루어짐
+		}
+		
+		return insertAdminIncomeCount;
+	}
+
+	/** 기획자테이블에서 기획자 삭제 */
+	public int deletePlanner(int project_id, String member_id) {
+		int deletePlannerCount = 0;
+		
+		String sql = "delete from project_planner_tbl"
+			 	  + " where project_id = ? and member_id = ?";
+		
+		try {
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, project_id);
+			pstmt.setString(2, member_id);
+			
+			deletePlannerCount = pstmt.executeUpdate();
+			
+		} catch(Exception e) {
+			System.out.println("[ProjectDAO] deletePlanner() 에러 : "+e);//예외객체종류 + 예외메시지
+		} finally {
+			close(pstmt); //JdbcUtil.생략가능
+			//close(rs); //JdbcUtil.생략가능
+			//connection 객체에 대한 해제는 DogListService에서 이루어짐
+		}
+		
+		return deletePlannerCount;
+	}
+	
+	/** 프로젝트테이블에서 프로젝트 삭제 */
+	public int deleteProject(int project_id) {
+		int deleteProjectCount = 0;
+		
+		String sql = "delete from project_tbl"
+				+ " where project_id = ?";
+		
+		try {
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, project_id);
+			
+			deleteProjectCount = pstmt.executeUpdate();
+			
+		} catch(Exception e) {
+			System.out.println("[ProjectDAO] deleteProject() 에러 : "+e);//예외객체종류 + 예외메시지
+		} finally {
+			close(pstmt); //JdbcUtil.생략가능
+			//close(rs); //JdbcUtil.생략가능
+			//connection 객체에 대한 해제는 DogListService에서 이루어짐
+		}
+		
+		return deleteProjectCount;
 	}
 
 	

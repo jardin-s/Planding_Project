@@ -71,7 +71,7 @@
 		    			<span class="fs-3" aria-hidden="true">&gt;</span>
 		    		</a>
 		    		<!-- 다음 해 -->
-		    		<a class="ms-2" href="manageIncome.mngi?year=${today_info.search_year+1}&month=${today_info.search_month+1}">
+		    		<a class="ms-2" href="manageIncome.mngi?year=${today_info.search_year+1}&month=${today_info.search_month-1}">
 		    			<span class="fs-3" aria-hidden="true">&raquo;</span>
 		    		</a>
 		    	</div>

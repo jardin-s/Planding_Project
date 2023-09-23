@@ -41,30 +41,16 @@
 function changeOrder() {
 	
 	let selectedValue = document.getElementById("selectOrder").value;
-	let orderKey = document.getElementById("orderKey").value;
 	
-	if(orderKey != null){//정렬하여 로딩한 경우
-	
-		if(selectedValue != 'default' && selectedValue != orderKey){//선택한 값이 default나 기존값이 아닐 때만 전송
-			document.forder.submit();
-		}
-	
-	}else{//정렬하여 로딩하지 않은 경우 (처음 로딩)
-		
-		if(selectedValue != 'default'){//선택한 값이 default만 아니면 전송
-			document.forder.submit();
-		}
-	
-	}
-	
-	
-	
+	if(selectedValue != 'default'){//선택한 값이 default만 아니면 전송
+		document.forder.submit();
+	}	
 }
 
 //검색어 유효성 검사 및 검색요청
 function searchProjectList() {
 	
-	let search_id = document.getElementById("title").value;
+	let search_id = document.getElementById("searchTitle").value;
 	
 	if(search_id == ''){
 		alert('검색어를 입력하세요.');
@@ -74,7 +60,6 @@ function searchProjectList() {
 	document.fsearch.submit();
 	
 }
-
 
 </script>
 
@@ -86,10 +71,11 @@ function searchProjectList() {
             <h3 class="display-6 pt-3 mb-4 text-white animated slideInDown">기부 프로젝트 관리</h3>
             <div class="row justify-content-center">
 	            <ul class="col-12 col-lg-8 nav nav-pills justify-content-center mt-5 mb-0">
-					<li class="col-3 nav-item"><a class="nav-link text-white" href="manageFundProjectList.mngp">전체 프로젝트</a></li>
-					<li class="col-3 nav-item"><a class="nav-link text-white" href="unauthFundProjectList.mngp">미승인 프로젝트</a></li>
-					<li class="col-3 nav-item"><a class="nav-link active fw-bold" aria-current="page" href="#">승인된 프로젝트</a></li>
-					<li class="col-3 nav-item"><a class="nav-link text-white" href="doneFundProjectList.mngp">종료된 프로젝트</a></li>
+					<li class="col-2 nav-item"><a class="nav-link text-white" href="manageDonateProjectList.mngp">전체</a></li>
+					<li class="col-2 nav-item"><a class="nav-link text-white" href="unauthDonateProjectList.mngp">미승인</a></li>
+					<li class="col-2 nav-item"><a class="nav-link text-white" href="readyDonateProjectList.mngp">공개예정</a></li>
+					<li class="col-2 nav-item"><a class="nav-link text-white" href="ongoingDonateProjectList.mngp">진행중</a></li>
+					<li class="col-2 nav-item"><a class="nav-link active fw-bold" aria-current="page" href="#">성공</a></li>
 	            </ul>
             </div>
         </div>
@@ -108,15 +94,16 @@ function searchProjectList() {
 				<%-- Order --%>
 				<div class="col-4 col-md-3">
 					<div class="d-flex justify-content-start">
-						<form action="orderFundProjectList.mngp" method="post" name="forder">
-							<input type="hidden" name="orderKey" id="orderKey" value=${orderKeyword }/>
+						<form action="successDonateProjectList.mngp" method="post" name="forder">
 			    			<select class="form-select py-1" name="selectOrder" id="selectOrder" aria-label="selectOrder" onchange="changeOrder()">
 								<c:if test="${orderKeyword eq null }"><option value="default" selected>-- 정렬조건 --</option></c:if>
 								<c:if test="${orderKeyword ne null }"><option value="default">-- 정렬조건 --</option></c:if>
-								<c:if test="${orderKeyword eq 'new' }"><option value="new" selected>최근 등록순</option></c:if>
-								<c:if test="${orderKeyword ne 'new' }"><option value="new">최근 등록순</option></c:if>
-								<c:if test="${orderKeyword eq 'old' }"><option value="old" selected>오래된 등록순</option></c:if>
-								<c:if test="${orderKeyword ne 'old' }"><option value="old">오래된 등록순</option></c:if>
+								<c:if test="${orderKeyword eq 'send' }"><option value="send" selected>미송금 우선</option></c:if>
+								<c:if test="${orderKeyword eq 'send' }"><option value="send">미송금 우선</option></c:if>
+								<c:if test="${orderKeyword eq 'new' }"><option value="new" selected>최근 마감순</option></c:if>
+								<c:if test="${orderKeyword ne 'new' }"><option value="new">최근 마감순</option></c:if>
+								<c:if test="${orderKeyword eq 'old' }"><option value="old" selected>오래된 마감순</option></c:if>
+								<c:if test="${orderKeyword ne 'old' }"><option value="old">오래된 마감순</option></c:if>
 								<c:if test="${orderKeyword eq 'az' }"><option value="az" selected>가나다순</option></c:if>
 								<c:if test="${orderKeyword ne 'az' }"><option value="az">가나다순</option></c:if>
 								<c:if test="${orderKeyword eq 'za' }"><option value="za" selected>역가나다순</option></c:if>
@@ -129,9 +116,9 @@ function searchProjectList() {
 	    		<%-- Search --%>
 	    		<div class="col auto">
 		    		<div class="d-flex justify-content-end">
-		    			<form action="searchFundProjectList.mngp" method="post" name="fsearch">
+		    			<form action="successDonateProjectList.mngp" method="post" name="fsearch">
 			    			<div class="btn btn-outline-light py-1 px-2 me-1">
-				    			<input type="text" name="title" id="title" class="border-0" placeholder="제목으로 검색">
+				    			<input type="text" name="searchTitle" value="${searchKeyword }" id="searchTitle" class="border-0" placeholder="제목으로 검색">
 				    			<a href="javascript:searchProjectList();"><i class="fas fa-search"></i></a>
 			    			</div>
 		    			</form>
@@ -141,8 +128,6 @@ function searchProjectList() {
     	</div>
     </div>
     <%-- Search Tab End --%>
-	
-	
 	
 	<c:if test="${pageInfo.listCount == 0 }">
     	<div class="container-xxl mb-5 py-5" style="height:30vh">
@@ -160,8 +145,8 @@ function searchProjectList() {
     </c:if>
 	
 	<c:if test="${pageInfo.listCount != 0 }">
-    	<c:set var="p_index" value="${(pageInfo.page-1)*10 +1}" />
-    	
+    	<c:set var="p_index" value="${pageInfo.listCount - (pageInfo.page-1)*10 }" />
+	
 	    <%-- Table Start --%>
 	    <div class="container-fluid pt-0 pb-2">
 	        <div class="container col-lg-8">
@@ -182,15 +167,14 @@ function searchProjectList() {
 									<th scope="row">${p_index}</th>
 									<td><a href="manageProjectView.mngp?project_id=${project.project_id}&page=${pageInfo.page}">${project.title}</a></td>
 									<td>
-										<c:if test="${project.p_status eq 'unauthorized'}">미승인</c:if>
-										<c:if test="${project.p_status eq 'ready'}">공개예정</c:if>
-										<c:if test="${project.p_status eq 'ongoing'}">진행중</c:if>
-										<c:if test="${project.p_status eq 'done'}">종료</c:if>
-										<c:if test="${project.p_status eq 'success'}">성공</c:if>
+										<c:if test="${project.p_status eq 'success'}">
+											<button class="btn btn-outline-primary py-1" type="button" id="sendBtn" onclick="location.href='sendTotalAmount.mngp?project_id=${project.project_id}'">송금</button>
+										</c:if>
+										<c:if test="${project.p_status eq 'remitcom'}">성공</c:if>
 									</td>
 									<td>${project.regdate}</td>
 								</tr>
-								<c:set var="p_index" value="${p_index +1 }"/>
+								<c:set var="p_index" value="${p_index -1 }"/>
 							</c:forEach>
 						</tbody>
 					</table>
@@ -199,7 +183,7 @@ function searchProjectList() {
 	        </div>		
 	    </div>
 	    <%-- Table End --%>
-	    
+	    	    
 	    	    
 	    <%-- Pagination Start --%>
 	    <div class="container-fluid mb-5 mt-0 pt-0 pb-5">
@@ -213,9 +197,23 @@ function searchProjectList() {
 								</a>	
 							</c:if>
 							<c:if test="${pageInfo.page > 1}">
-								<a class="page-link" href="orderAuthFundProjectList.mngp?page=${pageInfo.page -1 }&selectOrder=${orderKeyword}" aria-label="Previous">
-									<span aria-hidden="true">&laquo;</span>
-								</a>	
+								<c:choose>
+									<c:when test="${orderKeyword ne null }">
+										<a class="page-link" href="successDonateProjectList.mngp?page=${pageInfo.page -1 }&selectOrder=${orderKeyword}" aria-label="Previous">
+											<span aria-hidden="true">&laquo;</span>
+										</a>
+									</c:when>
+									<c:when test="${searchKeyword ne null }">
+										<a class="page-link" href="successDonateProjectList.mngp?page=${pageInfo.page -1 }&searchTitle=${searchKeyword}" aria-label="Previous">
+											<span aria-hidden="true">&laquo;</span>
+										</a>
+									</c:when>
+									<c:otherwise>
+										<a class="page-link" href="successDonateProjectList.mngp?page=${pageInfo.page -1 }" aria-label="Previous">
+											<span aria-hidden="true">&laquo;</span>
+										</a>
+									</c:otherwise>
+								</c:choose>
 							</c:if>								
 						</li>
 						
@@ -224,7 +222,17 @@ function searchProjectList() {
 								<li class="page-item active" aria-current="page"><a class="page-link">${pNum}</a></li>
 							</c:if>
 							<c:if test="${pNum ne pageInfo.page }">
-								<li class="page-item"><a class="page-link" href="orderAuthFundProjectList.mngp?page=${pNum}&selectOrder=${orderKeyword}">${pNum}</a></li>
+								<c:choose>
+									<c:when test="${orderKeyword ne null }">
+										<li class="page-item"><a class="page-link" href="successDonateProjectList.mngp?page=${pNum}&selectOrder=${orderKeyword}">${pNum}</a></li>
+									</c:when>
+									<c:when test="${searchKeyword ne null }">
+										<li class="page-item"><a class="page-link" href="successDonateProjectList.mngp?page=${pNum}&searchTitle=${searchKeyword}">${pNum}</a></li>
+									</c:when>
+									<c:otherwise>
+										<li class="page-item"><a class="page-link" href="successDonateProjectList.mngp?page=${pNum}">${pNum}</a></li>
+									</c:otherwise>
+								</c:choose>
 							</c:if>
 						</c:forEach>
 						
@@ -235,9 +243,23 @@ function searchProjectList() {
 								</a>
 							</c:if>
 							<c:if test="${pageInfo.page < pageInfo.maxPage }">
-								<a class="page-link" href="orderAuthFundProjectList.mngp?page=${pageInfo.page +1 }&selectOrder=${orderKeyword}" aria-label="Next">
-									<span aria-hidden="true">&raquo;</span>
-								</a>
+								<c:choose>
+									<c:when test="${orderKeyword ne null }">
+										<a class="page-link" href="successDonateProjectList.mngp?page=${pageInfo.page +1 }&selectOrder=${orderKeyword}" aria-label="Next">
+											<span aria-hidden="true">&raquo;</span>
+										</a>
+									</c:when>
+									<c:when test="${searchKeyword ne null }">
+										<a class="page-link" href="successDonateProjectList.mngp?page=${pageInfo.page +1 }&searchTitle=${searchKeyword}" aria-label="Next">
+											<span aria-hidden="true">&raquo;</span>
+										</a>
+									</c:when>
+									<c:otherwise>
+										<a class="page-link" href="successDonateProjectList.mngp?page=${pageInfo.page +1 }" aria-label="Next">
+											<span aria-hidden="true">&raquo;</span>
+										</a>
+									</c:otherwise>
+								</c:choose>
 							</c:if>							
 						</li>
 					</ul>

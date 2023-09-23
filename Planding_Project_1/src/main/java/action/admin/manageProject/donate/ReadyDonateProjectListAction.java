@@ -1,4 +1,4 @@
-package action.admin.manageProject.fund;
+package action.admin.manageProject.donate;
 
 import java.util.ArrayList;
 
@@ -7,12 +7,13 @@ import javax.servlet.http.HttpServletResponse;
 
 import action.Action;
 import svc.admin.manageProject.ManageStatusProjectListService;
-import svc.admin.manageProject.fund.UnauthFundProjectListService;
+import svc.admin.manageProject.donate.AuthDonateProjectListService;
+import svc.admin.manageProject.donate.DonateProjectListService;
 import vo.ActionForward;
 import vo.PageInfo;
 import vo.ProjectBean;
 
-public class UnauthFundProjectListAction implements Action {
+public class ReadyDonateProjectListAction implements Action {
 
 	@Override
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -47,11 +48,11 @@ public class UnauthFundProjectListAction implements Action {
 			
 			if(!selectOrder.equalsIgnoreCase("default")) {//혹시모를 default 선택 방지
 				//project_tbl에서 기부 프로젝트 수를 얻어옴
-				listCount = manageStatusProjectListService.getProjectCount("fund", "unauthorized");
-				System.out.println("[UnauthFundProjectListAction] project_tbl 정렬한 미승인 펀딩 프로젝트 수 = "+listCount);
+				listCount = manageStatusProjectListService.getProjectCount("donate", "ready");
+				System.out.println("[ReadyDonateProjectListAction] project_tbl 정렬한 공개예정 기부 프로젝트 수 = "+listCount);
 				
 				//기부 프로젝트-기획자 목록을 얻어옴 (기본값 : 진행중, 최신순)
-				projectList = manageStatusProjectListService.getOrderProjectList("fund", "unauthorized", selectOrder, page, limit);
+				projectList = manageStatusProjectListService.getOrderProjectList("donate", "ready", selectOrder, page, limit);
 				
 				request.setAttribute("orderKeyword", selectOrder);
 			}			
@@ -59,24 +60,24 @@ public class UnauthFundProjectListAction implements Action {
 		}else if(searchTitle != null) {//검색 조회
 			
 			//project_tbl에서 기부 프로젝트 수를 얻어옴
-			listCount = manageStatusProjectListService.getSearchProjectCount("fund", "unauthorized", searchTitle);
-			System.out.println("[UnauthFundProjectListAction] project_tbl 검색조건에 따른 미승인 펀딩 프로젝트 수 = "+listCount);
+			listCount = manageStatusProjectListService.getSearchProjectCount("donate", "ready", searchTitle);
+			System.out.println("[ReadyDonateProjectListAction] project_tbl 검색조건에 따른 공개예정 기부 프로젝트 수 = "+listCount);
 			
 			//기부 프로젝트-기획자 목록을 얻어옴 (기본값 : 진행중, 최신순)
-			projectList = manageStatusProjectListService.getSearchProjectList("fund", "unauthorized", searchTitle, page, limit);
+			projectList = manageStatusProjectListService.getSearchProjectList("donate", "ready", searchTitle, page, limit);
 			
 			request.setAttribute("searchKeyword", searchTitle);
 			
 		}else {//아무 조건 없이 조회
 			//project_tbl에서 기부 프로젝트 수를 얻어옴
-			listCount = manageStatusProjectListService.getProjectCount("fund", "unauthorized");
-			System.out.println("[UnauthFundProjectListAction] project_tbl 미승인 펀딩 프로젝트 수 = "+listCount);
+			listCount = manageStatusProjectListService.getProjectCount("donate", "ready");
+			System.out.println("[ReadyDonateProjectListAction] project_tbl 공개예정 기부 프로젝트 수 = "+listCount);
 			
 			//기부 프로젝트-기획자 목록을 얻어옴 (기본값 : 진행중, 최신순)
-			projectList = manageStatusProjectListService.getProjectList("fund", "unauthorized", page, limit);
+			projectList = manageStatusProjectListService.getProjectList("donate", "ready", page, limit);
 		}
 		
-		
+
 		//얻어온 프로젝트 목록을 request 속성으로 저장
 		request.setAttribute("projectList", projectList);
 		
@@ -109,7 +110,7 @@ public class UnauthFundProjectListAction implements Action {
 		request.setAttribute("pageInfo", pageInfo);
 		
 		
-		request.setAttribute("showAdmin", "admin/manageProject/fundList/unauthFundProjectList.jsp");
+		request.setAttribute("showAdmin", "admin/manageProject/donateList/readyDonateProjectList.jsp");
 		forward = new ActionForward("adminTemplate.jsp", false);
 		
 		return forward;

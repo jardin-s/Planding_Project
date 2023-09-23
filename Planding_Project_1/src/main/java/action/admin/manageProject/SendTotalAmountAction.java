@@ -42,51 +42,39 @@ public class SendTotalAmountAction implements Action {
 		System.out.println("[SendTotalAmountAction] fee_income = "+fee_income);
 		System.out.println("[SendTotalAmountAction] finalAmount = "+finalAmount);
 		
-		//관리자 수익 테이블에 수익 insert
-		boolean isInsertFeeIncomeSuccess = sendTotalAmountService.insertFeeIncome(project_id, fee_income);
 		
-		if(!isInsertFeeIncomeSuccess) {
+		//★★★기획자에게 모금액을 송금하고 프로젝트 상태를 remitcom으로 변경
+		boolean isSendAmountPlannerSuccess = sendTotalAmountService.sendAmountPlanner(projectPlanner.getMember_id(), finalAmount, project_id, fee_income);
+		
+		if(!isSendAmountPlannerSuccess) {
 			response.setContentType("text/html; charset=utf-8");
 			
 			PrintWriter out = response.getWriter();
 			out.println("<script>");
-			out.println("alert('수수료 수익 계산에 실패했습니다.');");
+			out.println("alert('모금액 송금에 실패했습니다.');");
 			out.println("history.back();");
 			out.println("</script>");
 		}else {
 			
-			boolean isSendAmountPlannerSuccess = sendTotalAmountService.sendAmountPlanner(projectPlanner.getMember_id(), finalAmount);
+			//모금액 전달 안내 메일을 보냄
+			SendMail mail = new SendMail();
+			mail.setSendDonationAmountMsg(projectPlanner, fee_income);
+			boolean isMailSendSuccess = mail.sendDonationAmount(plannerInfo);
 			
-			if(!isSendAmountPlannerSuccess) {
-				response.setContentType("text/html; charset=utf-8");
+			if(!isMailSendSuccess) System.out.println("모금액 전달 완료 안내메일 전송에 실패했습니다.");
+			else System.out.println("모금액 전달 완료 안내메일 전송에 성공했습니다.");
+			
+			//프로젝트 종류에 따라 포워딩 달라짐
+			if(projectPlanner.getKind().equalsIgnoreCase("donate")) {
 				
-				PrintWriter out = response.getWriter();
-				out.println("<script>");
-				out.println("alert('모금액 송금에 실패했습니다.');");
-				out.println("history.back();");
-				out.println("</script>");
-			}else {
+				forward = new ActionForward("manageDonateProjectList.mngp", true);
 				
-				//모금액 전달 안내 메일을 보냄
-				SendMail mail = new SendMail();
-				mail.setSendDonationAmountMsg(projectPlanner, fee_income);
-				boolean isMailSendSuccess = mail.sendDonationAmount(plannerInfo);
+			}else if(projectPlanner.getKind().equalsIgnoreCase("fund")) {
 				
-				if(!isMailSendSuccess) System.out.println("모금액 전달 완료 안내메일 전송에 실패했습니다.");
-				else System.out.println("모금액 전달 완료 안내메일 전송에 성공했습니다.");
+				forward = new ActionForward("manageFundProjectList.mngp", true);
 				
-				//프로젝트 종류에 따라 포워딩 달라짐
-				if(projectPlanner.getKind().equalsIgnoreCase("donate")) {
-					
-					forward = new ActionForward("manageDonateProjectList.mngp", true);
-					
-				}else if(projectPlanner.getKind().equalsIgnoreCase("fund")) {
-					
-					forward = new ActionForward("manageFundProjectList.mngp", true);
-					
-				}			
-				
-			}
+			}			
+			
 		}
 		
 		

@@ -6,12 +6,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import action.Action;
+import svc.admin.manageProject.ManageStatusProjectListService;
 import svc.admin.manageProject.fund.AuthFundProjectListService;
 import vo.ActionForward;
 import vo.PageInfo;
 import vo.ProjectBean;
 
-public class AuthFundProjectListAction implements Action {
+public class ReadyFundProjectListAction implements Action {
 
 	@Override
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -34,14 +35,49 @@ public class AuthFundProjectListAction implements Action {
 		 */
 		
 		//[순서-1] project 테이블에서 글을 가져옴 
-		AuthFundProjectListService authFundProjectListService = new AuthFundProjectListService();
+		ManageStatusProjectListService manageStatusProjectListService = new ManageStatusProjectListService();
 		
-		//project_tbl에서 기부 프로젝트 수를 얻어옴
-		int	listCount = authFundProjectListService.getAuthFundCount();
-		System.out.println("[AuthFundProjectListAction] project_tbl 총 승인 기부프로젝트 수 = "+listCount);
+		String selectOrder = request.getParameter("selectOrder");//정렬조회시
+		String searchTitle = request.getParameter("searchTitle");//검색조회시
 		
-		//기부 프로젝트 목록을 얻어옴 (기본값 : 최근 가입순)
-		ArrayList<ProjectBean> projectList = authFundProjectListService.getAuthFundList(page, limit);
+		int listCount = 0;
+		ArrayList<ProjectBean> projectList = null;
+		
+		if(selectOrder != null) {//정렬기준으로 조회
+			
+			if(!selectOrder.equalsIgnoreCase("default")) {//혹시모를 default 선택 방지
+				//project_tbl에서 기부 프로젝트 수를 얻어옴
+				listCount = manageStatusProjectListService.getProjectCount("fund", "ready");
+				System.out.println("[OngoingFundProjectListAction] project_tbl 정렬한 공개예정 펀딩 프로젝트 수 = "+listCount);
+				
+				//기부 프로젝트-기획자 목록을 얻어옴 (기본값 : 진행중, 최신순)
+				projectList = manageStatusProjectListService.getOrderProjectList("fund", "ready", selectOrder, page, limit);
+				
+				request.setAttribute("orderKeyword", selectOrder);
+			}			
+			
+		}else if(searchTitle != null) {//검색 조회
+			
+			//project_tbl에서 기부 프로젝트 수를 얻어옴
+			listCount = manageStatusProjectListService.getSearchProjectCount("fund", "ready", searchTitle);
+			System.out.println("[OngoingFundProjectListAction] project_tbl 검색조건에 따른 공개예정 펀딩 프로젝트 수 = "+listCount);
+			
+			//기부 프로젝트-기획자 목록을 얻어옴 (기본값 : 진행중, 최신순)
+			projectList = manageStatusProjectListService.getSearchProjectList("fund", "ready", searchTitle, page, limit);
+			
+			request.setAttribute("searchKeyword", searchTitle);
+			
+		}else {//아무 조건 없이 조회
+			//project_tbl에서 기부 프로젝트 수를 얻어옴
+			listCount = manageStatusProjectListService.getProjectCount("fund", "ready");
+			System.out.println("[OngoingFundProjectListAction] project_tbl 공개예정 펀딩 프로젝트 수 = "+listCount);
+			
+			//기부 프로젝트-기획자 목록을 얻어옴 (기본값 : 진행중, 최신순)
+			projectList = manageStatusProjectListService.getProjectList("fund", "ready", page, limit);
+		}
+		
+		
+		//얻어온 프로젝트 목록을 request 속성으로 저장
 		request.setAttribute("projectList", projectList);
 		
 		
@@ -73,7 +109,7 @@ public class AuthFundProjectListAction implements Action {
 		request.setAttribute("pageInfo", pageInfo);
 		
 		
-		request.setAttribute("showAdmin", "admin/manageProject/fundList/authFundProjectList.jsp");
+		request.setAttribute("showAdmin", "admin/manageProject/fundList/readyFundProjectList.jsp");
 		forward = new ActionForward("adminTemplate.jsp", false);
 		
 		return forward;

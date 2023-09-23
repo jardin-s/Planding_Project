@@ -50,7 +50,7 @@
 					<li class="col-6 col-md-3 nav-item"><a class="nav-link text-white" href="userMyPage.usr">내 정보관리</a></li>
 					<li class="col-6 col-md-3 nav-item"><a class="nav-link text-white" href="userDonationHistory.usr">내 후원내역</a></li>
 					<li class="col-6 col-md-3 nav-item"><a class="nav-link text-white" href="userMyQnaList.usr">내 문의글</a></li>
-					<li class="col-6 col-md-3 nav-item"><a class="nav-link active fw-bold" aria-current="page" href="#">등록 프로젝트</a></li>					
+					<li class="col-6 col-md-3 nav-item"><a class="nav-link active fw-bold" aria-current="page" href="userUploadProjectList.usr">등록 프로젝트</a></li>					
 	            </ul>
             </div>
         </div>
@@ -89,7 +89,9 @@
 										<a href="userProjectView.pj?project_id=${uploadProject.project_id}">${uploadProject.title}</a>
 									</td>
 									<td>
-										<button class="btn btn-outline-primary py-1 px-1" type="button" id="editBtn" onclick="location.href='editProjectForm.pj?project_id=${uploadProject.project_id}'">수정</button>
+										<c:if test="${uploadProject.p_status eq 'unauthorized' || uploadProject.p_status eq 'ready' }">
+											<button class="btn btn-outline-primary py-1 px-1" type="button" id="editBtn" onclick="location.href='editProjectForm.pj?project_id=${uploadProject.project_id}'">수정</button>
+										</c:if>
 									</td>
 									<td>
 										<c:if test="${uploadProject.kind eq 'donate' }">

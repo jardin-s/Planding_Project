@@ -435,6 +435,5 @@ public class RewardDAO {
 			
 			return deleteRewardCount;
 		}
-
 	
 }
