@@ -63,7 +63,7 @@ CREATE TABLE `project_tbl` (
   `summary` NVARCHAR(1000) NOT NULL COMMENT '요약글',
   `thumbnail` VARCHAR(150) NOT NULL,
   `content` NVARCHAR(10000) NOT NULL COMMENT '내용',
-  `image` VARCHAR(1500) NOT NULL COMMENT '프로젝트 이미지',
+  `image` VARCHAR(3000) NOT NULL COMMENT '프로젝트 이미지',
   `startdate` DATETIME NOT NULL COMMENT '시작일',
   `enddate` DATETIME NOT NULL COMMENT '종료일',
   `goal_amount` INT NOT NULL COMMENT '목표 모금액',
@@ -95,6 +95,8 @@ where project_id = 2;
 		
 select * from project_tbl;
 
+alter table project_tbl
+modify image varchar(3000);
 
 select count(*) from project_tbl where kind='donate' and p_status='unauthorized';
 select count(*) from project_tbl where kind='donate' and p_status='unauthorized';
