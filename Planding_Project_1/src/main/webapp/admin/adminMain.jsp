@@ -43,24 +43,24 @@
         <div id="header-carousel" class="carousel slide" data-bs-ride="carousel">
             <div class="carousel-inner">
                 <div class="carousel-item active">
-                    <img class="w-100" src="resources/img/carousel-1.jpg" alt="Image">
+                    <img class="w-100" src="resources/img/volunteer-6800977_1920.jpg" alt="Image">
                     <div class="carousel-caption">
                         <div class="container">
                             <div class="row justify-content-center">
                                 <div class="col-lg-8">
-                                    <h1 class="display-1 text-white mb-5 animated slideInDown">Make Your Home Like Garden</h1>
+                                    <h1 class="display-1 text-white mb-5 animated slideInDown">Fund For Our Planet</h1>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="carousel-item">
-                    <img class="w-100" src="resources/img/carousel-2.jpg" alt="Image">
+                    <img class="w-100" src="resources/img/volunteer-7788809_1920.jpg" alt="Image">
                     <div class="carousel-caption">
                         <div class="container">
                             <div class="row justify-content-center">
                                 <div class="col-lg-7">
-                                    <h1 class="display-1 text-white mb-5 animated slideInDown">Create Your Own Small Garden At Home</h1>
+                                    <h1 class="display-1 text-white mb-5 animated slideInDown">Make Better World Together</h1>
                                 </div>
                             </div>
                         </div>
@@ -90,11 +90,11 @@
                     <div class="bg-white shadow d-flex align-items-center h-100 px-5" style="min-height: 160px;">
                         <div class="d-flex">
                             <div class="flex-shrink-0 btn-lg-square rounded-circle bg-light">
-                                <i class="fa fa-times text-primary"></i>
+                                <i class="fas fa-seedling text-primary"></i>
                             </div>
                             <div class="ps-3">
-                                <h4>No Hidden Cost</h4>
-                                <span>Clita erat ipsum lorem sit sed stet duo justo</span>
+                                <h4>지구를 위한 한걸음</h4>
+                                <span>친환경제품, 제로웨이스트 등 환경을 위한 프로젝트</span>
                             </div>
                         </div>
                     </div>
@@ -103,11 +103,11 @@
                     <div class="bg-white shadow d-flex align-items-center h-100 px-5" style="min-height: 160px;">
                         <div class="d-flex">
                             <div class="flex-shrink-0 btn-lg-square rounded-circle bg-light">
-                                <i class="fa fa-users text-primary"></i>
+                                <i class="fas fa-dove text-primary"></i>
                             </div>
                             <div class="ps-3">
-                                <h4>Dedicated Team</h4>
-                                <span>Clita erat ipsum lorem sit sed stet duo justo</span>
+                                <h4>동물을 위한 손길</h4>
+                                <span>유기동물, 멸종위기동물 등 동물보호를 위한 프로젝트</span>
                             </div>
                         </div>
                     </div>
@@ -116,11 +116,11 @@
                     <div class="bg-white shadow d-flex align-items-center h-100 px-5" style="min-height: 160px;">
                         <div class="d-flex">
                             <div class="flex-shrink-0 btn-lg-square rounded-circle bg-light">
-                                <i class="fa fa-phone text-primary"></i>
+                                <i class="fas fa-user-friends text-primary"></i>
                             </div>
                             <div class="ps-3">
-                                <h4>24/7 Available</h4>
-                                <span>Clita erat ipsum lorem sit sed stet duo justo</span>
+                                <h4>서로 돕고돕는 사회</h4>
+                                <span>우리 주변의 어려운 이웃들을 돕기 위한 프로젝트</span>
                             </div>
                         </div>
                     </div>

@@ -195,7 +195,7 @@ if(session.getAttribute("contentImgs") != null){
 	       
 			<div class="mb-3">
 				<label for="content" class="form-label">프로젝트 내용</label>
-				<textarea class="form-control" id="content" name="content" rows="3" maxlength="5000" required placeholder="줄바꿈 할 시 직접 &lt;br&gt;을 입력해주세요. 해당 기능이 개발 예정중에 있습니다.">${sessionScope.projectInfo.content}</textarea>
+				<textarea class="form-control" id="content" name="content" rows="3" maxlength="10000" required placeholder="줄바꿈 할 시 직접 &lt;br&gt;을 입력해주세요. 해당 기능이 개발 예정중에 있습니다.">${sessionScope.projectInfo.content}</textarea>
 			</div>
 			
 			<div class="mb-3">

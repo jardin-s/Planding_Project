@@ -61,7 +61,7 @@ CREATE TABLE `project_tbl` (
   `kind` VARCHAR(10) NOT NULL COMMENT 'Donate or Funding',
   `title` NVARCHAR(50) NOT NULL COMMENT '프로젝트 제목',
   `summary` NVARCHAR(1000) NOT NULL COMMENT '요약글',
-  `thumbnail` VARCHAR(150) NOT NULL,
+  `thumbnail` VARCHAR(300) NOT NULL,
   `content` NVARCHAR(10000) NOT NULL COMMENT '내용',
   `image` VARCHAR(3000) NOT NULL COMMENT '프로젝트 이미지',
   `startdate` DATETIME NOT NULL COMMENT '시작일',
@@ -76,7 +76,27 @@ ENGINE = InnoDB;
 /*
 alter table project_tbl
 modify content nvarchar(10000);
+
+alter table project_tbl
+modify image varchar(3000);
+
+alter table project_tbl
+modify thumbnail varchar(300);
+
 */
+show columns from project_tbl;
+show columns from member_tbl;
+show columns from address_tbl;
+show columns from project_planner_tbl;
+show columns from reward_tbl;
+show columns from project_reward_tbl;
+show columns from donation_tbl;
+show columns from admin_income_tbl;
+show columns from notice_tbl;
+show columns from qna_tbl;
+
+
+
 /* 테스트를 위해 데이터 1개 등록 */
 insert into project_tbl(kind, title, summary, thumbnail, content, image, startdate, enddate, goal_amount, curr_amount, p_status, likes, regdate)
 values('donate','기부제목','기부요약','thumbnail.jpg','프로젝트 내용','content_image.jpg',
@@ -95,8 +115,7 @@ where project_id = 2;
 		
 select * from project_tbl;
 
-alter table project_tbl
-modify image varchar(3000);
+
 
 select count(*) from project_tbl where kind='donate' and p_status='unauthorized';
 select count(*) from project_tbl where kind='donate' and p_status='unauthorized';
@@ -245,8 +264,8 @@ CREATE TABLE `notice_tbl` (
   `notice_id` INT NOT NULL AUTO_INCREMENT COMMENT '공지사항ID',
   `member_id` VARCHAR(20) NOT NULL COMMENT '작성자 ID',
   `n_title` NVARCHAR(30) NOT NULL COMMENT '공지사항 제목',
-  `n_content` NVARCHAR(500) NOT NULL COMMENT '공지사항 내용',
-  `n_image` VARCHAR(150) NULL COMMENT '공지사항 이미지',
+  `n_content` NVARCHAR(5000) NOT NULL COMMENT '공지사항 내용',
+  `n_image` VARCHAR(300) NULL COMMENT '공지사항 이미지',
   `importance` VARCHAR(1) NULL COMMENT '중요글 여부 YN',
   `viewcount` INT NOT NULL COMMENT '조회수',
   `writetime` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP COMMENT '작성시간',
@@ -259,6 +278,10 @@ CREATE TABLE `notice_tbl` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
+alter table notice_tbl
+modify n_content nvarchar(5000);
+alter table notice_tbl
+modify n_image varchar(300);
 
 drop table qna_tbl;
 -- -----------------------------------------------------
@@ -268,12 +291,12 @@ CREATE TABLE `qna_tbl` (
   `qna_id` INT NOT NULL AUTO_INCREMENT COMMENT '문의사항 ID',
   `q_writer` VARCHAR(20) NOT NULL COMMENT '작성자 ID',
   `q_title` VARCHAR(256) NOT NULL COMMENT '질문 제목',
-  `q_content` NVARCHAR(500) NOT NULL COMMENT '질문 내용',
-  `q_image` VARCHAR(150) NULL COMMENT '문의사항 이미지',
+  `q_content` NVARCHAR(5000) NOT NULL COMMENT '질문 내용',
+  `q_image` VARCHAR(300) NULL COMMENT '문의사항 이미지',
   `q_private` VARCHAR(1) NOT NULL COMMENT '비밀글 여부 YN',
   `q_time` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP COMMENT '질문시간',
   `a_writer` VARCHAR(20) NULL,
-  `a_content` NVARCHAR(300) NULL DEFAULT 'unanswered' COMMENT '답변 내용',
+  `a_content` NVARCHAR(5000) NULL DEFAULT 'unanswered' COMMENT '답변 내용',
   `a_time` TIMESTAMP NULL COMMENT '답변 시간',
   PRIMARY KEY (`qna_id`),
   INDEX `fk_qna_tbl_member_tbl1_idx` (`q_writer` ASC) VISIBLE,
@@ -311,6 +334,16 @@ update qna_tbl
 set q_private='N'
 where qna_id = 2;
 
+/*
+alter table qna_tbl
+modify q_content nvarchar(5000);
+alter table qna_tbl
+modify a_content nvarchar(5000);
+alter table qna_tbl
+modify q_image varchar(300);
+*/
+
+
 -- -----------------------------------------------------
 -- Table `project`.`project_planner_tbl`
 -- -----------------------------------------------------
@@ -318,7 +351,7 @@ CREATE TABLE `project_planner_tbl` (
   `project_id` INT NOT NULL COMMENT '프로젝트 ID',
   `member_id` VARCHAR(20) NOT NULL COMMENT '기획자 ID',
   `planner_name` NVARCHAR(20) NOT NULL COMMENT '기획자 이름 (개인 또는 기업, 단체)',
-  `introduce` NVARCHAR(100) NOT NULL COMMENT '기획자 간단 소개글',
+  `introduce` NVARCHAR(1000) NOT NULL COMMENT '기획자 간단 소개글',
   `bank` NVARCHAR(20) NOT NULL COMMENT '입금계좌 은행',
   `account_num` VARCHAR(45) NOT NULL COMMENT '입금계좌 계좌번호',
   PRIMARY KEY (`project_id`, `member_id`),
@@ -335,6 +368,10 @@ CREATE TABLE `project_planner_tbl` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
+/*
+alter table project_planner_tbl
+modify introduce nvarchar(1000);
+*/
 delete from project_planner_tbl;
 
 select * from project_planner_tbl;
