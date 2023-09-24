@@ -27,7 +27,7 @@ public class UserMyPageAction implements Action {
 			PrintWriter out = response.getWriter();
 			out.println("<script>");
 			out.println("alert('로그인 후 이용가능한 서비스입니다.');");
-			out.println("location.href='userLogin.usr'");
+			out.println("location.href='userLoginForm.usr'");
 			out.println("</script>");
 		}else{
 			
