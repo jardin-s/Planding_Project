@@ -179,7 +179,7 @@
 					<li class="col-6 col-md-3 nav-item"><a class="nav-link text-white" href="userMyPage.usr">내 정보관리</a></li>
 					<li class="col-6 col-md-3 nav-item"><a class="nav-link text-white" href="userDonationHistory.usr">내 후원내역</a></li>
 					<li class="col-6 col-md-3 nav-item"><a class="nav-link text-white" href="userMyQnaList.usr">내 문의글</a></li>
-					<li class="col-6 col-md-3 nav-item"><a class="nav-link active fw-bold" aria-current="page" href="#">등록 프로젝트</a></li>
+					<li class="col-6 col-md-3 nav-item"><a class="nav-link active fw-bold" aria-current="page" href="userUploadProjectList.usr">등록 프로젝트</a></li>
 	            </ul>
             </div>
         </div>
@@ -190,7 +190,7 @@
 
     	<div class="container-xxl py-5">
     		<div class="container col-lg-8 mb-5">
-   				<h3 class="text-center">${pj.title } 프로젝트<br>리워드 관리 페이지</h3>
+   				<h3 class="text-center">${pj.title } 프로젝트<br>관리 페이지</h3>
     		</div>
     	</div>
 

@@ -6,10 +6,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import action.Action;
+import svc.admin.manageProject.ManageStatusProjectListService;
 import svc.admin.manageProject.donate.UnauthDonateProjectListService;
 import vo.ActionForward;
 import vo.PageInfo;
 import vo.ProjectBean;
+import vo.ProjectPlannerBean;
 
 public class UnauthDonateProjectListAction implements Action {
 
@@ -34,15 +36,51 @@ public class UnauthDonateProjectListAction implements Action {
 		 */
 		
 		//[순서-1] project 테이블에서 프로젝트를 가져옴 
-		UnauthDonateProjectListService unauthDonateProjectListService = new UnauthDonateProjectListService();
+		ManageStatusProjectListService manageStatusProjectListService = new ManageStatusProjectListService();
 		
-		//project_tbl에서 미승인 기부프로젝트 수를 얻어옴
-		int	listCount = unauthDonateProjectListService.getUnauthDonateCount();
-		System.out.println("[UnauthDonateProjectListAction] project_tbl 총 미승인 기부프로젝트 수 = "+listCount);
+		String selectOrder = request.getParameter("selectOrder");//정렬조회시
+		String searchTitle = request.getParameter("searchTitle");//검색조회시
 		
-		//미승인 기부프로젝트 목록을 얻어옴 (기본값 : 최근 등록순)
-		ArrayList<ProjectBean> projectList = unauthDonateProjectListService.getUnauthDonateList(page, limit);
+		int listCount = 0;
+		ArrayList<ProjectBean> projectList = null;
+		
+		if(selectOrder != null) {//정렬기준으로 조회
+			
+			if(!selectOrder.equalsIgnoreCase("default")) {//혹시모를 default 선택 방지
+				//project_tbl에서 기부 프로젝트 수를 얻어옴
+				listCount = manageStatusProjectListService.getProjectCount("donate", "unauthorized");
+				System.out.println("[UnauthDonateProjectListAction] project_tbl 정렬한 미승인 기부 프로젝트 수 = "+listCount);
+				
+				//기부 프로젝트-기획자 목록을 얻어옴 (기본값 : 진행중, 최신순)
+				projectList = manageStatusProjectListService.getOrderProjectList("donate", "unauthorized", selectOrder, page, limit);
+				
+				request.setAttribute("orderKeyword", selectOrder);
+			}			
+			
+		}else if(searchTitle != null) {//검색 조회
+			
+			//project_tbl에서 기부 프로젝트 수를 얻어옴
+			listCount = manageStatusProjectListService.getSearchProjectCount("donate", "unauthorized", searchTitle);
+			System.out.println("[UnauthDonateProjectListAction] project_tbl 검색조건에 따른 미승인 기부 프로젝트 수 = "+listCount);
+			
+			//기부 프로젝트-기획자 목록을 얻어옴 (기본값 : 진행중, 최신순)
+			projectList = manageStatusProjectListService.getSearchProjectList("donate", "unauthorized", searchTitle, page, limit);
+			
+			request.setAttribute("searchKeyword", searchTitle);
+			
+		}else {//아무 조건 없이 조회
+			//project_tbl에서 기부 프로젝트 수를 얻어옴
+			listCount = manageStatusProjectListService.getProjectCount("donate", "unauthorized");
+			System.out.println("[UnauthDonateProjectListAction] project_tbl 미승인 기부 프로젝트 수 = "+listCount);
+			
+			//기부 프로젝트-기획자 목록을 얻어옴 (기본값 : 진행중, 최신순)
+			projectList = manageStatusProjectListService.getProjectList("donate", "unauthorized", page, limit);
+		}
+		
+
+		//얻어온 프로젝트 목록을 request 속성으로 저장
 		request.setAttribute("projectList", projectList);
+		
 		
 		
 		//[순서-2] 페이지네이션 설정

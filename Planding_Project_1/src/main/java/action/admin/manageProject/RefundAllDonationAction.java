@@ -47,8 +47,8 @@ public class RefundAllDonationAction implements Action {
 			out.println("</script>");
 		}else {
 			
-			//후원금 환불처리
-			boolean isRefundDonationSuccess = refundAllDonationService.refundDonation(donationList);
+			//[순서-2] 후원금 환불처리 & 프로젝트 상태를 clear로 업데이트
+			boolean isRefundDonationSuccess = refundAllDonationService.refundDonation(donationList, project_id);
 			
 			if(!isRefundDonationSuccess) {
 				response.setContentType("text/html; charset=utf-8");
@@ -60,14 +60,7 @@ public class RefundAllDonationAction implements Action {
 				out.println("</script>");
 			}else {
 				
-				//후원금 환불 처리 완료 상태로 변경
-				boolean isUpdateProjectStatusSuccess = refundAllDonationService.updateProjectDoneToClear(project_id);
-				
-				if(!isUpdateProjectStatusSuccess) {
-					System.out.println("[RefundAllDonationAction] 프로젝트 상태를 환불완료(clear) 상태로 변경하는 데 실패했습니다.");
-				}else {
-					System.out.println("[RefundAllDonationAction] 프로젝트 상태를 환불완료(clear) 상태로 변경 성공");
-				}
+				//[순서-3] 메일 전송
 				
 				//기획자에게 환불처리 안내메일 발송하기 위해 프로젝트 정보, 총 후원자 수, 기획자 정보를 가져옴
 				String planner_id = refundAllDonationService.getPlannerId(project_id);
@@ -95,8 +88,7 @@ public class RefundAllDonationAction implements Action {
 				}
 				
 				//종료된 펀딩프로젝트 리스트로 이동
-				request.setAttribute("showAdmin", "doneFundProjectList.jsp");
-				forward = new ActionForward("adminTemplate.jsp",false);
+				forward = new ActionForward("doneFundProjectList.mngp",true);
 				
 			}
 			

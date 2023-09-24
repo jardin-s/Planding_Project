@@ -56,7 +56,7 @@
 					<li class="col-6 col-md-3 nav-item"><a class="nav-link text-white" href="userMyPage.usr">내 정보관리</a></li>
 					<li class="col-6 col-md-3 nav-item"><a class="nav-link text-white" href="userDonationHistory.usr">내 후원내역</a></li>
 					<li class="col-6 col-md-3 nav-item"><a class="nav-link text-white" href="userMyQnaList.usr">내 문의글</a></li>
-					<li class="col-6 col-md-3 nav-item"><a class="nav-link active fw-bold" aria-current="page" href="#">등록 프로젝트</a></li>
+					<li class="col-6 col-md-3 nav-item"><a class="nav-link active fw-bold" aria-current="page" href="userUploadProjectList.usr">등록 프로젝트</a></li>
 	            </ul>
             </div>
         </div>
@@ -76,7 +76,7 @@
     <c:if test="${pageInfo.listCount != 0 and pageInfo.listCount != null}">
 		<div class="container-xxl py-5">
     		<div class="container col-lg-8 mb-5">
-   				<h3 class="text-center">(${reward_id})reward_name<br>후원목록</h3>
+   				<h3 class="text-center">${reward_name }<br>후원목록</h3>
     		</div>
     	</div>
 	</c:if>
@@ -153,7 +153,7 @@
 								</a>	
 							</c:if>
 							<c:if test="${pageInfo.page > 1}">
-								<a class="page-link" href="userNoticeList.usr?page=${pageInfo.page -1 }" aria-label="Previous">
+								<a class="page-link" href="byRewardDonationList.pj?page=${pageInfo.page -1 }&reward_id=${reward_id}" aria-label="Previous">
 									<span aria-hidden="true">&laquo;</span>
 								</a>	
 							</c:if>								
@@ -164,7 +164,7 @@
 								<li class="page-item active" aria-current="page"><a class="page-link">${pNum}</a></li>
 							</c:if>
 							<c:if test="${pNum ne pageInfo.page }">
-								<li class="page-item"><a class="page-link" href="byRewardDonationList.pj?page=${pNum}">${pNum}</a></li>
+								<li class="page-item"><a class="page-link" href="byRewardDonationList.pj?page=${pNum}&reward_id=${reward_id}">${pNum}</a></li>
 							</c:if>
 						</c:forEach>
 						
@@ -175,7 +175,7 @@
 								</a>
 							</c:if>
 							<c:if test="${pageInfo.page < pageInfo.maxPage }">
-								<a class="page-link" href="userNoticeList.usr?page=${pageInfo.page +1 }" aria-label="Next">
+								<a class="page-link" href="byRewardDonationList.pj?page=${pageInfo.page +1 }&reward_id=${reward_id}" aria-label="Next">
 									<span aria-hidden="true">&raquo;</span>
 								</a>
 							</c:if>							

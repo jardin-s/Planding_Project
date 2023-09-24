@@ -116,7 +116,7 @@ public class SubmitDonateProjectAction implements Action {
 	                    	
 	            			if (shouldMove) {
 	                            //파일을 지정한 폴더로 이동 (파일이름 : 해당프로젝트ID_파일명)
-	                            File targetFile = new File(targetFolder, project_id+"_"+fileName);
+	                            File targetFile = new File(targetFolder, fileName);
 	                            Files.move(file.toPath(), targetFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
 	                        }
 	                    }

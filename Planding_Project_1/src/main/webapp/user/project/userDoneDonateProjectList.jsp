@@ -153,17 +153,17 @@ function searchProjectList() {
 											<c:choose>
 												<c:when test="${orderKeyword ne null}">
 													<a href="userProjectView.pj?project_id=${projectPlannerInfo.project_id }&page=${pageInfo.page}&selectOrder=${orderKeyword}">
-														<img src="images/project_No_${projectPlannerInfo.project_id }/${projectPlannerInfo.project_id }_${projectPlannerInfo.thumbnail }" style="width:100%">
+														<img src="images/project_No_${projectPlannerInfo.project_id }/${projectPlannerInfo.thumbnail }" style="width:100%">
 													</a>
 												</c:when>
 												<c:when test="${searchKeyword ne null}">
 													<a href="userProjectView.pj?project_id=${projectPlannerInfo.project_id }&page=${pageInfo.page}&searchTitle=${searchKeyword}">
-														<img src="images/project_No_${projectPlannerInfo.project_id }/${projectPlannerInfo.project_id }_${projectPlannerInfo.thumbnail }" style="width:100%">
+														<img src="images/project_No_${projectPlannerInfo.project_id }/${projectPlannerInfo.thumbnail }" style="width:100%">
 													</a>
 												</c:when>
 												<c:otherwise>
 													<a href="userProjectView.pj?project_id=${projectPlannerInfo.project_id }&page=${pageInfo.page}">
-														<img src="images/project_No_${projectPlannerInfo.project_id }/${projectPlannerInfo.project_id }_${projectPlannerInfo.thumbnail }" style="width:100%">
+														<img src="images/project_No_${projectPlannerInfo.project_id }/${projectPlannerInfo.thumbnail }" style="width:100%">
 													</a>
 												</c:otherwise>
 											</c:choose>
@@ -190,7 +190,9 @@ function searchProjectList() {
 												</c:otherwise>
 											</c:choose>
 											<br>
-											<span style="color:#ccc;font-size:0.8rem">${projectPlannerInfo.summary }</span>
+											<span style="color:#ccc;font-size:0.8rem;width:200px;display:block;overflow:hidden;white-space: nowrap;text-overflow: ellipsis;word-break: break-all">
+												${projectPlannerInfo.summary }
+											</span>
 										</td>
 									</tr>
 								</thead>

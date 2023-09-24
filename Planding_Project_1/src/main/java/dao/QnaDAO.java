@@ -364,6 +364,32 @@ public class QnaDAO {
 	}
 
 	
+	/** 관리자가 문의글 답변 삭제 */
+	public int updateAnswerNull(int qna_id) {
+		int updateAnswerNullCount = 0;
+		
+		String sql = "update qna_tbl"
+			 	  + " set a_writer=null, a_content=null, a_time=null"
+			 	  + " where qna_id = ?";
+		
+		try {
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, qna_id);
+			
+			updateAnswerNullCount = pstmt.executeUpdate();
+			
+		} catch(Exception e) {
+			System.out.println("[QnaDAO] updateAnswerNull() 에러 : "+e);//예외객체종류 + 예외메시지
+		} finally {
+			close(pstmt); //JdbcUtil.생략가능
+			//close(rs); //JdbcUtil.생략가능
+			//connection 객체에 대한 해제는 DogListService에서 이루어짐
+		}
+		
+		return updateAnswerNullCount;
+	}
+	
 	//검색조건에 맞는 문의글 개수를 얻어옴
 	public int searchQnaCount(String search_title) {
 		int searchQnaCount = 0;
@@ -527,6 +553,8 @@ public class QnaDAO {
 		
 		return qnaList;
 	}
+
+	
 
 	
 	

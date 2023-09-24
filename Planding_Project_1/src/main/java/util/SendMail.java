@@ -286,7 +286,7 @@ public class SendMail {
 	   sb.append(projectInfo.getGoal_amount());
 	   sb.append("원</td></tr><tr><th>최종모금액</th><td>");
 	   sb.append(projectInfo.getCurr_amount());
-	   sb.append("원</td></tr><tr><th>달성률</th<td>>");
+	   sb.append("원</td></tr><tr><th>달성률</th><td>");
 	   sb.append(projectInfo.getProgress());
 	   sb.append("%</td></tr><tr><th>총 후원자 수</th><td>");
 	   sb.append(donationCount);
@@ -557,7 +557,7 @@ public class SendMail {
 	   //1. 발신자의 메일계정과 비밀번호 등을 설정 (예: 구글계정 + 앱비밀번호)
 	   String sender = "plandingproject@gmail.com";//보내는 사람
 	   String receiver = userInfo.getEmail();//받는 사람
-	   String subject = "[PlanDing] "+userInfo.getName()+"님의 후원내역을 보내드립니다.";//제목
+	   String subject = "[PlanDing] "+userInfo.getName()+"님의 후원취소내역을 보내드립니다.";//제목
 	   String content = cancelDonateMsgSelect;//내용
 	   
 	   
@@ -642,7 +642,7 @@ public class SendMail {
 	   //1. 발신자의 메일계정과 비밀번호 등을 설정 (예: 구글계정 + 앱비밀번호)
 	   String sender = "plandingproject@gmail.com";//보내는 사람
 	   String receiver = userInfo.getEmail();//받는 사람
-	   String subject = "[PlanDing] "+userInfo.getName()+"님의 후원내역을 보내드립니다.";//제목
+	   String subject = "[PlanDing] "+userInfo.getName()+"님의 프로젝트 모금액 송금완료 안내";//제목
 	   String content = sendDonationAmountMsg;//내용
 	   
 	   
@@ -726,7 +726,7 @@ public class SendMail {
 	   //1. 발신자의 메일계정과 비밀번호 등을 설정 (예: 구글계정 + 앱비밀번호)
 	   String sender = "plandingproject@gmail.com";//보내는 사람
 	   String receiver = userInfo.getEmail();//받는 사람
-	   String subject = "[PlanDing] "+userInfo.getName()+"님의 후원내역을 보내드립니다.";//제목
+	   String subject = "[PlanDing] "+userInfo.getName()+"님의 프로젝트 환불처리 안내";//제목
 	   String content = sendRefundDonationMsg;//내용
 	   
 	   

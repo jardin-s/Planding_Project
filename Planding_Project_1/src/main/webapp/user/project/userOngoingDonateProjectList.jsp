@@ -190,7 +190,9 @@ function searchProjectList() {
 												</c:otherwise>
 											</c:choose>
 											<br>
-											<span style="color:#ccc;font-size:0.8rem">${projectPlannerInfo.summary }</span>
+											<span style="color:#ccc;font-size:0.8rem;width:200px;display:block;overflow:hidden;white-space: nowrap;text-overflow: ellipsis;word-break: break-all">
+												${projectPlannerInfo.summary }
+											</span>
 										</td>
 									</tr>
 								</thead>

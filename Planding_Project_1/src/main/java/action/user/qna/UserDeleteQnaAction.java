@@ -40,7 +40,7 @@ public class UserDeleteQnaAction implements Action {
 		}else {
 			
 			DeleteQnaService deleteQnaService = new DeleteQnaService();
-			boolean isDeleteQnaSuccess = deleteQnaService.deleteQna(qna_id);
+			boolean isDeleteQnaSuccess = deleteQnaService.deleteQnaQ(qna_id);
 			
 			
 			if(!isDeleteQnaSuccess) {//글 삭제 실패

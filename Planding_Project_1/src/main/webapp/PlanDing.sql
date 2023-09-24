@@ -1,4 +1,6 @@
 show tables;
+show events;
+select now();
 
 
 /* 테이블 일괄삭제 (순서대로)
@@ -59,9 +61,9 @@ CREATE TABLE `project_tbl` (
   `kind` VARCHAR(10) NOT NULL COMMENT 'Donate or Funding',
   `title` NVARCHAR(50) NOT NULL COMMENT '프로젝트 제목',
   `summary` NVARCHAR(1000) NOT NULL COMMENT '요약글',
-  `thumbnail` VARCHAR(150) NOT NULL,
-  `content` NVARCHAR(5000) NOT NULL COMMENT '내용',
-  `image` VARCHAR(1500) NOT NULL COMMENT '프로젝트 이미지',
+  `thumbnail` VARCHAR(300) NOT NULL,
+  `content` NVARCHAR(10000) NOT NULL COMMENT '내용',
+  `image` VARCHAR(3000) NOT NULL COMMENT '프로젝트 이미지',
   `startdate` DATETIME NOT NULL COMMENT '시작일',
   `enddate` DATETIME NOT NULL COMMENT '종료일',
   `goal_amount` INT NOT NULL COMMENT '목표 모금액',
@@ -70,6 +72,30 @@ CREATE TABLE `project_tbl` (
   `regdate` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`project_id`))
 ENGINE = InnoDB;
+
+/*
+alter table project_tbl
+modify content nvarchar(10000);
+
+alter table project_tbl
+modify image varchar(3000);
+
+alter table project_tbl
+modify thumbnail varchar(300);
+
+*/
+show columns from project_tbl;
+show columns from member_tbl;
+show columns from address_tbl;
+show columns from project_planner_tbl;
+show columns from reward_tbl;
+show columns from project_reward_tbl;
+show columns from donation_tbl;
+show columns from admin_income_tbl;
+show columns from notice_tbl;
+show columns from qna_tbl;
+
+
 
 /* 테스트를 위해 데이터 1개 등록 */
 insert into project_tbl(kind, title, summary, thumbnail, content, image, startdate, enddate, goal_amount, curr_amount, p_status, likes, regdate)
@@ -82,14 +108,17 @@ values('donate','기부제목2','기부요약2','thumbnail2.jpg','프로젝트 �
 update project_tbl
 set regdate='2023-09-17', startdate='2023-09-18', enddate='2023-09-23', p_status = 'ongoing'
 where project_id = 9;
+
 update project_tbl
-set p_status = 'success'
+set p_status = 'done'
 where project_id = 2;
 		
 select * from project_tbl;
-delete from project_tbl;
 
 
+
+select count(*) from project_tbl where kind='donate' and p_status='unauthorized';
+select count(*) from project_tbl where kind='donate' and p_status='unauthorized';
 
 select project_id, kind, title, summary
 thumbnail, content, image,
@@ -235,8 +264,8 @@ CREATE TABLE `notice_tbl` (
   `notice_id` INT NOT NULL AUTO_INCREMENT COMMENT '공지사항ID',
   `member_id` VARCHAR(20) NOT NULL COMMENT '작성자 ID',
   `n_title` NVARCHAR(30) NOT NULL COMMENT '공지사항 제목',
-  `n_content` NVARCHAR(500) NOT NULL COMMENT '공지사항 내용',
-  `n_image` VARCHAR(150) NULL COMMENT '공지사항 이미지',
+  `n_content` NVARCHAR(5000) NOT NULL COMMENT '공지사항 내용',
+  `n_image` VARCHAR(300) NULL COMMENT '공지사항 이미지',
   `importance` VARCHAR(1) NULL COMMENT '중요글 여부 YN',
   `viewcount` INT NOT NULL COMMENT '조회수',
   `writetime` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP COMMENT '작성시간',
@@ -249,6 +278,10 @@ CREATE TABLE `notice_tbl` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
+alter table notice_tbl
+modify n_content nvarchar(5000);
+alter table notice_tbl
+modify n_image varchar(300);
 
 drop table qna_tbl;
 -- -----------------------------------------------------
@@ -258,12 +291,12 @@ CREATE TABLE `qna_tbl` (
   `qna_id` INT NOT NULL AUTO_INCREMENT COMMENT '문의사항 ID',
   `q_writer` VARCHAR(20) NOT NULL COMMENT '작성자 ID',
   `q_title` VARCHAR(256) NOT NULL COMMENT '질문 제목',
-  `q_content` NVARCHAR(500) NOT NULL COMMENT '질문 내용',
-  `q_image` VARCHAR(150) NULL COMMENT '문의사항 이미지',
+  `q_content` NVARCHAR(5000) NOT NULL COMMENT '질문 내용',
+  `q_image` VARCHAR(300) NULL COMMENT '문의사항 이미지',
   `q_private` VARCHAR(1) NOT NULL COMMENT '비밀글 여부 YN',
   `q_time` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP COMMENT '질문시간',
   `a_writer` VARCHAR(20) NULL,
-  `a_content` NVARCHAR(300) NULL DEFAULT 'unanswered' COMMENT '답변 내용',
+  `a_content` NVARCHAR(5000) NULL DEFAULT 'unanswered' COMMENT '답변 내용',
   `a_time` TIMESTAMP NULL COMMENT '답변 시간',
   PRIMARY KEY (`qna_id`),
   INDEX `fk_qna_tbl_member_tbl1_idx` (`q_writer` ASC) VISIBLE,
@@ -301,6 +334,16 @@ update qna_tbl
 set q_private='N'
 where qna_id = 2;
 
+/*
+alter table qna_tbl
+modify q_content nvarchar(5000);
+alter table qna_tbl
+modify a_content nvarchar(5000);
+alter table qna_tbl
+modify q_image varchar(300);
+*/
+
+
 -- -----------------------------------------------------
 -- Table `project`.`project_planner_tbl`
 -- -----------------------------------------------------
@@ -308,7 +351,7 @@ CREATE TABLE `project_planner_tbl` (
   `project_id` INT NOT NULL COMMENT '프로젝트 ID',
   `member_id` VARCHAR(20) NOT NULL COMMENT '기획자 ID',
   `planner_name` NVARCHAR(20) NOT NULL COMMENT '기획자 이름 (개인 또는 기업, 단체)',
-  `introduce` NVARCHAR(100) NOT NULL COMMENT '기획자 간단 소개글',
+  `introduce` NVARCHAR(1000) NOT NULL COMMENT '기획자 간단 소개글',
   `bank` NVARCHAR(20) NOT NULL COMMENT '입금계좌 은행',
   `account_num` VARCHAR(45) NOT NULL COMMENT '입금계좌 계좌번호',
   PRIMARY KEY (`project_id`, `member_id`),
@@ -325,6 +368,10 @@ CREATE TABLE `project_planner_tbl` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
+/*
+alter table project_planner_tbl
+modify introduce nvarchar(1000);
+*/
 delete from project_planner_tbl;
 
 select * from project_planner_tbl;
@@ -402,6 +449,10 @@ from project_tbl left outer join admin_income_tbl
 using(project_id);
 
 
+show events;
+drop event updateStatusOngoing;
+drop event updateStatusDone;
+
 /* 시작일이 오늘이랑 같고, 상태가 ready(공개예정)인 프로젝트 */
 create EVENT updateStatusOngoing
 on schedule every 1 day
@@ -410,8 +461,8 @@ comment '상태를 진행중으로 업데이트'
 DO
 
 update project_tbl
-set status = 'ongoing'
-where startdate = CURDATE() and status='ready';
+set p_status = 'ongoing'
+where startdate = CURDATE() and p_status='ready';
 
 
 
@@ -423,20 +474,20 @@ comment '상태를 종료로 업데이트'
 DO
 
 update project_tbl
-set status = 'done'
-where enddate < CURDATE() and status='ongoing' and curr_amount < goal_amount and kind='fund';
+set p_status = 'done'
+where enddate < CURDATE() and p_status='ongoing' and curr_amount < goal_amount and kind='fund';
 
 /* 종료일이 오늘보다 과거이며, 상태가 ongoing(진행중)인 기부 프로젝트 */
 /* 종료일이 오늘보다 과거이며, 상태가 ongoing(진행중)이고, 현재모금액>=목표모금액인 펀딩 프로젝트 */
-create EVENT updateStatusDone
+create EVENT updateStatusSuccess
 on schedule every 1 day
 comment '상태를 성공으로 업데이트'
 
 DO
 
 update project_tbl
-set status = 'success'
-where (enddate < CURDATE() and status='ongoing' and curr_amount >= goal_amount and kind='fund') or (enddate<CURDATE() and status='ongoing' and kind='donate');
+set p_status = 'success'
+where (enddate < CURDATE() and p_status='ongoing' and curr_amount >= goal_amount and kind='fund') or (enddate<CURDATE() and p_status='ongoing' and kind='donate');
 
 
 /* 주문한지 6개월이 지난 주소(not 기본주소)를 삭제 -> 이벤트 스케줄러 생성 문제로 6개월 후 자동삭제 X*/

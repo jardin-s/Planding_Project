@@ -21,6 +21,9 @@ public class UserUploadProjectListAction implements Action {
 		HttpSession session = request.getSession();
 		String u_id = (String) session.getAttribute("u_id");
 		
+		//혹시나 프로젝트 수정 실패시 남아있을 수 있는 프로젝트 아이디 삭제
+		session.removeAttribute("project_id");
+		
 		if(u_id == null) {//만약 로그인 풀린 상태라면
 			response.setContentType("text/html; charset=utf-8");
 			

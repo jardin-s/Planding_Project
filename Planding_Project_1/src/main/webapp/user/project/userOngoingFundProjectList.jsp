@@ -189,7 +189,10 @@ function searchProjectList() {
 													<a href="userProjectView.pj?project_id=${projectPlannerInfo.project_id }&page=${pageInfo.page}"><strong>${projectPlannerInfo.title }</strong></a>
 												</c:otherwise>
 											</c:choose>
-											<br>											<span style="color:#ccc;font-size:0.8rem">${projectPlannerInfo.summary }</span>
+											<br>
+											<span style="color:#ccc;font-size:0.8rem;width:200px;display:block;overflow:hidden;white-space: nowrap;text-overflow: ellipsis;word-break: break-all">
+												${projectPlannerInfo.summary }
+											</span>
 										</td>
 									</tr>
 								</thead>

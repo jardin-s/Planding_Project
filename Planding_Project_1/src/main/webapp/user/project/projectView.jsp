@@ -103,7 +103,7 @@ function checkDonate() {
 				<!-- 상품 헤더 -->
 				<!-- 좌측 썸네일 이미지 -->
 				<div class="col-md-6 p-3 text-center">
-					<img src="images/project_No_${projectInfo.project_id }/${projectInfo.project_id }_${projectInfo.thumbnail }" style="width:100%">
+					<img src="images/project_No_${projectInfo.project_id }/${projectInfo.thumbnail }" style="width:100%">
 				</div>
 				
 				<!-- 우측 프로젝트 정보 -->
@@ -263,7 +263,7 @@ function checkDonate() {
 							<tr class="text-center">
 								<th>
 									<c:forTokens var="image" items="${projectInfo.image }" delims=";">
-										<img src="<%=request.getContextPath()%>/images/project_No_${projectInfo.project_id }/${projectInfo.project_id }_${image}" style="width:60%; margin-bottom: 2rem">
+										<img src="images/project_No_${projectInfo.project_id }/${image}" style="width:60%; margin-bottom: 2rem">
 									</c:forTokens>
 								</th>
 							</tr>

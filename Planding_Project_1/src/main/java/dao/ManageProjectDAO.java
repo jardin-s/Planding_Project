@@ -170,35 +170,65 @@ public class ManageProjectDAO {
 	}
 	
 	
-	//5. 기부/펀딩프로젝트 중 종료된 프로젝트 수를 얻어옴
-		public int selectDoneProjectCount(String kind) {
-			int doneProjectCount = 0;
+	//5. 펀딩프로젝트 중 종료된 프로젝트 수를 얻어옴
+	public int selectDoneClearProjectCount(String kind) {
+		int doneProjectCount = 0;
+		
+		String sql = "select count(*)"
+				  + " from project_tbl"
+				  + " where kind = ?"
+				  + " and (p_status='done' or p_status='clear')";
+		
+		try {
 			
-			String sql = "select count(*)"
-					  + " from project_tbl"
-					  + " where kind = ?"
-					  + " and (p_status='done' or p_status='success')";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, kind);
+			rs = pstmt.executeQuery();
 			
-			try {
-				
-				pstmt = con.prepareStatement(sql);
-				pstmt.setString(1, kind);
-				rs = pstmt.executeQuery();
-				
-				if(rs.next()) {
-					doneProjectCount = rs.getInt(1);
-				}
-				
-			} catch(Exception e) {
-				System.out.println("[ManageProjectDAO] selectDoneProjectCount() 에러 : "+e);//예외객체종류 + 예외메시지
-			} finally {
-				close(pstmt); //JdbcUtil.생략가능
-				close(rs); //JdbcUtil.생략가능
-				//connection 객체에 대한 해제는 DogListService에서 이루어짐
+			if(rs.next()) {
+				doneProjectCount = rs.getInt(1);
 			}
 			
-			return doneProjectCount;
+		} catch(Exception e) {
+			System.out.println("[ManageProjectDAO] selectDoneClearProjectCount() 에러 : "+e);//예외객체종류 + 예외메시지
+		} finally {
+			close(pstmt); //JdbcUtil.생략가능
+			close(rs); //JdbcUtil.생략가능
+			//connection 객체에 대한 해제는 DogListService에서 이루어짐
 		}
+		
+		return doneProjectCount;
+	}
+	
+	//5. 기부/펀딩프로젝트 중 성공한 프로젝트 수를 얻어옴
+	public int selectSuccessRemitcomProjectCount(String kind) {
+		int doneProjectCount = 0;
+		
+		String sql = "select count(*)"
+				+ " from project_tbl"
+				+ " where kind = ?"
+				+ " and (p_status='success' or p_status='remitcom')";
+		
+		try {
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, kind);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				doneProjectCount = rs.getInt(1);
+			}
+			
+		} catch(Exception e) {
+			System.out.println("[ManageProjectDAO] selectSuccessRemitcomProjectCount() 에러 : "+e);//예외객체종류 + 예외메시지
+		} finally {
+			close(pstmt); //JdbcUtil.생략가능
+			close(rs); //JdbcUtil.생략가능
+			//connection 객체에 대한 해제는 DogListService에서 이루어짐
+		}
+		
+		return doneProjectCount;
+	}
 	
 	//6. 기부/펀딩 프로젝트에서 종료된 프로젝트 중 조건에 맞는 회원 수를 얻어옴
 	public int searchDoneProjectCount(String kind, String project_title) {
@@ -206,7 +236,7 @@ public class ManageProjectDAO {
 		
 		String sql = "select count(*) from member_tbl"
 			   	  + " where kind = ?"
-			   	  + " and (p_status='done' or p_status='success')"
+			   	  + " and (p_status='done' or p_status='clear')"
 			   	  + " and title regexp ?";
 		
 		try {
@@ -222,6 +252,37 @@ public class ManageProjectDAO {
 			
 		} catch(Exception e) {
 			System.out.println("[ManageProjectDAO] searchDoneProjectCount() 에러 : "+e);//예외객체종류 + 예외메시지
+		} finally {
+			close(pstmt); //JdbcUtil.생략가능
+			close(rs); //JdbcUtil.생략가능
+			//connection 객체에 대한 해제는 DogListService에서 이루어짐
+		}
+		
+		return searchDoneProjectCount;
+	}
+	
+	//6. 기부/펀딩 프로젝트에서 성공한 프로젝트 중 조건에 맞는 회원 수를 얻어옴
+	public int searchSuccessProjectCount(String kind, String project_title) {
+		int searchDoneProjectCount = 0;
+		
+		String sql = "select count(*) from member_tbl"
+				+ " where kind = ?"
+				+ " and (p_status='success' or p_status='remitcom')"
+				+ " and title regexp ?";
+		
+		try {
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, kind);
+			pstmt.setString(2, project_title);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				searchDoneProjectCount = rs.getInt(1);
+			}
+			
+		} catch(Exception e) {
+			System.out.println("[ManageProjectDAO] searchSuccessProjectCount() 에러 : "+e);//예외객체종류 + 예외메시지
 		} finally {
 			close(pstmt); //JdbcUtil.생략가능
 			close(rs); //JdbcUtil.생략가능
@@ -469,7 +530,7 @@ public class ManageProjectDAO {
 				  + " DATE_FORMAT(regdate,'%Y.%m.%d') as regdate_F"
 				  + " from project_tbl"
 				  + " where kind = ?"
-				  + " and (p_status='done' or p_status='success')"
+				  + " and (p_status='done' or p_status='clear')"
 				  + " order by regdate desc"
 				  + " limit ?, ?";
 		
@@ -510,6 +571,60 @@ public class ManageProjectDAO {
 		return projectList;
 	}
 	
+	//5. 원하는 페이지의 원하는 개수만큼 성공한 프로젝트 목록을 가져옴 (최근등록순 [기본값]) 
+	public ArrayList<ProjectBean> selectSuccessProjectList(String kind, int page, int limit) {
+		ArrayList<ProjectBean> projectList = null;
+		
+		int startrow = (page-1)*20;
+		//1페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 0부터
+		//2페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 20부터
+		//3페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 40부터
+		
+		String sql = "select project_id, kind, title, p_status,"
+				+ " DATE_FORMAT(regdate,'%Y.%m.%d') as regdate_F"
+				+ " from project_tbl"
+				+ " where kind = ?"
+				+ " and (p_status='success' or p_status='remitcom')"
+				+ " order by regdate desc"
+				+ " limit ?, ?";
+		
+		try {
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, kind);
+			pstmt.setInt(2, startrow);
+			pstmt.setInt(3, limit);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				
+				projectList = new ArrayList<>();
+				
+				do {
+					projectList.add(new ProjectBean(rs.getInt("project_id"),
+							rs.getString("kind"),
+							rs.getString("title"),
+							rs.getString("p_status"),
+							rs.getString("regdate_F")
+							)
+							);
+					
+					
+				}while(rs.next());
+				
+			}
+			
+		} catch(Exception e) {
+			System.out.println("[ManageProjectDAO] selectDoneProjectList() 에러 : "+e);//예외객체종류 + 예외메시지
+		} finally {
+			close(pstmt); //JdbcUtil.생략가능
+			close(rs); //JdbcUtil.생략가능
+			//connection 객체에 대한 해제는 DogListService에서 이루어짐
+		}
+		
+		return projectList;
+	}
+	
 	//6. 원하는 페이지의 원하는 개수만큼 조건에 맞는 종료된 기부/펀딩프로젝트 목록을 가져옴
 	public ArrayList<ProjectBean> searchDoneProjectList(String kind, String project_title, int page, int limit) {
 		ArrayList<ProjectBean> projectList = null;
@@ -523,7 +638,7 @@ public class ManageProjectDAO {
 				  + " DATE_FORMAT(regdate,'%Y.%m.%d') as regdate"
 				  + " from project_tbl"
 				  + " where kind = ?"
-				  + " and (p_status='done' or p_status='success')"
+				  + " and (p_status='done' or p_status='clear')"
 				  + " and title regexp ?"
 				  + " limit ?, ?";
 		
@@ -548,6 +663,61 @@ public class ManageProjectDAO {
 													rs.getString("regdate")
 													)
 									);
+					
+					
+				}while(rs.next());
+				
+			}
+			
+		} catch(Exception e) {
+			System.out.println("[ManageProjectDAO] searchDoneProjectList() 에러 : "+e);//예외객체종류 + 예외메시지
+		} finally {
+			close(pstmt); //JdbcUtil.생략가능
+			close(rs); //JdbcUtil.생략가능
+			//connection 객체에 대한 해제는 DogListService에서 이루어짐
+		}
+		
+		return projectList;
+	}
+	
+	//6. 원하는 페이지의 원하는 개수만큼 조건에 맞는 종료된 기부/펀딩프로젝트 목록을 가져옴
+	public ArrayList<ProjectBean> searchSuccessProjectList(String kind, String project_title, int page, int limit) {
+		ArrayList<ProjectBean> projectList = null;
+		
+		int startrow = (page-1)*20;
+		//1페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 0부터
+		//2페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 20부터
+		//3페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 40부터
+		
+		String sql = "select project_id, kind, title, p_status,"
+				+ " DATE_FORMAT(regdate,'%Y.%m.%d') as regdate"
+				+ " from project_tbl"
+				+ " where kind = ?"
+				+ " and (p_status='success' or p_status='remitcom')"
+				+ " and title regexp ?"
+				+ " limit ?, ?";
+		
+		try {
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, kind);
+			pstmt.setString(2, project_title);
+			pstmt.setInt(3, startrow);
+			pstmt.setInt(4, limit);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				
+				projectList = new ArrayList<>();
+				
+				do {
+					projectList.add(new ProjectBean(rs.getInt("project_id"),
+							rs.getString("kind"),
+							rs.getString("title"),
+							rs.getString("p_status"),
+							rs.getString("regdate")
+							)
+							);
 					
 					
 				}while(rs.next());
@@ -866,7 +1036,7 @@ public class ManageProjectDAO {
 													rs.getString("kind"),
 													rs.getString("title"),
 													rs.getString("p_status"),
-													rs.getString("regdate")
+													rs.getString("regdate_F")
 													)
 									);
 					
@@ -993,7 +1163,7 @@ public class ManageProjectDAO {
 	}
 	
 	//7. 선택한 기준에 따라 정렬된 종료된 기부/펀딩프로젝트 목록 가져오기
-	//7-1. 최근가입일순
+	//7-1. 최근마감순
 	public ArrayList<ProjectBean> orderNewDoneProjectList(String kind, int page, int limit) {
 		ArrayList<ProjectBean> projectList = null;
 		
@@ -1003,11 +1173,11 @@ public class ManageProjectDAO {
 		//3페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 40부터
 		
 		String sql = "select project_id, kind, title, p_status,"
-				  + " DATE_FORMAT(regdate,'%Y.%m.%d') as regdate_F"
+				  + " DATE_FORMAT(regdate,'%Y.%m.%d') as regdate"
 				  + " from project_tbl"
 				  + " where kind = ?"
-				  + " and (p_status='done' or p_status='success')"
-				  + " order by regdate desc"
+				  + " and (p_status='done' or p_status='clear')"
+				  + " order by enddate desc"
 				  + " limit ?, ?";
 		
 		try {
@@ -1027,7 +1197,7 @@ public class ManageProjectDAO {
 													rs.getString("kind"),
 													rs.getString("title"),
 													rs.getString("p_status"),
-													rs.getString("regdate_F")
+													rs.getString("regdate")
 													)
 									);
 					
@@ -1046,7 +1216,59 @@ public class ManageProjectDAO {
 		
 		return projectList;
 	}
-	//7-2. 오래된 가입일순
+	public ArrayList<ProjectBean> orderNewSuccessProjectList(String kind, int page, int limit) {
+		ArrayList<ProjectBean> projectList = null;
+		
+		int startrow = (page-1)*20;
+		//1페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 0부터
+		//2페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 20부터
+		//3페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 40부터
+		
+		String sql = "select project_id, kind, title, p_status,"
+				+ " DATE_FORMAT(regdate,'%Y.%m.%d') as regdate"
+				+ " from project_tbl"
+				+ " where kind = ?"
+				+ " and (p_status='remitcom' or p_status='success')"
+				+ " order by enddate desc"
+				+ " limit ?, ?";
+		
+		try {
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, kind);
+			pstmt.setInt(2, startrow);
+			pstmt.setInt(3, limit);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				
+				projectList = new ArrayList<>();
+				
+				do {
+					projectList.add(new ProjectBean(rs.getInt("project_id"),
+							rs.getString("kind"),
+							rs.getString("title"),
+							rs.getString("p_status"),
+							rs.getString("regdate_F")
+							)
+							);
+					
+					
+				}while(rs.next());
+				
+			}
+			
+		} catch(Exception e) {
+			System.out.println("[ManageProjectDAO] orderNewDoneProjectList() 에러 : "+e);//예외객체종류 + 예외메시지
+		} finally {
+			close(pstmt); //JdbcUtil.생략가능
+			close(rs); //JdbcUtil.생략가능
+			//connection 객체에 대한 해제는 DogListService에서 이루어짐
+		}
+		
+		return projectList;
+	}
+	//7-2. 오래된 마감순
 	public ArrayList<ProjectBean> orderOldDoneProjectList(String kind, int page, int limit) {
 		ArrayList<ProjectBean> projectList = null;
 		
@@ -1056,11 +1278,11 @@ public class ManageProjectDAO {
 		//3페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 40부터
 		
 		String sql = "select project_id, kind, title, p_status,"
-				  + " DATE_FORMAT(regdate,'%Y.%m.%d') as regdate_F"
+				  + " DATE_FORMAT(regdate,'%Y.%m.%d') as regdate"
 				  + " from project_tbl"
 				  + " where kind = ?"
-				  + " and (p_status='done' or p_status='success')"
-				  + " order by regdate asc"
+				  + " and (p_status='done' or p_status='clear')"
+				  + " order by enddate asc"
 				  + " limit ?, ?";
 		
 		try {
@@ -1099,6 +1321,58 @@ public class ManageProjectDAO {
 		
 		return projectList;
 	}
+	public ArrayList<ProjectBean> orderOldSuccessProjectList(String kind, int page, int limit) {
+		ArrayList<ProjectBean> projectList = null;
+		
+		int startrow = (page-1)*20;
+		//1페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 0부터
+		//2페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 20부터
+		//3페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 40부터
+		
+		String sql = "select project_id, kind, title, p_status,"
+				+ " DATE_FORMAT(regdate,'%Y.%m.%d') as regdate"
+				+ " from project_tbl"
+				+ " where kind = ?"
+				+ " and (p_status='remitcom' or p_status='success')"
+				+ " order by enddate asc"
+				+ " limit ?, ?";
+		
+		try {
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, kind);
+			pstmt.setInt(2, startrow);
+			pstmt.setInt(3, limit);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				
+				projectList = new ArrayList<>();
+				
+				do {
+					projectList.add(new ProjectBean(rs.getInt("project_id"),
+							rs.getString("kind"),
+							rs.getString("title"),
+							rs.getString("p_status"),
+							rs.getString("regdate")
+							)
+							);
+					
+					
+				}while(rs.next());
+				
+			}
+			
+		} catch(Exception e) {
+			System.out.println("[ManageProjectDAO] orderOldDoneProjectList() 에러 : "+e);//예외객체종류 + 예외메시지
+		} finally {
+			close(pstmt); //JdbcUtil.생략가능
+			close(rs); //JdbcUtil.생략가능
+			//connection 객체에 대한 해제는 DogListService에서 이루어짐
+		}
+		
+		return projectList;
+	}
 	//7-3. 가나다순
 	public ArrayList<ProjectBean> orderAZDoneProjectList(String kind, int page, int limit) {
 		ArrayList<ProjectBean> projectList = null;
@@ -1112,7 +1386,7 @@ public class ManageProjectDAO {
 				  + " DATE_FORMAT(regdate,'%Y.%m.%d') as regdate"
 				  + " from project_tbl"
 				  + " where kind = ?"
-				  + " and (p_status='done' or p_status='success')"
+				  + " and (p_status='done' or p_status='clear')"
 				  + " order by title asc"
 				  + " limit ?, ?";
 		
@@ -1152,6 +1426,58 @@ public class ManageProjectDAO {
 		
 		return projectList;
 	}
+	public ArrayList<ProjectBean> orderAZSuccessProjectList(String kind, int page, int limit) {
+		ArrayList<ProjectBean> projectList = null;
+		
+		int startrow = (page-1)*20;
+		//1페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 0부터
+		//2페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 20부터
+		//3페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 40부터
+		
+		String sql = "select project_id, kind, title, p_status,"
+				+ " DATE_FORMAT(regdate,'%Y.%m.%d') as regdate"
+				+ " from project_tbl"
+				+ " where kind = ?"
+				+ " and (p_status='remitcom' or p_status='success')"
+				+ " order by title asc"
+				+ " limit ?, ?";
+		
+		try {
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, kind);
+			pstmt.setInt(2, startrow);
+			pstmt.setInt(3, limit);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				
+				projectList = new ArrayList<>();
+				
+				do {
+					projectList.add(new ProjectBean(rs.getInt("project_id"),
+							rs.getString("kind"),
+							rs.getString("title"),
+							rs.getString("p_status"),
+							rs.getString("regdate")
+							)
+							);
+					
+					
+				}while(rs.next());
+				
+			}
+			
+		} catch(Exception e) {
+			System.out.println("[ManageProjectDAO] orderAZDoneProjectList() 에러 : "+e);//예외객체종류 + 예외메시지
+		} finally {
+			close(pstmt); //JdbcUtil.생략가능
+			close(rs); //JdbcUtil.생략가능
+			//connection 객체에 대한 해제는 DogListService에서 이루어짐
+		}
+		
+		return projectList;
+	}
 	//7-4. 역가나다순
 	public ArrayList<ProjectBean> orderZADoneProjectList(String kind, int page, int limit) {
 		ArrayList<ProjectBean> projectList = null;
@@ -1165,7 +1491,7 @@ public class ManageProjectDAO {
 				  + " DATE_FORMAT(regdate,'%Y.%m.%d') as regdate"
 				  + " from project_tbl"
 				  + " where kind = ?"
-				  + " and (p_status='done' or p_status='success')"
+				  + " and (p_status='done' or p_status='clear')"
 				  + " order by title desc"
 				  + " limit ?, ?";
 		
@@ -1189,6 +1515,166 @@ public class ManageProjectDAO {
 													rs.getString("regdate")
 													)
 									);
+					
+					
+				}while(rs.next());
+				
+			}
+			
+		} catch(Exception e) {
+			System.out.println("[ManageProjectDAO] orderZADoneProjectList() 에러 : "+e);//예외객체종류 + 예외메시지
+		} finally {
+			close(pstmt); //JdbcUtil.생략가능
+			close(rs); //JdbcUtil.생략가능
+			//connection 객체에 대한 해제는 DogListService에서 이루어짐
+		}
+		
+		return projectList;
+	}
+	public ArrayList<ProjectBean> orderZASuccessProjectList(String kind, int page, int limit) {
+		ArrayList<ProjectBean> projectList = null;
+		
+		int startrow = (page-1)*20;
+		//1페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 0부터
+		//2페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 20부터
+		//3페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 40부터
+		
+		String sql = "select project_id, kind, title, p_status,"
+				+ " DATE_FORMAT(regdate,'%Y.%m.%d') as regdate"
+				+ " from project_tbl"
+				+ " where kind = ?"
+				+ " and (p_status='remitcom' or p_status='success')"
+				+ " order by title desc"
+				+ " limit ?, ?";
+		
+		try {
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, kind);
+			pstmt.setInt(2, startrow);
+			pstmt.setInt(3, limit);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				
+				projectList = new ArrayList<>();
+				
+				do {
+					projectList.add(new ProjectBean(rs.getInt("project_id"),
+							rs.getString("kind"),
+							rs.getString("title"),
+							rs.getString("p_status"),
+							rs.getString("regdate")
+							)
+							);
+					
+					
+				}while(rs.next());
+				
+			}
+			
+		} catch(Exception e) {
+			System.out.println("[ManageProjectDAO] orderZADoneProjectList() 에러 : "+e);//예외객체종류 + 예외메시지
+		} finally {
+			close(pstmt); //JdbcUtil.생략가능
+			close(rs); //JdbcUtil.생략가능
+			//connection 객체에 대한 해제는 DogListService에서 이루어짐
+		}
+		
+		return projectList;
+	}
+	
+	/** 종료 프로젝트 중 미환불 프로젝트 우선정렬 (done 미환불, clear 환불완) */
+	public ArrayList<ProjectBean> orderUnsentDoneProjectList(String kind, int page, int limit) {
+		ArrayList<ProjectBean> projectList = null;
+		
+		int startrow = (page-1)*20;
+		//1페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 0부터
+		//2페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 20부터
+		//3페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 40부터
+		
+		String sql = "select project_id, kind, title, p_status,"
+				+ " DATE_FORMAT(regdate,'%Y.%m.%d') as regdate"
+				+ " from project_tbl"
+				+ " where kind = ?"
+				+ " and (p_status='done' or p_status='clear')"
+				+ " order by p_status desc"
+				+ " limit ?, ?";
+		
+		try {
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, kind);
+			pstmt.setInt(2, startrow);
+			pstmt.setInt(3, limit);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				
+				projectList = new ArrayList<>();
+				
+				do {
+					projectList.add(new ProjectBean(rs.getInt("project_id"),
+							rs.getString("kind"),
+							rs.getString("title"),
+							rs.getString("p_status"),
+							rs.getString("regdate")
+							)
+							);
+					
+					
+				}while(rs.next());
+				
+			}
+			
+		} catch(Exception e) {
+			System.out.println("[ManageProjectDAO] orderZADoneProjectList() 에러 : "+e);//예외객체종류 + 예외메시지
+		} finally {
+			close(pstmt); //JdbcUtil.생략가능
+			close(rs); //JdbcUtil.생략가능
+			//connection 객체에 대한 해제는 DogListService에서 이루어짐
+		}
+		
+		return projectList;
+	}
+	
+	/** 성공 프로젝트 중 미송금 프로젝트 우선정렬 (success 미송금, remitcom 송금완) */
+	public ArrayList<ProjectBean> orderUnsentSuccessProjectList(String kind, int page, int limit) {
+		ArrayList<ProjectBean> projectList = null;
+		
+		int startrow = (page-1)*20;
+		//1페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 0부터
+		//2페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 20부터
+		//3페이지 조회 -> 글목록의 제일 윗 글은 sql에서 row index 40부터
+		
+		String sql = "select project_id, kind, title, p_status,"
+				+ " DATE_FORMAT(regdate,'%Y.%m.%d') as regdate"
+				+ " from project_tbl"
+				+ " where kind = ?"
+				+ " and (p_status='remitcom' or p_status='success')"
+				+ " order by p_status desc"
+				+ " limit ?, ?";
+		
+		try {
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, kind);
+			pstmt.setInt(2, startrow);
+			pstmt.setInt(3, limit);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				
+				projectList = new ArrayList<>();
+				
+				do {
+					projectList.add(new ProjectBean(rs.getInt("project_id"),
+							rs.getString("kind"),
+							rs.getString("title"),
+							rs.getString("p_status"),
+							rs.getString("regdate")
+							)
+							);
 					
 					
 				}while(rs.next());
@@ -1389,298 +1875,7 @@ public class ManageProjectDAO {
 	}
 
 	
-	
-	/** 기부/펀딩 종료프로젝트+송금여부 조회 */
-	public ArrayList<ProjectAdminIncomeBean> selectDoneProjectIncomeList(String kind, int page, int limit) {
-		ArrayList<ProjectAdminIncomeBean> projectIncomeList = null;
-		int startrow = (page-1)*20;
-		
-		String sql = "select project_id, title, kind, p_status, curr_amount,"
-				+ " DATE_FORMAT(regdate,'%Y.%m.%d') as regdate_F,"
-				+ " DATE_FORMAT(enddate,'%Y.%m.%d') as enddate,"
-				+ " fee_income,"
-				+ " DATE_FORMAT(incomedate,'%Y.%m.%d') as incomedate"
-				+ " from project_adminIncome_view"
-				+ " where kind = ? and (p_status = 'done' or p_status = 'success')"
-				+ " order by regdate desc"
-				+ " limit ?, ?";
-		
-		try {
-			
-			pstmt = con.prepareStatement(sql);
-			pstmt.setString(1, kind);
-			pstmt.setInt(2, startrow);
-			pstmt.setInt(3, limit);
-			
-			rs = pstmt.executeQuery();
-			
-			if(rs.next()) {
-				
-				projectIncomeList = new ArrayList<>();
-				
-				do {
-					
-					ProjectAdminIncomeBean projectAdmIncome = new ProjectAdminIncomeBean();
-					projectAdmIncome.setProject_id(rs.getInt("project_id"));
-					projectAdmIncome.setTitle(rs.getString("title"));
-					projectAdmIncome.setKind(rs.getString("kind"));
-					projectAdmIncome.setCurr_amount(rs.getInt("curr_amount"));
-					projectAdmIncome.setP_status(rs.getString("p_status"));
-					projectAdmIncome.setRegdate(rs.getString("regdate_F"));
-					projectAdmIncome.setEnddate(rs.getString("enddate"));
-					projectAdmIncome.setFee_income(rs.getInt("fee_income"));
-					projectAdmIncome.setIncomedate(rs.getString("incomedate"));
-					
-					projectIncomeList.add(projectAdmIncome);
-					
-				}while(rs.next());
-				
-			}
-			
-		} catch(Exception e) {
-			System.out.println("[UserDAO] selectDoneProjectIncomeList() 에러 : "+e);//예외객체종류 + 예외메시지
-		} finally {
-			close(pstmt); //JdbcUtil.생략가능
-			close(rs); //JdbcUtil.생략가능
-			//connection 객체에 대한 해제는 DogListService에서 이루어짐
-		}
-		
-		return projectIncomeList;
-	}
-	
-	/** 기부/펀딩 종료프로젝트+송금여부 조회 (Old) */
-	public ArrayList<ProjectAdminIncomeBean> orderOldDoneProjectIncomeList(String kind, int page, int limit) {
-		ArrayList<ProjectAdminIncomeBean> projectIncomeList = null;
-		int startrow = (page-1)*20;
-		
-		String sql = "select project_id, title, kind, p_status, curr_amount"
-				+ " DATE_FORMAT(regdate,'%Y.%m.%d') as regdate_F,"
-				+ " DATE_FORMAT(enddate,'%Y.%m.%d') as enddate,"
-				+ " fee_income,"
-				+ " DATE_FORMAT(incomedate,'%Y.%m.%d') as incomedate"
-				+ " from project_adminIncome_view"
-				+ " where kind = ? and (p_status = 'done' or p_status = 'success')"
-				+ " order by regdate asc"
-				+ " limit ?, ?";
-		
-		try {
-			
-			pstmt = con.prepareStatement(sql);
-			pstmt.setString(1, kind);
-			pstmt.setInt(2, startrow);
-			pstmt.setInt(3, limit);
-			
-			rs = pstmt.executeQuery();
-			
-			if(rs.next()) {
-				
-				projectIncomeList = new ArrayList<>();
-				
-				do {
-					
-					ProjectAdminIncomeBean projectAdmIncome = new ProjectAdminIncomeBean();
-					projectAdmIncome.setProject_id(rs.getInt("project_id"));
-					projectAdmIncome.setTitle(rs.getString("title"));
-					projectAdmIncome.setKind(rs.getString("kind"));
-					projectAdmIncome.setP_status(rs.getString("p_status"));
-					projectAdmIncome.setCurr_amount(rs.getInt("curr_amount"));
-					projectAdmIncome.setRegdate(rs.getString("regdate_F"));
-					projectAdmIncome.setEnddate(rs.getString("enddate"));
-					projectAdmIncome.setFee_income(rs.getInt("fee_income"));
-					projectAdmIncome.setIncomedate(rs.getString("incomedate"));
-					
-					projectIncomeList.add(projectAdmIncome);
-					
-				}while(rs.next());
-				
-			}
-			
-		} catch(Exception e) {
-			System.out.println("[UserDAO] orderOldDoneProjectIncomeList() 에러 : "+e);//예외객체종류 + 예외메시지
-		} finally {
-			close(pstmt); //JdbcUtil.생략가능
-			close(rs); //JdbcUtil.생략가능
-			//connection 객체에 대한 해제는 DogListService에서 이루어짐
-		}
-		
-		return projectIncomeList;
-	}
-	
-	/** 기부/펀딩 종료프로젝트+송금여부 조회 (AZ) */
-	public ArrayList<ProjectAdminIncomeBean> orderAZDoneProjectIncomeList(String kind, int page, int limit) {
-		ArrayList<ProjectAdminIncomeBean> projectIncomeList = null;
-		int startrow = (page-1)*20;
-		
-		String sql = "select project_id, title, kind, p_status, curr_amount,"
-				+ " DATE_FORMAT(regdate,'%Y.%m.%d') as regdate,"
-				+ " DATE_FORMAT(enddate,'%Y.%m.%d') as enddate,"
-				+ " fee_income,"
-				+ " DATE_FORMAT(incomedate,'%Y.%m.%d') as incomedate"
-				+ " from project_adminIncome_view"
-				+ " where kind = ? and (p_status = 'done' or p_status = 'success')"
-				+ " order by title asc"
-				+ " limit ?, ?";
-		
-		try {
-			
-			pstmt = con.prepareStatement(sql);
-			pstmt.setString(1, kind);
-			pstmt.setInt(2, startrow);
-			pstmt.setInt(3, limit);
-			
-			rs = pstmt.executeQuery();
-			
-			if(rs.next()) {
-				
-				projectIncomeList = new ArrayList<>();
-				
-				do {
-					
-					ProjectAdminIncomeBean projectAdmIncome = new ProjectAdminIncomeBean();
-					projectAdmIncome.setProject_id(rs.getInt("project_id"));
-					projectAdmIncome.setTitle(rs.getString("title"));
-					projectAdmIncome.setKind(rs.getString("kind"));
-					projectAdmIncome.setP_status(rs.getString("p_status"));
-					projectAdmIncome.setCurr_amount(rs.getInt("curr_amount"));
-					projectAdmIncome.setRegdate(rs.getString("regdate"));
-					projectAdmIncome.setEnddate(rs.getString("enddate"));
-					projectAdmIncome.setFee_income(rs.getInt("fee_income"));
-					projectAdmIncome.setIncomedate(rs.getString("incomedate"));
-					
-					projectIncomeList.add(projectAdmIncome);
-					
-				}while(rs.next());
-				
-			}
-			
-		} catch(Exception e) {
-			System.out.println("[UserDAO] orderAZDoneProjectIncomeList() 에러 : "+e);//예외객체종류 + 예외메시지
-		} finally {
-			close(pstmt); //JdbcUtil.생략가능
-			close(rs); //JdbcUtil.생략가능
-			//connection 객체에 대한 해제는 DogListService에서 이루어짐
-		}
-		
-		return projectIncomeList;
-	}
-	/** 기부/펀딩 종료프로젝트+송금여부 조회 (ZA) */
-	public ArrayList<ProjectAdminIncomeBean> orderZADoneProjectIncomeList(String kind, int page, int limit) {
-		ArrayList<ProjectAdminIncomeBean> projectIncomeList = null;
-		int startrow = (page-1)*20;
-		
-		String sql = "select project_id, title, kind, p_status, curr_amount,"
-				+ " DATE_FORMAT(regdate,'%Y.%m.%d') as regdate,"
-				+ " DATE_FORMAT(enddate,'%Y.%m.%d') as enddate,"
-				+ " fee_income,"
-				+ " DATE_FORMAT(incomedate,'%Y.%m.%d') as incomedate"
-				+ " from project_adminIncome_view"
-				+ " where kind = ? and (p_status = 'done' or p_status = 'success')"
-				+ " order by title desc"
-				+ " limit ?, ?";
-		
-		try {
-			
-			pstmt = con.prepareStatement(sql);
-			pstmt.setString(1, kind);
-			pstmt.setInt(2, startrow);
-			pstmt.setInt(3, limit);
-			
-			rs = pstmt.executeQuery();
-			
-			if(rs.next()) {
-				
-				projectIncomeList = new ArrayList<>();
-				
-				do {
-					
-					ProjectAdminIncomeBean projectAdmIncome = new ProjectAdminIncomeBean();
-					projectAdmIncome.setProject_id(rs.getInt("project_id"));
-					projectAdmIncome.setTitle(rs.getString("title"));
-					projectAdmIncome.setKind(rs.getString("kind"));
-					projectAdmIncome.setP_status(rs.getString("p_status"));
-					projectAdmIncome.setCurr_amount(rs.getInt("curr_amount"));
-					projectAdmIncome.setRegdate(rs.getString("regdate"));
-					projectAdmIncome.setEnddate(rs.getString("enddate"));
-					projectAdmIncome.setFee_income(rs.getInt("fee_income"));
-					projectAdmIncome.setIncomedate(rs.getString("incomedate"));
-					
-					projectIncomeList.add(projectAdmIncome);
-					
-				}while(rs.next());
-				
-			}
-			
-		} catch(Exception e) {
-			System.out.println("[UserDAO] orderZADoneProjectIncomeList() 에러 : "+e);//예외객체종류 + 예외메시지
-		} finally {
-			close(pstmt); //JdbcUtil.생략가능
-			close(rs); //JdbcUtil.생략가능
-			//connection 객체에 대한 해제는 DogListService에서 이루어짐
-		}
-		
-		return projectIncomeList;
-	}
-	
-	/** 검색어에 따른 기부/펀딩 종료프로젝트+송금여부 조회 (search) */
-	public ArrayList<ProjectAdminIncomeBean> searchDoneProjectIncomeList(String kind, String title, int page, int limit) {
-		ArrayList<ProjectAdminIncomeBean> projectIncomeList = null;
-		int startrow = (page-1)*20;
-		
-		String sql = "select project_id, title, kind, p_status, curr_amount,"
-				+ " DATE_FORMAT(regdate,'%Y.%m.%d') as regdate_F,"
-				+ " DATE_FORMAT(enddate,'%Y.%m.%d') as enddate,"
-				+ " fee_income,"
-				+ " DATE_FORMAT(incomedate,'%Y.%m.%d') as incomedate"
-				+ " from project_adminIncome_view"
-				+ " where kind = ? and (p_status = 'done' or p_status = 'success')"
-				+ " title regexp ?"
-				+ " order by regdate desc"
-				+ " limit ?, ?";
-		
-		try {
-			
-			pstmt = con.prepareStatement(sql);
-			pstmt.setString(1, kind);
-			pstmt.setString(2, title);
-			pstmt.setInt(3, startrow);
-			pstmt.setInt(4, limit);
-			
-			rs = pstmt.executeQuery();
-			
-			if(rs.next()) {
-				
-				projectIncomeList = new ArrayList<>();
-				
-				do {
-					
-					ProjectAdminIncomeBean projectAdmIncome = new ProjectAdminIncomeBean();
-					projectAdmIncome.setProject_id(rs.getInt("project_id"));
-					projectAdmIncome.setTitle(rs.getString("title"));
-					projectAdmIncome.setKind(rs.getString("kind"));
-					projectAdmIncome.setP_status(rs.getString("p_status"));
-					projectAdmIncome.setCurr_amount(rs.getInt("curr_amount"));
-					projectAdmIncome.setRegdate(rs.getString("regdate_F"));
-					projectAdmIncome.setEnddate(rs.getString("enddate"));
-					projectAdmIncome.setFee_income(rs.getInt("fee_income"));
-					projectAdmIncome.setIncomedate(rs.getString("incomedate"));
-					
-					projectIncomeList.add(projectAdmIncome);
-					
-				}while(rs.next());
-				
-			}
-			
-		} catch(Exception e) {
-			System.out.println("[UserDAO] searchDoneProjectIncomeList() 에러 : "+e);//예외객체종류 + 예외메시지
-		} finally {
-			close(pstmt); //JdbcUtil.생략가능
-			close(rs); //JdbcUtil.생략가능
-			//connection 객체에 대한 해제는 DogListService에서 이루어짐
-		}
-		
-		return projectIncomeList;
-	}
-
+	/** 수익여부? */
 	public int selectProjectAdminIncomeCount(int project_id) {
 		int selectProjectAdminIncomeCount = 0;
 		

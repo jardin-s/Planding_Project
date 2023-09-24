@@ -37,11 +37,18 @@
 </head>
 
 <script>
-function deleteConfirm(page, qna_id){
+function deleteQConfirm(page, qna_id){
 	if(!confirm('문의글을 삭제하시겠습니까?')){
 		return false;
 	}else{
-		location.href="adminDeleteQnaAction.adm?page="+page+"&qna_id="+qna_id;
+		location.href="adminDeleteQnaQAction.adm?page="+page+"&qna_id="+qna_id;
+	}
+}
+function deleteAConfirm(page, qna_id, a_writer){
+	if(!confirm('답변을 삭제하시겠습니까?')){
+		return false;
+	}else{
+		location.href="adminDeleteQnaAAction.adm?page="+page+"&qna_id="+qna_id+"&a_writer="+a_writer;
 	}
 }
 </script>
@@ -89,7 +96,8 @@ function deleteConfirm(page, qna_id){
                 	<hr class="mb-4">
                 	<div class="col-12 text-center mx-auto">
                 		<button class="btn btn-light" type="button" onclick="location.href='adminModifyQnaAForm.adm?page=${page}&qna_id=${qnaInfo.qna_id}&a_writer=${qnaInfo.a_writer }'">답변 수정</button>
-						<button class="btn btn-light" type="button" onclick="deleteConfirm(${page},${qnaInfo.qna_id});">삭제</button>
+                		<button class="btn btn-light" type="button" onclick="deleteAConfirm(${page},${qnaInfo.qna_id},'${qnaInfo.a_writer }');">답변 삭제</button>
+						<button class="btn btn-light" type="button" onclick="deleteQConfirm(${page},${qnaInfo.qna_id});">삭제</button>
                 		<button class="btn btn-light" onclick="location.href='adminQnaList.adm?page=${page}'">글 목록</button>
 					</div>
                 </c:if>
@@ -99,7 +107,7 @@ function deleteConfirm(page, qna_id){
 	    			</div>
 	    			<div class="col-12 text-center mx-auto">
 						<button class="btn btn-light" type="button" onclick="location.href='adminInsertQnaAForm.adm?page=${page}&qna_id=${qnaInfo.qna_id}'">답변 작성</button>
-						<button class="btn btn-light" type="button" onclick="deleteConfirm(${page},${qnaInfo.qna_id});">삭제</button>
+						<button class="btn btn-light" type="button" onclick="deleteQConfirm(${page},${qnaInfo.qna_id});">삭제</button>
                 		<button class="btn btn-light" onclick="location.href='adminQnaList.adm?page=${page}'">글 목록</button>
 					</div>
                 </c:if>                

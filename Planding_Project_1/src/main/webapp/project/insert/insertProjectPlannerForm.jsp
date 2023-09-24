@@ -73,11 +73,11 @@ function validateAccountInput() {
 
 			<div class="mb-3">
 				<label for="planner_name" class="form-label">기획자명</label> 
-				<input type="text" class="form-control" id="planner_name" name="planner_name" maxlength="20" required placeholder="개인 또는 기업, 단체명" value="${sessionScope.plannerInfo.planner_name}">
+				<input type="text" class="form-control" id="planner_name" name="planner_name" maxlength="50" required placeholder="개인 또는 기업, 단체명" value="${sessionScope.plannerInfo.planner_name}">
 			</div>
 			<div class="mb-3">
 				<label for="introduce" class="form-label">기획자소개</label>
-				<textarea class="form-control" id="introduce" name="introduce" rows="3" maxlength="100" required>${sessionScope.plannerInfo.introduce}</textarea>
+				<textarea class="form-control" id="introduce" name="introduce" rows="3" maxlength="1000" required>${sessionScope.plannerInfo.introduce}</textarea>
 			</div>
 			<div class="mb-3">
 				<select class="form-select" aria-label="bank"  id="bank" name="bank" onchange="otherBank()" required>

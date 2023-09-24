@@ -12,31 +12,19 @@ import action.admin.manageProject.AuthorizeProjectAction;
 import action.admin.manageProject.CancelProjectAction;
 import action.admin.manageProject.CancelProjectFormAction;
 import action.admin.manageProject.ManageProjectViewAction;
+import action.admin.manageProject.RefundAllDonationAction;
 import action.admin.manageProject.SendTotalAmountAction;
 import action.admin.manageProject.UnauthorizeProjectAction;
-import action.admin.manageProject.donate.AuthDonateProjectListAction;
-import action.admin.manageProject.donate.DoneDonateProjectListAction;
 import action.admin.manageProject.donate.ManageDonateProjectListAction;
-import action.admin.manageProject.donate.OrderAuthDonateProjectListAction;
-import action.admin.manageProject.donate.OrderDonateProjectListAction;
-import action.admin.manageProject.donate.OrderDoneDonateProjectListAction;
-import action.admin.manageProject.donate.OrderUnauthDonateProjectListAction;
-import action.admin.manageProject.donate.SearchAuthDonateProjectListAction;
-import action.admin.manageProject.donate.SearchDonateProjectListAction;
-import action.admin.manageProject.donate.SearchDoneDonateProjectListAction;
-import action.admin.manageProject.donate.SearchUnauthDonateProjectListAction;
+import action.admin.manageProject.donate.OngoingDonateProjectListAction;
+import action.admin.manageProject.donate.ReadyDonateProjectListAction;
+import action.admin.manageProject.donate.SuccessDonateProjectListAction;
 import action.admin.manageProject.donate.UnauthDonateProjectListAction;
-import action.admin.manageProject.fund.AuthFundProjectListAction;
 import action.admin.manageProject.fund.DoneFundProjectListAction;
 import action.admin.manageProject.fund.ManageFundProjectListAction;
-import action.admin.manageProject.fund.OrderAuthFundProjectListAction;
-import action.admin.manageProject.fund.OrderDoneFundProjectListAction;
-import action.admin.manageProject.fund.OrderFundProjectListAction;
-import action.admin.manageProject.fund.OrderUnauthFundProjectListAction;
-import action.admin.manageProject.fund.SearchAuthFundProjectListAction;
-import action.admin.manageProject.fund.SearchDoneFundProjectListAction;
-import action.admin.manageProject.fund.SearchFundProjectListAction;
-import action.admin.manageProject.fund.SearchUnauthFundProjectListAction;
+import action.admin.manageProject.fund.OngoingFundProjectListAction;
+import action.admin.manageProject.fund.ReadyFundProjectListAction;
+import action.admin.manageProject.fund.SuccessFundProjectListAction;
 import action.admin.manageProject.fund.UnauthFundProjectListAction;
 import vo.ActionForward;
 
@@ -117,30 +105,6 @@ public class MngProjectFrontController extends HttpServlet {
 			}
 			
 		}		
-		/*-- '정렬기준으로 정렬된 기부 프로젝트 관리 페이지 보기 (전체 기부프로젝트 목록) ' 요청 --------------------------------------*/
-		else if(command.equals("/orderDonateProjectList.mngp")) {
-			
-			action = new OrderDonateProjectListAction();
-			
-			try {
-				forward = action.execute(request, response);
-			} catch(Exception e) {
-				e.printStackTrace();
-			}
-			
-		}		
-		/*-- '검색조건에 따른 기부 프로젝트 관리 페이지 보기 (전체 기부프로젝트 목록) ' 요청 --------------------------------------*/
-		else if(command.equals("/searchDonateProjectList.mngp")) {
-			
-			action = new SearchDonateProjectListAction();
-			
-			try {
-				forward = action.execute(request, response);
-			} catch(Exception e) {
-				e.printStackTrace();
-			}
-			
-		}
 		
 		/*-- 미승인 기부 프로젝트 목록 -------------------------------------------------------------------------*/
 		
@@ -156,10 +120,12 @@ public class MngProjectFrontController extends HttpServlet {
 			}
 			
 		}		
-		/*-- '정렬기준으로 정렬된 미승인 기부 프로젝트 관리 페이지 보기 (미승인 기부프로젝트 목록) ' 요청 --------------------------------------*/
-		else if(command.equals("/orderUnauthDonateProjectList.mngp")) {
+		
+		
+		/*-- '공개예정 기부 프로젝트 관리 페이지 보기 (승인된 기부프로젝트 목록) ' 요청 --------------------------------------*/
+		else if(command.equals("/readyDonateProjectList.mngp")) {
 			
-			action = new OrderUnauthDonateProjectListAction();
+			action = new ReadyDonateProjectListAction();
 			
 			try {
 				forward = action.execute(request, response);
@@ -168,26 +134,11 @@ public class MngProjectFrontController extends HttpServlet {
 			}
 			
 		}		
-		/*-- '검색조건에 따른 미승인 기부 프로젝트 관리 페이지 보기 (미승인 기부프로젝트 목록) ' 요청 --------------------------------------*/
-		else if(command.equals("/searchUnauthDonateProjectList.mngp")) {
-			
-			action = new SearchUnauthDonateProjectListAction();
-			
-			try {
-				forward = action.execute(request, response);
-			} catch(Exception e) {
-				e.printStackTrace();
-			}
-			
-		}
 		
-		
-		/*-- 승인된 기부 프로젝트 목록 (진행중) -------------------------------------------------------------------------*/
-		
-		/*-- '승인된 기부 프로젝트 관리 페이지 보기 (승인된 기부프로젝트 목록) ' 요청 --------------------------------------*/
-		else if(command.equals("/authDonateProjectList.mngp")) {
+		/*-- '진행중 기부 프로젝트 관리 페이지 보기 (진행중 기부프로젝트 목록) ' 요청 --------------------------------------*/
+		else if(command.equals("/ongoingDonateProjectList.mngp")) {
 			
-			action = new AuthDonateProjectListAction();
+			action = new OngoingDonateProjectListAction();
 			
 			try {
 				forward = action.execute(request, response);
@@ -196,10 +147,14 @@ public class MngProjectFrontController extends HttpServlet {
 			}
 			
 		}		
-		/*-- '정렬기준으로 정렬된 승인된 기부 프로젝트 관리 페이지 보기 (승인된 기부프로젝트 목록) ' 요청 --------------------------------------*/
-		else if(command.equals("/orderAuthDonateProjectList.mngp")) {
+		
+		
+		/*-- 성공한 기부 프로젝트 목록 -------------------------------------------------------------------------*/
+		
+		/*-- '성공한 기부 프로젝트 관리 페이지 보기 (종료된 기부프로젝트 목록) ' 요청 --------------------------------------*/
+		else if(command.equals("/successDonateProjectList.mngp")) {
 			
-			action = new OrderAuthDonateProjectListAction();
+			action = new SuccessDonateProjectListAction();
 			
 			try {
 				forward = action.execute(request, response);
@@ -208,58 +163,6 @@ public class MngProjectFrontController extends HttpServlet {
 			}
 			
 		}		
-		/*-- '검색조건에 따른 승인된 기부 프로젝트 관리 페이지 보기 (승인된 기부프로젝트 목록) ' 요청 --------------------------------------*/
-		if(command.equals("/searchAuthDonateProjectList.mngp")) {
-			
-			action = new SearchAuthDonateProjectListAction();
-			
-			try {
-				forward = action.execute(request, response);
-			} catch(Exception e) {
-				e.printStackTrace();
-			}
-			
-		}
-		
-		
-		/*-- 종료된 기부 프로젝트 목록 (종료/성공) -------------------------------------------------------------------------*/
-		
-		/*-- '종료된 기부 프로젝트 관리 페이지 보기 (종료된 기부프로젝트 목록) ' 요청 --------------------------------------*/
-		else if(command.equals("/doneDonateProjectList.mngp")) {
-			
-			action = new DoneDonateProjectListAction();
-			
-			try {
-				forward = action.execute(request, response);
-			} catch(Exception e) {
-				e.printStackTrace();
-			}
-			
-		}		
-		/*-- '정렬기준으로 정렬된 종료된 기부 프로젝트 관리 페이지 보기 (종료된 기부프로젝트 목록) ' 요청 --------------------------------------*/
-		else if(command.equals("/orderDoneDonateProjectList.mngp")) {
-			
-			action = new OrderDoneDonateProjectListAction();
-			
-			try {
-				forward = action.execute(request, response);
-			} catch(Exception e) {
-				e.printStackTrace();
-			}
-			
-		}		
-		/*-- '검색조건에 따른 종료된 기부 프로젝트 관리 페이지 보기 (종료된 기부프로젝트 목록) ' 요청 --------------------------------------*/
-		else if(command.equals("/searchDoneDonateProjectList.mngp")) {
-			
-			action = new SearchDoneDonateProjectListAction();
-			
-			try {
-				forward = action.execute(request, response);
-			} catch(Exception e) {
-				e.printStackTrace();
-			}
-			
-		}
 		
 		
 		/*******************************************************************************************
@@ -278,33 +181,8 @@ public class MngProjectFrontController extends HttpServlet {
 			}
 			
 		}		
-		/*-- '정렬기준으로 정렬된 펀딩 프로젝트 관리 페이지 보기 (전체 펀딩프로젝트 목록) ' 요청 --------------------------------------*/
-		else if(command.equals("/orderFundProjectList.mngp")) {
-			
-			action = new OrderFundProjectListAction();
-			
-			try {
-				forward = action.execute(request, response);
-			} catch(Exception e) {
-				e.printStackTrace();
-			}
-			
-		}		
-		/*-- '검색조건에 따른 펀딩 프로젝트 관리 페이지 보기 (전체 펀딩프로젝트 목록) ' 요청 --------------------------------------*/
-		else if(command.equals("/searchFundProjectList.mngp")) {
-			
-			action = new SearchFundProjectListAction();
-			
-			try {
-				forward = action.execute(request, response);
-			} catch(Exception e) {
-				e.printStackTrace();
-			}
-			
-		}
 		
-		/*-- 미승인 펀딩 프로젝트 목록 -------------------------------------------------------------------------*/
-		
+	
 		/*-- '미승인 펀딩 프로젝트 관리 페이지 보기 (미승인 펀딩프로젝트 목록) ' 요청 --------------------------------------*/
 		else if(command.equals("/unauthFundProjectList.mngp")) {
 			
@@ -317,10 +195,24 @@ public class MngProjectFrontController extends HttpServlet {
 			}
 			
 		}		
-		/*-- '정렬기준으로 정렬된 미승인 기부 프로젝트 관리 페이지 보기 (미승인 펀딩프로젝트 목록) ' 요청 --------------------------------------*/
-		else if(command.equals("/orderUnauthFundProjectList.mngp")) {
+		
+		/*-- '공개예정 펀딩 프로젝트 관리 페이지 보기 (공개예정 펀딩프로젝트 목록) ' 요청 --------------------------------------*/
+		else if(command.equals("/readyFundProjectList.mngp")) {
 			
-			action = new OrderUnauthFundProjectListAction();
+			action = new ReadyFundProjectListAction();
+			
+			try {
+				forward = action.execute(request, response);
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+			
+		}	
+		
+		/*-- '진행중 펀딩 프로젝트 관리 페이지 보기 (진행중 펀딩프로젝트 목록) ' 요청 --------------------------------------*/
+		else if(command.equals("/ongoingFundProjectList.mngp")) {
+			
+			action = new OngoingFundProjectListAction();
 			
 			try {
 				forward = action.execute(request, response);
@@ -329,61 +221,7 @@ public class MngProjectFrontController extends HttpServlet {
 			}
 			
 		}		
-		/*-- '검색조건에 따른 미승인 기부 프로젝트 관리 페이지 보기 (미승인 펀딩프로젝트 목록) ' 요청 --------------------------------------*/
-		else if(command.equals("/searchUnauthFundProjectList.mngp")) {
-			
-			action = new SearchUnauthFundProjectListAction();
-			
-			try {
-				forward = action.execute(request, response);
-			} catch(Exception e) {
-				e.printStackTrace();
-			}
-			
-		}
 		
-		
-		/*-- 승인된 펀딩 프로젝트 목록 (진행중) -------------------------------------------------------------------------*/
-		
-		/*-- '승인된 펀딩 프로젝트 관리 페이지 보기 (승인된 펀딩프로젝트 목록) ' 요청 --------------------------------------*/
-		else if(command.equals("/authFundProjectList.mngp")) {
-			
-			action = new AuthFundProjectListAction();
-			
-			try {
-				forward = action.execute(request, response);
-			} catch(Exception e) {
-				e.printStackTrace();
-			}
-			
-		}		
-		/*-- '정렬기준으로 정렬된 승인된 펀딩 프로젝트 관리 페이지 보기 (승인된 펀딩프로젝트 목록) ' 요청 --------------------------------------*/
-		else if(command.equals("/orderAuthFundProjectList.mngp")) {
-			
-			action = new OrderAuthFundProjectListAction();
-			
-			try {
-				forward = action.execute(request, response);
-			} catch(Exception e) {
-				e.printStackTrace();
-			}
-			
-		}		
-		/*-- '검색조건에 따른 승인된 펀딩 프로젝트 관리 페이지 보기 (승인된 펀딩프로젝트 목록) ' 요청 --------------------------------------*/
-		else if(command.equals("/searchAuthFundProjectList.mngp")) {
-			
-			action = new SearchAuthFundProjectListAction();
-			
-			try {
-				forward = action.execute(request, response);
-			} catch(Exception e) {
-				e.printStackTrace();
-			}
-			
-		}
-		
-		
-		/*-- 종료된 펀딩 프로젝트 목록 (종료/성공) -------------------------------------------------------------------------*/
 		
 		/*-- '종료된 펀딩 프로젝트 관리 페이지 보기 (종료된 펀딩프로젝트 목록) ' 요청 --------------------------------------*/
 		else if(command.equals("/doneFundProjectList.mngp")) {
@@ -397,10 +235,11 @@ public class MngProjectFrontController extends HttpServlet {
 			}
 			
 		}		
-		/*-- '정렬기준으로 정렬된 종료된 펀딩 프로젝트 관리 페이지 보기 (종료된 펀딩프로젝트 목록) ' 요청 --------------------------------------*/
-		else if(command.equals("/orderDoneFundProjectList.mngp")) {
+		
+		/*-- '성공한 펀딩 프로젝트 관리 페이지 보기 (성공한 펀딩프로젝트 목록) ' 요청 --------------------------------------*/
+		else if(command.equals("/successFundProjectList.mngp")) {
 			
-			action = new OrderDoneFundProjectListAction();
+			action = new SuccessFundProjectListAction();
 			
 			try {
 				forward = action.execute(request, response);
@@ -409,18 +248,6 @@ public class MngProjectFrontController extends HttpServlet {
 			}
 			
 		}		
-		/*-- '검색조건에 따른 종료된 펀딩 프로젝트 관리 페이지 보기 (종료된 펀딩프로젝트 목록) ' 요청 --------------------------------------*/
-		else if(command.equals("/searchDoneFundProjectList.mngp")) {
-			
-			action = new SearchDoneFundProjectListAction();
-			
-			try {
-				forward = action.execute(request, response);
-			} catch(Exception e) {
-				e.printStackTrace();
-			}
-			
-		}
 		
 		
 		/*-- '관리자모드에서 프로젝트 상세보기' 요청 --------------------------------------*/
@@ -490,6 +317,18 @@ public class MngProjectFrontController extends HttpServlet {
 		else if(command.equals("/sendTotalAmount.mngp")) {
 			
 			action = new SendTotalAmountAction();
+			
+			try {
+				forward = action.execute(request, response);
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+			
+		}
+		/*-- '종료된 펀딩 프로젝트의 모금액을 후원자들에게 환불하기' 요청 --------------------------------------*/
+		else if(command.equals("/refundAllDonation.mngp")) {
+			
+			action = new RefundAllDonationAction();
 			
 			try {
 				forward = action.execute(request, response);

@@ -30,7 +30,8 @@ public class UserProjectDonationListALLAction implements Action {
         
 		//프로젝트 아이디로 리워드 아이디 리스트를 가져옴
 		ArrayList<String> reward_id_list = new ArrayList<>();
-		reward_id_list.add("default");
+		reward_id_list = projectPageViewService.getAllRewardIdList(project_id);
+		
 		request.setAttribute("reward_id_list", reward_id_list);
         
 		System.out.println("rewardList.reward_id : "+reward_id_list.toString());

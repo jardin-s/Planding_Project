@@ -145,7 +145,7 @@ public class DateUtil {//날짜 계산하는 클래스 (매출관리에서 달�
 		//매개변수의 year, month로 날짜 세팅
 		System.out.println("[today_info 메서드 호출]");
 		System.out.println("검색날짜 연도 = "+dateUtil.getYear());//2023
-		System.out.println("검색날짜 월-1 = "+dateUtil.getMonth());//8
+		System.out.println("검색날짜 월-1 = "+dateUtil.getMonth());//8-1 = 7
 		
 		//DB에서 사용
 		int startDay = cal.getActualMinimum(Calendar.DAY_OF_MONTH);//선택달 날짜 중 첫째날(minimum) 1
@@ -238,7 +238,7 @@ public class DateUtil {//날짜 계산하는 클래스 (매출관리에서 달�
 		
 		if(after_month >11) {//만약 after_month가 11보다 크다면 (검색한 달이 12월(시스템달 11)
 			after_month = 0; //그 달은 시스템달 0 (실제 1월)
-			after_year = search_year -1; //다음년도는 검색연도+1 (2022.12 -> 2023.1)
+			after_year = search_year +1; //다음년도는 검색연도+1 (2022.12 -> 2023.1)
 		}
 		
 		//이전년도, 이전달 & 다음년도, 다음달 정보를 저장한 Map객체를 리턴

@@ -89,11 +89,27 @@ public class ProjectBean {
 		this.p_status = p_status; //등록시 항상 처음은 unauthorized(미승인)
 		this.regdate = regdate; //SQL에서 현재시간으로 자동세팅
 	}
+	
+	//플래너용 - 프로젝트 정보 수정시
+	public ProjectBean(int project_id, String title, String summary, String thumbnail, String content, String image,
+			String startdate, String enddate, int goal_amount) {
+		super();
+		this.project_id = project_id;
+		this.title = title;
+		this.summary = summary;
+		this.thumbnail = thumbnail;
+		this.content = content;
+		this.image = image;
+		this.startdate = startdate;
+		this.enddate = enddate;
+		this.goal_amount = goal_amount;
+	}
 
 
 	public int getProject_id() {
 		return project_id;
 	}
+
 
 	public void setProject_id(int project_id) {
 		this.project_id = project_id;

@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import action.Action;
+import svc.admin.manageProject.ManageProjectListService;
 import svc.admin.manageProject.fund.ManageFundProjectListService;
 import vo.ActionForward;
 import vo.PageInfo;
@@ -34,14 +35,48 @@ public class ManageFundProjectListAction implements Action {
 		 */
 		
 		//[순서-1] project 테이블에서 글을 가져옴 
-		ManageFundProjectListService manageFundProjectListService = new ManageFundProjectListService();
+		ManageProjectListService manageProjectListService = new ManageProjectListService();
 		
-		//project_tbl에서 기부 프로젝트 수를 얻어옴
-		int	listCount = manageFundProjectListService.getFundCount();
-		System.out.println("[ManageFundProjectListAction] project_tbl 총 기부프로젝트 수 = "+listCount);
+		String selectOrder = request.getParameter("selectOrder");//정렬조회시
+		String searchTitle = request.getParameter("searchTitle");//검색조회시
 		
-		//기부 프로젝트 목록을 얻어옴 (기본값 : 최근 가입순)
-		ArrayList<ProjectBean> projectList = manageFundProjectListService.getFundList(page, limit);
+		int listCount = 0;
+		ArrayList<ProjectBean> projectList = null;
+		
+		if(selectOrder != null) {//정렬기준으로 조회
+			
+			if(!selectOrder.equalsIgnoreCase("default")) {//혹시모를 default 선택 방지
+				//project_tbl에서 기부 프로젝트 수를 얻어옴
+				listCount = manageProjectListService.getProjectCount("fund");
+				System.out.println("[ManageFundProjectListAction] project_tbl 정렬한 전체 펀딩 프로젝트 수 = "+listCount);
+				
+				//기부 프로젝트-기획자 목록을 얻어옴 (기본값 : 진행중, 최신순)
+				projectList = manageProjectListService.getOrderProjectList("fund", selectOrder, page, limit);
+				
+				request.setAttribute("orderKeyword", selectOrder);
+			}			
+			
+		}else if(searchTitle != null) {//검색 조회
+			
+			//project_tbl에서 기부 프로젝트 수를 얻어옴
+			listCount = manageProjectListService.getSearchProjectCount("fund", searchTitle);
+			System.out.println("[ManageFundProjectListAction] project_tbl 검색조건에 따른 전체 펀딩 기부 프로젝트 수 = "+listCount);
+			
+			//기부 프로젝트-기획자 목록을 얻어옴 (기본값 : 진행중, 최신순)
+			projectList = manageProjectListService.getSearchProjectList("fund", searchTitle, page, limit);
+			
+			request.setAttribute("searchKeyword", searchTitle);
+			
+		}else {//아무 조건 없이 조회
+			//project_tbl에서 기부 프로젝트 수를 얻어옴
+			listCount = manageProjectListService.getProjectCount("fund");
+			System.out.println("[ManageFundProjectListAction] project_tbl 전체 펀딩 프로젝트 수 = "+listCount);
+			
+			//기부 프로젝트-기획자 목록을 얻어옴 (기본값 : 진행중, 최신순)
+			projectList = manageProjectListService.getProjectList("fund", page, limit);
+		}
+		
+		//얻어온 프로젝트 목록을 request 속성으로 저장
 		request.setAttribute("projectList", projectList);
 		
 		

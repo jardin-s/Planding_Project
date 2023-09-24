@@ -28,7 +28,8 @@ import action.admin.notice.AdminModifyNoticeFormAction;
 import action.admin.notice.AdminNoticeListAction;
 import action.admin.notice.AdminNoticeViewAction;
 import action.admin.notice.AdminSearchNoticeListAction;
-import action.admin.qna.AdminDeleteQnaAction;
+import action.admin.qna.AdminDeleteQnaQAction;
+import action.admin.qna.AdminDeleteQnaAAction;
 import action.admin.qna.AdminDeleteQnaListAction;
 import action.admin.qna.AdminInsertQnaAAction;
 import action.admin.qna.AdminInsertQnaAFormAction;
@@ -386,9 +387,9 @@ public class AdminFrontController extends HttpServlet {
 		}
 		
 		/*-- '문의글 삭제하기' 요청 -> 처리 --------------------------------------*/
-		else if(command.equals("/adminDeleteQnaAction.adm")) {//문의글 삭제하기 요청
+		else if(command.equals("/adminDeleteQnaQAction.adm")) {//문의글 삭제하기 요청
 			
-			action = new AdminDeleteQnaAction();
+			action = new AdminDeleteQnaQAction();
 
 			try {
 				forward = action.execute(request, response);
@@ -403,6 +404,19 @@ public class AdminFrontController extends HttpServlet {
 			
 			action = new AdminDeleteQnaListAction();
 			
+			try {
+				forward = action.execute(request, response);
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+			
+		}
+		
+		/*-- '답변 삭제하기' 요청 -> 처리 --------------------------------------*/
+		else if(command.equals("/adminDeleteQnaAAction.adm")) {//문의글 삭제하기 요청
+			
+			action = new AdminDeleteQnaAAction();
+
 			try {
 				forward = action.execute(request, response);
 			} catch(Exception e) {
