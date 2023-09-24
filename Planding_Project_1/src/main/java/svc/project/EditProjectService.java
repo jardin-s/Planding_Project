@@ -170,7 +170,7 @@ public class EditProjectService {
 		if(projectInfo.getThumbnail() == null) {
 			updateProjectCount = projectDAO.editProjectNotThumbnail(projectInfo);
 		}else {
-			projectDAO.editProject(projectInfo);
+			updateProjectCount = projectDAO.editProject(projectInfo);
 		}
 		
 		

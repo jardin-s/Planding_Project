@@ -73,6 +73,7 @@ public class EditProjectAction implements Action {
         		
         		//contentImgSysName에 append (파일 구분을 위해 ;을 붙임)
         		if(fileSystemName != null) {
+        			System.out.println("[EditProjectAction] image 수정파일 확인 : "+fileSystemName);
         			contentImgSysName.append(fileSystemName+";");
         		}
     		}
@@ -100,12 +101,15 @@ public class EditProjectAction implements Action {
         
         //기존 이미지 중 삭제되지 않은 이미지 목록
 		String[] originImages = multi.getParameterValues("originImages");
-		StringBuffer origImgBuffer = new StringBuffer();
-		for(int i=0; i<originImages.length; i++) {
-			String origImg = originImages[i];
-			origImgBuffer.append(origImg+";");
+		String origImgNames = "";
+		if(originImages != null) {
+			StringBuffer origImgBuffer = new StringBuffer();
+			for(int i=0; i<originImages.length; i++) {
+				String origImg = originImages[i];
+				origImgBuffer.append(origImg+";");
+			}
+			origImgNames = origImgBuffer.toString();
 		}
-		String origImgNames = origImgBuffer.toString();
 		
 		//수정될 프로젝트의 전체 이미지 목록
 		String image = origImgNames + contentImgSysNames;

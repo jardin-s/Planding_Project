@@ -158,7 +158,7 @@ function addImageField() {
         var imageContainer = document.getElementById('imageContainer');
         var imageField = document.createElement('div');
         imageField.className = 'mb-3';
-        imageField.innerHTML = '<input type="file" class="form-control" id="contentImg${orgImgCount + 1}" name="contentImg" accept="image/*" onchange="validateImageFile(this)"><button class="btn btn-danger" type="button" onclick="deleteImageField(this)">이미지 삭제</button>';
+        imageField.innerHTML = '<input type="file" class="form-control" id="contentImg'+(allImgCount+1)+'" name="contentImg'+(allImgCount+1)+'" accept="image/*" onchange="validateImageFile(this)"><button class="btn btn-danger" type="button" onclick="deleteImageField(this)">이미지 삭제</button>';
 
         imageContainer.appendChild(imageField);
         allImgCount += 1;//전체이미지 개수 플러스 1
@@ -194,6 +194,13 @@ function updateFormattedAmount(inputElement) {
     if (!isNaN(goalAmount)) {//숫자가 아니라면
         var formattedAmount = formatCurrency(goalAmount);
         inputElement.value = formattedAmount; // 반점 자동 입력
+    }
+}
+
+function confirmDelete(project_id) {
+    if (confirm("정말로 삭제하시겠습니까?")) {
+        // '확인' 버튼을 눌렀을 때의 처리 (삭제 동작 실행)
+        window.location.href = 'deleteProject.pj?project_id=' + project_id;
     }
 }
 
