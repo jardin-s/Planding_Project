@@ -27,6 +27,8 @@ public class EditProjectAction implements Action {
 
 		int project_id = Integer.parseInt(request.getParameter("project_id"));
 		
+		System.out.println("[EditProjectAction] 파라미터 project_id 확인 = "+project_id);
+		
 		/* <파일 업로드> ------------------------------------------------------*/
         
         // 파일 업로드 관련 설정
@@ -138,6 +140,8 @@ public class EditProjectAction implements Action {
 		System.out.println("title : " + title);
 		System.out.println("summary : " + summary);
 		System.out.println("content : " + content);
+		System.out.println("thumbnail : " + thumbnailSysName);
+		System.out.println("image : " + image);
 		System.out.println("startdate : " + startdate);
 		System.out.println("enddate : " + enddate);
 		System.out.println("goal_amount : " + goal_amount);

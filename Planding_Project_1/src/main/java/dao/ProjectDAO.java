@@ -1979,5 +1979,37 @@ public class ProjectDAO {
 		return deleteProjectCount;
 	}
 
+	public int editProjectNotThumbnail(ProjectBean project) {
+		int editProjectNotThumbnailCount = 0;
+		
+		String sql = "UPDATE project_tbl"
+				  + " SET title = ?, summary=?, content = ?, image=?,"
+				  + " startdate=?, enddate=?, goal_amount=? WHERE project_id = ?";
+		
+		try {
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, project.getTitle());
+			pstmt.setString(2, project.getSummary());
+			pstmt.setString(3, project.getContent());
+			pstmt.setString(4, project.getImage());
+			pstmt.setString(5, project.getStartdate());
+			pstmt.setString(6, project.getEnddate());
+			pstmt.setInt(7, project.getGoal_amount());
+			pstmt.setInt(8, project.getProject_id());
+			
+			editProjectNotThumbnailCount = pstmt.executeUpdate();
+			
+		} catch(Exception e) {
+			System.out.println("[ProjectDAO] editProjectNotThumbnail() 에러 : "+e);//예외객체종류 + 예외메시지
+		} finally {
+			close(pstmt); //JdbcUtil.생략가능
+			//close(rs); //JdbcUtil.생략가능
+			//connection 객체에 대한 해제는 DogListService에서 이루어짐
+		}
+		
+		return editProjectNotThumbnailCount;
+	}
+
 	
 }

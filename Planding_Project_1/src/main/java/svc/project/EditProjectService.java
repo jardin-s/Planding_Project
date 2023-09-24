@@ -166,7 +166,13 @@ public class EditProjectService {
 				
 		/*-------DAO의 해당 메서드를 호출하여 처리----------------------------------------------------*/
 		//[순서-1] 프로젝트 정보를 수정
-		int updateProjectCount = projectDAO.editProject(projectInfo);
+		int updateProjectCount = 0;
+		if(projectInfo.getThumbnail() == null) {
+			updateProjectCount = projectDAO.editProjectNotThumbnail(projectInfo);
+		}else {
+			projectDAO.editProject(projectInfo);
+		}
+		
 		
 		//[순서-2] 기획자 정보를 수정
 		int updatePlannerCount = projectDAO.editPlanner(plannerInfo);
