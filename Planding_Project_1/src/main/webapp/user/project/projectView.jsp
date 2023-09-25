@@ -258,6 +258,12 @@ function checkDonate() {
 					<table class="table">
 						<thead>
 							<tr>
+								<th colspan="3">프로젝트 요약</th>
+							</tr>
+							<tr>
+								<td colspan="3">${projectInfo.summary }<br><br></td>
+							</tr>
+							<tr>
 								<th colspan="3">프로젝트 상세</th>
 							</tr>
 							<tr class="text-center">

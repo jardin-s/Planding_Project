@@ -110,8 +110,8 @@ set regdate='2023-09-17', startdate='2023-09-18', enddate='2023-09-23', p_status
 where project_id = 9;
 
 update project_tbl
-set p_status = 'done'
-where project_id = 2;
+set title = '플라스틱 프리: 제로웨이스트 물병 혁명'
+where project_id = 9;
 		
 select * from project_tbl;
 

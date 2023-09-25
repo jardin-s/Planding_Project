@@ -62,7 +62,7 @@ public class SendMail {
 	   sb.append(projectInfo.getCurr_amount_df());
 	   sb.append("원 | 달성률 : ");
 	   sb.append(projectInfo.getProgress());
-	   sb.append("%");
+	   sb.append("%<br>");
 	   sb.append(deadline);
 	   sb.append("<br></div><br><div><p><b>후원금액</b><br>");
 	   sb.append("&nbsp;기본 금액 : ");
@@ -114,7 +114,7 @@ public class SendMail {
 	   sb.append(projectInfo.getCurr_amount_df());
 	   sb.append("원 | 달성률 : ");
 	   sb.append(projectInfo.getProgress());
-	   sb.append("%");
+	   sb.append("%<br>");
 	   sb.append(deadline);
 	   sb.append("<br></div><br><div><p><b>리워드 : ");
 	   sb.append(rewardInfo.getR_name());
