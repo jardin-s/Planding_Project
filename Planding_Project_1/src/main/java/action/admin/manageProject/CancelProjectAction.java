@@ -56,6 +56,8 @@ public class CancelProjectAction implements Action {
 			
 			//프로젝트 ID로 프로젝트 기획자 정보를 얻어옴
 			PlannerBean plannerInfo = cancelProjectService.getProjectPlanner(project_id);
+			System.out.println("[CancelProjectAction] plannerInfo = "+plannerInfo);
+			
 			
 			//기획자의 회원 ID로 이메일 정보를 얻어옴
 			MemberBean plannerUserInfo = cancelProjectService.getPlannerUserInfo(plannerInfo.getMember_id());
@@ -95,11 +97,18 @@ public class CancelProjectAction implements Action {
 					
 				}else if(p_status.equalsIgnoreCase("ongoing")) {//진행중
 					
+					
 					//[순서-1] 후원자에게 환불처리 (사용자 계좌 업데이트 & 후원기록 테이블에서 후원기록 삭제)
 					//후원기록 테이블에서 후원기록을 가져와서 후원자에게 환불처리
-					
 					ArrayList<DonationBean> donationList = cancelProjectService.getDonationList(project_id);
-					boolean isRefundSuccess = cancelProjectService.refundDonation(donationList, project_id);
+					
+					boolean isRefundSuccess = false;
+					
+					if(donationList == null) {
+						isRefundSuccess = true; //후원기록이 존재하지 않으면 환불할 내역이 없으므로
+					}else {
+						isRefundSuccess = cancelProjectService.refundDonation(donationList, project_id);
+					}
 					System.out.println("[CancelProjectAction] cancelProjectService.refundDonation()의 성공여부 = "+isRefundSuccess);
 					
 					//[순서-2] 기획자, 리워드, 리워드매핑, 프로젝트 데이터 삭제 (회원북마크는 프로젝트 삭제 시 자동삭제)

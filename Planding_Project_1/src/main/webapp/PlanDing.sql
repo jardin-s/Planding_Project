@@ -106,8 +106,8 @@ values('donate','기부제목2','기부요약2','thumbnail2.jpg','프로젝트 �
 		'2023-09-11', '2023-09-15', 1000000, 200000, 'unauthorized', 0);
 
 update project_tbl
-set regdate='2023-09-17', startdate='2023-09-18', enddate='2023-09-23', p_status = 'ongoing'
-where project_id = 9;
+set regdate='2023-09-17', startdate='2023-09-18', enddate='2023-09-26', p_status = 'ongoing'
+where project_id = 32;
 
 update project_tbl
 set title = '플라스틱 프리: 제로웨이스트 물병 혁명'

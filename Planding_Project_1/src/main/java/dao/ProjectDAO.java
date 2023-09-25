@@ -317,7 +317,7 @@ public class ProjectDAO {
 		
 		PlannerBean plannerInfo = null;
 		
-		String sql = "select project_id, member_id, planner_name, introduce,"
+		String sql = "select project_id, member_id, planner_name,"
 				  + " introduce, bank, account_num"
 				  + " from project_planner_tbl"
 				  + " where project_id = ?";
