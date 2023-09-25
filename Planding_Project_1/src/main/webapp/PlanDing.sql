@@ -116,7 +116,7 @@ update project_tbl
 set title = '지구와 어르신 모두를 위한 친환경 난로'
 where project_id = 2;
 update project_tbl
-set title = '지구와 어르신 모두를 위한 친환경 난로'
+set title = '아프리카 어린이를 위한 퓨어 워터 휴대용 필터 프로젝트'
 where project_id = 24;
 		
 select * from project_tbl;

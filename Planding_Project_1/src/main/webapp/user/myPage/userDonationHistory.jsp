@@ -111,14 +111,14 @@ function confirmCancel(donation_id){
 									</td>
 									<td>${donation.totalDonation }</td>
 									<td>${donation.donatedate }</td>
-									<td class="d-flex justify-content-center">
+									<td>
 										<c:if test="${donation.p_status eq 'ongoing' }">
 											<button class="btn btn-outline-primary py-1 px-1 d-none d-sm-block" type="button" onclick="confirmCancel(${donation.donation_id});">취소</button>
 											<a href="#" onclick="javascript:confirmCancel(${donation_id})" class="d-block d-sm-none"><i class="fas fa-window-close text-primary"></i></a>
 										</c:if>
 										<c:if test="${donation.p_status ne 'ongoing'}">
-											<span style="color:#CCC">종료</span>
-											<i class="far fa-window-close text-secondary d-block d-sm-none"></i>
+											<span style="color:#CCC" class="d-none d-sm-block">종료</span>
+											<i class="fas fa-minus-circle text-light d-block d-sm-none"></i>
 										</c:if>
 									</td>
 								</tr>
