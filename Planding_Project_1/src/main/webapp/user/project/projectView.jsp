@@ -163,6 +163,7 @@ function checkDonate() {
 								<c:if test="${projectInfo.p_status eq 'ongoing' }">
 									<form action="userDonateProjectForm.pj" method="post" name="f">
 										<input type="hidden" name="project_id" value="${projectInfo.project_id }">
+										<input type="hidden" name="planner_id" value="${plannerInfo.member_id }">
 										
 										<td class="pt-3">
 											<div class="row">

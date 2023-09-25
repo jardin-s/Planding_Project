@@ -112,6 +112,12 @@ where project_id = 9;
 update project_tbl
 set title = '플라스틱 프리: 제로웨이스트 물병 혁명'
 where project_id = 9;
+update project_tbl
+set title = '지구와 어르신 모두를 위한 친환경 난로'
+where project_id = 2;
+update project_tbl
+set title = '지구와 어르신 모두를 위한 친환경 난로'
+where project_id = 24;
 		
 select * from project_tbl;
 
