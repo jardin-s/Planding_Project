@@ -234,27 +234,29 @@
 						
 					<c:if test="${donationCount ne 0}">
 						<c:forEach items="${donationList}" var="donation">
-							 <tr class="text-center">
-<!-- 							  onclick="redirectToPage('your_page_url')" data-bs-toggle="tooltip" data-bs-placement="top" title="클릭하여 상세정보보기 누르면 송장같은 정보나오도록" -->
-						        <td>
-						            ${donation.donation_id }
-						        </td>
-						        <td>
-						            ${donation.reward_id }
-						        </td>
-						        <td>
-									${donation.member_id }
-						        </td>
-						        <td>
-						            ${donation.r_price }
-						        </td>
-						        <td>
-						            ${donation.add_donation }
-						        </td>
-						        <td>
-						            ${donation.donatedate }
-						        </td>
-						    </tr>
+							<c:if test="${donation.project_id eq requestScope.project_id }">
+								 <tr class="text-center">
+	<!-- 							  onclick="redirectToPage('your_page_url')" data-bs-toggle="tooltip" data-bs-placement="top" title="클릭하여 상세정보보기 누르면 송장같은 정보나오도록" -->
+							        <td>
+							            ${donation.donation_id }
+							        </td>
+							        <td>
+							            ${donation.reward_id }
+							        </td>
+							        <td>
+										${donation.member_id }
+							        </td>
+							        <td>
+							            ${donation.r_price }
+							        </td>
+							        <td>
+							            ${donation.add_donation }
+							        </td>
+							        <td>
+							            ${donation.donatedate }
+							        </td>
+							    </tr>
+						    </c:if>
 						</c:forEach>
 					</c:if>		
 						</tbody>

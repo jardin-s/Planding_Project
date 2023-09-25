@@ -27,6 +27,7 @@ public class UserProjectDonationListALLAction implements Action {
         
 		//request 프로젝트명 저장
 		request.setAttribute("pj_title", pj_title);
+		request.setAttribute("project_id", project_id);
         
 		//프로젝트 아이디로 리워드 아이디 리스트를 가져옴
 		ArrayList<String> reward_id_list = new ArrayList<>();
