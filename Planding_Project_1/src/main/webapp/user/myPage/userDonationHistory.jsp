@@ -111,7 +111,7 @@ function confirmCancel(donation_id){
 									</td>
 									<td>${donation.totalDonation }</td>
 									<td>${donation.donatedate }</td>
-									<td>
+									<td class="text-center">
 										<c:if test="${donation.p_status eq 'ongoing' }">
 											<button class="btn btn-outline-primary py-1 px-1 d-none d-sm-block" type="button" onclick="confirmCancel(${donation.donation_id});">취소</button>
 											<a href="#" onclick="javascript:confirmCancel(${donation_id})" class="d-block d-sm-none"><i class="fas fa-window-close text-primary"></i></a>

@@ -155,17 +155,17 @@ function searchProjectList() {
 											<c:choose>
 												<c:when test="${orderKeyword ne null}">
 													<a href="userProjectView.pj?project_id=${projectPlannerInfo.project_id }&page=${pageInfo.page}&selectOrder=${orderKeyword}">
-														<img src="images/project_No_${projectPlannerInfo.project_id }/${projectPlannerInfo.project_id }_${projectPlannerInfo.thumbnail }" style="width:100%">
+														<img src="images/project_No_${projectPlannerInfo.project_id }/${projectPlannerInfo.thumbnail }" style="width:100%">
 													</a>
 												</c:when>
 												<c:when test="${searchKeyword ne null}">
 													<a href="userProjectView.pj?project_id=${projectPlannerInfo.project_id }&page=${pageInfo.page}&searchTitle=${searchKeyword}">
-														<img src="images/project_No_${projectPlannerInfo.project_id }/${projectPlannerInfo.project_id }_${projectPlannerInfo.thumbnail }" style="width:100%">
+														<img src="images/project_No_${projectPlannerInfo.project_id }/${projectPlannerInfo.thumbnail }" style="width:100%">
 													</a>
 												</c:when>
 												<c:otherwise>
 													<a href="userProjectView.pj?project_id=${projectPlannerInfo.project_id }&page=${pageInfo.page}">
-														<img src="images/project_No_${projectPlannerInfo.project_id }/${projectPlannerInfo.project_id }_${projectPlannerInfo.thumbnail }" style="width:100%">
+														<img src="images/project_No_${projectPlannerInfo.project_id }/${projectPlannerInfo.thumbnail }" style="width:100%">
 													</a>
 												</c:otherwise>
 											</c:choose>
