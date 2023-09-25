@@ -76,7 +76,9 @@
 						<thead>
 							<tr class="text-center">
 								<th scope="col" style="width:10%">#</th>
+								<th scope="col" style="width:10%">구분</th>
 								<th scope="col" style="width:auto">프로젝트 제목</th>
+								<th scope="col" style="width:10%">상태</th>
 								<th scope="col" style="width:10%">수정</th>
 								<th scope="col" style="width:10%">관리</th>
 							</tr>
@@ -86,7 +88,20 @@
 								<tr class="text-center">
 									<th scope="row" class="text-center">${status.count}</th>
 									<td>
+										<c:if test="${uploadProject.kind eq 'donate' }">기부</c:if>
+										<c:if test="${uploadProject.kind eq 'fund' }">펀딩</c:if>
+									</td>
+									<td>
 										<a href="userProjectView.pj?project_id=${uploadProject.project_id}">${uploadProject.title}</a>
+									</td>
+									<td>
+										<c:if test="${uploadProject.p_status eq 'unauthorized' }">검토중</c:if>
+										<c:if test="${uploadProject.p_status eq 'ready' }">공개예정</c:if>
+										<c:if test="${uploadProject.p_status eq 'ongoing' }">진행중</c:if>
+										<c:if test="${uploadProject.p_status eq 'done'}">환불대기</c:if>
+										<c:if test="${uploadProject.p_status eq 'clear'}">종료</c:if>
+										<c:if test="${uploadProject.p_status eq 'success'}">정산대기</c:if>
+										<c:if test="${uploadProject.p_status eq 'remitcom'}">성공</c:if>
 									</td>
 									<td>
 										<c:choose>

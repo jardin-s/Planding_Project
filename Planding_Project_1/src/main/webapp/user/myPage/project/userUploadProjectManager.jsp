@@ -240,15 +240,14 @@
 							<tr class="text-center">
 							
 								<th scope="col" class="col-1" colspan="2">
-									<c:if test="">
-										
+									<c:if test="${projectInfo.p_status eq 'ready' || projectInfo.p_status eq 'unauthorized'}">
+										<button class="btn btn-outline-primary py-1" type="button" id="answerBtn" 
+										onclick="window.location.href='editProjectRewardList.pj?project_id=${projectInfo.project_id}'">리워드 수정</button>
 									</c:if>
-						<button class="btn btn-outline-primary py-1" type="button" id="answerBtn" 
-						onclick="window.location.href='editProjectRewardList.pj?project_id=${projectInfo.project_id}'">리워드 수정</button>	
 								</th>
 								<th scope="col" class="col-1" colspan="2">
-						<button class="btn btn-outline-primary py-1" type="button" id="answerBtn" 
-						onclick="window.location.href='userProjectDonationListALL.pj?project_id=${projectInfo.project_id}'">전체 후원목록보기</button>
+									<button class="btn btn-outline-primary py-1" type="button" id="answerBtn" 
+									onclick="window.location.href='userProjectDonationListALL.pj?project_id=${projectInfo.project_id}'">전체 후원목록보기</button>
 								</th>
 
 								<th>총${totalCount}명</th>
