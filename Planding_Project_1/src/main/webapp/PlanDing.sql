@@ -158,6 +158,9 @@ select * from member_tbl;
 
 delete from member_tbl where member_id = 'testAdmin11';
 
+delete from member_tbl where member_id = 'testadmin0001';
+
+
 update member_tbl
 set password='delete', name='delete',
 email='delete', phone='delete',
