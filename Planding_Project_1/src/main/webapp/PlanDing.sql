@@ -227,6 +227,7 @@ insert into admin_income_tbl(project_id, fee_income) values(2, 30000);
 select * from admin_income_tbl;
 
 
+
 delete from admin_income_tbl where project_id = 2;
 
 select project_id, fee_income,

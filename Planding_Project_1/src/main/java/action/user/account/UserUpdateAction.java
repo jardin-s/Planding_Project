@@ -4,6 +4,7 @@ import java.io.PrintWriter;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import action.Action;
 import svc.user.account.UserUpdateService;
@@ -54,19 +55,25 @@ public class UserUpdateAction implements Action {
 			
 			PrintWriter out = response.getWriter();
 			out.println("<script>");
-			out.println("alert('회원 수정이 실패했습니다.');");
+			out.println("alert('회원 정보 수정이 실패했습니다.');");
 			out.println("history.back();");
 			out.println("</script>");
 		}else {
+			
+			//세션에 저장되었던 값 변경
+			HttpSession session = request.getSession();
+			session.setAttribute("u_name", u_name);
+			session.setAttribute("u_email", u_email);
+			session.setAttribute("u_phone", u_phone);
 			
 			response.setContentType("text/html; charset=UTF-8");
 			
 			PrintWriter out = response.getWriter();
 			out.println("<script>");
-			out.println("alert('회원 수정이 완료되었습니다.');");
+			out.println("alert('회원 정보 수정이 완료되었습니다.');");
+			out.println("location.href='userUpdateForm.usr';");
 			out.println("</script>");
 			
-			forward = new ActionForward("userUpdateForm.usr", true);
 		}
 		
 		return forward;
