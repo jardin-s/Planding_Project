@@ -98,11 +98,12 @@ public class ManageProjectAction implements Action {
 		                
 		                rewardTotalPrice+=donation.getTotalDonation();	//리워드별 후원금합계
 		            }		            
-		            
-		            totalPrice+=donation.getTotalDonation(); //총 후원금합계
+		            	            
 		        }
 		        byRewardTotalPriceArr[i] = rewardTotalPrice; //배열에 리워드별 총액 저장 
 		        byRewardCountArr[i] = rewardCount; //배열에 리워드별 카운트 저장
+		        
+		        totalPrice += rewardTotalPrice; //총 후원금합계
 		    }
 	
 		    //리워드별 총액과 카운트 저장

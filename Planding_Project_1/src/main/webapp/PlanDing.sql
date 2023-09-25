@@ -204,7 +204,7 @@ CREATE TABLE `donation_tbl` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
-select * from donation_tbl;
+select * from donation_tbl where project_id=2;
 
 -- -----------------------------------------------------
 -- Table `project`.`admin_income_tbl`
