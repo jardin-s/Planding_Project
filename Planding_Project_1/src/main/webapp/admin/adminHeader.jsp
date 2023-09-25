@@ -64,7 +64,7 @@ function adminLogout(){
             <div class="col-lg-5 px-5 text-end">
                 <div class="h-100 d-inline-flex align-items-center mx-n2">
                     <c:if test="${sessionScope.a_id eq null }">
-                    	<a class="btn btn-link text-light" href="adminLogin.adm">로그인하기</a>	
+                    	<a class="btn btn-link text-light" href="adminLoginForm.adm">로그인하기</a>	
                     </c:if>
                     <c:if test="${sessionScope.a_id ne null }">
                     	<a class="btn btn-link text-light" href="#" onclick="adminLogout();">로그아웃하기</a>
