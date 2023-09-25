@@ -25,8 +25,11 @@ public class InsertAddRewardAction implements Action {
 		String[] r_prices = request.getParameterValues("r_price");
 		int[] r_price = new int[r_prices.length];
 		
+		
 		for(int i=0;i<r_prices.length;i++) {
-			r_prices[i]=r_prices[i].replace(",", "");
+			System.out.println("[InsertAddRewardAction] r_prices["+i+"] = "+r_prices[i]);
+			
+			r_prices[i] = r_prices[i].replace(",", "");
 			try {
 				r_price[i] = Integer.parseInt(r_prices[i]);
 			}catch(Exception e) {
@@ -94,7 +97,7 @@ public class InsertAddRewardAction implements Action {
         else{
         
 	        // 프로젝트-리워드 매핑 insert
-	        boolean isMapProjectRewardList = insertProjectService.mapProjectRewardList(project_id, rewardList);
+	        boolean isMapProjectRewardList = insertProjectService.mapProjectRewardListExcepDefault(project_id, rewardList);
 	        
 	        if(!isMapProjectRewardList) {
 	        	System.out.println("mapProjectRewardList error");
@@ -106,13 +109,13 @@ public class InsertAddRewardAction implements Action {
                 out.println("history.back();");
                 out.println("</script>");
 	        }else {
-	        	forward = new ActionForward("editProjectRewardList.pj?project_id="+project_id, true);//반드시 디스패치 (request를 공유)
+	        	forward = new ActionForward("editProjectRewardList.pj?project_id="+project_id, true);
 	        }
         
         }
     		
 		//내가 등록한 프로젝트 목록 보기 요청
-		forward = new ActionForward("editProjectRewardList.pj?project_id="+project_id, true);//반드시 디스패치 (request를 공유)
+		forward = new ActionForward("editProjectRewardList.pj?project_id="+project_id, true);
 			
 		return forward;
 	}

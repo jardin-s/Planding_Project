@@ -175,6 +175,7 @@ ENGINE = InnoDB;
 insert into reward_tbl values('default','donate','최소 후원금액',1000);
 
 select * from reward_tbl;
+delete from reward_tbl where reward_id = 'pj9rwd3';
 
 -- -----------------------------------------------------
 -- Table `project`.`donation_tbl`

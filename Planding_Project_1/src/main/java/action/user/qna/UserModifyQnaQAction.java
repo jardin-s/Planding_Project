@@ -50,6 +50,8 @@ public class UserModifyQnaQAction implements Action {
 		
 		//새로 추가하면 null아님
 		String q_image = multi.getFilesystemName("q_image");
+		String origFile = multi.getParameter("origFile");//기존이미지가 삭제되었으면, origFile이 null
+		//n_image도 null이고 origFile도 null일 경우, 해당 글의 이미지가 없어짐
 		
 		System.out.println("[UserModifyQnaQAction] 수정 파라미터 값 확인");
 		System.out.println("qna_id = "+qna_id);
@@ -68,7 +70,7 @@ public class UserModifyQnaQAction implements Action {
 		qna.setQ_private(q_private);
 		
 		ModifyQnaQService modifyQnaQService = new ModifyQnaQService();
-		boolean isQnaQModifySuccess = modifyQnaQService.updateQuestion(qna);
+		boolean isQnaQModifySuccess = modifyQnaQService.updateQuestion(qna, origFile);
 		
 		if(!isQnaQModifySuccess) {
 			response.setContentType("text/html; charset=utf-8");

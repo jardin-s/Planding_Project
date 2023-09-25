@@ -89,9 +89,14 @@
 										<a href="userProjectView.pj?project_id=${uploadProject.project_id}">${uploadProject.title}</a>
 									</td>
 									<td>
-										<c:if test="${uploadProject.p_status eq 'unauthorized' || uploadProject.p_status eq 'ready' }">
-											<button class="btn btn-outline-primary py-1 px-1" type="button" id="editBtn" onclick="location.href='editProjectForm.pj?project_id=${uploadProject.project_id}'">수정</button>
-										</c:if>
+										<c:choose>
+											<c:when test="${uploadProject.p_status eq 'unauthorized' || uploadProject.p_status eq 'ready' }">
+												<button class="btn btn-outline-primary py-1 px-1" type="button" id="editBtn" onclick="location.href='editProjectForm.pj?project_id=${uploadProject.project_id}'">수정</button>
+											</c:when>
+											<c:otherwise>
+												<i class="fas fa-minus-circle text-light"></i>
+											</c:otherwise>
+										</c:choose>
 									</td>
 									<td>
 										<c:if test="${uploadProject.kind eq 'donate' }">

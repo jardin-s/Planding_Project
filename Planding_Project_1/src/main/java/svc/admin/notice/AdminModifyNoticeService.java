@@ -9,7 +9,7 @@ import vo.NoticeBean;
 
 public class AdminModifyNoticeService {
 
-	public boolean modifyNotice(NoticeBean notice) {
+	public boolean modifyNotice(NoticeBean notice, String origFile) {
 		
 		//1. 커넥션 풀에서 Connection객체를 얻어와
 		Connection con = getConnection(); //JdbcUtil. 생략(이유?import static 하여)
@@ -23,12 +23,14 @@ public class AdminModifyNoticeService {
 		/*-------DAO의 해당 메서드를 호출하여 처리----------------------------------------------------*/
 		int updateNoticeCount = 0;
 		
-		if(notice.getN_image() == null) {//기존 이미지 그대로
+		if(notice.getN_image() == null && origFile == null) {//새 이미지가 없고, 기존이미지도 삭제
+			updateNoticeCount = noticeDAO.updateNoticeDeleteImg(notice);
+		}else if(notice.getN_image() == null && origFile != null) {//기존 이미지 그대로 수정없음
 			updateNoticeCount = noticeDAO.updateNotice(notice);
-		}else {//새이미지 추가
+		}else {//새 이미지
 			updateNoticeCount = noticeDAO.updateNoticeImg(notice);
 		}
-				
+		
 		boolean isModifyNoticeResult = false;
 		/*-------(insert, update, delete) 성공하면 commit(), 실패하면 rollback() 호출
 		 * 		 단, select는 이런 작업을 제외 ------------------*/

@@ -9,7 +9,7 @@ import vo.QnaBean;
 
 public class ModifyQnaQService {
 	
-	public boolean updateQuestion(QnaBean qna) {
+	public boolean updateQuestion(QnaBean qna, String origFile) {
 		
 		//1. 커넥션 풀에서 Connection객체를 얻어와
 		Connection con = getConnection(); //JdbcUtil. 생략(이유?import static 하여)
@@ -23,7 +23,9 @@ public class ModifyQnaQService {
 		/*-------DAO의 해당 메서드를 호출하여 처리----------------------------------------------------*/
 		int updateQuestionCount = 0;
 		
-		if(qna.getQ_image() == null) {//기존 이미지
+		if(qna.getQ_image() == null && origFile == null) {//새 이미지가 없고, 기존이미지도 삭제
+			updateQuestionCount = qnaDAO.updateQuestionDeleteImg(qna);
+		}else if(qna.getQ_image() == null && origFile != null) {//기존 이미지 그대로 수정없음
 			updateQuestionCount = qnaDAO.updateQuestion(qna);
 		}else {//새 이미지
 			updateQuestionCount = qnaDAO.updateQuestionImg(qna);

@@ -139,7 +139,10 @@ function setCheck(){
 							<input type="file" name="n_image" class="form-control" id="n_image" aria-describedby="n_image" accept="image/*" aria-label="n_image" maxlength="100">
 						</c:if>
 						<c:if test="${noticeInfo.n_image ne null }">
-							<div id="dltFile"><i class="far fa-image me-2"></i>${noticeInfo.n_image }&nbsp;&nbsp;<a href="#" onclick="javascript:deleteFile();">삭제</a></div>
+							<div id="dltFile">
+								<input type="hidden" name="origFile" value="${noticeInfo.n_image }">
+								<i class="far fa-image me-2"></i>${noticeInfo.n_image }&nbsp;&nbsp;<a href="#" onclick="javascript:deleteFile();">삭제</a>
+							</div>
 						</c:if>
 					</div>
 					<div class="form-check">

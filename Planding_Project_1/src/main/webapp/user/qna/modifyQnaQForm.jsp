@@ -147,7 +147,10 @@ function setCheck(){
 							<input type="file" name="q_image" class="form-control" id="q_image" aria-describedby="q_image" accept="image/*" aria-label="q_image" maxlength="100">
 						</c:if>
 						<c:if test="${qnaInfo.q_image ne null }">
-							<div id="dltFile"><i class="far fa-image me-2"></i>${qnaInfo.q_image }&nbsp;&nbsp;<a href="#" onclick="javascript:deleteFile();">삭제</a></div>
+							<div id="dltFile">
+								<input type="hidden" name="origFile" value="${qnaInfo.q_image }">
+								<i class="far fa-image me-2"></i>${qnaInfo.q_image }&nbsp;&nbsp;<a href="#" onclick="javascript:deleteFile();">삭제</a>
+							</div>
 						</c:if>
 					</div>
 					<div class="form-check">

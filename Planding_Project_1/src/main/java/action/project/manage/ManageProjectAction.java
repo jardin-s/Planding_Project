@@ -55,7 +55,7 @@ public class ManageProjectAction implements Action {
         
         
         //프로젝트 아이디로 리워드 아이디 리스트를 가져옴
-        ArrayList<String> reward_id_list = projectPageViewService.getRewardIdList(project_id);
+        ArrayList<String> reward_id_list = projectPageViewService.getAllRewardIdList(project_id);
         ArrayList<RewardBean> rewardList = new ArrayList<>();
         
         //빈 리워드빈객체리스트를 생성, 리워드 아이디 리스트를 통해 가져온 리워드빈 객체를 리워드빈객체리스트에 추가함
@@ -78,7 +78,10 @@ public class ManageProjectAction implements Action {
 		    //리워드별 총액을 넣을 배열을 리워드리스트 크기로 초기화
 		    int[] byRewardTotalPriceArr = new int[rewardList.size()];
 		    
-		    int totalCount=0;
+		    System.out.println("[ManageProjectAction] rewardList.size() = "+rewardList.size());
+		    System.out.println("[ManageProjectAction] donationList.size() = "+donationList.size());
+		    
+		    
 		    int totalPrice=0;
 		    //각 리워드 아이디별로 카운트 계산
 		    for (int i = 0; i < rewardList.size(); i++) {
@@ -93,7 +96,7 @@ public class ManageProjectAction implements Action {
 		            if (rewardId.equals(donation.getReward_id())) {
 		                rewardCount++;	//리워드별 후원 수 합계
 		            }
-		            totalCount++;	//총 후원 수 합계
+		            
 		            rewardTotalPrice+=donation.getTotalDonation();	//리워드별 후원금합계
 		            totalPrice+=donation.getTotalDonation(); //총 후원금합계
 		        }
@@ -104,7 +107,7 @@ public class ManageProjectAction implements Action {
 		    //리워드별 총액과 카운트 저장
 		    request.setAttribute("byRewardCountArr", byRewardCountArr);
 		    request.setAttribute("byRewardTotalPriceArr", byRewardTotalPriceArr);
-		    request.setAttribute("totalCount", totalCount);//전체 후원 수
+		    request.setAttribute("totalCount", donationList.size());//전체 후원 수
 		    request.setAttribute("totalPrice", totalPrice);//전체 후원금액
 	    
 	    }else {//후원기록이 없다면

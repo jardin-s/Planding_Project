@@ -190,7 +190,7 @@
 
     	<div class="container-xxl py-5">
     		<div class="container col-lg-8 mb-5">
-   				<h3 class="text-center">${pj.title } 프로젝트<br>관리 페이지</h3>
+   				<h3 class="text-center">${pj_title } 프로젝트<br>관리 페이지</h3>
     		</div>
     	</div>
 

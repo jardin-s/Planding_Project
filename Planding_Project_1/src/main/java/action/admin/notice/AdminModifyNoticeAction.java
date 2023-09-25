@@ -49,6 +49,8 @@ public class AdminModifyNoticeAction implements Action {
 		int page = Integer.parseInt(multi.getParameter("page"));
 		
 		String n_image = multi.getFilesystemName("n_image");
+		String origFile = multi.getParameter("origFile");//기존이미지가 삭제되었으면, origFile이 null
+		//n_image도 null이고 origFile도 null일 경우, 해당 글의 이미지가 없어짐
 		
 			
 		System.out.println("[AdminModifyNoticeAction] 파라미터값 이미지파일 업로드 성공");
@@ -67,7 +69,7 @@ public class AdminModifyNoticeAction implements Action {
 		
 		
 		AdminModifyNoticeService adminModifyNoticeService = new AdminModifyNoticeService();		
-		boolean isModifyNoticeSuccess = adminModifyNoticeService.modifyNotice(notice);
+		boolean isModifyNoticeSuccess = adminModifyNoticeService.modifyNotice(notice, origFile);
 		
 		if(!isModifyNoticeSuccess) {//글 수정 실패 시
 			response.setContentType("text/html; charset=utf-8");

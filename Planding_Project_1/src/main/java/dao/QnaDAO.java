@@ -264,7 +264,7 @@ public class QnaDAO {
 			System.out.println("[QnaDAO] updateQuestion() 에러 : "+e);//예외객체종류 + 예외메시지
 		} finally {
 			close(pstmt); //JdbcUtil.생략가능
-			close(rs); //JdbcUtil.생략가능
+			//close(rs); //JdbcUtil.생략가능
 			//connection 객체에 대한 해제는 DogListService에서 이루어짐
 		}
 		
@@ -296,13 +296,42 @@ public class QnaDAO {
 			System.out.println("[QnaDAO] updateQuestionImg() 에러 : "+e);//예외객체종류 + 예외메시지
 		} finally {
 			close(pstmt); //JdbcUtil.생략가능
-			close(rs); //JdbcUtil.생략가능
+			//close(rs); //JdbcUtil.생략가능
 			//connection 객체에 대한 해제는 DogListService에서 이루어짐
 		}
 		
 		return updateQuestionImgCount;
 	}
 
+	//3. 회원이 문의글 수정 (이미지 삭제)
+	public int updateQuestionDeleteImg(QnaBean qna) {
+		int updateQuestionDeleteImgCount = 0;
+		
+		String sql = "update qna_tbl"
+				  + " set q_title=?, q_content=?, q_image=null, q_private=?"
+				  + " where qna_id=?";
+		
+		try {
+			pstmt = con.prepareStatement(sql);
+			
+			pstmt.setString(1, qna.getQ_title());
+			pstmt.setString(2, qna.getQ_content());
+			pstmt.setString(3, qna.getQ_private());
+			pstmt.setInt(4, qna.getQna_id());
+			
+			updateQuestionDeleteImgCount = pstmt.executeUpdate();
+			
+						
+		} catch(Exception e) {
+			System.out.println("[QnaDAO] updateQuestionDeleteImg() 에러 : "+e);//예외객체종류 + 예외메시지
+		} finally {
+			close(pstmt); //JdbcUtil.생략가능
+			//close(rs); //JdbcUtil.생략가능
+			//connection 객체에 대한 해제는 DogListService에서 이루어짐
+		}
+		
+		return updateQuestionDeleteImgCount;
+	}
 	
 
 		
@@ -553,6 +582,8 @@ public class QnaDAO {
 		
 		return qnaList;
 	}
+
+	
 
 	
 

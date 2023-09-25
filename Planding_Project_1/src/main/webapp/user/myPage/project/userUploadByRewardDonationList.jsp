@@ -91,7 +91,7 @@
 										<th colspan="6">후원정보</th>
 									</tr>
 									<tr class="text-center">
-										<th scope="col" class="col-1">후원번호</th>
+										<th scope="col" class="col-1">후원<br>번호</th>
 										<th scope="col" class="col-auto">리워드번호</th>
 										<th scope="col" class="col-2">후원자ID</th>
 										<th scope="col" class="col-2">금액</th>
@@ -116,7 +116,7 @@
 								   	 	<th colspan="6">주소정보</th>
 										</tr>
 										<tr class="text-center">
-											<th>배송번호</th>
+											<th>배송<br>번호</th>
 											<td>${donation.address_id }</td>
 											<th>받는 분 성함</th>
 											<td>${donation.receiver_name }</td>

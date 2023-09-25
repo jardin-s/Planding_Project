@@ -478,6 +478,35 @@ public class NoticeDAO {
 		
 		return updateNoticeImgCount;
 	}
+	
+	/** 공지글 수정 (이미지삭제) */
+	public int updateNoticeDeleteImg(NoticeBean notice) {
+		int updateNoticeDeleteImgCount = 0;
+		
+		String sql = "update notice_tbl"
+				+ " set n_title=?, n_content=?, n_image=null, importance=?"
+				+ " where notice_id = ?";
+		
+		try {
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, notice.getN_title());
+			pstmt.setString(2, notice.getN_content());
+			pstmt.setString(3, notice.getImportance());
+			pstmt.setInt(4, notice.getNotice_id());
+			
+			updateNoticeDeleteImgCount =  pstmt.executeUpdate();
+			
+		} catch(Exception e) {
+			System.out.println("[NoticeDAO] updateNoticeDeleteImg() 에러 : "+e);//예외객체종류 + 예외메시지
+		} finally {
+			close(pstmt); //JdbcUtil.생략가능
+			//close(rs); //JdbcUtil.생략가능
+			//connection 객체에 대한 해제는 DogListService에서 이루어짐
+		}
+		
+		return updateNoticeDeleteImgCount;
+	}
 
 	
 

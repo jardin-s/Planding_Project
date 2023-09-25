@@ -407,7 +407,9 @@ public class ProjectFrontController extends HttpServlet {
 		
 		/*-- '[플래너] 리워드 추가 폼 보기' 요청 -> 처리 --------------------------------------*/
 		else if(command.equals("/insertAddRewardForm.pj")) {
-			request.setAttribute("showPage", "project/insertAddReward.jsp");//어느 폼 보기인지 showPage이름 속성으로 저장
+			request.setAttribute("project_id", request.getParameter("project_id"));
+			request.setAttribute("reward_Count", request.getParameter("reward_Count"));
+			request.setAttribute("showPage", "project/manage/insertAddRewardForm.jsp");//어느 폼 보기인지 showPage이름 속성으로 저장
 			forward = new ActionForward("userTemplate.jsp",false);//반드시 디스패치 (request를 공유)
 		}
 		/*-- '[플래너] 리워드 추가하기' 요청 -> 처리 --------------------------------------*/
