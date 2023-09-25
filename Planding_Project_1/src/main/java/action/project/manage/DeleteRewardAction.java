@@ -73,8 +73,7 @@ public class DeleteRewardAction implements Action {
 					out.println("<script>");
 					out.println("alert('리워드 삭제에 성공했습니다.');");
 					out.println("location.href='editProjectRewardList.pj?project_id="+project_id+"';");
-					out.println("</script>");	
-					
+					out.println("</script>");						
 				
 				}//deleteReward
 				
@@ -82,9 +81,6 @@ public class DeleteRewardAction implements Action {
 			
 		}//seleteDonation_Reward
 		
-		//if 그럴리는 없지만 잘못빠져나왔을때
-		request.setAttribute("showPage", "project/manage/selectEditReward.jsp");
-		forward = new ActionForward("userTemplate.jsp", false);		
         return forward;
 	}
 
