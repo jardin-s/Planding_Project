@@ -19,7 +19,11 @@ public class EditRewardAction implements Action {
 		String reward_id = request.getParameter("reward_id");
 		String r_name = request.getParameter("r_name");
 		String r_content = request.getParameter("r_content");
-		int r_price = Integer.parseInt(request.getParameter("r_price"));
+		String r_priceStr = request.getParameter("r_price");
+		if(r_priceStr.contains(",")) {
+			r_priceStr = r_priceStr.replace(",", "");
+		}
+		int r_price = Integer.parseInt(r_priceStr);
 		int project_id = Integer.parseInt(request.getParameter("project_id"));
 		
 		//파라미터값 확인
