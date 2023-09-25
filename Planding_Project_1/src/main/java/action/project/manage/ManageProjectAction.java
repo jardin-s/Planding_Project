@@ -95,9 +95,10 @@ public class ManageProjectAction implements Action {
 		            DonationBean donation = donationList.get(j);
 		            if (rewardId.equals(donation.getReward_id())) {
 		                rewardCount++;	//리워드별 후원 수 합계
-		            }
+		                
+		                rewardTotalPrice+=donation.getTotalDonation();	//리워드별 후원금합계
+		            }		            
 		            
-		            rewardTotalPrice+=donation.getTotalDonation();	//리워드별 후원금합계
 		            totalPrice+=donation.getTotalDonation(); //총 후원금합계
 		        }
 		        byRewardTotalPriceArr[i] = rewardTotalPrice; //배열에 리워드별 총액 저장 
