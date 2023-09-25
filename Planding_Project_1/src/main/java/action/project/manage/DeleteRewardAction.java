@@ -72,11 +72,9 @@ public class DeleteRewardAction implements Action {
 					PrintWriter out = response.getWriter();
 					out.println("<script>");
 					out.println("alert('리워드 삭제에 성공했습니다.');");
-					out.println("history.back();");
+					out.println("location.href='editProjectRewardList.pj?project_id="+project_id+"';");
 					out.println("</script>");	
 					
-					request.setAttribute("showPage", "project/selectEditReward.jsp");
-					forward = new ActionForward("userTemplate.jsp", false);
 				
 				}//deleteReward
 				
